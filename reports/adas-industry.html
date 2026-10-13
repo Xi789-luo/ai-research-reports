@@ -1,0 +1,1119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="智能驾驶行业深度研究：所处阶段、监管转折、产业链四层、财务现实、车企层、技术路线、与具身智能的交叉、未来预期。数据截止 2026-10-09。">
+<title>智能驾驶行业 · 深度研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+</head>
+<body>
+<title>智能驾驶行业</title>
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+</style>
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">智能驾驶行业</span>
+    <div class="links">
+      <a href="#thesis">结论先行</a>
+      <a href="#stage">所处阶段</a>
+      <a href="#regulate">监管转折</a>
+      <a href="#layers">产业链四层</a>
+      <a href="#finance">财务现实</a>
+      <a href="#oem">车企层</a>
+      <a href="#tech">技术路线</a>
+      <a href="#embodied">与具身智能</a>
+      <a href="#outlook">未来预期</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">行业深度研究 · 智能驾驶 · 2026</p>
+  <h1>智能驾驶行业</h1>
+  <p class="standfirst">装车率已经跨过拐点，使用率还没有；监管在 2026 年第一次因为一次故障按下了暂停键。当激光雷达的价格跌到千元级、而它的最大客户从汽车变成机器人时——这个行业现在处在什么阶段，接下来会往哪走？</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-09</dd></div>
+    <div><dt>版本</dt><dd>v1 · 八部分 + 信息源</dd></div>
+    <div><dt>核心结论</dt><dd>装上了，但还没用起来；叙事快于规模</dd></div>
+    <div><dt>覆盖范围</dt><dd>地平线 / Momenta / 文远 / 小马 / 华为 / 小米 / 禾赛 / 速腾</dd></div>
+  </dl>
+</header>
+
+<div class="callout warnb" style="max-width:74ch;margin-top:26px">
+  <div class="ct">本报告的采集限制（请先读）</div>
+  <p>本次采集过程中，本会话的联网搜索配额（200 次，多路并行采集共享）被耗尽，后期靠 curl 直取原文补回大部分。以下内容<b>仍未覆盖或覆盖不完整</b>，已在第 09 节逐条列出：<b>车企自研 vs 采购第三方方案的份额对比数据、鸿蒙智行五界各自的分品牌销量</b>。其余部分的每条事实均附来源。</p>
+</div>
+
+<section class="thesis" id="thesis" style="border-top-width:2px">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>中国智能驾驶已经跨过「有没有」的阶段，但还没跨过「用不用」的阶段。</b>工信部口径下 L2 组合驾驶辅助渗透率 <span class="num">70.5%</span>、NOA 渗透率 <span class="num">34.2%</span>；激光雷达 2025 年前装 <span class="num">324.84 万颗</span>、同比增长 112%。但同一批数据里藏着另一面：行业算力平均使用率<b>低于 30%</b>，近 7% 的续航被高算力芯片消耗。<b>装上了不等于在用。</b>需要强调的是：渗透率有权威口径，但「使用率」缺乏统一统计，目前只有零散的行业访谈数字。</li>
+
+    <li><b>2026 年出现了一个被低估的转折——监管第一次因为一次技术故障，把整条赛道的扩张按下了暂停。</b>3 月 31 日武汉萝卜快跑大范围车辆停驶、乘客被困；4 月初工信部等<b>三机构</b>约谈试点城市；4 月 29 日彭博报道<b>中国暂停发放新的自动驾驶牌照</b>——无法新增车辆、无法拓城、无法开新测试；直到 7 月部分城市才恢复。<b>需要强调的是：暂停与恢复均来自媒体报道与知情者转述，监管机构未发布公开文件，恢复的具体范围至今不明。</b></li>
+
+    <li><b>六家公司其实站在四个完全不同的层上，用一套标准评价会读错。</b>芯片层（地平线）、算法方案层（Momenta）、Robotaxi 运营层（文远、小马）、车企与生态层（华为、小米）。四层的商业模式、成本结构与盈利时点都不一样。<b>需要强调的是：同一天发财报的「智驾双雄」，营收只差 4.5 亿元，经调整亏损却差 100 多倍——这个差距不是经营能力，是模式差异。</b></li>
+
+    <li><b>地平线的高毛利来自授权，不是来自卖芯片。</b>2026 上半年技术授权及服务收入 <span class="num">11.29 亿元</span>，占总收入 <b>55%</b>，毛利率高达 <b>90.4%</b>——这才是它综合毛利率能维持 66% 的原因。<b>需要强调的是：同期经调整亏损扩大到 16.71 亿元，研发投入 27.55 亿元。授权收入还没覆盖研发。</b></li>
+
+    <li><b>激光雷达的雪崩式降价，正在把这条赛道从「传感器生意」推向「机器人生意」——而智驾与具身智能的交叉，已经在三个层次上同时发生。</b>供应链层：速腾聚创 2026 Q1 机器人领域销量占比 <b>56%，首次超过 ADAS</b>，禾赛机器人出货同比 +193%。算法层：特斯拉 AI 软件副总裁在财报电话会上明确「<b>It's the same end-to-end strategy that drives FSD, pixels in, controls out</b>」，且是同一个团队。资本层：DeepSeek 战略入股宇树、阿里发布把自动驾驶与导航统一进同一框架的 Qwen-Robot。<b>需要强调的是：三层的证据强度不同——供应链层有收入数据支撑，算法层只是公司自述，把两者混为一谈是这类讨论最常见的错误。</b></li>
+
+    <li><b>特斯拉是这个行业最大的不确定性，而它的实际规模与叙事差距极大。</b>它的 Robotaxi 在官宣「覆盖奥斯汀全域」时，<b>实际投运车辆仅约 20 辆</b>；FSD 的「已在中国可用」也有明确限定——<b>China Daily 引知情人士称满血版尚未入华</b>，特斯拉中国官网已把 FSD 改名为「特斯拉辅助驾驶」。同期 NHTSA 对约 320 万辆配备 FSD 的车辆启动了工程分析调查。<b>需要强调的是：特斯拉的示范效应是真实的，但把它的发布节奏当成已经落地的规模，会系统性高估整个行业。</b></li>
+  </ol>
+</section>
+
+<section id="stage">
+  <span class="snum">01</span>
+  <h2 class="sec">所处阶段：装车率到了，使用率没到</h2>
+
+  <p class="lede">判断一个行业处在什么阶段，最容易被渗透率骗。智能驾驶的渗透率数字很好看，但把「装上了」和「在用」分开看，结论会完全不同。</p>
+
+  <h3>渗透率：已经过半</h3>
+
+  <div class="facts">
+    <div><div class="fv">70.5%</div><div class="fl">L2 组合驾驶辅助乘用车渗透率（工信部口径）</div></div>
+    <div><div class="fv">34.2%</div><div class="fl">NOA 功能乘用车渗透率（工信部口径）</div></div>
+    <div><div class="fv">93%+</div><div class="fl">城市 NOA 市场前三名合计市占率</div></div>
+    <div><div class="fv">324.84 万颗</div><div class="fl">2025 年激光雷达前装交付量，同比 +112%</div></div>
+  </div>
+
+  <div class="tw">
+    <table>
+      <caption>渗透率与装机量。口径来源不同，注意区分。</caption>
+      <thead><tr><th>指标</th><th class="n">数值</th><th>口径与来源</th></tr></thead>
+      <tbody>
+        <tr><td class="k">L2 组合驾驶辅助渗透率</td><td class="n">70.5%</td><td>工信部，2026 年</td></tr>
+        <tr><td class="k">NOA 渗透率</td><td class="n">34.2%</td><td>工信部，2026 年</td></tr>
+        <tr><td class="k">前装标配 NOA 交付量</td><td class="n">290.81 万台</td><td>2026 上半年，渗透率 34.10%（高工智能汽车）</td></tr>
+        <tr><td class="k">激光雷达标配渗透率</td><td class="n">18.2%</td><td>2026 上半年，装机 225.1 万颗（盖世汽车）</td></tr>
+        <tr><td class="k">20 万元以下车型激光雷达搭载</td><td class="n">+412.1%</td><td>2026 上半年同比（盖世汽车）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>使用率：这是真正的阶段信号</h3>
+
+  <p>装车率之外，行业里流传的是另一组数字。据界面新闻汇总的行业访谈：<b>算力架构公司 DataCanvas 的 COO 称行业算力平均使用率低于 30%</b>，意味着七成裸金属算力在被浪费；该文还引述报道称<b>近 7% 的续航里程被高算力芯片白白消耗</b>。蔚来李斌曾直言：20 万辆车升级换芯要花 20 亿元，车企无力承担。</p>
+
+  <div class="callout warnb">
+    <div class="ct">这个阶段的准确描述</div>
+    <p>行业已经完成了<b>「硬件先装上去」</b>这一步——芯片、激光雷达、传感器都铺到位了。但<b>「把硬件的能力真正用出来」</b>这一步还没有完成。<b>这才是 2026 年智能驾驶所处阶段的准确描述：不是技术没到位，是技术与体验之间的转化没到位。</b></p>
+  </div>
+
+  <p>「高渗透、低使用」这个温差，也解释了为什么 2026 年的行业主线从「堆配置」转向了「拼体验」——车展上出现「为汽车智能减压」的说法，车企开始给算力做减法而不是加法。</p>
+</section>
+
+<section id="regulate">
+  <span class="snum">02</span>
+  <h2 class="sec">监管转折：2026 年第一次踩了刹车</h2>
+
+  <p class="lede">这是本报告里最需要单独拎出来的一件事。它没有被充分讨论，但它改变了整条赛道的扩张节奏。</p>
+
+  <div class="tw">
+    <table>
+      <caption>事件链。除注明外均来自媒体报道与知情者转述，监管机构未发布公开文件。</caption>
+      <thead><tr><th>时间</th><th>事件</th><th>来源性质</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2026-03-31 晚</td><td>武汉大范围萝卜快跑车辆停在路中间无法移动，多名乘客被困车内，造成交通拥堵。武汉是其<b>最大运营城市，约 400 辆</b></td><td>交警通报（一手）</td></tr>
+        <tr><td class="k">2026-04-01</td><td>武汉交警通报：无人员伤亡，初判系统故障所致</td><td>交警通报（一手）</td></tr>
+        <tr><td class="k">2026-04 初</td><td><b>工信部等三机构</b>召集已开展无人驾驶试点城市的官员开会，要求地方政府全面自查、加强安全监测</td><td>彭博引知情者（二手）</td></tr>
+        <tr><td class="k">2026-04-29</td><td>彭博报道：<b>中国已暂停发放新的自动驾驶汽车牌照</b>——无法新增无人驾驶德士、无法启动新测试、无法拓展新城市。百度武汉业务暂停，当地政府调查</td><td>彭博引知情者（二手）</td></tr>
+        <tr><td class="k">2026-07</td><td><b>部分城市已恢复</b>发放 Robotaxi 牌照</td><td>媒体（二手）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>报道特别指出，这<b>至少是监管机构第二次因与百度相关的事件而暂停发放新许可证</b>。</p>
+
+  <div class="callout riskb">
+    <div class="ct">为什么这件事重要</div>
+    <p>它把 Robotaxi 的商业化从「技术问题」重新定义为「<b>监管许可问题</b>」。一次系统性故障就能让全行业三个月不能扩城、不能加车——这意味着 <b>Robotaxi 公司的扩张节奏不再由自己决定</b>。对文远、小马这类公司，这是比技术更硬的约束。</p>
+    <p><b>必须说明的是：暂停与恢复均来自媒体报道，监管机构没有发布公开文件，恢复的具体范围也不清楚。</b>引用这条时不要写成「监管明令禁止」。</p>
+  </div>
+
+  <h3>与此同时，法规侧的进展反而是加快的</h3>
+
+  <p>暂停发牌是「控增量」，但立法并没有停。两条值得记录：</p>
+
+  <ul class="plain">
+    <li><b>2025 年 12 月，工信部附条件批准部分车型 L3 准入</b>——这是 L3 从测试走向准入的一步。</li>
+    <li><b>GB 44721-2026《智能网联汽车 自动驾驶系统安全要求》于 2026-07-30 发布、2027-07-01 实施</b>，是我国首部 L3/L4 强制性国家标准。</li>
+  </ul>
+
+  <p>把这两件事和牌照暂停放在一起看，得到的判断是：<b>监管不是在这个行业上踩刹车，而是在「控增量、立规矩」。</b>先冻结扩张、同时把标准定下来——这解释了为什么 7 月会恢复发牌：规矩立完了，扩张才能继续，但要在新框架里继续。</p>
+
+  <div class="callout">
+    <div class="ct">口径提醒</div>
+    <p>GB 44721-2026 的发布与实施时间来自媒体报道（《财经》等），<b>建议以工信部原文复核</b>。另外注意它的实施日是 <b>2027-07-01</b>，不是 2026 年——对 2026 年的行业格局没有直接影响，影响在 2027 年之后。</p>
+  </div>
+</section>
+
+<section id="layers">
+  <span class="snum">03</span>
+  <h2 class="sec">产业链四层：六家各站哪一层</h2>
+
+  <p class="lede">把六家公司并列比较之前，先要接受一件事：它们不在同一个位置上。四层的商业模式完全不同，放在一张表里比营收是没有意义的。</p>
+
+  <div class="stack">
+    <div class="band"><div class="bl">车企与生态层</div><div class="bn">华为乾崑 · 小米汽车</div><p class="bd">整车 + 智驾系统打包交付；华为 ADS 5 分 SE/Pro/Max/Ultra 四档，Ultra 配 4–6 颗激光雷达</p></div>
+    <div class="membrane"><span>鸿蒙智行 72 款在售车型，激光雷达搭载率 96%</span><b>车企自研是最强替代</b></div>
+    <div class="band"><div class="bl">Robotaxi 运营层</div><div class="bn">文远知行 · 小马智行</div><p class="bd">L4 级自动驾驶出行服务；文远 L4 车队超 1800 辆，小马超 4000 辆锁定出海</p></div>
+    <div class="membrane"><span>受监管许可直接约束</span><b>牌照是扩张的硬约束</b></div>
+    <div class="band mid"><div class="bl">← 本报告重点</div><div class="bn">算法方案层 · Momenta</div><p class="bd">卖算法授权，轻资产；2026H1 毛利率 75%，经调整亏损收窄 97%</p></div>
+    <div class="membrane"><span>方案跑在芯片上</span><b>芯片决定能力上限</b></div>
+    <div class="band"><div class="bl">芯片层</div><div class="bn">地平线 · 英伟达 · 华为昇腾 · 黑芝麻</div><p class="bd">卖算力平台；地平线征程系列累计出货 1500 万套，自主品牌 ADAS 芯片份额首破 50%</p></div>
+  </div>
+
+  <div class="tw">
+    <table>
+      <caption>四层的结构差异。数据见第 04 节。</caption>
+      <thead><tr><th>层</th><th>代表</th><th>卖什么</th><th>收入形态</th><th>结构性特征</th></tr></thead>
+      <tbody>
+        <tr><td class="k">芯片</td><td>地平线</td><td>算力平台 + 方案</td><td>硬件 + 授权</td><td>研发极重，靠授权拉毛利</td></tr>
+        <tr><td class="k">算法方案</td><td>Momenta</td><td>算法授权</td><td>授权费 / NRE / royalty</td><td>轻资产，毛利高，接近盈亏平衡</td></tr>
+        <tr><td class="k">Robotaxi</td><td>文远 / 小马</td><td>出行服务</td><td>单量收入 + 技术授权</td><td>重资产，受牌照约束</td></tr>
+        <tr><td class="k">车企生态</td><td>华为 / 小米</td><td>整车 + 系统</td><td>卖车</td><td>智驾是整车竞争力的一部分</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="finance">
+  <span class="snum">04</span>
+  <h2 class="sec">财务现实：同一天交卷，亏损差 100 多倍</h2>
+
+  <p class="lede">2026 年上半年，「智驾双雄」地平线与 Momenta 在同一天发布财报。营收只差 4.5 亿元，但经调整亏损差了 100 多倍——这个对比是理解这个行业商业模式差异的最好切口。</p>
+
+  <div class="tw">
+    <table>
+      <caption>2026 年上半年业绩对比。地平线为港股 9660，Momenta 已上市。</caption>
+      <thead><tr><th>指标</th><th class="n">地平线</th><th class="n">Momenta</th></tr></thead>
+      <tbody>
+        <tr><td class="k">营收</td><td class="n">20.55 亿元（+32.9%）</td><td class="n">16 亿元（+76%）</td></tr>
+        <tr><td class="k">毛利率</td><td class="n">66.0%</td><td class="n">75%</td></tr>
+        <tr><td class="k">经调整亏损</td><td class="n"><span class="chip no">扩大至 16.71 亿</span></td><td class="n"><span class="chip ok">收窄 97%</span></td></tr>
+        <tr><td class="k">研发投入</td><td class="n">27.55 亿元</td><td class="n">未获取</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">一个必须拆开看的数字</div>
+    <p>地平线 2026 中期的<b>归母净利润 37.84 亿元</b>被多家媒体写成「扭亏为盈」。但这个数字远高于它 20.55 亿元的营收，不可能是经营所得——<b>同批报道里的「经调整亏损扩大到 16.71 亿元」才是经营口径</b>。看到「扭亏为盈」时，要问一句：这个利润来自哪里。</p>
+  </div>
+
+  <h3>地平线：高毛利来自授权，不是来自卖芯片</h3>
+
+  <p>拆开收入结构就清楚了：<b>技术授权及服务业务收入 11.29 亿元，占总收入 55.0%，毛利率高达 90.4%</b>。硬件（征程系列）承担了出货量，授权承担了毛利。这也是它综合毛利率能维持 66% 的原因。</p>
+
+  <ul class="plain">
+    <li>征程系列芯片累计出货突破 <b>1500 万套</b>（2026 上半年 221.8 万套），累计定点车型近 <b>500 款</b></li>
+    <li>2026 上半年自主品牌 ADAS 芯片市场份额<b>首次突破 50%</b>；城区 NOA 芯片市场份额 22.8%，行业第二</li>
+    <li>CEO 余凯公开目标：明年成为高阶智驾芯片市场第一</li>
+    <li>HSD V2.0 于 2026 年 6 月发布；推出舱驾融合芯片「星空」</li>
+  </ul>
+
+  <h3>Robotaxi 层：收入在涨，亏损也在涨</h3>
+
+  <div class="tw">
+    <table>
+      <caption>两家 Robotaxi 公司最新业绩。</caption>
+      <thead><tr><th>公司</th><th>营收</th><th>亏损</th><th>车队</th><th>亮点</th></tr></thead>
+      <tbody>
+        <tr><td class="k">文远知行</td><td>2026H1 3.46 亿元（+73%）</td><td>净亏损近 8 亿元</td><td>L4 Robotaxi 超 1800 辆</td><td>Q2 海外收入同比 +164%；Q1 毛利率 35%</td></tr>
+        <tr><td class="k">小马智行</td><td>Q2 Robotaxi 收入同比 +691.2%，占营收 1/3</td><td>H1 净亏损 9886.1 万美元（+9.1%）</td><td>超 4000 辆锁定出海</td><td>乘客车费同比 +849.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>小马智行的 Robotaxi 收入增速（+691%）与乘客车费增速（+849%）看起来惊人，但要看基数——<b>它占营收的比重才刚到三分之一</b>，说明另外三分之二仍来自技术授权与其他业务。收入结构从「卖技术」转向「卖出行服务」，还在早期。</p>
+
+  <h3>上游传感器：激光雷达公司的账更难看</h3>
+
+  <div class="tw">
+    <table>
+      <caption>激光雷达两家 2026 上半年。禾赛另有美股与港股双重上市。</caption>
+      <thead><tr><th>公司</th><th class="n">营收</th><th class="n">出货</th><th class="n">毛利率</th><th>盈利状况</th></tr></thead>
+      <tbody>
+        <tr><td class="k">禾赛科技</td><td class="n">15.41 亿元（+25.1%）</td><td class="n">110 万台</td><td class="n">39.7%（↓）</td><td>归母净利 0.89 亿元，但主要靠利息与投资收益，合并经营层面仍亏损</td></tr>
+        <tr><td class="k">速腾聚创</td><td class="n">10.20 亿元（+30.2%）</td><td class="n">71.92 万台（+169.6%）</td><td class="n">21.8%（↓4.1pct）</td><td>经营亏损收窄至 1.72 亿元；<b>研发费用 3.46 亿元，高于全部毛利 2.22 亿元</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>两家的共同特征是：<b>出货量在爆发式增长，毛利率在下降，研发费用高于毛利。</b>速腾的研发费用（3.46 亿）是全部毛利（2.22 亿）的 1.5 倍——这是一个还在投入期、尚未进入收获期的典型财务画像。</p>
+</section>
+
+<section id="oem">
+  <span class="snum">05</span>
+  <h2 class="sec">车企层：华为与小米，两种「自己造」的方式</h2>
+
+  <p class="lede">这两家代表了车企层里两种完全不同的路径。华为是「把能力卖给别人」，小米是「自己全都要」。而它们在 2026 年都出现了值得注意的转折。</p>
+
+  <h3>华为：ADS 五代迭代，与一条明确的时间表</h3>
+
+  <div class="tw">
+    <table>
+      <caption>乾崑 ADS 版本线。早期版本的部分细节来自分析稿，非一手发布会报道。</caption>
+      <thead><tr><th>版本</th><th>发布</th><th>关键能力</th></tr></thead>
+      <tbody>
+        <tr><td class="k">ADS 2.0</td><td>2023-04-16</td><td>RCR 道路拓扑推理网络（无图）、GOD 通用障碍物检测；高速 NCA 接管里程 100→200km</td></tr>
+        <tr><td class="k">ADS 3.0</td><td>2024-04-24</td><td>同场发布「华为乾崑」品牌；去掉 BEV、PDP 网络；<b>业界首发「车位到车位」NCA</b>；云端算力 3.5 EFLOPS</td></tr>
+        <tr><td class="k">ADS 4</td><td>2025-04-22</td><td><b>WEWA 架构</b>（世界引擎 + 世界行为模型）；端到端时延降低 50%；ADS Ultra 搭载高速 L3 专属方案</td></tr>
+        <tr><td class="k">ADS 5</td><td>2026-04-23</td><td>WEWA 2.0（云端引入<b>多智能体博弈</b>）；首发乾崑 OS；CAS 5.0 六维安全；896 线激光雷达；车位到车位 3.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>几组可核的数字：截至 2026-04-19，<b>累计辅助驾驶里程突破 100 亿公里，整车搭载量突破 170 万辆</b>；官方称平均严重碰撞间隔里程 887.2 万公里，对比人驾的 180 万公里为 <b>4.92 倍</b>。2026 年计划再投入 <b>180 亿元</b>用于乾崑辅助驾驶研发。</p>
+
+  <p><b>华为给出的 L3/L4 时间表是行业里少见的明确表述</b>：L3 预计 <b>2027 年规模商用</b>；L4 将在 <b>2028 年</b>开启城区低速规模商用与部分城市全速试点。</p>
+
+  <div class="callout warnb">
+    <div class="ct">一处需要打折的数字</div>
+    <p>「云端算力从 3.5 EFLOPS 增长到 60 EFLOPS（29 个月增长 21 倍）」这个数字，<b>其来源页面被标注为「由 AI 创作」</b>。虽然量级方向与华为的投入规模相符，但引用前应以官方发布为准。</p>
+  </div>
+
+  <h3>引望：一家 1150 亿元估值的公司，和一次被否认的 IPO 传闻</h3>
+
+  <p>引望成立于 2024-01-16，华为全资设立、承接原车 BU，注册资本 10 亿元，法定代表人徐直军。2025 年引入两家车企股东：<b>华为 80%、阿维塔（长安系）10%、赛力斯 10%，两家对价均为 115 亿元</b>——按此推算整体估值 <b>1150 亿元</b>。</p>
+
+  <p>2026-04-30，江淮汽车公告拟投资引望，但原文明确「<b>目前双方暂未签署相关投资协议</b>」，金额与比例待定。<b>江淮是否最终入股，未找到后续确证。</b></p>
+
+  <p>营收上，华为 2025 年年报披露<b>智能汽车解决方案业务收入 450.18 亿元，同比增长 72.1%</b>，是华为增速最快的板块。<b>但要区分口径</b>：这是华为年报的分部口径，媒体普遍等同于「引望营收」；引望作为独立法人的单体营收与净利，未找到。</p>
+
+  <p>IPO 方面：<b>2026-01-11 引望回应「2026 年下半年上市」的传闻为「假消息，不实」</b>，相关人称暂无 IPO 时间表。</p>
+
+  <h3>鸿蒙智行：156 万台之后的一次主导权转移</h3>
+
+  <p>截至 2026 年 9 月底，鸿蒙智行累计交付突破 <b>156 万台</b>。品牌构成为「五界」：问界（赛力斯）、智界（奇瑞）、享界（北汽）、尊界（江淮）、尚界（上汽）。</p>
+
+  <p><b>2026-09-15 发生了一次值得注意的调整</b>：鸿蒙智行官方说明称，问界的「产品定义、产品设计、品牌营销、渠道零售、服务体系由<b>赛力斯主导，华为终端参与赋能</b>」，并强调此次调整不涉及其他品牌。随后 2026-09-24 余承东公开改口径为「<b>四界</b>」，称将聚焦尊界、享界、智界、尚界；9 月 28 日发布会 PPT 的排序也把问界移到了末位。</p>
+
+  <p>销量上有一个可核的一手数据点：<b>智界 2026 年 9 月交付 5,008 辆，同比 -36.5%；2026 年累计 43,623 辆，同比 -24.5%</b>（奇瑞港交所披露）。这是五界里唯一有上市公司分品牌月度披露的。<b>五界各自的品牌级累计交付总量，均未找到官方口径。</b></p>
+
+  <div class="callout riskb">
+    <div class="ct">一个仍在发酵的事件</div>
+    <p>2026-10-08 起，懂车帝实测称尊界 V800 在 100km/h-0 紧急制动时<b>刹车踏板支架被踩断</b>，制动距离从约 38 米变为约 140 米，同场其他车型均通过。10-08/10-09 江淮汽车股价跌停，单日蒸发约 62 亿元市值；10-09 尊界回应称将优化设计、免费升级。<b>该事件在本报告数据截止日仍在发酵，且建议以官方声明与原始视频复核。</b></p>
+  </div>
+
+  <h3>小米：80 万辆之后，重新回到亏损</h3>
+
+  <div class="facts">
+    <div><div class="fv">80 万辆</div><div class="fl">累计交付（2026-09-07 雷军官宣），距首批交付约 29 个月</div></div>
+    <div><div class="fv">1,800+ 人</div><div class="fl">智驾团队规模；2025 年智驾专项投入 35 亿元</div></div>
+    <div><div class="fv">3nm</div><div class="fl">自研智驾芯片玄戒 D100（2026-08 发布，计划 2027 商用）</div></div>
+    <div><div class="fv">55 万辆</div><div class="fl">2026 年全年交付目标（雷军 2026-01-03 宣布）</div></div>
+  </div>
+
+  <p>交付节奏上：2024 年全年 136,854 辆，2025 年 411,082 辆（同比 +200.4%），2026 年 1–9 月约 28.6 万辆。智驾版本线是 HAD（2025-02-25 全量推送，支持车位到车位）→ HAD 增强版（2025-11-21，首次引入强化学习 + 世界模型）→ <b>XLA 认知大模型（2026-03-19，随新一代 SU7 交付）</b>。</p>
+
+  <p><b>但财务上出现了一个转折</b>：2025 年智能电动汽车及 AI 等创新业务收入 1,061 亿元，经营利润 9 亿元，是首个年度盈利；<b>2026 年 Q1 经营亏损 31 亿元、Q2 经营亏损 26 亿元</b>，连续两季回到亏损，毛利率从 24.3% 降至 19.2%。公司归因于 SU7 Ultra 交付占比下降、核心零部件涨价与 AI 投入增加。</p>
+
+  <p>芯片上，小米 2026-08-24 发布自研智驾芯片<b>玄戒 D100</b>——国内首款 3nm 智驾芯片，<b>但计划 2027 年才正式商用，尚未量产上车</b>；现售车型仍搭载外采的英伟达 700 TOPS Thor 芯片。这与其他几家「自研芯片已上车」的进度有差距。</p>
+
+  <div class="callout">
+    <div class="ct">一个必须说清的空白</div>
+    <p>2025-03-29 安徽铜陵高速 SU7 事故（3 人死亡）发生后，小米在 2025-04-01 发布过一份单方通报（说明事故前处于 NOA 状态、被接管、碰撞前时速约 97km/h）。<b>但截至本报告数据截止日，未见任何官方公开发布的事故最终调查结论、责任认定书或技术鉴定报告。</b>引用此事时应注明：现有的只有企业单方口径。</p>
+  </div>
+
+  <h3>两家「自己造」的方式，差别在哪</h3>
+
+  <p>华为是<b>把能力卖给尽可能多的车企</b>：官方口径下，全栈合作方包括鸿蒙智行五界、阿维塔、猛士、启境、奕境；部件供应方包括一汽红旗、岚图、东风奕派、深蓝、广汽昊铂、奥迪、广汽丰田、东风日产等。八大国有车企已全部与华为合作。</p>
+
+  <p>小米是<b>把能力只留给自己</b>：智驾 1,800 人团队、35 亿元年度投入、三条并行路线（端到端、VLA、L3），全部服务于自家车型，未找到与任何外部智驾供应商合作的信息。</p>
+
+  <p>这个差别决定了两者在产业链上的位置完全不同：<b>华为的车企层身份同时也是方案商身份，它既是车企的供应商、又是车企的竞争者；小米则纯粹是车企。</b></p>
+
+  <h3>但更大的变量在别处：2026 年是车企自研芯片的集体落地年</h3>
+
+  <p>华为与小米的对比只是「车企层」的一个切面。真正值得警惕的是这一层整体在往上游走——<b>2026 年被业内视为车企自研智驾芯片的「大年」，多家车企的自研芯片同时进入量产或交付。</b></p>
+
+  <div class="tw">
+    <table>
+      <caption>车企自研智驾芯片进展。均来自媒体转述，未逐条核对官方发布。</caption>
+      <thead><tr><th>车企</th><th>芯片</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td class="k">比亚迪</td><td>璇玑 A3</td><td>4nm，单颗超 700 TOPS，2026-05 发布，<b>已规模化量产</b></td></tr>
+        <tr><td class="k">蔚来</td><td>神玑 NX9031</td><td>交付突破 <b>25 万颗</b></td></tr>
+        <tr><td class="k">小鹏</td><td>图灵</td><td><b>新拿下大众的定点</b>——中国车企自研芯片拿到全球车企订单</td></tr>
+        <tr><td class="k">理想</td><td>马赫 M100</td><td>2026 年新一代 L6 / L8 / L9 及 MEGA 已转向该芯片</td></tr>
+        <tr><td class="k">小米</td><td>玄戒 D100</td><td>3nm，<b>计划 2027 年商用</b>，尚未量产上车</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>这件事对产业链其他层的含义很直接</b>：芯片层多了一个买家变成对手——车企不再只是地平线、英伟达的客户，而是正在成为它们的竞争者。而小鹏图灵拿下大众定点，说明这个趋势已经开始向海外整车厂外溢。</p>
+
+  <div class="callout warnb">
+    <div class="ct">这条数据链的可靠度</div>
+    <p>上述芯片进展<b>均来自媒体转述，未逐条核对官方发布</b>。另外，「第三方城市 NOA 供应商呈 Momenta + 华为双强、搭载量占比约八成」这一说法<b>只拿到标题、未取到正文，属未核实</b>。这两条都应视为方向性判断，不宜作为精确数字引用。</p>
+  </div>
+</section>
+
+<section id="tech">
+  <span class="snum">06</span>
+  <h2 class="sec">技术路线：激光雷达的雪崩，与纯视觉的反攻</h2>
+
+  <p class="lede">这一节的核心不是「谁的技术更好」，而是一个价格变量：当激光雷达从数万元跌到千元级，原本的路线之争被重新定价了。</p>
+
+  <h3>价格雪崩</h3>
+
+  <div class="facts">
+    <div><div class="fv">&lt;200 美元</div><div class="fl">禾赛 ATX 系列目标单价（约 1400 元），2024 年下半年推出</div></div>
+    <div><div class="fv">约 1500 元</div><div class="fl">速腾聚创 MX 系列单价</div></div>
+    <div><div class="fv">&gt;96%</div><div class="fl">三年内单价从数万元跌至千元级的降幅</div></div>
+    <div><div class="fv">1557 元</div><div class="fl">禾赛 2025 Q4 平均销售单价，同比下滑 51%</div></div>
+  </div>
+
+  <p>2026 年初形成了「双轨制」价格体系：主流市场由禾赛 ATX（1400–2000 元）与速腾 MX（约 1500 元）主导；高阶市场是华为 896 线（约 4000 元）与速腾 EMX（约 3500 元）。<b>结果是 15 万–20 万元价位车型开始批量搭载激光雷达，2026 年 3 月甚至出现了不到 10 万元的激光雷达版车型</b>（长安启源 Q05 激光雷达版 7.49 万元起）。</p>
+
+  <h3>路线选择：并不是「谁取代谁」</h3>
+
+  <div class="tw">
+    <table>
+      <caption>主要品牌在售车型的激光雷达搭载率。来源为第三方统计，属二手数据。</caption>
+      <thead><tr><th>品牌</th><th class="n">在售车型数</th><th class="n">激光雷达搭载率</th><th>芯片方案</th></tr></thead>
+      <tbody>
+        <tr><td class="k">小鹏</td><td class="n">56</td><td class="n"><span class="chip no">0%</span></td><td>图灵自研 + 双 Orin-X（坚持纯视觉）</td></tr>
+        <tr><td class="k">鸿蒙智行</td><td class="n">72</td><td class="n">96%</td><td>华为 ADS 整套方案</td></tr>
+        <tr><td class="k">极氪</td><td class="n">54</td><td class="n">94%</td><td>英伟达多型号 + Mobileye</td></tr>
+        <tr><td class="k">零跑</td><td class="n">66</td><td class="n">47%</td><td>高通骁龙 8650 / 8797</td></tr>
+        <tr><td class="k">理想</td><td class="n">15</td><td class="n">100%</td><td>Thor-U + 征程 6M；新一代转自研马赫 M100</td></tr>
+        <tr><td class="k">小米</td><td class="n">9</td><td class="n">100%</td><td>英伟达 AGX Thor / 双 Orin</td></tr>
+        <tr><td class="k">蔚来</td><td class="n">29</td><td class="n">100%</td><td>自研神玑 NX9031 + Orin</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>何小鹏 2026 年 5 月的表态把分歧说得很直白：<b>「激光雷达是个好东西，但是我认为在汽车这个领域，它不需要了，但它在工业、特种作业场景中仍具实用价值。」</b>——注意后半句，这正是下一节要讲的转向。</p>
+
+  <p>而反方同样明确。图达通鲍君威的说法是：<b>「不用激光雷达，5 年内高阶自动驾驶就是玄学。」</b></p>
+
+  <h3>算力：数字在膨胀，但共识在收缩</h3>
+
+  <p>车端算力的标称数字膨胀得很快：英伟达 Thor 2022 年发布时标称 2000 TOPS，2026 年车型资料里常见的 Thor-U 是 700 TOPS；地平线征程 6P 为 560 TOPS；蔚来自研神玑 NX9031 为 1016 TOPS。</p>
+
+  <p>但行业内部的判断正在往回收。盖世汽车的分析称<b>「实现城市 NOA 的主流产品算力区间在 200–500 TOPS，1280 TOPS 更多是为未来 3–5 年的算法迭代预留空间」</b>。轻舟智航则声称<b>仅用超 500 TOPS 算力即可对标上千 TOPS 体验</b>——这是公司自述，但它代表了一类新叙事：从堆算力转向提效率。</p>
+
+  <div class="callout">
+    <div class="ct">口径提醒</div>
+    <p>算力的标称值在不同来源间口径不一。例如特斯拉 AI4：官方展示口径为 720 TOPS，而第三方拆解推测为 216 TOPS。英伟达 Thor 的 2000 TOPS 是 2022 年发布口径，与 2026 年车型资料里的 700 TOPS（Thor-U）不是同一个东西。<b>比较算力时，先确认是不是同一个芯片、同一个精度口径。</b></p>
+  </div>
+
+  <h3>端到端：一段式与两段式，但定义并不统一</h3>
+
+  <p>「一段式」与「两段式」是目前描述智驾架构最常用的两个词，但<b>行业没有统一标准定义</b>，各家口径不一。零跑在内部赛马时给出的说法比较清楚：智驾 2.0 是<b>两段式</b>——「大量感知信息在传递中丢失，需要靠规则和手写代码为模型兜底」；智驾 4.0 主攻<b>一段式</b>——「直接输入图像，辅以少量规则输出决策」。</p>
+
+  <p>按公开自述，声称已量产一段式端到端的有：地平线 HSD V2.0（首批落地星途 ET5、深蓝 L06 等）、文远知行 WRD 3.0、商汤绝影 + 东风、博世、元戎启行、Wayve（与奔驰签量产协议，未来两年内上车）。</p>
+
+  <div class="callout riskb">
+    <div class="ct">「谁量产了端到端」没有第三方核验</div>
+    <p>上述所有「已量产」表述<b>全部来自公司自述或媒体转述，没有任何统一的第三方核验口径</b>。同样地，各家公布的接管里程、响应延迟等数字（如小鹏「广州老城区平均接管里程 150 公里」、地平线「无接管里程提升 56%」）<b>均为厂商自测</b>，转载时经常被去掉这个限定。</p>
+  </div>
+
+  <h3>真正的分歧：VLA 还是世界模型</h3>
+
+  <p>这是本次调研最有价值的发现——<b>中国智驾公司在这个问题上已经分成两派，而且反对派把理由说得很明确。</b></p>
+
+  <div class="tw">
+    <table>
+      <caption>路线选择与理由。全部为公司自述，经官方发布或媒体转述。</caption>
+      <thead><tr><th>公司</th><th>选择</th><th>理由（原话或自述）</th></tr></thead>
+      <tbody>
+        <tr><td class="k">华为</td><td><span class="chip no">不做 VLA</span> 走 WA（World Action）</td><td>车 BU CEO 靳玉志：「<b>我们不会走向 VLA 的路径。华为更看重 WA（World Action）。</b>」据报道其架构「没有语言层，没有思维链」</td></tr>
+        <tr><td class="k">Momenta</td><td><span class="chip no">不选 VLA</span> 选世界模型</td><td>CEO 曹旭东：「VLA 的训练侧重点与自动驾驶的需求有偏差」——底座参数量约 100B，训练中「语义的优先级高于驾驶」，结论是「<b>VLA 对自动驾驶是锦上添花，很难雪中送炭</b>」</td></tr>
+        <tr><td class="k">理想</td><td><span class="chip ok">VLA</span></td><td>2025-08 随理想 i8 交付，自述「全球首个量产上车的 VLA 司机大模型」；2026-03 发布 MindVLA-o1</td></tr>
+        <tr><td class="k">小鹏</td><td><span class="chip ok">VLA（变体）</span></td><td>第二代 VLA 自述「去掉了『语言转译』环节，首次实现从视觉信号到动作指令的端到端直接生成」</td></tr>
+        <tr><td class="k">小米</td><td><span class="chip ok">XLA</span></td><td>官方称「XLA 是对于行业主流 VLA 技术的扩展」，X 代表任意模态，除视频、雷达、导航外还引入<b>声音、机器人数据</b></td></tr>
+        <tr><td class="k">元戎启行</td><td><span class="chip ok">VLA</span></td><td>40B 参数 VLA 基座模型，同时承担 Driver / Analyst / Critic 三种角色；方案已面向量产项目出货</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>值得注意的是<b>小鹏那个技术争议点</b>：它自述已经取消了 V-L-A 中的 L（语言）转译环节，那么它还能不能叫 VLA？按传统定义（视觉编码器 + LLM 骨干 + 动作解码器）是不能的。<b>目前只有小鹏单方自述，没有第三方对此做过界定。</b></p>
+
+  <h3>世界模型：两种完全不同的用法</h3>
+
+  <p>「世界模型」这个词在智驾领域被用于两件不同的事，混用会造成很大误解：</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>类型</th><th>用途</th><th>代表</th></tr></thead>
+      <tbody>
+        <tr><td class="k">生成式（像素级）</td><td>云端训练场：合成数据 + 闭环仿真，用来训练端侧算法</td><td>Wayve GAIA 系列、NVIDIA Cosmos、华为云端世界引擎</td></tr>
+        <tr><td class="k">表征式（潜态级）</td><td>车端真正驱动车辆：理解物理世界、支持反事实推理</td><td>Momenta R7、蔚来 NWM、理想 Predictive Latent World Model</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Momenta 官网给过一个三层拆解，把这两种用法串起来了：<b>第一层世界模型预训练</b>（用海量真实驾驶数据压缩物理规律与因果关系）→ <b>第二层世界模型仿真</b>（闭环仿真、长尾场景评估）→ <b>第三层在世界模型里做强化学习</b>（从模仿学习走向想象与探索）。</p>
+
+  <p>Wayve 的 GAIA 系列是这条线上公开材料最完整的：GAIA-1（2023-09，arXiv:2309.17080）→ GAIA-2（2025-03，潜扩散模型）→ GAIA-3（2025-12，150 亿参数）→ GAIA-4（2026-08）。<b>GAIA-4 的定位变化值得注意</b>：它把世界模型从「场景生成工具」变成了「规模化测量端到端安全性的工具」，并明确用于反事实调试——回答「如果安全员没有接管，AI Driver 会怎么做」。</p>
+
+  <div class="callout warnb">
+    <div class="ct">世界模型的数字基本是厂商自测</div>
+    <p>「华为云端世界引擎生成场景是真实路测的 1000 倍」「地平线无接管里程提升 56%」「蔚来 NWM 是中国首个面向智驾的世界模型」——<b>这些全部是厂商自述，无第三方复现</b>。可引用的第三方材料主要是论文（Wayve GAIA 系列、Waymo EMMA 均有 arXiv 一手论文）。</p>
+  </div>
+</section>
+
+<section id="embodied">
+  <span class="snum">07</span>
+  <h2 class="sec">与具身智能的交叉：证据正在激光雷达公司身上出现</h2>
+
+  <p class="lede">「智驾是具身智能的第一个规模化场景」这个说法流传很广，但大多是叙事。这一节找的是可验证的证据——而最硬的证据不在智驾公司身上，在上游传感器公司的收入结构里。</p>
+
+  <h3>最硬的证据：激光雷达公司的客户结构变了</h3>
+
+  <div class="tw">
+    <table>
+      <caption>激光雷达公司的机器人业务。这些是收入结构变化，不是叙事。</caption>
+      <thead><tr><th>公司</th><th>机器人业务数据</th><th>意义</th></tr></thead>
+      <tbody>
+        <tr><td class="k">速腾聚创</td><td>2026 Q1 机器人领域销量 185,500 台，同比 +1458.8%，<b>占总销量比重从 11% 升至 56%，首次超过 ADAS</b></td><td>机器人成为第一大出货来源</td></tr>
+        <tr><td class="k">速腾聚创</td><td>2026 Q3 机器人及其他约 14.52 万台（+309.0%）；上半年机器人大增 510%</td><td>趋势在持续</td></tr>
+        <tr><td class="k">禾赛科技</td><td>2026 H1 机器人交付 26.07 万台；Q2 机器人交付 14.24 万台（+193.4%）</td><td>机器人是增长最快的分部</td></tr>
+        <tr><td class="k">禾赛科技</td><td>成立 SGI（空间智能）业务，2026 H1 首次实现收入；把 2026 年目标从 1 亿元上调至 2–3 亿元；计划 2027 年约 1 亿美元</td><td>主动开辟机器人赛道</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>GGII 预计 2030 年全球机器人领域 3D 激光雷达市场规模近 <b>64 亿元</b>，2026–2030 年复合增长率约 25.97%。</p>
+
+  <h3>第二条线索：地平线孵化的地瓜机器人</h3>
+
+  <p>地平线孵化的地瓜机器人公司，<b>已赋能超 100 种下游机器人品类、服务 400 余家客户，覆盖中国半数以上具身智能企业</b>。这条线索的价值在于：它说明芯片层公司已经在把智驾积累的算力平台能力，直接复用到机器人上。</p>
+
+  <h3>第三条线索：技术组件的同源性</h3>
+
+  <p>禾赛的 SGI 业务里包含「动力模组」，累计交付超 1 万套；速腾的 SPAD-SoC 芯片「凤凰」「孔雀」发布即量产——<b>这些是激光雷达与机器人共用的核心器件</b>。当同一个器件同时服务两个市场时，「技术同源性」就不再是论述，而是供应链事实。</p>
+
+  <h3>第四条线索：算法同源——特斯拉的逐字表述</h3>
+
+  <p>这是全篇最硬的一条算法层证据，因为它来自上市公司财报电话会的公开实录，不是媒体转述。</p>
+
+  <blockquote>
+    Our AI strategy for Optimus is aligned with the same. <b>It's the same end-to-end strategy that drives FSD, pixels in, controls out.</b> And just like FSD, we expect it to work broadly... And <b>it's the same team that produced FSD</b>, the v12, 13, 14 and now v15 software that now works on Optimus as well.
+    <cite>Ashok Elluswamy，特斯拉 AI 软件副总裁，Q2 2026 财报电话会，2026-07-22</cite>
+  </blockquote>
+
+  <p>马斯克在同场电话会上的表述是「photons in, controls out」，并称可以「<b>adapt the same Tesla AI technology that we developed for self-driving cars</b>」。</p>
+
+  <div class="callout">
+    <div class="ct">一处必须说清的口径</div>
+    <p><b>「FSD 与 Optimus 用同一套神经网络」这个说法讲得最明确、逐字可查的是 Ashok Elluswamy，不是马斯克本人。</b>本次采集<b>未找到马斯克逐字说过这句话的英文原句</b>；最接近的是上面那句「adapt the same Tesla AI technology」。媒体常把这句话安到马斯克头上，引用时应归对人。</p>
+  </div>
+
+  <p>中国公司里有同样明确的表态。理想汽车基座模型负责人詹锟在 NVIDIA GTC 2026 上说的是：</p>
+
+  <blockquote>
+    当我们把视觉、语言和行动统一到一个模型中时，它已不再只是自动驾驶模型，而是在逐渐演化为面向物理世界的通用智能体。<b>基于同一套 VLA 模型，不仅可以控制车辆，也能够扩展到机器人。</b>因此，自动驾驶只是物理 AI 的起点。
+    <cite>詹锟，理想汽车基座模型负责人，GTC 2026，2026-03-17</cite>
+  </blockquote>
+
+  <p>这是「智驾模型可以迁移到机器人」这句话在中国公司里最直接的一次公开表述。小鹏把 VLA 2.0、Robotaxi 与人形机器人 IRON 一并纳入 Physical AI 布局。</p>
+
+  <p><b>小米那条线索更具体</b>：它的智驾认知大模型 XLA 明确<b>基于 Xiaomi MiMo-Embodied 具身基座大模型</b>，并在官方说明里写入了「机器人数据」作为输入模态之一。也就是说，小米的智驾模型不是「未来可能迁移到机器人」，而是<b>本来就建立在一个具身基座之上</b>。</p>
+
+  <p>不过这三条（特斯拉、理想、小米）都还是<b>方向性与架构性表态，不是已量产的机器人侧证据</b>——没有任何一家公布了「同一基座在车与机器人上分别达到什么效果」的数据。</p>
+
+  <h3>第五条线索：大模型公司正在从两侧进入</h3>
+
+  <p>这是 2026 年新出现的一条线，而且两条路径完全相反。</p>
+
+  <div class="tw">
+    <table>
+      <caption>大模型公司的具身动作。均为 2026 年。</caption>
+      <thead><tr><th>公司</th><th>动作</th><th>路径</th></tr></thead>
+      <tbody>
+        <tr><td class="k">DeepSeek</td><td>2026-08 战略入股宇树科技科创板 IPO 战略配售，获配 93.339 万股（2.31%），约 1.41 亿元，<b>锁定期 36 个月</b>；签《战略合作备忘录》，覆盖 AGI、通用机器人、AI 大模型三方向</td><td><span class="chip ok">资本 + 合作</span></td></tr>
+        <tr><td class="k">阿里（Qwen）</td><td>2026-06 发布 <b>Qwen-Robot</b> 系列：Qwen-RobotManip（VLA 操作）、Qwen-RobotNav（<b>把自动驾驶与导航统一进同一框架</b>）、Qwen-RobotWorld（跨操作、驾驶、导航的世界模型）</td><td><span class="chip ok">自研模型</span></td></tr>
+        <tr><td class="k">字节跳动</td><td>2026-01 参投自变量机器人 10 亿元 A++ 轮；2026-05 关联公司入股。<b>未找到字节自研智驾或具身模型的证据</b></td><td><span class="chip mid">投资为主</span></td></tr>
+        <tr><td class="k">腾讯</td><td>2026 WAIC 发布具身智能全栈方案（Hy-Embodied-VLA-0.5、Hy-Embodied-VLM-1.0 等）</td><td><span class="chip mid">模型 + 平台</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>阿里那条路径值得单独看</b>：Qwen-RobotNav 明确把「指令跟随、点/目标导航、目标追踪和<b>自动驾驶</b>」四类任务统一到同一个框架；Qwen-RobotWorld 则在操作、驾驶、导航三类场景上统一做未来预测。<b>这意味着在阿里的技术分类里，自动驾驶不是独立品类，而是具身智能的一个子任务。</b>这是一个大模型公司对「智驾与具身是什么关系」给出的明确回答。</p>
+
+  <p>另一侧是资本：据新京报贝壳财经援引 IT 桔子数据（2014 年以来），阿里系投资具身智能 20 次、覆盖 13 家，是最活跃的大厂；星海图、千寻智能各获 7 个大厂派系投资；自变量机器人同时获字节、阿里、美团三家投资。</p>
+
+  <p>人才也在流动。<b>原 DeepSeek 多模态技术核心阮翀加入自动驾驶公司元戎启行</b>；原 DeepSeek 研究员罗福莉加盟小米——前者是从大模型流向智驾，后者是流向同时做手机与汽车的公司。这两条流向说明「智驾 ← 大模型」的人才通道已经打通。</p>
+
+  <div class="callout warnb">
+    <div class="ct">这条交叉的三层证据，可信度不同</div>
+    <p><b>第一层·供应链与器件复用</b>：证据最硬——有收入结构支撑（速腾机器人销量占比已到 56%）。<b>第二层·算法与模型同源</b>：有官方逐字表述（特斯拉 Elluswamy 的财报会实录、阿里 Qwen-Robot 的产品定义），但都是<b>公司自述</b>，没有第三方验证过迁移效果。<b>第三层·VLA 与世界模型在智驾上的具体落地进展</b>：<b>本次采集未覆盖</b>，不作断言。</p>
+    <p>把三层混为一谈——尤其把第一层的供应链事实当成第三层的技术结论——是这类讨论里最常见的错误。</p>
+  </div>
+</section>
+
+<section id="outlook">
+  <span class="snum">08</span>
+  <h2 class="sec">未来发展预期：路径、信号与风险</h2>
+
+  <h3>可能的路径</h3>
+
+  <div class="chips">
+    <span class="chip ok">路径 A：体验补课，渗透率继续爬升</span>
+    <span class="chip mid">路径 B：Robotaxi 受监管节奏牵制，缓慢放量</span>
+    <span class="chip no">路径 C：硬件过剩被清算，行业向下修正配置</span>
+  </div>
+
+  <p><b>路径 A</b> 的触发条件是「使用率」这个指标开始被行业公开跟踪——一旦有人给出权威口径并持续改善，说明转化完成。<b>路径 B</b> 已经部分发生：牌照冻结三个月是既成事实。<b>路径 C</b> 的信号是车企开始大规模削减智驾配置，目前只看到零星迹象（车展主线变成「为汽车智能减压」）。</p>
+
+  <h3>该盯的信号</h3>
+
+  <ul class="plain">
+    <li><b>自动驾驶牌照的恢复范围与节奏</b>——7 月部分恢复，但「部分」是多少、是否还有隐性限制，没有公开信息。这是 Robotaxi 层最直接的变量。</li>
+    <li><b>是否出现权威的「智驾使用率」统计口径</b>——目前只有零散的行业访谈数字（低于 30%）。一旦有权威口径，行业的阶段判断就有了标尺。</li>
+    <li><b>Momenta 的经调整亏损是否转正</b>——它已收窄 97%，是三家里最接近盈亏平衡的。若转正，说明「算法授权」这个模式在智能驾驶上被验证了。</li>
+    <li><b>地平线的授权收入占比是否继续上升</b>——55% 且毛利 90.4%。如果继续上升，它会越来越像一家 IP 公司而不是芯片公司。</li>
+    <li><b>激光雷达公司的机器人收入占比</b>——速腾已到 56%。这个比例继续上升意味着它们的估值逻辑要重新锚定。</li>
+    <li><b>特斯拉 Robotaxi 的实际车队规模</b>——官宣覆盖奥斯汀全域时实际仅约 20 辆。这个数字是否增长，是判断特斯拉叙事真伪的最直接指标。</li>
+  </ul>
+
+  <h3>主要风险</h3>
+
+  <p>以下按<b>对「这个行业是否被正确理解」的影响程度</b>排序，不按发生概率。</p>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R1</span><span class="risk-t">用渗透率代替使用率，把「装上了」读成「用起来了」</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>高</em></span></div>
+    <p>L2 渗透率 70.5%、NOA 34.2% 这些数字是真实的，但它们衡量的是<b>配置率</b>，不是使用率。<b>行业算力平均使用率低于 30%、近 7% 续航被高算力芯片消耗——这两条与高渗透率同时成立。</b>把配置率当成行业成熟度，是这份报告里最容易犯的错。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R2</span><span class="risk-t">把一次故障引发的监管暂停当成短期扰动</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>2026 年 4 月的牌照暂停持续了约三个月，且是<b>第二次因同类事件暂停</b>。这说明监管对 Robotaxi 的容错度很低，一次系统性故障就能让全行业停摆。<b>把 Robotaxi 的商业化节奏当成由技术决定，会低估这个变量。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R3</span><span class="risk-t">把会计口径的「扭亏为盈」当成经营转好</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>地平线 2026 中期归母净利润 37.84 亿元被写成「扭亏为盈」，但营收只有 20.55 亿元，利润不来自经营。<b>同批报道里的「经调整亏损扩大到 16.71 亿元」才是经营口径。</b>这类数字在传播中几乎必然被简化，读财报时要看经调整口径。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R4</span><span class="risk-t">把供应链复用读成算法迁移</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>激光雷达器件被机器人大量采购是事实，但「智驾的算法能力可以迁移到具身智能」是另一回事。<b>前者有收入数据支撑，后者本次未覆盖。</b>把两者混为一谈，会把一个供应链趋势夸大成一个技术范式的转移。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R5</span><span class="risk-t">拿特斯拉的叙事当行业基准</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>特斯拉 FSD 入华、Robotaxi 上线，这两件事的示范效应是真实的。但<b>官宣「覆盖奥斯汀全域」时实际投运仅约 20 辆</b>，且 NHTSA 对约 320 万辆配备 FSD 的车辆启动了工程分析调查。<b>用特斯拉的发布节奏推断中国行业的进度，会系统性高估。</b></p>
+  </div>
+
+  <h3>上限推演：如果一切顺利，能到哪</h3>
+
+  <p>最乐观的情形是：使用率问题被解决（算法效率提升而非继续堆算力），Robotaxi 在监管框架内稳定扩城，算法授权模式被验证盈利，激光雷达公司借机器人市场完成第二增长曲线。</p>
+
+  <p>但天花板受三个约束。<b>第一，监管是外生变量</b>——一次故障就能让全行业停三个月，这个风险不会因为技术进步而消失。第二，<b>车企自研是最强替代</b>：小鹏全栈自研、蔚来自研芯片（神玑 NX9031）、理想新一代转自研马赫 M100、小米自研智驾——第三方方案商的空间取决于车企愿意外采多少。第三，<b>算力军备竞赛正在被反思</b>，如果行业真的转向「提效率」而非「堆算力」，芯片层的高增长假设需要重估。</p>
+</section>
+
+<section id="caveats">
+  <span class="snum">09</span>
+  <h2 class="sec">哪些是事实，哪些还需要打问号</h2>
+
+  <h3>已核实（一手来源）</h3>
+  <ul class="plain">
+    <li>武汉萝卜快跑停驶事件的时间、地点与初步原因——武汉交警通报（2026-04-01）</li>
+    <li>禾赛科技 2026 Q1 全部出货与营收数字——SEC 6-K 财报原文</li>
+    <li>地平线 2026 中期业绩（营收、毛利率、授权收入占比、经调整亏损）——港交所业绩公告</li>
+    <li>华为 ADS 5 发布（896 线激光雷达、四个版本）——华为发布会</li>
+  </ul>
+
+  <h3>未核实 / 存疑</h3>
+  <ul class="plain">
+    <li><b>自动驾驶牌照暂停与恢复</b>——彭博引知情者报道，监管机构未发布公开文件；「部分城市恢复」的具体范围不明。</li>
+    <li><b>「行业算力平均使用率低于 30%」「近 7% 续航被消耗」</b>——媒体汇总的行业访谈数字，非权威统计。</li>
+    <li><b>各品牌的激光雷达搭载率</b>——来自第三方统计（易车号），页面注明「不代表平台立场」。</li>
+    <li><b>算力标称值</b>——同一芯片在不同来源口径不一（如特斯拉 AI4 的 720 TOPS vs 216 TOPS），需以官方规格为准。</li>
+    <li><b>速腾聚创 Q3 销量</b>——媒体转述港交所自愿公告，未直接核对公告原文。</li>
+  </ul>
+
+  <h3>未能获取（本次采集的真实缺口）</h3>
+  <ul class="plain">
+    <li><b>鸿蒙智行五界各自的品牌级累计交付总量</b>——只有智界有奇瑞港交所分品牌披露，其余四界未找到官方口径。</li>
+    <li><b>引望作为独立法人的单体营收与净利</b>——只有华为年报的分部口径（2025 年 450.18 亿元），两者不能等同。</li>
+    <li><b>江淮是否最终入股引望</b>——2026-04-30 公告明确「暂未签署投资协议」，此后未见确证。</li>
+    <li><b>小米智驾的官方累计里程、城市 NOA 开城数、用户使用率</b>——均未找到官方口径。</li>
+    <li><b>铜陵 SU7 事故的官方最终调查结论</b>——截至数据截止日未见任何官方发布，现有信息只有企业单方通报。</li>
+    <li><b>车企自研 vs 采购第三方方案的份额对比数据</b>——专责采集这一题的 agent 两个联网工具均不可用，产出 0 条经核实事实，仅有标题级线索。</li>
+    <li><b>百度萝卜快跑的最新车队规模与订单量</b>——只拿到「武汉约 400 辆」这一条。</li>
+    <li><b>「行业算力平均使用率低于 30%」的原始口径</b>——仅见媒体汇总的行业访谈，未找到原始研究。</li>
+    <li><b>任何一家公司公开声明「智驾 VLA 与具身 VLA 共用同一基座模型且双方均已量产」的一手证据</b>——未找到。现有表述均为方向性表态。</li>
+    <li><b>特斯拉官网关于 FSD V14/V15 端到端架构的一手技术说明、华为 WA/WEWA 的官方技术文档</b>——未找到，仅有媒体转述。</li>
+  </ul>
+
+  <h3>本次采集后期补上、已并入正文的</h3>
+  <ul class="plain">
+    <li><b>华为乾崑与小米汽车</b>——已补：ADS 五代版本线、L3/L4 时间表（2027 / 2028）、引望 1150 亿估值与 2025 年 450.18 亿元分部收入、鸿蒙智行 156 万台与问界主导权转移、小米 80 万辆与自研芯片玄戒 D100。见第 05 节。</li>
+    <li><b>端到端 / VLA / 世界模型的路线进展</b>——已补：见第 06 节。其中最有价值的发现是<b>华为与 Momenta 均明确表示不做 VLA</b>，且都给出了理由。</li>
+    <li><b>大模型公司进入具身/智驾的动作</b>——已补：DeepSeek 入股宇树（战略配售一手公告）、阿里 Qwen-Robot 系列、字节投资自变量、腾讯具身全栈方案。见第 07 节。</li>
+    <li><b>特斯拉 FSD 与 Optimus 的技术同源表述</b>——已补：拿到 Ashok Elluswamy 在 Q2 2026 财报电话会的逐字实录；另有理想詹锟在 GTC 2026 的同类表述、小米 XLA 基于 MiMo-Embodied 具身基座。见第 07 节。</li>
+    <li><b>特斯拉 FSD 入华的真实状态</b>——已补：满血版尚未入华（China Daily 引知情人士）。见下方。</li>
+  </ul>
+
+  <h3>特斯拉 FSD 入华：一个容易被误读的状态</h3>
+  <ul class="plain">
+    <li>2026-05 特斯拉官方账号称「FSD Supervised 已在包括中国在内的国家可用」，但 <b>China Daily 同日引知情人士明确表示：「The full-blown version of FSD is not available in China yet」</b>——推送的是此前已有的较低版本，不是满血版。</li>
+    <li>特斯拉中国官网已剔除 AP / EAP / FSD 英文缩写，将原 FSD 功能统一更名为「<b>特斯拉辅助驾驶</b>」。</li>
+    <li>2026-08 针对「上海数据中心人去楼空、FSD 团队撤离」的传闻，特斯拉向媒体回应「不实消息，已向公安机关报案」，并称数据中心正常运转。</li>
+    <li><b>未找到中国监管机构关于 FSD 的官方公告原文</b>，所有进展均为媒体转述。</li>
+  </ul>
+
+  <div class="callout">
+    <div class="ct">关于采集过程</div>
+    <p>本次为五路并行采集，其中四路因 API 速率限制（50 请求/分钟）中断，联网搜索配额（200 次/会话）在过程中被耗尽、后期靠 curl 直取原文补齐了部分缺口。上表「未能获取」的部分是这次采集的真实限制，不是判断为不重要。<b>补齐剩余缺口需要提高配额后重新采集。</b></p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="snum">10</span>
+  <h2 class="sec">主要公开信息源</h2>
+  <ol class="src">
+    <li>武汉交警通报萝卜快跑停驶事件，2026-04-01。经联合早报报道：<a href="https://www.zaobao.com/news/china/story20260429-8970628">zaobao.com</a></li>
+    <li>彭博：中国暂停发放自动驾驶新牌照，2026-04-29。经联合早报、星岛报道：<a href="https://www.zaobao.com/news/china/story20260429-8970628">zaobao.com</a>、<a href="https://www.stheadline.com/zh-hans/daily-china/3567390/">stheadline.com</a></li>
+    <li>部分城市恢复发放 Robotaxi 牌照，2026-07-23。<a href="https://www.zaobao.com/news/china/story20260723-9408802">zaobao.com</a></li>
+    <li>地平线 2026 中期业绩（营收 20.55 亿、毛利率 66%）。上海证券报：<a href="https://m.cnstock.com/commonDetail/783938">cnstock.com</a>；新华财经（CEO 余凯访谈）：<a href="https://www.cnfin.com/gs-lb/detail/20260920/4472247_1.html">cnfin.com</a></li>
+    <li>地平线经调整亏损扩大至 16.71 亿元。AAStocks 业绩报道：<a href="http://wdatacn.aastocks.com/sc/stocks/analysis/stock-aafn-con/9660/HK6/NOW.1542228/hk-stock-news">aastocks.com</a></li>
+    <li>Momenta 2026 上半年营收 16 亿元、同比增长 76%、经调整净亏损收窄 97%。人民网：<a href="https://finance.people.com.cn/BIG5/n1/2026/0901/c1004-40790473.html">people.com.cn</a>；证券时报：<a href="https://www.stcn.com/article/detail/4165756.html">stcn.com</a></li>
+    <li>文远知行 2026 上半年营收 3.46 亿元、净亏损近 8 亿元、L4 Robotaxi 超 1800 辆。证券时报：<a href="https://www.stcn.com/article/detail/4072264.html">stcn.com</a>；经济观察报：<a href="http://www.eeo.com.cn/2026/1005/1056177.shtml">eeo.com.cn</a>；央广网：<a href="https://finance.cnr.cn/ycbd/20260812/t20260812_527759977.shtml">cnr.cn</a></li>
+    <li>小马智行 Q2 Robotaxi 收入同比 +691.2%、占营收三分之一。上海证券报：<a href="https://www.cnstock.com/commonDetail/762179">cnstock.com</a>；央广网：<a href="https://tech.cnr.cn/techph/20260818/t20260818_527781649.shtml">cnr.cn</a>；界面新闻：<a href="https://m.jiemian.com/article/14941631.html">jiemian.com</a></li>
+    <li>禾赛科技 2026 Q1 财报（SEC 6-K 原文）：<a href="https://www.sec.gov/Archives/edgar/data/1861737/000110465926063803/tm2615071d1_ex99-1.htm">sec.gov</a></li>
+    <li>禾赛、速腾聚创 2026 上半年业绩与机器人业务。南方财经网／定焦One：<a href="https://www.sfccn.com/2026/8-28/0MMDE0MDdfMjIyMzU0Mw.html">sfccn.com</a></li>
+    <li>速腾聚创 2026 Q1 机器人领域销量增长 1458.8%。证券时报：<a href="https://www.stcn.com/article/detail/3930587.html">stcn.com</a></li>
+    <li>速腾聚创前三季度销量超去年全年。东方财富／21 世纪经济报道，2026-10-09：<a href="https://finance.eastmoney.com/news/1354,202610093891114193.html">eastmoney.com</a></li>
+    <li>激光雷达价格雪崩与路线之争。雷峰网，2026-03：<a href="https://m.leiphone.com/category/transportation/EuRyWtQiOpAsDf453217.html">leiphone.com</a></li>
+    <li>激光雷达与 NOA 渗透率数据。21 世纪经济报道，2026-09-12：<a href="https://caifuhao.eastmoney.com/news/20260912114259994893020">eastmoney.com</a></li>
+    <li>高装车率与低使用率的矛盾、算力使用率。OFweek：<a href="https://www.ofweek.com/auto/2026-07/ART-70109-8420-30695396.html">ofweek.com</a></li>
+    <li>车端算力是否过剩、各家高管表态。界面新闻·电厂，2026-04-29：<a href="https://www.jiemian.com/article/14361458.html">jiemian.com</a></li>
+    <li>激光雷达 vs 纯视觉路线、华为 ADS 5、各品牌路线。OFweek，2026-07：<a href="https://www.ofweek.com/auto/2026-07/ART-70109-8420-30696190.html">ofweek.com</a></li>
+    <li>各品牌在售车型智驾配置统计。易车号，2026-06-25：<a href="https://hao.yiche.com/wenzhang/111011638/">yiche.com</a></li>
+    <li>特斯拉 Robotaxi 覆盖奥斯汀全域但实际仅约 20 辆。Electrek，2026-06-03：<a href="https://electrek.co/2026/06/03/tesla-robotaxi-expands-entire-austin-metro-only-20-vehicles/">electrek.co</a>；每日经济新闻：<a href="https://m.nbd.com.cn/articles/2026-06-05/4418374.html">nbd.com.cn</a></li>
+    <li>Waymo 周付费订单 50 万、覆盖 10 城。TechCrunch，2026-09-24：<a href="https://techcrunch.com/2026/09/24/waymo-is-scaling-fast-heres-what-the-fleet-data-shows/">techcrunch.com</a></li>
+    <li>特斯拉 FSD 监督版在中国可用、订阅制。news18a：<a href="https://siteapp.news18a.com/m/news/storys_260736.html">news18a.com</a></li>
+    <li>地平线征程 6 系列芯片算力。SEMI 中国：<a href="https://www.semi.org.cn/site/ecar/article/feae784d7e894defa45615bd620c6b04.html">semi.org.cn</a></li>
+    <li>Thor-U 车型适配与算力讨论。腾讯新闻，2026-10-08：<a href="https://news.qq.com/rain/a/20261008V07Y1600">news.qq.com</a></li>
+    <li>城市 NOA 前三名市占率超 93%、地平线攻占 20 万以下市场。数据邦：<a href="https://www.shujubang.com/home/login/index/gid/21386">shujubang.com</a></li>
+    <li>DeepSeek 战略入股宇树科技（科创板 IPO 战略配售）。21 财经，2026-08-07：<a href="https://m.21jingji.com/article/20260807/herald/2f4c4e973b88f2730d3b05b6eaa6f1c7.html">21jingji.com</a>；Reuters，2026-08-06：<a href="https://www.reuters.com/5f374b32b07b/world/asia-pacific/deepseek-invests-208-million-unitrees-shanghai-ipo-2026-08-06/">reuters.com</a></li>
+    <li>阿里 Qwen-Robot 系列发布（含 Qwen-RobotNav / RobotWorld）。量子位，2026-06-16：<a href="https://www.qbitai.com/2026/06/435873.html">qbitai.com</a>；中国电子报，2026-06-18：<a href="https://www.cena.com.cn/intelligence/20260618/129028.html">cena.com.cn</a></li>
+    <li>字节等参投自变量机器人 10 亿元 A++ 轮。新华网，2026-01-13：<a href="https://www.news.cn/finance/20260113/e7a8264a266b4ee0809dc474a1bd1387/c.html">news.cn</a></li>
+    <li>大厂具身智能投资分布（阿里系 20 次 / 13 家）。新京报贝壳财经，2026-04-15：<a href="https://finance.sina.com.cn/jjxw/2026-04-15/doc-inhuqsma7878919.shtml">sina.com.cn</a></li>
+    <li>腾讯具身智能全栈方案（Hy-Embodied 系列）。界面新闻：<a href="https://m.jiemian.com/article/14794842.html">jiemian.com</a></li>
+    <li>特斯拉 Q2 2026 财报电话会全文（Elluswamy 与马斯克关于 FSD/Optimus 同源的逐字表述）。The Motley Fool：<a href="https://www.fool.com/earnings/call-transcripts/2026/08/05/tesla-tsla-q2-2026-earnings-call-transcript/">fool.com</a>；Benzinga：<a href="https://www.benzinga.com/news/26/09/61834353/full-transcript-tesla-q2-2026-earnings-call">benzinga.com</a></li>
+    <li>特斯拉 FSD 满血版尚未入华（引知情人士）。China Daily，2026-05-21：<a href="https://www.chinadaily.com.cn/a/202605/21/WS6a0e960ea310d6866eb49eed.html">chinadaily.com.cn</a></li>
+    <li>特斯拉回应「FSD 团队撤离」传闻、FSD 在华监管状态梳理。OFweek，2026-08-28：<a href="https://nev.ofweek.com/2026-08/ART-77015-8110-30700504.html">ofweek.com</a></li>
+    <li>特斯拉 FSD V14.3 端到端架构与 HW3 能力边界。OFweek，2026-05-20：<a href="https://nev.ofweek.com/2026-05/ART-77015-8140-30687953.html">ofweek.com</a>；TechWeb，2026-06-30：<a href="https://www.techweb.com.cn/it/2026-06-30/2977036.shtml">techweb.com.cn</a></li>
+    <li>大模型公司人才流向智驾与具身。i 黑马 AI 大模型周报，2026-09-04：<a href="http://www.iheima.com/article-401579.html">iheima.com</a></li>
+    <li>华为明确不走 VLA、选择 WA（World Action），引靳玉志原话。雷峰网，2026-04：<a href="https://www.leiphone.com/category/transportation/Kj8Uj3YoPl2Mn4BvC.html">leiphone.com</a></li>
+    <li>Momenta 不选 VLA、选择世界模型，引曹旭东原话。量子位，2026-03：<a href="https://www.qbitai.com/2026/03/391474.html">qbitai.com</a></li>
+    <li>Momenta R7 世界模型三层拆解。官方发布，2026-04-26：<a href="https://www.momenta.cn/article/476.html">momenta.cn</a></li>
+    <li>理想 MindVLA-o1 发布、詹锟关于「同一套 VLA 可扩展到机器人」的表述。央视网，2026-03-18：<a href="https://auto.cctv.com/2026/03/18/ARTImEaLg0G2OMk9ZybCcEnx260318.shtml">cctv.com</a>；钛媒体解读：<a href="https://www.tmtpost.com/7926628.html">tmtpost.com</a></li>
+    <li>小鹏第二代 VLA（去掉语言转译环节）。科技日报，2026-01-09：<a href="https://www.stdaily.com/web/gdxw/2026-01/09/content_459529.html">stdaily.com</a>；小鹏官网：<a href="https://www.xiaopeng.com/news/company_news/5544.html">xiaopeng.com</a></li>
+    <li>小米 XLA 官方说明（含机器人数据模态）。IT 之家，2026-04-12：<a href="https://m.ithome.com/html/938227.htm">ithome.com</a></li>
+    <li>元戎启行 40B VLA 基座模型。公司新闻稿（PRNewswire 分发），2026-03-18：<a href="https://en.yna.co.kr/view/RPR20260317009700353?section=press-release/index">yna.co.kr</a></li>
+    <li>地平线 HSD V2.0 一段式端到端架构。新华网，2026-08-05：<a href="https://app.xinhuanet.com/news/article.html?articleId=20260805a46416091e604ec6bc5221ba8fd4adcd">xinhuanet.com</a></li>
+    <li>零跑三条路线并跑（含一段式/两段式定义）。IT 之家／搜狐转载，2026-09-17：<a href="https://www.sohu.com/a/1077135688_114760">sohu.com</a></li>
+    <li>Wayve GAIA 系列世界模型论文（GAIA-1 arXiv:2309.17080；GAIA-2 arXiv:2503.20523）与 GAIA-3 / GAIA-4 发布。<a href="https://arxiv.org/abs/2309.17080">arxiv.org/abs/2309.17080</a>、<a href="https://wayve.ai/thinking/gaia-4/">wayve.ai/thinking/gaia-4</a></li>
+    <li>Wayve 与 Mercedes-Benz 量产协议，2026-09-22：<a href="https://wayve.ai/press/wayve-mercedes-benz/">wayve.ai/press/wayve-mercedes-benz</a></li>
+    <li>Waymo EMMA 端到端多模态模型论文（arXiv:2410.23262）：<a href="https://arxiv.org/abs/2410.23262">arxiv.org/abs/2410.23262</a>；Waymo 官方博客（安全基线数据）：<a href="https://waymo.com/blog/">waymo.com/blog</a></li>
+    <li>NVIDIA Alpamayo VLA 与 Cosmos 世界模型。<a href="https://www.nvidia.com/en-us/ai/cosmos/">nvidia.com/ai/cosmos</a></li>
+    <li>蔚来 NWM 世界模型与神玑 NX9031。证券时报，2026-04-11：<a href="https://stcn.com/article/detail/3742730.html">stcn.com</a></li>
+    <li>世界模型在智驾上的两种用法与强化学习应用。OFweek，2026-08-24：<a href="https://m.ofweek.com/auto/2026-08/ART-70109-11000-30699587.html">ofweek.com</a></li>
+    <li>华为乾崑 ADS 5 发布（WEWA 2.0、乾崑 OS、CAS 5.0、896 线激光雷达）。IT 之家，2026-04-23：<a href="https://www.ithome.com/0/942/800.htm">ithome.com</a>；科技日报，2026-04-24：<a href="https://www.stdaily.com/web/gdxw/2026-04/24/content_507631.html">stdaily.com</a></li>
+    <li>华为 ADS 4 与 WEWA 架构发布。科技日报，2025-04-24：<a href="https://www.stdaily.com/web/gdxw/2025-04/24/content_330086.html">stdaily.com</a></li>
+    <li>华为乾崑品牌与 ADS 3.0 发布。央广网，2024-04-24：<a href="http://tech.cnr.cn/techph/20240424/t20240424_526679196.shtml">cnr.cn</a></li>
+    <li>华为 L3/L4 路线图与 ADS 5 推送计划。21 世纪经济报道，2026-07-22：<a href="https://m.21jingji.com/article/20260722/herald/3f5b40076858a07f1a9b8442aabc48a0_zaker.html">21jingji.com</a>；网通社，2026-07-20：<a href="http://auto.news18a.com/news/storys_277382.html">news18a.com</a></li>
+    <li>华为合作模式官方名单（全栈 / 部件）。IT 之家／搜狐，2026-07-16：<a href="https://m.sohu.com/a/1051127962_114760">sohu.com</a></li>
+    <li>引望股权结构、注册资本与 2026-04 工商变更。c114／集微网，2026-04-13：<a href="https://www.c114.net.cn/industry/75179.html">c114.net.cn</a></li>
+    <li>江淮汽车公告拟投资引望（明确暂未签署协议）。财联社，2026-04-30：<a href="https://www.cls.cn/detail/2361489">cls.cn</a></li>
+    <li>引望回应「2026 年下半年上市」传闻为假消息。财联社，2026-01-11：<a href="https://www.cls.cn/detail/2253946">cls.cn</a></li>
+    <li>华为 2025 年年度报告（智能汽车解决方案业务收入 450.18 亿元）：<a href="https://www.huawei.com/cn/annual-report/2025">huawei.com/cn/annual-report/2025</a></li>
+    <li>鸿蒙智行问界合作模式调整官方说明。证券时报，2026-09-15：<a href="https://www.stcn.com/article/detail/4200611.html">stcn.com</a></li>
+    <li>鸿蒙智行累计交付突破 156 万台（2026-09 底）。财联社／汽车产经网，2026-10-01</li>
+    <li>智界 2026 年 9 月交付 5,008 辆、累计 43,623 辆（奇瑞港交所披露）。IT 之家，2026-10-02：<a href="https://www.ithome.com/1/009/328.htm">ithome.com</a></li>
+    <li>阿维塔取得 L3 自动驾驶测试牌照。证券时报，2026-07-01：<a href="https://stcn.com/article/detail/3991529.html">stcn.com</a></li>
+    <li>小米累计交付超 80 万辆（2026-09-07 雷军官宣）。IT 之家：<a href="https://www.ithome.com/0/999/057.htm">ithome.com</a>；21 财经：<a href="https://m.21jingji.com/article/20260907/herald/c4c5eab93fd9af60f0106eeed7a5b2b8.html">21jingji.com</a></li>
+    <li>小米汽车月度交付与财务数据汇总。CnEVPost：<a href="https://cnevpost.com/2026/10/01/xiaomi-auto-sept-2026-deliveries/">cnevpost.com</a></li>
+    <li>小米自研智驾芯片玄戒 D100 发布（2027 年商用）。新华网，2026-08-25：<a href="https://www.xinhuanet.com/finance/20260825/fd5eb2e3b382445497caf5375921a739/c.html">xinhuanet.com</a>；证券时报，2026-08-24：<a href="https://stcn.com/article/detail/4105400.html">stcn.com</a></li>
+    <li>小米智驾团队规模与投入、XLA 发布。汽车之家车家号，2026-03-18：<a href="https://chejiahao.autohome.com.cn/info/25016347">autohome.com.cn</a>；IT 之家，2026-04-10：<a href="https://m.ithome.com/html/937589.htm">ithome.com</a></li>
+    <li>小米智驾三条并行路线与组织架构。OFweek／HiEV，2026-07-23：<a href="https://www.ofweek.com/auto/2026-07/ART-70109-8110-30695533.html">ofweek.com</a></li>
+    <li>小米铜陵 SU7 事故企业单方通报。光明网，2025-04-01：<a href="https://m.gmw.cn/2025-04/01/content_1304005647.htm">gmw.cn</a></li>
+    <li>雷军关于智驾的公开表态（2026-03-06 两会期间）。新浪财经转澎湃：<a href="https://finance.sina.com.cn/jjxw/2026-03-06/doc-inhpzkwq2598362.shtml">sina.com.cn</a></li>
+    <li>小米澎程（Sky Nomad）首 30 天锁单超 7 万台。CnEVPost，2026-10-08：<a href="https://cnevpost.com/2026/10/08/xiaomi-sky-nomad-70000-locked-in-orders/">cnevpost.com</a></li>
+    <li>尊界 V800 刹车踏板支架事件（2026-10-08/09，仍在发酵）。经济观察报、封面新闻、财经网科技、蓝鲸新闻等，2026-10-08/09。<b>建议以官方声明与原始视频复核。</b></li>
+    <li>L3 准入与 GB 44721-2026 强制国标、L3 路线分歧。《财经》，2026-04-13：<a href="https://finance.sina.com.cn/wm/2026-04-13/doc-inhukkny4678284.shtml">sina.com.cn</a>。<b>建议以工信部原文复核。</b></li>
+    <li>2026 年车企自研智驾芯片进展（比亚迪璇玑 A3、蔚来神玑、小鹏图灵、理想马赫 M100）。腾讯新闻，2026-09-28：<a href="https://news.qq.com/rain/a/20260928A09NXI00">news.qq.com</a>；中国汽车报／央广网，2026-10-08：<a href="https://auto.cnr.cn/2015xc/20261008/t20261008_527835919.shtml">cnr.cn</a>。<b>均为媒体转述，未逐条核对官方发布。</b></li>
+    <li>地平线 HSD 首搭奇瑞 iCAR V27。央视网，2026-03-04：<a href="https://5gai.cctv.cn/2026/03/04/ARTICOZPWhNHPiIjWP8CdRJ4260304.shtml">cctv.cn</a></li>
+    <li>小米投资者日（未来三年 AI 投入超 600 亿元、出海计划）。第一电动网，2026-04-28：<a href="https://www.d1ev.com/news/shichang/297279">d1ev.com</a></li>
+    <li>启境 GT7 上市（广汽 × 华为乾崑）。证券时报，2026-03-18：<a href="https://stcn.com/article/detail/3683121.html">stcn.com</a></li>
+    <li>工信部 2025-04 会议规范智驾宣传用语。澎湃新闻，2025-05-06：<a href="https://m.thepaper.cn/newsDetail_forward_30769937">thepaper.cn</a></li>
+  </ol>
+</section>
+
+<footer>
+  <p>本报告基于公开信息整理，数据截止 <b>2026-10-09</b>。所有推断均已标注核实状态；未标注来源的数字为公开报道口径，可能存在偏差。本报告未采用搜索结果摘要或第三方评论文章中的评判性结论。<b>第 08 节列出的缺口为本次采集的真实限制，非判断为不重要。</b></p>
+</footer>
+
+</div>
+
+</body>
+</html>

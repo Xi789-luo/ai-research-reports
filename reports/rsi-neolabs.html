@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>无涯智远 × 超衍智能</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(34px,6vw,60px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">RSI · 无涯智远 × 超衍智能</span>
+    <div class="links">
+      <a href="#premise">公司脉络</a>
+      <a href="#org">组织人才</a>
+      <a href="#tech">技术路线</a>
+      <a href="#capital">资本结构</a>
+      <a href="#compete">竞争格局</a>
+      <a href="#outlook">发展走向</a>
+      <a href="#ceiling">上限推演</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">公司深度研究 · 自进化 / RSI · 2026</p>
+  <h1>无涯智远 × 超衍智能</h1>
+  <p class="standfirst">两家 2026 年才成立的中国研究型 AI 公司，押注同一个词——RSI（递归自我改进）。它们一个把新知识写进模型参数，一个让模型自己去做研究。同样的叙事，完全不同的下注位置。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-08</dd></div>
+    <div><dt>版本</dt><dd>v3 · 八部分 + 信息源</dd></div>
+    <div><dt>核心结论</dt><dd>同赛道、不同层，且都还没交卷</dd></div>
+    <div><dt>信息源</dt><dd>公开来源 31 项</dd></div>
+  </dl>
+</header>
+
+<section class="thesis" id="thesis" style="border-top-width:2px">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>两家公司共享一个叙事，但站在这条技术栈的不同层上，不构成直接竞争。</b>无涯智远做的是 <em>参数层</em>——让模型把新知识写进权重；超衍智能做的是 <em>系统层</em>——让 AI 自己完成「提想法、跑实验、写论文」的完整研究闭环。前者是 RSI 的底层机制之一，后者是 RSI 的一个应用闭环。把它们当成同一个赛道的对手来读，会读错。</li>
+    <li><b>创始人画像的反差，比融资额的反差更值得注意。</b>无涯智远的张牧涵是图神经网络早期开拓者，Google Scholar 实测引用 <span class="num">15,733</span>、h-index 43，在 Meta AI 做过十亿用户级图学习系统；超衍智能的陈勇超 <span class="num">27</span> 岁，引用 <span class="num">1,548</span>、h-index 15，博士方向是机器人任务规划。学术体量差一个数量级，但资本给出的定价是反过来的——超衍拿了近 4 亿人民币，无涯智远的金额至今未披露。</li>
+    <li><b>两支团队的组建逻辑正好相反，这比人数差距更能说明问题。</b>无涯智远是<em>学术网络型</em>——班底就是张牧涵在北大的实验室 MμLab，核心论文 SHINE 的三位作者全是组内学生，外部只挂了 Haggai Maron 这样的国际合作者；公司约 10 人，查不到任何公开招聘。超衍智能是<em>产业回流型</em>——近 30 人从 Google、Microsoft、字节、Kimi、智谱等地买来，但官网 Team 页<em>至今没有任何具名联创或技术负责人</em>。前者靠一个学术组的技术纵深，后者靠工程密度，这恰好对应它们做的是研究问题还是工程问题。</li>
+    <li><b>融资结构讲的是两个不同的故事，而不只是金额大小。</b>超衍智能拿到北京（中关村科学城基金）、深圳（深创投）、上海（上海未来产业基金）<em>三地国资同时入场</em>，外加清华系色彩浓厚的星连资本和产业方晶泰科技；无涯智远则是红杉中国 + 联想之星 + 中关村科学城的市场化组合。前者是被地方国资体系「接住」的项目，后者更像一次低调的市场化下注。</li>
+    <li><b>超衍智能把成果摆上了台面，无涯智远还没有——但台面上的东西并非都经得起推敲。</b>超衍发了 ASI-Bench（arXiv 2608.17271，11 学科 60 项任务，18 套系统实测），并公布 34 篇论文过 ACL Rolling Review 的成绩。可是它最亮的那块学术背书——「完整证明悬置三十余年的优超猜想」——<em>目前找不到任何公开论文或第三方数学家署名确认</em>，且公司通稿的口径明显强于创始人本人的公开表述。无涯智远的 SHINE 论文则是实打实的：arXiv 2602.06358，已被 ICML 2026 接收。</li>
+    <li><b>真正的对手不是彼此，而是上游的大厂。</b>字节 Seed Edge、阿里 Qwen、腾讯混元 Hyra、智谱「完全自训练」、MiniMax、DeepSeek 都在做同一件事，而且它们同时掌握算力配额、数据管道和分发入口。一家 10 人的实验室和一家 30 人的实验室，能否在这条路上活到交卷，取决于一件很具体的事：<em>能不能把某一段别人做不全、也看不上，但确实需要的工程能力做成壁垒</em>。</li>
+    <li><b>两家公司目前都处在「有验证、无产品、无收入」的阶段，读它们要用读研究项目的尺子，不是读公司的尺子。</b>RSI 到今天还没有任何一家公司跑通完全自主的闭环——《The Last AI Built by Humans》梳理 491 篇论文，被归为最高级 L5 的只有 29 篇（5.9%）。图灵奖得主萨顿来中国时直接说 RSI 是「营销炒作」。这个判断未必对，但它是这个赛道当下最诚实的背景音。</li>
+  </ol>
+</section>
+
+<section id="premise">
+  <span class="snum">01 / 公司脉络</span>
+  <h2 class="sec">先把两家是谁、做什么说清楚</h2>
+
+  <p class="lede">这两家公司都很年轻——分别成立于 2026 年 6 月 1 日和 6 月 12 日，相差十一天。它们共用一套话术（RSI、自进化、AI for AI），但工商登记、产品形态和公开姿态完全不同。</p>
+
+  <h3>无涯智远（Norizon AI）：没有官网的研究型公司</h3>
+
+  <p>无涯智远是一家几乎没有对外表达的公司。搜不到官网，搜不到公开招聘，创始人从未接受采访。它在公开信息里第一次出现，是 2026 年 9 月 21 日证券之星根据天眼查数据整理的一条投融资动态——天使轮，投资方为红杉中国、联想之星、中关村科学城，<b>金额未披露</b>。</p>
+
+  <p>它对外的自我描述只有一句话：<b>研究型 AI 公司，核心方向是大模型持续学习、模型自进化和实时 RSI</b>。除此之外，外界对它技术方案的全部了解，来自一个微信公众号的报道和一篇论文。</p>
+
+  <div class="tw">
+    <table>
+      <caption>无涯智远工商与融资信息。注册资本、法定代表人等来自天眼查公开页面，未与工商系统二次交叉验证。</caption>
+      <thead><tr><th>项目</th><th>内容</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td class="k">全称</td><td>北京无涯智远科技有限公司</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">成立日期</td><td>2026-06-01</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">注册资本</td><td class="n">156.1905 万元</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">注册地址</td><td>北京市海淀区北四环西路 9 号 2108-B336</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">法定代表人</td><td>杨睿芳（董事长/财务负责人：王力冉；董事：杨睿芳、孟醒）</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">天使轮</td><td>红杉中国、联想之星、中关村科学城</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">天使轮金额</td><td>未披露</td><td><span class="chip mid">未披露</span></td></tr>
+        <tr><td class="k">第二轮估值</td><td>据传 2.5 亿美元，已拿若干 TS</td><td><span class="chip no">仅自媒体</span></td></tr>
+        <tr><td class="k">团队规模</td><td>全职约 10 余人，来自北大、清华、MIT</td><td><span class="chip mid">媒体口径</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">值得单独记一笔</div>
+    <p>工商登记的法定代表人、董事长、董事名单里<b>没有出现张牧涵</b>。这本身不异常——高校教师创业常由他人代持或由运营合伙人任法代——但结合「2026-09-19 发生股东及主要成员变更」这条记录，说明股权结构在公司成立后三个月内已经调整过一次。真实持股比例目前查不到。</p>
+  </div>
+
+  <h3>超衍智能（Apex Intelligence）：成立三个月就开发布会的公司</h3>
+
+  <p>超衍智能的姿态完全相反。2026 年 9 月 16 日，成立仅三个月的它官宣完成天使轮及天使+轮融资，累计近 4 亿元人民币，媒体全线铺开。它的英文名 Apex Intelligence，官网 <code>apexin.ai</code>，上面挂着产品页面、waitlist 和一个在线榜单。</p>
+
+  <div class="tw">
+    <table>
+      <caption>超衍智能工商与融资信息。注册资本来自招聘平台企业库，未与工商系统交叉验证。</caption>
+      <thead><tr><th>项目</th><th>内容</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td class="k">全称</td><td>超衍智能科技（北京）有限公司</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">成立日期</td><td>2026-06-12</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">注册资本</td><td class="n">116.27 万元</td><td><span class="chip mid">待交叉验证</span></td></tr>
+        <tr><td class="k">注册地址</td><td>北京市海淀区成府路 45 号 AI 原点社区 C 座 1 层 108-6</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">天使轮</td><td>IDG 资本、星连资本、晶泰科技联合领投；德迅资本、SEE FUND、初心资本、云岫资本跟投</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">天使+轮</td><td>中关村科学城基金、深创投、上海未来产业基金联合领投</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">累计金额</td><td class="n">近 4 亿元人民币（约 5,000 万美元）</td><td><span class="chip ok">已核实</span></td></tr>
+        <tr><td class="k">投后估值</td><td>未披露；媒体按 10–15% 稀释推算约 26–40 亿元</td><td><span class="chip mid">媒体推算</span></td></tr>
+        <tr><td class="k">团队规模</td><td>近 30 人，来自 Google、Microsoft、Amazon、字节、Kimi、智谱、蚂蚁</td><td><span class="chip mid">公司口径</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>注册地址值得看一眼：<b>成府路 45 号 AI 原点社区</b>，和清华人工智能学院在同一条街上。这不是巧合——陈勇超 2026 年 8 月入职清华人工智能学院任助理教授，办公室和公司走几步就到。</p>
+
+  <h3>并排看</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>维度</th><th>无涯智远 Norizon AI</th><th>超衍智能 Apex Intelligence</th></tr></thead>
+      <tbody>
+        <tr><td class="k">成立</td><td>2026-06-01 · 北京海淀</td><td>2026-06-12 · 北京海淀</td></tr>
+        <tr><td class="k">创始人</td><td>张牧涵，北大人工智能研究院助理教授</td><td>陈勇超，清华人工智能学院助理教授</td></tr>
+        <tr><td class="k">技术切口</td><td>参数层：把知识写进权重</td><td>系统层：让 AI 自己做研究</td></tr>
+        <tr><td class="k">产品</td><td>无公开产品</td><td>Apex Research（小范围内测）+ ASI-Bench 榜单</td></tr>
+        <tr><td class="k">累计融资</td><td>天使轮，金额未披露</td><td>近 4 亿元人民币</td></tr>
+        <tr><td class="k">对外姿态</td><td>无官网、无招聘、无采访</td><td>官宣、官网、媒体全线铺开</td></tr>
+        <tr><td class="k">最硬的公开凭证</td><td>SHINE 论文，ICML 2026 接收</td><td>ASI-Bench，arXiv 2608.17271</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>一个容易被忽略的共性：<b>两家公司都还没到「产品」这一步</b>。超衍的 Apex Research 在官网挂着小范围内测，陈勇超自己说商业化「还没有起步」；无涯智远则连产品形态都没公开过。所以下面所有关于商业化的讨论，讨论的都是「设想」，不是「业绩」。</p>
+</section>
+
+<section id="org">
+  <span class="snum">02 / 组织人才</span>
+  <h2 class="sec">组织人才：两个创始人，两类完全不同的团队</h2>
+
+  <p class="lede">这两家公司的估值，本质上估的是两个人。但真正决定它们能走多远的，是这两个人各自能组织起什么样的队伍。而这两支队伍的组建逻辑，恰好是相反的。</p>
+
+  <div class="callout">
+    <div class="ct">先说结论</div>
+    <p><b>无涯智远是「学术网络型」团队</b>——以张牧涵在北大的实验室 MμLab 为班底，人数少，但技术纵深来自一个持续运转、仍在高产出的学术组。<b>超衍智能是「产业回流型」团队</b>——从各大模型厂拉有工程经验的人，人多，但需要磨合，且官网至今没有具名联创。这个差异不是偶然，它直接对应两家公司做的是研究问题还是工程问题。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">2.1</span>张牧涵：从图神经网络到参数化记忆</h3>
+
+  <p>张牧涵的路径非常清晰，是一条「把一件事做到世界级，然后转向下一件」的路径。</p>
+
+  <div class="tw">
+    <table>
+      <caption>张牧涵履历。引用数据为 Google Scholar 2026 年 10 月实测；北大官网页面写「超过 11,000 次」，本人主页写「超过 14,000 次」，三个口径不一致，取实测值。</caption>
+      <thead><tr><th>时间</th><th>经历</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2011–2015</td><td>上海交通大学 IEEE 试点班本科（导师 张娅、张文军）</td></tr>
+        <tr><td class="k">2015–2019</td><td>圣路易斯华盛顿大学计算机科学博士（导师 Yixin Chen）</td></tr>
+        <tr><td class="k">2019–2021</td><td>Facebook AI / Meta AI 研究科学家，大规模图机器学习系统</td></tr>
+        <tr><td class="k">2021.5–至今</td><td>北京大学人工智能研究院助理教授、研究员、博导、院长助理；兼 BIGAI 研究员</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="facts">
+    <div><div class="fv">15,733</div><div class="fl">Google Scholar 总引用（2026-10 实测）</div></div>
+    <div><div class="fv">43</div><div class="fl">h-index</div></div>
+    <div><div class="fv">3,470</div><div class="fl">SEAL 论文引用（链路预测）</div></div>
+    <div><div class="fv">2,482</div><div class="fl">DGCNN 引用（AAAI-2018 十大影响力论文）</div></div>
+  </div>
+
+  <p>他的学术资产是实打实的。SEAL（链路预测）和 DGCNN（图分类）这两项工作被写进了 PyTorch Geometric 和 DGL 两个主流图深度学习库；Labeling Trick（NeurIPS 2021）是多节点预测的理论框架。他常年担任 NeurIPS、ICML、ICLR、CVPR 的领域主席，入选 Elsevier 全球前 2% 顶尖科学家，是首届国家级青年人才项目（海外）获得者。</p>
+
+  <p>更值得注意的是他主页上的研究方向表述——他把它叫做 <b>In-Parameter Learning（IPL，参数内学习）</b>，明确写着要「开创 IPL 范式和下一代架构，实现实时参数更新，把瞬时上下文转化为长期认知记忆，同时克服灾难性遗忘」，并「驱动自主演化的 AGI 飞轮」。这不是创业后临时包装的方向，而是他公开写明的学术议程。</p>
+
+  <p>他的研究还受到一串企业资助：<b>华为、字节跳动、腾讯、阿里、蚂蚁、百度、理想、灵均</b>。这既说明他的方向被产业需要，也说明——大厂很早就知道他，并且已经在给他钱做相关研究。</p>
+
+  <h3 class="sub"><span class="subn">2.2</span>陈勇超：27 岁，从机器人规划转向 RSI</h3>
+
+  <p>陈勇超的履历短得多，但也更陡。</p>
+
+  <div class="tw">
+    <table>
+      <caption>陈勇超履历，来自清华大学教师主页与本人主页。</caption>
+      <thead><tr><th>时间</th><th>经历</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2017–2021</td><td>中国科学技术大学本科，理论与应用力学主修、应用数学辅修；第 40 届郭沫若奖学金（中科大本科最高荣誉）</td></tr>
+        <tr><td class="k">2021–2026.3</td><td>哈佛 SEAS + MIT LIDS 联合培养博士（电子工程），导师 Chuchu Fan、Nicholas Roy，哈佛方共同指导 Na Li</td></tr>
+        <tr><td class="k">同期</td><td>Google Research、DeepMind、Microsoft Research、MIT-IBM Watson AI Lab</td></tr>
+        <tr><td class="k">2026.8–至今</td><td>清华大学人工智能学院助理教授（该院史上最年轻）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="facts">
+    <div><div class="fv">1,548</div><div class="fl">Google Scholar 总引用</div></div>
+    <div><div class="fv">15</div><div class="fl">h-index</div></div>
+    <div><div class="fv">289</div><div class="fl">AutoTAMP 引用（代表作）</div></div>
+    <div><div class="fv">27</div><div class="fl">年龄</div></div>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">一处需要更正的事实</div>
+    <p>部分通稿写他「本硕博就读于中国科学技术大学及哈佛大学与麻省理工学院联合培养项目」。但他的本人主页和清华教师页都显示：<b>2021 年中科大本科毕业，同年直接进入哈佛/MIT 联合培养博士，没有硕士阶段</b>。「本硕博」的表述不准确。</p>
+  </div>
+
+  <p>他的技术出身常被误读。公开报道强调超衍智能在「优化理论、几何拓扑」的突破，容易让人以为他做的是数学或优化。但从他的论文列表看，<b>他的博士方向是神经符号方法、机器人任务与运动规划（TAMP）、LLM 规划与工具使用</b>——AutoTAMP、多机器人协作、NL2TL、LIBERO-PRO、TravelPlanner、PROMST 都是这一脉络的工作。他在 Google 期间一作参与的 TUMIX，让多个走不同工具策略的 Agent 互相校对迭代，把 Gemini-2.5-Pro 在 HLE 上的得分从 21.6% 提到 34.1%——这已经是很接近 RSI 的工程直觉。</p>
+
+  <p>换句话说，<b>他不是一个在某个基础学科深耕十年的学者，而是一个在「多智能体协作 + 工具使用 + 规划」这条工程线上积累了五六年，然后判断这条线正好通向 RSI 的人</b>。这个判断对不对另说，但它解释了他为什么敢在博士毕业三个月内就开公司。</p>
+
+  <blockquote>
+    微软让我想创业，谷歌让我知道创业要做什么。
+    <cite>陈勇超，转引自 36 氪访谈</cite>
+  </blockquote>
+
+  <h3 class="sub"><span class="subn">2.3</span>无涯智远的人：一个实验室班底，加一张国际合作网络</h3>
+
+  <p>无涯智远对外只说「全职 10 余人，来自北大、清华、MIT」。但这个描述会让人误以为它是一支拼凑起来的队伍。实际上它有一个清晰的班底来源：<b>张牧涵在北京大学的实验室 MμLab</b>（官网 <code>mulabpku.com</code>，GitHub 组织 MuLabPKU）。</p>
+
+  <p>MμLab 的人员构成是公开的：</p>
+
+  <div class="tw">
+    <table>
+      <caption>MμLab 成员名单，来自实验室官网 people 页面。括号内为入学—预计毕业年份。</caption>
+      <thead><tr><th>类别</th><th>成员</th></tr></thead>
+      <tbody>
+        <tr><td class="k">在读博士生</td><td>王希元 Xiyuan Wang (22–27)、Zian Li (23–28)、Yanbo Wang (23–28)、Yi Hu (24–29)、Shijia Kang (24–29)、Juntong Wang (25–30)、毛彦升 Yansheng Mao (26–31)、Yiding Wang (26–31)、Yufei Xu (25–30)</td></tr>
+        <tr><td class="k">本科生</td><td>刘晔玮 Yewei Liu、Ziyuan He、Pingzhi Tang</td></tr>
+        <tr><td class="k">已毕业博士</td><td>Fanxu Meng、Xingang Peng、Haotong Yang、Xuefeng Zhang（22–26 届）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>把这份名单和 SHINE 论文的作者对一下，会看到一个重要的事实：<b>SHINE 是一篇彻头彻尾的组内工作</b>。作者刘晔玮（本科生，一作）、王希元（博士生）、毛彦升（博士生）全部来自 MμLab，张牧涵是通讯作者。外部只有两位合作者：Yoav Gelberg（牛津博士，现 NVIDIA）和 <b>Haggai Maron</b>。</p>
+
+  <p>Maron 的加入值得单独说。他是 Technion 的教师、同时在 NVIDIA Research，是图神经网络表达力与等变学习方向的一线学者。他出现在 SHINE 的作者名单里，意味着<b>「超网络生成 LoRA」这个方向在国际前沿圈是有人认真对待的</b>，而不是一个中国实验室的孤立尝试。</p>
+
+  <div class="callout">
+    <div class="ct">一个容易被忽略的判断依据</div>
+    <p>张牧涵<b>仍在正常带学生、开课、做研究</b>。他是北大通用人工智能实验班（通班）23 级班主任，主讲《人工智能引论》（本科）和《机器学习》（本研），2026 年论文产出依然很高——NeurIPS 2026 六篇、ICML 2026 六篇、ACL 2026 五篇。这说明无涯智远更像是「MμLab 的产业化外壳」，而不是创始人把实验室掏空去创业。好处是学术供给不断，风险是公司业务的优先级可能排在学术之后。</p>
+  </div>
+
+  <p>还有一个信号值得注意：张牧涵的研究长期受到企业资助，名单包括<b>华为、字节跳动、腾讯、阿里、蚂蚁、百度、理想、灵均</b>。这意味着大厂很早就知道他在做什么，并且在为相关方向付钱。他的主页上把研究方向明确写成 In-Parameter Learning（IPL，参数内学习）和「自主演化的 AGI 飞轮」——这不是创业后包装的概念，而是公开多年的学术议程。</p>
+
+  <h3 class="sub"><span class="subn">2.4</span>超衍智能的人：从产业界回流的一支队伍</h3>
+
+  <p>超衍智能的团队组建逻辑完全不同。它没有可以依托的实验室班底——陈勇超 2026 年 8 月才入职清华，此前一直在哈佛和 MIT。所以它的近 30 人，是从产业界「买」来的。</p>
+
+  <p>公司口径是：成员来自 <b>Google、Microsoft、Amazon、字节、Kimi、智谱、蚂蚁</b>，高校侧来自清华、北大、哈佛、MIT、密歇根。这个名单里最值得注意的是<b>字节、Kimi、智谱</b>这三家——它们都是有真实大模型训练经验的公司，说明超衍要的是「跑过训练的人」，而不是刚毕业的研究者。</p>
+
+  <div class="callout warnb">
+    <div class="ct">一个必须指出的空白</div>
+    <p>超衍智能官网 <code>apexin.ai</code> 的 Team 页面<b>只笼统写了成员的来源机构，没有任何具名</b>——没有联合创始人、没有首席科学家、没有技术负责人。对于一个已经拿到近 4 亿人民币、对外宣传极为积极的公司来说，这个空白是反常的。</p>
+    <p>可能的原因有几个：团队确实还在组建中（它在招「创始核心成员」，覆盖全学科，并开放全岗位实习通道）；或者核心成员仍在原单位、尚未方便公开；或者公司选择把叙事完全集中在创始人一个人身上。无论哪种，<b>「近 30 人」这个数字目前无法从具名层面验证</b>。</p>
+  </div>
+
+  <p>另一个细节：超衍智能的招聘用的是 <code>apexin.ai</code> 自己的域名，不是清华域名。公开信息里也<b>没有看到清华对这家公司的官方孵化、冠名或知识产权安排</b>。相比之下，元环智能由上海期智研究院出资设立、注册地与期智研究院同址，机构绑定关系是写进工商登记里的。超衍与清华的关系，目前更像「创始人个人任职」，而不是「机构孵化」。</p>
+
+  <p>它在学术侧唯一公开的机构合作，是与清华交叉信息研究院<b>张景昭</b>（优化理论方向学者）在 AI for Math 上的合作——也就是「优超猜想」那件事的合作方。</p>
+
+  <h3 class="sub"><span class="subn">2.5</span>两种团队，对应两种技术路线</h3>
+
+  <div class="tw">
+    <table>
+      <caption>两支团队的组建逻辑对照。人数为公司口径。</caption>
+      <thead><tr><th>维度</th><th>无涯智远</th><th>超衍智能</th></tr></thead>
+      <tbody>
+        <tr><td class="k">团队类型</td><td>学术网络型</td><td>产业回流型</td></tr>
+        <tr><td class="k">班底来源</td><td>北大 MμLab 实验室 + 国际合作者</td><td>Google、Microsoft、字节、Kimi、智谱等</td></tr>
+        <tr><td class="k">规模</td><td>约 10 余人</td><td>近 30 人</td></tr>
+        <tr><td class="k">核心资产</td><td>技术纵深：一个持续产出的学术组</td><td>工程密度：跑过真实训练的人</td></tr>
+        <tr><td class="k">公开具名程度</td><td>高（实验室成员、论文作者全部公开可查）</td><td>低（无具名联创或技术负责人）</td></tr>
+        <tr><td class="k">招聘方式</td><td>查不到公开招聘渠道</td><td>官网招聘页，招创始核心成员与实习生</td></tr>
+        <tr><td class="k">匹配的技术路线</td><td>单点机制研究（超网络 → LoRA）</td><td>多环节工程闭环（研究系统 + 模型训练）</td></tr>
+        <tr><td class="k">主要组织风险</td><td>人太少，工程化与产品化能力可能不足</td><td>团队新、需磨合，且核心成员未经公开验证</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>这个对照解释了一件事：<b>为什么无涯智远能靠 10 个人做技术，而超衍智能 30 个人还嫌少</b>。前者的技术问题可以收敛到一个机制（超网络能不能稳定生成可用的 LoRA）；后者的技术问题是一条链（提想法、跑实验、验证结果、把轨迹变成训练数据、再训练出更强的模型），每一环都需要人。</p>
+
+  <p>反过来说，如果超衍智能的闭环真的跑通了，它的组织形态会比无涯智远更容易规模化——因为它积累的是流程和数据，而流程和数据是可以复制到更多人的。无涯智远积累的是一个小组的研究品味，这很难复制。</p>
+
+  <h3 class="sub"><span class="subn">2.6</span>为什么这类公司都只有 10 到 30 人</h3>
+
+  <p>把同类公司放在一起看，会发现一个共同特征：<b>规模都极小</b>。</p>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl">超衍智能</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">近 30 人</div></div>
+    <div class="bar-row"><div class="bar-lbl">无涯智远</div><div class="bar-track"><div class="bar-fill" style="width:40%"></div></div><div class="bar-val">约 10 余人</div></div>
+    <div class="bar-row"><div class="bar-lbl">Naive AI 核心团</div><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><div class="bar-val">8 人</div></div>
+  </div>
+  <p class="scale-note">对比参照：Naive AI 成立 7 个月融 4 亿美元、估值 14.2 亿美元，核心团队只有 8 人。</p>
+
+  <p>这个「小而精」不是巧合，是这个阶段的理性选择。技术路线尚未收敛，拼的是人才密度而不是规模；招 100 个普通工程师没有意义，招 8 个能独立定义问题的人才有意义。元环智能的公开表述印证了这一点——neo lab 的优势被明确描述为「灵活性和专注度，可以集中全部资源攻克一个方向」。</p>
+
+  <h4>制度环境：为什么「在职创业」现在是常态</h4>
+
+  <p>两家公司的创始人都没有辞去教职。这个选择背后有一套正在快速松绑的制度环境。</p>
+
+  <p>2026 年 4 月，北京市发布《关于促进首都高校科技成果转化的若干措施》（五大板块 18 条），其中两条对理解这两家公司特别关键：</p>
+
+  <ul class="plain">
+    <li><b>推广「先赋权后行权」模式</b>：经学校简要评估指导后，赋权科研人员<b>先行使用职务成果创办企业</b>，快速进入市场化验证，待企业发展成熟后再按约定办理入股、转让等行权手续。</li>
+    <li><b>明确成果作价投资不低于 70% 的股权奖励给成果完成团队</b>。</li>
+  </ul>
+
+  <p>这条政策直接解释了一个此前存疑的细节：<b>无涯智远的工商登记里没有张牧涵</b>，法定代表人是杨睿芳。按「先赋权后行权」的逻辑，创始人的股权完全可能还没落到工商层面——公司先跑起来，股权手续后办。这比「代持」的解释更符合政策方向，也说明这两家公司的股权结构后续都还会有变化。</p>
+
+  <p>同一份文件还要求高校<b>不得将专利申请和授权的数量纳入人才评价、职称评定、聘期及年度考核</b>，并推动建立「转化专业技术职称」专门序列。这是在制度上承认：教授创业不再需要藏着掖着。</p>
+
+  <h3 class="sub"><span class="subn">2.7</span>人才争夺：小公司靠什么和大厂抢人</h3>
+
+  <p>这是这两家公司面临的最现实的约束之一。2026 年这个方向的人才价格已经被推到很高：</p>
+
+  <div class="facts">
+    <div><div class="fv">600万+</div><div class="fl">清华 NLP 组大模型方向博士毕业生年薪（刘知远公开表述）</div></div>
+    <div><div class="fv">13.28万</div><div class="fl">AI 科学家平均月薪</div></div>
+    <div><div class="fv">600万</div><div class="fl">字节 Top Seed 校招部分核心岗位年薪</div></div>
+    <div><div class="fv">2,000元</div><div class="fl">头部实习生日薪上限</div></div>
+  </div>
+
+  <p>在这个价格水平上，一家成立三个月、没有产品、没有收入的初创公司，很难在现金上竞争。它能给的只有三样东西：<b>股权、方向、和学术自由</b>。</p>
+
+  <p>值得注意的是，两家公司在这件事上的做法也不一样。超衍智能开了官网招聘页，明确招「创始核心成员」并开放全岗位实习通道——这是在公开市场上抢人。而无涯智远在 BOSS 直聘、拉勾、猎聘上<b>都找不到任何公开岗位</b>——它的招人几乎完全依赖张牧涵的学术网络，也就是 MμLab 的学生管道和同行推荐。</p>
+
+  <div class="callout">
+    <div class="ct">一个反过来的视角</div>
+    <p>大厂挖人这件事，在这条赛道上可能没那么可怕。张牧涵的研究受字节、腾讯、阿里等公司资助多年，但他仍然选择自己创业；陈勇超手里握着 DeepMind 的 offer 和多家海外初创的联创邀请，最后选择回国从零开始。这说明<b>在这个方向上，真正顶尖的人要的不是薪水，是「能不能按自己的想法把一件事做完」</b>。而这恰恰是小公司唯一稳定优于大厂的地方。</p>
+    <p>反过来说，这也意味着这两家公司的核心风险不在招不到人，而在<b>创始人自己会不会被大厂用另一种方式「收编」</b>——比如技术被收购、团队被整体挖走、或者方向被证明大厂做得更好。</p>
+  </div>
+</section>
+
+<section id="tech">
+  <span class="snum">03 / 技术路线</span>
+  <h2 class="sec">参数派 vs 系统派：RSI 这条栈，它们各占一层</h2>
+
+  <p class="lede">把 RSI 拆开看，自我改进可以发生在好几个层次上。理解这两家公司最有效的方式，是先把这张层次图摆出来，再看它们各自站在哪。</p>
+
+  <h3>先看 RSI 的五层结构</h3>
+
+  <p>2026 年 9 月，Z Potentials 在一份 RSI 产业图谱里给出了一个五层框架，是目前中文材料里对这条技术栈拆得最清楚的一份：</p>
+
+  <div class="stack">
+    <div class="band">
+      <div class="bl">Layer 5 · 最外层</div>
+      <div class="bn">Metric Level — 连评价标准也进入搜索空间</div>
+      <p class="bd">固定指标必然引发 Reward Hacking。这一层让系统自己发现评价体系的缺陷，再迭代 Critic、Reward 或目标函数。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 4</div>
+      <div class="bn">Method Level — 改进「自我改进的方法」</div>
+      <p class="bd">连搜索空间、优化方式、迭代规则本身也一起改。到这里自我改进才真正出现递归。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 3</div>
+      <div class="bn">Harness Level — 模型外部的工作流开始进化</div>
+      <p class="bd">Workflow 怎么设计、Skills 加哪些、工具按什么顺序调用。模型内部不变，「怎么干活」由系统自己探索。</p>
+    </div>
+    <div class="band mid">
+      <div class="bl">Layer 2 · 无涯智远在这里</div>
+      <div class="bn">Model Level — 参数与结构进入优化循环</div>
+      <p class="bd">搜索空间从数据扩到模型本身。无涯智远做的是其中更窄也更难的一段：把新知识直接写进权重，而不是靠上下文或检索。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 1 · 最内层</div>
+      <div class="bn">Data / Output Level — 让模型自己决定「学什么」</div>
+      <p class="bd">不调整模型结构，调整数据分布。Rejection Sampling 属于这一层。</p>
+    </div>
+  </div>
+
+  <p>超衍智能的自我描述——「基础模型、大模型、通用模型、非实时进化」四条——横跨 Model / Harness / Method 三层，但它的落点是<b>用一个闭环把三层串起来</b>：研究产生轨迹，轨迹变成训练数据，训练出的模型去做更难的研究。</p>
+
+  <h3 class="sub"><span class="subn">3.1</span>无涯智远：SHINE，把一段文本变成一组 LoRA</h3>
+
+  <p>无涯智远的技术方案，公开可查的核心就是一篇论文：<b>《SHINE: A Scalable In-Context Hypernetwork for Mapping Context to LoRA in a Single Pass》</b>（arXiv 2602.06358，2026 年 2 月首次挂出，已被 ICML 2026 接收）。</p>
+
+  <p>它要解决的问题很具体：今天的大模型想让模型「记住」一份新材料，只有两条路——要么把材料塞进上下文（占 token、有长度上限、会话结束就忘），要么拿材料去做 SFT/微调（慢，且容易灾难性遗忘）。SHINE 提出第三条路：<b>训练一个超网络，输入任意文本，一次前向传播直接输出一组 LoRA 权重，即插即用到基座模型上</b>。</p>
+
+  <p>架构上，超网络由两部分组成：复用的基座 LLM（在末尾加 memory embeddings，收集各层 hidden states 得到 memory states）和一个轻量的 M2P Transformer（把 memory states 映射成 LoRA 参数）。需要训练的只有 Meta LoRA、memory embeddings 初始值和 M2P Transformer。团队用了 6B token 规模的数据做「预训练 + 指令微调」两阶段训练，并称这是目前 hypernetwork 生成 LoRA 方向上数据规模最大的工作。</p>
+
+  <p>论文里最值得注意的一个实验结果：<b>在 SQuAD 上，SHINE 单次前向传播生成的 LoRA，效果优于需要消耗大量算力做测试时训练（TTT）得到的 LoRA</b>。如果这个结论能推广，它确实为持续学习提供了一条更便宜的路。</p>
+
+  <div class="callout warnb">
+    <div class="ct">关于原创性，需要说清楚</div>
+    <p>「用超网络生成 LoRA」这个方向<b>不是 SHINE 首创</b>。此前的 HyperNetworks（Ha et al., 2016）、Sakana AI 的 Text-to-LoRA（ICML 2025）、Meta-UCF（ICLR 2026，用任务条件生成 LoRA 做持续学习）、doc-to-LoRA、LoRA.rar 都在做类似的事。SHINE 自述的差异在于：T2L 是「任务描述 → LoRA」，SHINE 是「任意 context → LoRA」，且复用了冻结 LLM 做 in-context 超网络、去掉了 bottleneck。这是<b>架构与工程层面的改良，不是范式级的原创</b>。另外，张牧涵在这篇论文里是<b>通讯作者而非第一作者</b>（一作是刘晔玮）。</p>
+  </div>
+
+  <p>公司层面的技术进展，目前只有团队口径：把持续学习分为 E0–E4 五级，自述处在 <b>E2「参数化适应」</b>，Demo 显示单次知识内化约 0.5 秒，问答阶段不再显式加载对应上下文。下一工程目标是 E3——支持数月或数年的连续参数更新，并尽量保持既有能力。</p>
+
+  <div class="callout">
+    <div class="ct">E0–E4 是自定义口径</div>
+    <p>搜遍学术与行业材料，<b>没有找到任何标准使用 E0–E4 这套分级</b>。RSI 领域目前通用的分级是 L1–L5（出自《The Last AI Built by Humans》）。E0–E4 应是团队自定义，读的时候不要误当成行业共识。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">3.2</span>超衍智能：让研究过程本身成为训练数据</h3>
+
+  <p>超衍智能的路线，一句话概括是它内部的那句口号：<b>「Research is the engine of RSI」——研究不是应用场景，是引擎本身</b>。</p>
+
+  <p>它的产品 Apex Research 是一个自主科研系统，宣称能覆盖「文献调研 → 方法设计 → 编码 → 实验 → 分析 → 绘图 → LaTeX → 自审迭代」的完整链路。官网挂着产品页、waitlist 和 ASI-Bench 在线榜单。</p>
+
+  <p>它与多数同行的分歧点在<b>自进化做在哪一层</b>。陈勇超的说法是：<em>Harness 层很容易被模型本身吞掉</em>。他给的理由很直接——「我们团队最初把 Harness 自进化和模型进化放在一起做，很明显发现，Harness 自进化做到一定程度以后就无法更进一步了。因为模型训练到足够好之后，它可以自己优化自己的 Harness。」</p>
+
+  <p>所以它选择从基础模型层原生构建递归自进化能力，而不是在现成通用大模型上叠一层 Agent。技术上它并不从头预训练——陈勇超明确说「我们现在还是基于开源模型做中训练和后训练，做预训练还需要更多的资金储备」。</p>
+
+  <h4>验证到了什么程度</h4>
+
+  <p>这是超衍智能比无涯智远透明的地方，它把三组数据摆了出来：</p>
+
+  <div class="tw">
+    <table>
+      <caption>超衍智能公开的技术验证数据。ACL 成绩为公司自述，双盲评审流程不公开，无法第三方核验。</caption>
+      <thead><tr><th>方向</th><th>成果</th><th>可核验性</th></tr></thead>
+      <tbody>
+        <tr><td class="k">AI for AI</td><td>2026 年 5 月自主产出 34 篇论文投 ACL Rolling Review，均分 2.60（团队称人类投稿均分 2.63），11 篇 ≥3.0，2 篇 ≈3.67，称超 99% 人类投稿</td><td><span class="chip no">公司自述</span></td></tr>
+        <tr><td class="k">AI for Math</td><td>与清华交叉信息研究院张景昭合作，「完整证明悬置三十余年的优超猜想」</td><td><span class="chip no">零公开证据</span></td></tr>
+        <tr><td class="k">AI for AI（实测）</td><td>SLDBench SimpleTES 0.8613 → 0.8846；NanoChat Autoresearch val_bpb 0.892426（对比 Recursive SuperIntelligence 0.903891、腾讯混元 Hyra 0.901543）；GPUMode TriMul H100 1036.1μs</td><td><span class="chip ok">公开榜单</span></td></tr>
+        <tr><td class="k">评测基准</td><td>ASI-Bench，60 项科研任务 / 11 学科，arXiv 2608.17271，代码开源</td><td><span class="chip ok">已核实</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>ASI-Bench 是它最扎实的一块公开资产，值得单独讲。这个基准由清华、MIT、哈佛、CMU、微软研究院等十余家机构的 40 余位专家投入超过 31,000 小时构建，最终保留 60 项项目级科研任务，覆盖数学、物理、化学、生物、天文、材料、地球科学、医学生物统计、计算机、机器人、电气工程 11 个领域。陈勇超是通讯作者。</p>
+
+  <p>它的设计很聪明：<b>同一批科研项目，只改变人类提供的方法信息量</b>，分 B1（完整方法指导）到 B4（加入干扰信息）四级。这样能把「自主科研」拆成可测量的环节。实测结果对这条赛道并不友好：</p>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl">B1 完整方法</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">50.91</div></div>
+    <div class="bar-row"><div class="bar-lbl">B2 仅方法类别</div><div class="bar-track"><div class="bar-fill" style="width:57%"></div></div><div class="bar-val">29.10</div></div>
+    <div class="bar-row"><div class="bar-lbl">B3 仅目标与数据</div><div class="bar-track"><div class="bar-fill" style="width:52%"></div></div><div class="bar-val">26.62</div></div>
+    <div class="bar-row"><div class="bar-lbl">B4 加入干扰</div><div class="bar-track"><div class="bar-fill" style="width:53%"></div></div><div class="bar-val">26.99</div></div>
+  </div>
+  <p class="scale-note">18 套「Agent 框架 + 底座模型」组合的平均分。表现最好的 Codex + GPT-5.6 Sol (ultra) 在 B3 拿到 51.60，是唯一超过 50 分的配置。</p>
+
+  <p>数据里最有信息量的一条：<b>从 B1 到 B2 平均掉 21.82 分，从 B2 到 B3 只掉 2.48 分</b>。这说明当前 AI 的主要困难不是「该用什么方法」，而是「把已有方法转化为参数选择、代码实现、实验运行、结果验证的完整流程」。这条结论出自超衍自己的基准，客观上也在说明：它要解决的问题比外界想象的更靠后。</p>
+
+  <h3 class="sub"><span class="subn">3.3</span>两条路线放在一起看</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th></th><th>无涯智远</th><th>超衍智能</th></tr></thead>
+      <tbody>
+        <tr><td class="k">核心命题</td><td>怎么把新知识低成本写进参数</td><td>怎么让 AI 自主完成研究并自我改进</td></tr>
+        <tr><td class="k">RSI 层次</td><td>Model Level（参数化）</td><td>Model + Harness + Method</td></tr>
+        <tr><td class="k">关键组件</td><td>SHINE 超网络 → LoRA</td><td>Apex Research 系统 + 研究轨迹数据</td></tr>
+        <tr><td class="k">进化时机</td><td>实时/准实时（推理时一次前向）</td><td>非实时（训练迭代后交付）</td></tr>
+        <tr><td class="k">公开凭证</td><td>ICML 2026 论文（通讯作者）</td><td>ASI-Bench + 论文评审成绩</td></tr>
+        <tr><td class="k">自述阶段</td><td>E2 参数化适应</td><td>产品内测，年底或明年初发第一版模型</td></tr>
+        <tr><td class="k">主要质疑</td><td>方向非首创；E2 Demo ≠ 长期可靠自进化</td><td>最亮的学术背书无法核实；成绩双盲不可验</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>一个判断：<b>无涯智远的技术风险更「窄」，超衍智能的技术风险更「宽」</b>。无涯智远要证明的是单一机制（超网络生成 LoRA）在长期、跨任务条件下不退化的能力——问题清晰，成败可判定。超衍智能要证明的是一整条闭环能转起来——变量多，任何一环断掉，整条叙事都成立不了。</p>
+
+  <div class="callout">
+    <div class="ct">两边都在抢同一件东西</div>
+    <p>超衍智能把「研究轨迹数据」当作核心资产——一条轨迹包含怎么构思想法、调用什么工具、哪些方案失败、代码怎么改、实验结果如何改变方向。陈勇超说得很清楚：这些数据<b>没法从公开互联网上爬取</b>，因为「最顶尖的研究员那些灵光一现的时刻，很难被数字化地记录下来」。他举的例子是王虹证明挂谷猜想——「今天想一些、睡一觉，明天再想一些、再睡一觉，想要记录下整条思维链非常难」。</p>
+    <p>而无涯智远要的，恰恰是另一种「不可爬取」的东西：<b>怎么把一段材料稳定地压进参数而不遗忘</b>。这两个问题的答案都不在互联网上，都只能靠自己攒。这也意味着，两家公司都在做一件没有捷径的事。</p>
+  </div>
+</section>
+
+<section id="capital">
+  <span class="snum">04 / 资本结构</span>
+  <h2 class="sec">红杉的市场化组合，对上三地国资的接力</h2>
+
+  <p class="lede">融资额的差距（4 亿人民币 vs 未披露）只是表象。真正不同的是钱的来源结构——这决定了它们接下来被期待什么、能承受多长的沉默期。</p>
+
+  <h3>无涯智远：一份低调的市场化名单</h3>
+
+  <p>天使轮三家：<b>红杉中国（HongShan）、联想之星、中关村科学城</b>。金额未披露。</p>
+
+  <p>这是一个典型的「头部美元基金 + 产业背景早期基金 + 地方引导基金」组合。红杉中国的入场意味着项目在市场化标准下过了关；联想之星长期做硬科技早期；中关村科学城则代表北京的属地支持。名单干净，没有明显的战略投资方，说明这一轮主要是财务性下注。</p>
+
+  <p>据自媒体「Top 华人科创社」报道，公司正在第二轮融资中，对外估值预期 <b>2.5 亿美元</b>，已拿到不少 TS。这条信息<b>没有一手证实</b>，只能当作一个方向性信号——如果属实，意味着天使轮到第二轮之间估值有显著跳升。</p>
+
+  <h3>超衍智能：三地国资在同一个月进场</h3>
+
+  <p>它的两轮融资名单，值得逐层拆开看。</p>
+
+  <div class="stack">
+    <div class="band">
+      <div class="bl">天使+轮 · 国资接力</div>
+      <div class="bn">中关村科学城基金（北京）· 深创投（深圳）· 上海未来产业基金（上海）</div>
+      <p class="bd">北京、深圳、上海三地国资联合领投。中关村科学城成果转化基金公开表示，在公司<b>尚未注册时</b>就主动对接。三地国资同时出现在一家三个月大公司的股东名册上，在早期 AI 融资中并不常见。</p>
+    </div>
+    <div class="band">
+      <div class="bl">天使轮 · 产业资本</div>
+      <div class="bn">晶泰科技（港交所「AI for Science 第一股」）</div>
+      <p class="bd">与 IDG 资本、星连资本联合领投。董事长温书豪表态「底层智能与真实科研场景双向牵引」。2026 年 7 月起，超衍成为晶泰发起的「科学智能开放生态联盟」首批核心成员，双方计划在药物研发、材料科学、科学计算方向合作。</p>
+    </div>
+    <div class="band">
+      <div class="bl">天使轮 · 财务与生态</div>
+      <div class="bn">IDG 资本 · 星连资本 · 德迅资本 · SEE FUND · 初心资本 · 云岫资本</div>
+      <p class="bd">星连资本值得单独说：主体为北京星连肇基私募基金管理有限责任公司，主管合伙人张鸣晨，<b>投资组合中约 80% 是清华系项目</b>，此前投过智谱、生数科技、无问芯穹、面壁智能、硅基流动。它同时出现在超衍智能和元环智能（另一家清华系 RSI 公司）的股东名单里。</p>
+    </div>
+  </div>
+
+  <p>一个细节能说明资本对这条赛道的饥渴程度：<b>天使轮领投方之一晶泰科技，本身就是做 AI 制药的上市公司</b>。一家 AI for Science 的产业方亲自下场投一家 AI 科研引擎公司，理由是「产业上下游比投资人更清楚这台引擎值多少钱」——这个逻辑成立与否另说，但它确实解释了为什么一家成立三个月的公司能拿到近 4 亿。</p>
+
+  <div class="callout warnb">
+    <div class="ct">估值口径</div>
+    <p>超衍智能<b>未披露估值</b>。媒体按早期融资常见 10–15% 稀释比例推算，投后约 26–40 亿元人民币。这是<b>测算不是事实</b>。作为参照，同赛道的 Recursive Superintelligence 估值 46.5 亿美元（约 316 亿人民币），但那是美元基金按硅谷定价体系给出的数字，两者不可直接比较。</p>
+  </div>
+
+  <h3>融资额对比</h3>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl">超衍智能</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">≈ 4 亿元</div></div>
+    <div class="bar-row"><div class="bar-lbl">无涯智远</div><div class="bar-track"><div class="bar-fill alt" style="width:3%"></div></div><div class="bar-val">未披露</div></div>
+  </div>
+  <p class="scale-note">无涯智远的柱长不代表金额，仅表示「未披露」。天使轮金额缺失使两者无法直接比较。</p>
+
+  <h3>这笔钱要花在哪</h3>
+
+  <p>超衍智能明确说了三个方向：<b>基础模型与算力基础设施构建、递归自进化技术研发、核心团队扩张</b>。陈勇超自己也承认资金约束——「我们现在还是基于开源模型做中训练和后训练，做预训练还需要更多的资金储备」。</p>
+
+  <p>这句话很关键。它说明<b>近 4 亿人民币并不足以让一家公司从头训练一个前沿基础模型</b>。作为对照：智谱 2026 年 9 月完成的港股配售及可转债融资总规模约 50 亿美元；月之暗面 F 轮超 35 亿美元。超衍智能的全部融资，不到智谱这一轮的一个零头。所以它「做基础模型」的路径，只能是在开源模型上做中训练和后训练——这也正是它公开承认的。</p>
+
+  <p>无涯智远没有公开资金用途，但从它的技术路线可以反推：超网络训练需要算力，但远比预训练便宜。它的 6B token 训练数据规模，相对预训练来说是轻量级的。<b>如果 SHINE 这条路真的成立，它反而是这条赛道里资本效率最高的打法之一</b>——不需要买几万张卡，只需要一个想对的方向和一支懂架构的小团队。</p>
+</section>
+
+<section id="compete" class="wide">
+  <span class="snum">05 / 竞争格局</span>
+  <h2 class="sec">上游、大厂、创业公司：它们站的那条缝</h2>
+
+  <p class="lede">RSI 在 2026 年从论文里的长期命题变成了产业议程。ICLR 2026 首次为它单设 Workshop，组织方给出的定性是：RSI 正从 speculative vision 走向 concrete systems problem。问题是，当所有人都下场时，一家 10 人或 30 人的公司站在哪里。</p>
+
+  <h3>5.1 大厂：全都下场了，而且都不打算把它做成产品</h3>
+
+  <p>2026 年国内大厂在 RSI 方向的布局，密集程度超出预期。</p>
+
+  <div class="tw">
+    <table>
+      <caption>国内主要厂商 RSI / 自进化布局，均来自公开报道或论文。</caption>
+      <thead><tr><th>厂商</th><th>动作</th><th>时间</th></tr></thead>
+      <tbody>
+        <tr><td class="k">字节跳动</td><td>Seed Edge 长期研究计划（五大方向含「AI 训练新范式：持续学习」，独立团队、不设 KPI）；与北大合作的 In-Place TTT 让预训练 LLM 原地改 MLP 参数实现持续自适应（ICLR 2026 Oral，arXiv 2604.06169）；Seed-for-Seed 的 AI4AI 探索；发布 S³Gym 等自进化基准，结论是「AI 会做题却未必能自进化」</td><td>2025.1 起</td></tr>
+        <tr><td class="k">阿里 Qwen</td><td>云栖大会披露 Qwen3.8-Max 在人类完全零参与下持续迭代超 1 个月、完成 33 轮有效迭代；HarnessDev、WIST 等自进化论文密集。组织上 2026 年 3 月千问负责人及后训练负责人离职，吴泳铭领衔基模小组</td><td>2026.9</td></tr>
+        <tr><td class="k">腾讯混元</td><td>Hyra-1.0 递归自进化科研智能体，单一框架打通 AI 研发与科学发现；在 55 个开放数学问题中刷新 29 个历史最好成绩</td><td>2026.7</td></tr>
+        <tr><td class="k">智谱</td><td>完成约 50 亿美元港股配售及可转债，约 60% 投向下一代 GLM 与「完全自训练」（Fully Self Training）体系——首次把「递归式自我改进」写进正式技术路线图；GLM-5.3-Flash 用 Infra Agent 两周完成国产加速器全量流量承载，端到端吞吐提升 3.2 倍</td><td>2026.9</td></tr>
+        <tr><td class="k">MiniMax</td><td>M2.7/M3 探索从「工具型 AI」迈向「自我进化体」，构建以 Agent 为核心的自我进化系统，内测中连续执行超 100 轮「分析—改进—验证」循环，效果提升约 30%</td><td>2026.3 起</td></tr>
+        <tr><td class="k">DeepSeek</td><td>梁文锋把 RSI 列为 AGI 演进四级阶梯的最后一阶：思维链（CoT）→ 智能体（Agent）→ 持续学习 → 自我迭代。2026 年发布 Harness，让 AI 自主制造 AI</td><td>2026</td></tr>
+        <tr><td class="k">小米 / 百度 / 华为 / 美团</td><td>小米把 MiMo-V2.6 视作探索 RSI 的关键一步；百度「伐谋」自我演化智能体；华为 openPangu-2.0 全开源；美团 LongCat 公开招募「大模型自进化与自动化研究智能体研究员」</td><td>2026</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>把这些动作放在一起，能看出一个共同点：<b>大厂做 RSI，本质是给自己造武器</b>。阿里用它降低推理成本、智谱用它优化 Infra、字节用它加速数据合成与评测。能力锁在内部，服务于自己的模型迭代，不会变成一个中立平台对外卖。</p>
+
+  <p>这恰恰是小公司的那条缝。一位大厂战投的说法很直接：<em>初创跟大厂/基模竞争，第一点肯定是要聚焦；其次，大家目前还处在一个起跑线上，譬如做研究的轨迹、数据，都还处在起步阶段</em>。</p>
+
+  <div class="callout">
+    <div class="ct">但「起跑线相同」这句话要打个折</div>
+    <p>大厂握着小公司没有的三样东西：<b>算力配额、数据管道、分发入口</b>。据报 2026 年 7 月北京放宽限制后，阿里、字节、DeepSeek 获准有限采购英伟达 H200，总量不到 20 万颗——这类配额不会流到一家 30 人的初创。同时大厂又是这些小公司的出资人（腾讯投了 Naive AI、参与 DeepSeek 融资），既是竞争者又是股东。这个结构决定了小公司只能走大厂「做不全也看不上」的细分方向。</p>
+  </div>
+
+  <h3>5.2 创业公司：国内 RSI 已经挤进至少五家</h3>
+
+  <p>2026 年国内做 RSI / AI4AI 的创业公司，公开可查的已经形成一个梯队。这个密度本身就说明门槛在快速抬高。</p>
+
+  <div class="tw">
+    <table>
+      <caption>国内 RSI / AI4AI 方向主要创业公司。融资金额为公开报道口径。</caption>
+      <thead><tr><th>公司</th><th>创始人 / 背景</th><th>路线</th><th>融资</th></tr></thead>
+      <tbody>
+        <tr><td class="k">超衍智能</td><td>陈勇超（清华人工智能学院助理教授）</td><td>自进化基础大模型 + AI Scientist</td><td>近 4 亿人民币</td></tr>
+        <tr><td class="k">元环智能<br>MetaCircle</td><td>刘子鸣（清华助理教授，MIT 物理博士，KAN 网络一作，NeurIPS 2025 最佳论文亚军），上海期智研究院出资设立</td><td>AI4AI 递归迭代；「Scale insights, not just compute」——用元模型预测训练曲线，先筛后训</td><td>天使轮：顺为资本、启盈同创、上海未来产业基金、君礼私募、星连资本</td></tr>
+        <tr><td class="k">无涯智远</td><td>张牧涵（北大人工智能研究院助理教授）</td><td>参数化持续学习（SHINE 超网络）</td><td>天使轮：红杉中国、联想之星、中关村科学城</td></tr>
+        <tr><td class="k">衔远科技</td><td>—</td><td>Frontis MA1 / OpenMLE / OpenRSI，模型生成与调试 ML 工程方案</td><td>—</td></tr>
+        <tr><td class="k">未具名</td><td>陈恺（上海 AI Lab 青年领军科学家、大模型中心负责人）</td><td>RSI 方向，已开启创业</td><td>—</td></tr>
+        <tr><td class="k">英灵殿科技</td><td>—</td><td>AI4Science</td><td>近 5,000 万美元</td></tr>
+        <tr><td class="k">原力引擎</td><td>—</td><td>AI4Engineering</td><td>天使+轮近 5,000 万元</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>其中<b>元环智能是最值得盯的对手</b>。它由上海期智研究院出资设立，注册地与期智研究院同址，法定代表人黄炜，刘子鸣任首席科学家。刘子鸣的学术分量不轻——他是 KAN 网络（Kolmogorov-Arnold Networks）的第一作者，与导师 Max Tegmark 合作；关于表示叠加（Superposition）的研究拿了 NeurIPS 2025 最佳论文亚军；他还是第一个提出 Grokking 现象解释的研究者。它拿的是顺为资本（雷军）的钱，与超衍共享星连资本和上海未来产业基金两个股东。</p>
+
+  <p>更值得注意的是它提出了一条<b>与超衍智能近乎正交的路线</b>：</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>路线</th><th>核心逻辑</th><th>代表</th></tr></thead>
+      <tbody>
+        <tr><td class="k">试错派 / 经验回流</td><td>Agent 群反复跑实验，靠执行反馈迭代</td><td>Karpathy 的 Auto-Research、衔远科技、超衍智能</td></tr>
+        <tr><td class="k">物理学派 / 洞察扩展</td><td>先建立 AI 的科学规律，用元模型预测训练曲线，先在虚拟空间筛出高潜力方案，再投入真实训练</td><td>元环智能</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>刘子鸣把这套思路叫「从 vibe coding 到 vibe training」——先想清楚，再烧卡。这条路线如果成立，它对算力的依赖远低于试错派，而元环智能恰好是这几家里算力最受限的。</p>
+
+  <h3>5.3 更大的参照系：Naive AI 和那批不做 RSI 的公司</h3>
+
+  <p>用户点名要对比的 Naive AI，其实和这两家不在同一条线上，但它的存在对理解整个格局很重要。</p>
+
+  <p>Naive AI（工商注册名<b>北京智衍慧生科技有限公司</b>）由清华大学电子工程系副教授<b>代季峰</b>创立，成立 7 个月完成三轮融资共 4 亿美元，投后估值 <b>14.2 亿美元</b>。它的技术路线是 mid-training + post-training，明确<b>不自建从零预训练</b>，已发布 Naive-N0.5-Flash（309B MoE，原生 1M 上下文，MIT 开源）。它宣称模型「用 AI 造」——AI 在 6 天内跑了 151 轮优化，覆盖架构探索、训练、推理、部署。</p>
+
+  <p>代季峰的团队（8 人核心）是这条赛道里履历最豪华的之一：他本人是可变形卷积（DCN）的作者、R-FCN 一作（与何恺明、孙剑合作）、Deformable DETR 与 UniAD（CVPR 2023 最佳论文）的核心作者；团队里有 Deep Feature Flow 一作朱锡洲、把 ImageNet 训练压进 90 秒的 Infra 专家孙鹏、DrivingDojo 数据集作者陈韫韬、InternImage 一作王文海、InternVL 一作陈喆。</p>
+
+  <p>把它和超衍智能放在一起看，会发现两者有相似的下注逻辑：<b>都不做从零预训练，都靠中/后训练切入，都在讲「AI 造 AI」</b>。区别是 Naive AI 的目标是造出更好的通用模型（要卖 Token），超衍智能的目标是造出会做研究的系统（也要卖 Token，但形态是 Vibe Research）。</p>
+
+  <h4>其余大模型创业公司的位置</h4>
+
+  <ul class="plain">
+    <li><b>月之暗面（Kimi）</b>：F 轮超 35 亿美元，估值约 500 亿美元，Pre-IPO，拟 2027 年一季度赴港。杨植麟公开提过「用 AI 训练 AI」，并说「现在部分已经做到」，但主业仍在通用 Agent。</li>
+    <li><b>MiniMax、智谱</b>：2026 年 1 月相继在港股上市，5–6 月双双启动科创板辅导。两家是「已上岸」的一批，RSI 是它们的路线图组成部分，不是全部。</li>
+    <li><b>阶跃星辰、零一万物、百川</b>：无新的上市动作，「AI 六小龙」的叙事已经消退，目前以商业落地为主。</li>
+  </ul>
+
+  <h3>5.4 上游：算力和数据这两道约束</h3>
+
+  <p>RSI 类公司面临的上游约束，比通用大模型公司更特殊。</p>
+
+  <h4>算力</h4>
+
+  <p>这是硬约束。做中训练和后训练已经需要可观算力，做预训练则是另一个量级。据报 2026 年 7 月北京放宽限制后，阿里、字节、DeepSeek 获准有限采购英伟达 H200，总量不到 20 万颗——这个量级的配额与初创公司无关。国产芯片在替代，但 CUDA 生态依赖仍在。<b>对这两家公司来说，算力不是「够不够」的问题，是「能不能拿到配额」的问题。</b></p>
+
+  <h4>数据</h4>
+
+  <p>这反而是两家公司都在抢的差异化资产，但抢的东西不一样。超衍智能要的是<b>高质量科研决策轨迹数据</b>——这类数据极度稀缺，因为它散失在研究过程中，最终留下的往往只是论文和报告这些「结果」，中间试错的过程根本没被记录。无涯智远要的是<b>能把知识稳定压进参数而不遗忘的训练配方</b>——这同样买不到。两家都在做一件没法从互联网上爬的事，这是它们相对大厂唯一的结构性优势来源。</p>
+
+  <div class="callout">
+    <div class="ct">行业给出的三条活法</div>
+    <p>一位 AI 初创高管的总结，基本概括了这个位置上的可行策略：<b>第一类</b>做细分赛道，大公司做不全也看不上，或者聚焦某个 RSI 技术子问题，靠学术创新换合作甚至收购退出；<b>第二类</b>做 RSI 中间件、Harness 工具层，给模型公司和 AI 团队供货；<b>第三类</b>从应用端反向沉淀 RSI 数据闭环。</p>
+    <p>无涯智远接近第一类（参数化持续学习是个够窄的子问题），超衍智能接近第三类（用 AI for Science 场景沉淀研究轨迹）。这个分类不是巧合——它是被上游挤压出来的必然结果。</p>
+  </div>
+</section>
+
+<section id="outlook">
+  <span class="snum">06 / 发展走向</span>
+  <h2 class="sec">可能的路径、该盯的信号，和主要风险</h2>
+
+  <h3>6.1 先承认一件事：RSI 目前没有任何一家跑通</h3>
+
+  <p>在讨论这两家公司的前景之前，必须先说清楚它们所处的技术现实。</p>
+
+  <p>2026 年 9 月 15 日，上海交大、清华、字节跳动、上海 AI 实验室等团队联合发布预印本《The Last AI Built by Humans: Toward Genuine Recursive Self-Improvement》，梳理了 491 篇相关研究，把 RSI 分为五个等级，核心区分标准是「改进的机制本身是否由 AI 自主决定」。结果是：<b>43.8% 被归为 L1，31.6% 属于 L2，最高的 L5 只有 29 篇，占 5.9%</b>。论文特别指出，单纯「能修改自身代码」远远不够——如果下一代如何选取、以什么标准评分、哪些修改能保留，仍由人类硬编码决定，那它只证明了自我修改能力，没有掌握递归自我改进。</p>
+
+  <p>产业界的口径也印证了这一点。Anthropic 明确表示，截至 2026 年 8 月，Claude 在其被测量的 AI 研发工作中<b>还没有任何一个领域达到完全自主运行</b>。智谱也非常谨慎地指出，GLM-5.3-Flash 参与基础设施建设的案例还没有走到递归自我改进——选择目标、设定边界、判断风险仍然是人的工作。</p>
+
+  <blockquote>
+    RSI 只是营销炒作。
+    <cite>Richard Sutton，图灵奖得主，2026 年来华时公开发言</cite>
+  </blockquote>
+
+  <p>黄仁勋则给了另一种解读：他认为 RSI 这个词正在被某些人「武器化」，刻意制造技术螺旋失控的印象；而在工程层面，约束机制依然存在——「你可以在公司内部做 RSI，但当你发布产品时，你必须评估它、测试它、确保没有回归问题」。</p>
+
+  <p>这两种说法都对一部分。真实的状况是：<b>RSI 的闭环还没转起来，但「在前夜的 RSI」已经开始改变 AI 公司的研发方式</b>。Anthropic 披露截至 2026 年 8 月 Claude 能主导其 26% 的 AI 研发工作，90% 以上的研发任务至少进入 AI 协作阶段，最常用的内部研发平台上约 3 万个 Agent 同时参与工作。这个数字是真实的，但它离「AI 自己决定下一代怎么做」还有很远。</p>
+
+  <h3>6.2 两家公司各自的路</h3>
+
+  <h4>无涯智远：把 E2 做到 E3，是一条窄而明确的路</h4>
+
+  <p>它的下一步是工程目标而非商业目标：从 E2「参数化适应」走到 E3——<b>支持数月或数年的连续参数更新，并尽量保持既有能力</b>。</p>
+
+  <p>这条路能不能走通，取决于几个可验证的技术问题：</p>
+
+  <ul class="plain">
+    <li><b>跨任务长期更新下的遗忘</b>：连续写入几十上百次新知识后，原有能力还剩多少？</li>
+    <li><b>泛化与错误恢复</b>：写进去的错误知识能不能被识别和回滚？版本管理怎么做？</li>
+    <li><b>对比替代方案</b>：和 LoRA 微调、测试时训练（TTT）、检索增强相比，效果、成本、延迟三项是否都有优势？</li>
+    <li><b>企业接受度</b>：企业是否愿意接受「模型参数被写入」这件事？数据出域和模型可审计性怎么解决？</li>
+  </ul>
+
+  <p>这里有一个对无涯智远有利的结构性事实：<b>它选的这个问题足够窄，窄到大厂不屑于专门做，又足够通用，通用到几乎所有模型公司都需要</b>。如果 SHINE 这类方法被验证有效，它最可能的出路未必是做成一家大公司，而是成为一项被广泛采用的技术——或者被大厂收购。这不是坏结局。</p>
+
+  <h4>超衍智能：赌一整条闭环，变量多得多</h4>
+
+  <p>它的目标更大，也更脆弱。陈勇超说得很清楚：「我们的自进化 AI 系统会上线，顺利的话，年底或明年年初会发第一版模型，这个模型在研究方面会全球领先，同时，在某些高价值领域实现落地。」</p>
+
+  <p>这条路上有几个必须同时成立的环节：</p>
+
+  <ul class="plain">
+    <li><b>模型能力</b>：基于开源模型做中训练/后训练，能否在研究能力上超过用同样资源做通用能力的对手？</li>
+    <li><b>轨迹数据飞轮</b>：数万条研究轨迹能不能持续增长并真的提升模型？这是它叙事的地基。</li>
+    <li><b>验证场景扩展</b>：目前成果集中在 AI for AI 和 AI for Math 这两个纯计算环境。一旦进入需要湿实验的领域（生物、材料），反馈周期和工具链复杂度会陡增。陈勇超自己也承认「不需要做物理世界湿实验的领域会先跑通」。</li>
+    <li><b>商业化时机</b>：他说商业化「还没有起步」，且「一开始过多考虑商业化会很拖累模型训练的研发」。这是合理的早期选择，但意味着在下一轮融资之前，它大概率不会有收入。</li>
+  </ul>
+
+  <p>它的模式是「卖 Token」——形态可能是 API、可能是类似 Claude Code 的半成品、也可能是解决方案。陈勇超自己的类比是：<b>Claude Code 是 Vibe Coding，我们的系统是 Vibe Research</b>。这个类比是否成立，取决于研究这件事能不能像写代码一样被标准化地交付。</p>
+
+  <h3>6.3 该盯的信号</h3>
+
+  <div class="tw">
+    <table>
+      <caption>按时间顺序排列的观察点，用于跟踪两家公司的真实进展。</caption>
+      <thead><tr><th>时间</th><th>信号</th><th>看什么</th></tr></thead>
+      <tbody>
+        <tr><td class="k">近期</td><td>无涯智远第二轮融资是否官宣</td><td>2.5 亿美元估值能否坐实；投资方是否仍是市场化机构</td></tr>
+        <tr><td class="k">近期</td><td>SHINE 是否被第三方独立复现</td><td>尤其是「0.5 秒内化」「E2 级」这两个口径</td></tr>
+        <tr><td class="k">近期</td><td>无涯智远是否公开发布 E3 阶段进展</td><td>跨任务长期更新的遗忘数据，这是它成败的判定点</td></tr>
+        <tr><td class="k">2026 年底—2027 初</td><td>超衍智能第一版模型是否按期发布</td><td>陈勇超承诺的时间点；是否开源；「研究能力全球领先」如何量化</td></tr>
+        <tr><td class="k">持续</td><td>超衍智能研究轨迹数据的规模与质量</td><td>它说已有约 100 个研究项目、数万条轨迹；这个数字能否公开验证</td></tr>
+        <tr><td class="k">持续</td><td>元环智能的元模型路线是否被验证</td><td>如果「先预测再训练」成立，试错派的路会被质疑</td></tr>
+        <tr><td class="k">持续</td><td>大厂是否把自进化能力产品化对外</td><td>一旦大厂把 RSI 中间件做成平台，第二类活法就被堵死</td></tr>
+        <tr><td class="k">持续</td><td>AI for Science 场景的落地进展</td><td>晶泰科技与超衍的合作是否产出真实成果</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>6.4 风险清单</h3>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R1</span><span class="risk-t">技术验证不足，而估值已经按终局定价</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>4/5</em></span></div>
+    <p>两家公司都还没有产品、没有收入，但资本已经按「AI 自我进化」的终局叙事定价。RSI 的 L5 级成果全球只有 5.9% 的论文勉强触及，而没有任何一家公司跑通完全自主闭环。这是整个赛道的系统性风险，不是某一家的问题。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R2</span><span class="risk-t">大厂同起跑线，但握着算力与数据</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>5/5</em></span></div>
+    <p>字节 Seed Edge、阿里 Qwen、腾讯混元 Hyra、智谱完全自训练、MiniMax 都在做同一件事。它们同时掌握算力配额、数据管道和分发入口，并且还是这些初创的出资人。小公司唯一的结构性优势是「聚焦一个够窄的问题」——但这个优势随时可能因为大厂决定认真做而消失。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R3</span><span class="risk-t">核心成果的公开凭证不完整</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>4/5</em></span></div>
+    <p>超衍智能最亮的学术背书「完整证明优超猜想」目前找不到任何公开论文或第三方数学家署名确认，且公司通稿的口径强于创始人本人的公开表述；ACL 论文成绩因双盲评审流程无法第三方核验。无涯智远的 SHINE 论文是实的，但方向并非首创，且张牧涵是通讯作者而非一作。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R4</span><span class="risk-t">创始人精力被教职切分</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>3/5</em></span></div>
+    <p>两位创始人都没有辞去教职。张牧涵仍在北大带博士生、担任班主任；陈勇超 2026 年 8 月刚入职清华，同时运营一家近 30 人的公司。这种模式在高校 AI 圈常见，但公司、学校之间的知识产权与数据边界需要格外小心，且创始人时间是硬约束。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R5</span><span class="risk-t">RSI 的安全与监管叙事可能反噬</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>3/5</em></span></div>
+    <p>Anthropic CEO Dario Amodei 公开呼吁放慢 AI 能力提升速度，OpenAI CEO Sam Altman 回应支持，马斯克表态认同。硅谷 1,000 多名 AI 研究员联署要求政府支持建立国际协调机制。Anthropic 研究员 Jacob Coxon 辞职时警告「目前还没有一个可行的科学计划来解决递归式自我改进型 AI 带来的风险」。国内厂商目前以「降低研发成本」的务实叙事对冲这一风险，但一旦监管收紧，整个赛道的叙事基础都会受影响。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R6</span><span class="risk-t">同赛道拥挤，且股东高度重叠</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>3/5</em></span></div>
+    <p>国内公开可查的 RSI/AI4AI 创业公司已至少五家，还有陈恺（上海 AI Lab）等尚未正式亮相的。星连资本同时投了超衍智能和元环智能，上海未来产业基金同时出现在两家的股东名单里。这意味着资本是在「买赛道」而不是「买赢家」——对单个公司来说，这既是认可，也意味着分化还没开始。</p>
+  </div>
+
+  <h3>6.5 一个总的判断</h3>
+
+  <p>这两家公司代表了同一条技术路线上的两种下注方式：<b>无涯智远赌的是「一个够窄的机制能做到极致」，超衍智能赌的是「一整条闭环能先转起来」</b>。</p>
+
+  <p>前者的好处是成败可判定——E3 能不能做到，是可以用数据回答的问题。坏处是天花板可能不高，最可能的结局是被采用或被收购。后者的好处是天花板极高，如果闭环真的转起来，它定义的是一种新的研发范式。坏处是变量太多，任何一环断掉叙事都不成立，而且它需要的钱远超过已经拿到的 4 亿。</p>
+
+  <p>对观察者来说，一个务实的建议是：<b>不要看它们讲了什么，看它们能不能把「研究过程」这件原本不可测量的事变成可测量的</b>。超衍智能发 ASI-Bench 是一个正确的方向——哪怕这个基准测出来的结果对它自己并不友好（B1 到 B3 平均分从 50.91 掉到 26.62）。无涯智远如果愿意公布 E3 阶段的遗忘曲线，那也是同一类有价值的动作。</p>
+
+  <p>这个赛道现在最缺的不是资本，也不是人才，而是<b>记分牌</b>。</p>
+</section>
+
+<section id="ceiling">
+  <span class="snum">07 / 上限推演</span>
+  <h2 class="sec">如果两家都发展得很好，各自能到哪</h2>
+
+  <p class="lede">推演上限要看它们积累的到底是什么资产，而不是故事有多大。这两家积累的东西完全不同：<b>无涯智远积累的是一个机制，超衍智能积累的是一套流程和数据</b>。这两类资产的天花板结构不一样。</p>
+
+  <h3 class="sub"><span class="subn">7.1</span>无涯智远：上限是「关键组件」，不是平台</h3>
+
+  <p>它真正的资产是 SHINE 这一类方法——把知识低成本、不遗忘地写进模型权重。如果这条路被验证，它的上限有三层。</p>
+
+  <div class="stack">
+    <div class="band mid">
+      <div class="bl">第三层 · 极小概率</div>
+      <div class="bn">从「知识 → 参数」推广到「能力 → 参数」</div>
+      <p class="bd">如果这个机制能从写入事实推广到写入能力，它就不再是记忆产品，而是 RSI 的一个原语。这是唯一能通向千亿美元级叙事的路径，也是目前离得最远的一条。</p>
+    </div>
+    <div class="band">
+      <div class="bl">第二层 · 不错</div>
+      <div class="bn">成为「参数化记忆」层的基础设施</div>
+      <p class="bd">如果企业私有化模型和 AI Agent 的长期记忆都转向「写进参数」而不是「塞进上下文」，它服务的是一条新的基础设施层。参照向量数据库那一层的公司，大约 10–50 亿美元的量级。</p>
+    </div>
+    <div class="band">
+      <div class="bl">第一层 · 最可能</div>
+      <div class="bn">被收购</div>
+      <p class="bd">一个约 10 人的团队，握着一项被验证有效的参数化记忆技术。买方是模型公司或云厂商，买的是技术和人。这个结局的定价大概在几亿美元量级。</p>
+    </div>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">必须说清的坎</div>
+    <p>SHINE 现在做的是<b>把事实写进权重</b>，不是<b>把能力写进权重</b>。「记住一份文档」和「变得更强」之间隔着一整个灾难性遗忘问题——后者难得多。而 RSI 的叙事要的是后者。所以它的 RSI 故事目前是<em>借用</em>来的，不是自己挣来的。</p>
+  </div>
+
+  <div class="callout">
+    <div class="ct">一道容易被忽视的隐形封顶</div>
+    <p>它的整个前提是「上下文又贵又短」。如果三年后一千万 token 的上下文变得几乎免费，「把知识写进权重」这件事的必要性会大幅下降。<b>这条路线的价值，和上下文成本是一条此消彼长的曲线。</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">7.2</span>超衍智能：上限更高，但被资本锁死</h3>
+
+  <p>它积累的是<b>研究轨迹数据 + 一套闭环流程</b>。如果跑通，上限也有三层。</p>
+
+  <div class="stack">
+    <div class="band mid">
+      <div class="bl">第三层 · 彩票</div>
+      <div class="bn">闭环真的转起来</div>
+      <p class="bd">那它就是全球少数几个站在 RSI 路径上的实验室之一。千亿美元级的结局，概率极低，但这是它全部叙事指向的地方。</p>
+    </div>
+    <div class="band">
+      <div class="bl">第二层 · 最被低估的一条</div>
+      <div class="bn">研究轨迹数据成为稀缺资产</div>
+      <p class="bd">如果高质量研究轨迹（包含失败、死路、为什么改方向）是下一代模型的稀缺燃料，而超衍掌握了最好的采集管道，它的定位就接近 Scale AI / Mercor 那一类。Mercor 估值 100 亿美元，中国目前没有对位的公司。</p>
+    </div>
+    <div class="band">
+      <div class="bl">第一层 · 最可能</div>
+      <div class="bn">Vibe Research 平台</div>
+      <p class="bd">陈勇超自己的类比是「Claude Code 之于编程，我们之于研究」。这是真实生意，但市场比编程小，而且前沿实验室一定会自己建。</p>
+    </div>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">硬约束：钱</div>
+    <p>近 4 亿人民币约合 <span class="num">5,000 万美元</span>。作为对照：智谱单轮融了约 <span class="num">50 亿美元</span>，月之暗面 F 轮超 <span class="num">35 亿美元</span>。陈勇超自己承认「做预训练还需要更多的资金储备」——所以它只能基于开源模型做中训练和后训练。</p>
+    <p>这句话的推论很重：<b>它「训练下一代基础模型」的雄心，和它的资金量级差了两个数量级</b>。它的天花板因此被两层封顶——一是开源模型能走多远，二是前沿实验室什么时候把「研究智能体」做进自己的模型（它们一定会做）。</p>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">另一道坎：湿实验</div>
+    <p>它现在的成果全在<b>纯计算环境</b>（AI for AI、AI for Math）。真正大的市场——药物、材料——需要湿实验，反馈周期长一个量级。而它自己的 ASI-Bench 已经证明，AI 从 B1 到 B2 平均掉 <span class="num">21.82</span> 分，卡点恰恰在「把方法变成完整流程」这一步。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">7.3</span>上限的不对称</h3>
+
+  <div class="tw">
+    <table>
+      <caption>两家的上限结构对比。估值区间为分析推演，非公司披露或市场共识。</caption>
+      <thead><tr><th>维度</th><th>无涯智远</th><th>超衍智能</th></tr></thead>
+      <tbody>
+        <tr><td class="k">押注对象</td><td>一个机制</td><td>一条闭环</td></tr>
+        <tr><td class="k">验证难度</td><td>低（可测量、可判定）</td><td>高（多环节，断一环就崩）</td></tr>
+        <tr><td class="k">资金需求</td><td>低（不需要前沿算力）</td><td>极高（差两个数量级）</td></tr>
+        <tr><td class="k">理论天花板</td><td>关键组件，10–50 亿美元</td><td>平台／数据层，百亿美元级</td></tr>
+        <tr><td class="k">达到天花板的概率</td><td>中</td><td>低</td></tr>
+        <tr><td class="k">最可能的结局</td><td>被收购</td><td>被收购，或成为细分平台</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>超衍智能的上限更高，但到达概率更低；无涯智远的上限更低，但确定性高得多。</b>这个不对称有个直观解释——无涯智远赌的是「参数是不是记忆的正确位置」，超衍智能赌的是「研究是不是自我改进的正确场景」。前者是一个可以被实验回答的问题，后者是一整套需要同时成立的条件。</p>
+
+  <h3 class="sub"><span class="subn">7.4</span>一个反直觉的判断</h3>
+
+  <p>如果只看<b>谁更可能成为一家大公司</b>，超衍智能的概率更高。它已经证明了「能把 AI 产出推进人类评审体系」这件事，而且它拿的是三地国资的钱——在中国的语境下，<b>国资入场往往意味着项目被纳入了某种更长周期的产业规划</b>，不完全是财务投资逻辑。</p>
+
+  <p>但如果只看<b>谁的技术更可能在五年后仍然重要</b>，答案是无涯智远。因为它解决的问题——模型怎么持续学习而不遗忘——是大模型的基础缺陷。<b>无论 RSI 这个概念最后成不成立，这个缺陷都存在。</b>而 RSI 如果被证明是伪命题，超衍智能的整条叙事会一起塌掉。</p>
+
+  <div class="callout">
+    <div class="ct">一句话概括两种资产</div>
+    <p>无涯智远押的是「记忆该放在哪里」，超衍智能押的是「研究能不能自动化」。前者的答案即使被证伪，公司也还有转圜余地；后者的答案如果被证伪，公司就没有第二条路。</p>
+  </div>
+</section>
+
+<section id="caveats">
+  <span class="snum">08 / 信息源与未核实项</span>
+  <h2 class="sec">哪些是事实，哪些还需要打问号</h2>
+
+  <p class="lede">本报告的所有关键事实都尽量做了交叉验证。以下把「已核实」与「未核实/存疑」分开列清楚，便于后续尽调时优先追问。</p>
+
+  <h3>已核实（有可溯源的一手或权威二手来源）</h3>
+
+  <div class="chips">
+    <span class="chip ok">无涯智远工商信息</span>
+    <span class="chip ok">超衍智能成立日期与地址</span>
+    <span class="chip ok">两轮融资的投资方名单</span>
+    <span class="chip ok">张牧涵北大任职与履历</span>
+    <span class="chip ok">陈勇超清华任职与履历</span>
+    <span class="chip ok">SHINE 论文与 ICML 2026 接收</span>
+    <span class="chip ok">ASI-Bench 论文与开源代码</span>
+    <span class="chip ok">SEAL / DGCNN / Labeling Trick</span>
+    <span class="chip ok">大厂 RSI 布局（有论文或官方公告）</span>
+    <span class="chip ok">MμLab 成员名单</span>
+    <span class="chip ok">北京高校成果转化新政策</span>
+    <span class="chip ok">2026 年 AI 人才薪资数据</span>
+  </div>
+
+  <h3>未核实 / 存疑</h3>
+
+  <div class="callout riskb">
+    <div class="ct">尽调优先级最高的三项</div>
+    <p><b>一、「优超猜想」的证明。</b>这是超衍智能最亮的学术背书，也是目前最缺证据的一项。所有公开材料只说「悬置三十余年的优超猜想」，<b>没有给出准确数学表述、提出者、出处，也没有预印本或论文链接</b>。更值得注意的是口径差异：公司通稿说「完整证明」，而陈勇超 2026 年 8 月 8 日演讲的版本只说「改进了过去十几年该领域的一个主流认知」，并未点名该猜想。数学界存在多个同名的 majorization conjecture，2026 年 9 月还有 arXiv 论文给出 Aigner majorization conjecture 的反例（arXiv:2609.38284），需要警惕混淆。且陈勇超个人此前发表不含 majorization 或优化理论方向的工作，成果归属为「团队/AI 系统」。<b>建议直接索要论文预印本与第三方数学家署名确认。</b></p>
+    <p><b>二、ACL Rolling Review 的成绩。</b>34 篇论文、均分 2.60、2 篇 3.67 全部是公司自述。ACL Rolling Review 是双盲且流程不公开的，<b>无法第三方核验</b>。</p>
+    <p><b>三、无涯智远的股权结构。</b>工商公示中未出现张牧涵任法定代表人或董事，法定代表人为杨睿芳。真实持股比例、创始人是否有代持安排，目前查不到。2026-09-19 还发生过一次股东及主要成员变更。</p>
+  </div>
+
+  <h3>其他存疑项</h3>
+
+  <ul class="plain">
+    <li><b>无涯智远第二轮估值 2.5 亿美元</b>：仅自媒体「据传」，无一手证实。</li>
+    <li><b>E0–E4 持续学习分级</b>：未找到任何学术或行业标准使用这套分级。RSI 领域通用分级是 L1–L5。E0–E4 应为团队自定义口径，不应被当作行业共识引用。</li>
+    <li><b>SHINE 的「0.5 秒内化」「E2 级」</b>：均为团队/媒体口径，无第三方复现。</li>
+    <li><b>超衍智能投后估值 26–40 亿元</b>：媒体按稀释比例推算，公司未披露。</li>
+    <li><b>超衍智能注册资本 116.27 万元</b>：来自招聘平台企业库，未与工商系统交叉验证。</li>
+    <li><b>陈勇超「本硕博」表述</b>：本人主页与清华教师页均显示为 USTC 本科 + 哈佛/MIT 博士，<b>无硕士阶段</b>。部分通稿的「本硕博」表述不准确。</li>
+    <li><b>「近 30 人」「史上最年轻助理教授」</b>：均为公司/媒体口径。</li>
+    <li><b>超衍智能的具名核心成员</b>：官网 Team 页只写来源机构，<b>没有任何具名联创、首席科学家或技术负责人</b>。「成员来自 Google、Microsoft、字节、Kimi、智谱」这一表述无法从具名层面验证。</li>
+    <li><b>无涯智远除张牧涵以外的团队成员</b>：查不到任何具名信息。BOSS 直聘、拉勾、猎聘上均无公开岗位。</li>
+    <li><b>清华与超衍智能的孵化、冠名与知识产权安排</b>：未见任何公开披露。公司招聘使用自有域名 apexin.ai 而非清华域名，公开信息中也没有清华官方孵化的表述。</li>
+    <li><b>两家公司的具体招聘岗位与薪资</b>：超衍智能官网有招聘入口但未公开岗位细节；无涯智远无公开招聘渠道。</li>
+    <li><b>DeepSeek 新一轮融资传闻</b>：据报至少 800 亿元、腾讯与宁德时代领投、投前估值 5,000 亿元；另有报道称规模或增至 1,000 亿元。均系媒体报道，<b>未见官方确认</b>。</li>
+    <li><b>英伟达 H200 采购配额</b>：据报总量不到 20 万颗，未获官方确认。</li>
+    <li><b>字节「亿元年薪挖 DeepSeek 研究员」</b>：字节官方已否认。</li>
+    <li><b>张牧涵引用量三个口径不一致</b>：北大官网页面写「超过 11,000 次」，本人主页写「超过 14,000 次」，Google Scholar 实测 15,733。本报告采用实测值。</li>
+  </ul>
+
+  <div class="callout">
+    <div class="ct">调研方法的限制</div>
+    <p>本次调研中，WebFetch 对 36 氪、雷峰网、品玩等域名的访问被网络策略拦截，部分材料通过 WebSearch 多源交叉获得，未能逐条打开原文核验。天眼查等工商信息平台的完整页面需登录，工商数据主要依赖证券之星等媒体转述。凡涉及股权比例、注册资本明细的数据，建议以工商系统原始档案为准。</p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="snum">来源</span>
+  <h2 class="sec">主要公开信息源</h2>
+
+  <ol class="src">
+    <li>证券之星《【投融资动态】无涯智远天使轮融资，投资方为 HongShan 红杉中国、联想之星等》，2026-09-21。<a href="http://stock.stockstar.com/RB2026092100027540.shtml">链接</a></li>
+    <li>Top 华人科创社《北大助理教授 RSI 创业，RSI 迎来全军时刻？》，微信公众号。<a href="https://mp.weixin.qq.com/s/ZR1bcjuz3IqAa-YXneJWAg">链接</a></li>
+    <li>张牧涵个人主页（北京大学）。<a href="https://muhanzhang.github.io/">链接</a></li>
+    <li>北京大学人工智能研究院《张牧涵》教师页。<a href="http://www.ai.pku.edu.cn/info/1481/3920.htm">链接</a></li>
+    <li>Liu, Wang, Mao, Gelberg, Maron, Zhang. <i>SHINE: A Scalable In-Context Hypernetwork for Mapping Context to LoRA in a Single Pass</i>. arXiv:2602.06358，ICML 2026 接收。<a href="https://arxiv.org/abs/2602.06358">链接</a>｜<a href="https://github.com/MuLabPKU/SHINE">代码</a></li>
+    <li>机器之心 Pro《北大团队提出 SHINE：将任意文本转化为大模型 LoRA，仅需一次前向传播！》，2026-03-23。<a href="https://finance.sina.cn/stock/jdts/2026-03-23/detail-inhryhit8005062.d.html">链接</a></li>
+    <li>证券时报《超衍智能获中关村科学城基金等领投，完成近 4 亿元人民币融资》，2026-09-16。<a href="https://stcn.com/article/detail/4187353.html">链接</a></li>
+    <li>福布斯中国《超衍智能完成近 4 亿人民币天使系列融资，构建自进化基础大模型》，2026-09-16。<a href="https://forbeschina.com/investment/72157">链接</a></li>
+    <li>36 氪《27 岁清华助理教授创业，探索 AI 自主进化，两个月融资数亿》，2026-09-16。<a href="https://eu.36kr.com/zh/p/3985658685052800">链接</a></li>
+    <li>新浪财经《成立 3 个月，近 4 亿天使轮，三地国资入场》，2026-09-19。<a href="https://finance.sina.com.cn/roll/2026-09-19/doc-inisifyi3173930.shtml">链接</a></li>
+    <li>投中网《创办 3 个月拿下 4 亿融资，RSI 赛道火了》，2026-09-17。<a href="https://www.chinaventure.com.cn/news/113-20260917-393306.html">链接</a></li>
+    <li>投中网《智谱下场，投资人抢投 RSI｜Frontline》，2026-09-18。<a href="https://www.chinaventure.com.cn/news/80-20260918-393343.html">链接</a></li>
+    <li>界面新闻 / Tech 星球《RSI 改写大模型竞赛：国内厂商冲刺 IPO，硅谷巨头踩刹车》，2026-09-25。<a href="https://www.jiemian.com/article/15139753.html">链接</a></li>
+    <li>陈勇超个人主页（Tsinghua / Harvard-MIT）。<a href="https://yongchao98.github.io/YongchaoChen/">链接</a></li>
+    <li>清华大学人工智能学院教师页 Yongchao Chen。<a href="https://collegeai.tsinghua.edu.cn/en/People/Full_time_PI/YongchaoChen.htm">链接</a></li>
+    <li>Zhou, Sun, Li, Zhou, Pan, Wang, et al. <i>ASI-Bench: At the Dawn of Artificial Superintelligence</i>. arXiv:2608.17271。<a href="https://huggingface.co/papers/2608.17271">链接</a>｜<a href="https://github.com/apexin-ai/ASI-Bench">代码</a></li>
+    <li>智源社区《覆盖 11 个学科/60 项科研任务，清华/MIT/哈佛等提出 ASI-Bench 测试 AI 自主科研能力》，2026-08-24。<a href="https://hub-assets-cache.baai.ac.cn/view/57409">链接</a></li>
+    <li>Z Potentials《Z Research｜RSI 产业图谱：一场围绕"智能进化速度"的新竞赛》，新浪财经转载，2026-09-02。<a href="https://finance.sina.com.cn/roll/2026-09-02/doc-iniqnaws7510642.shtml">链接</a></li>
+    <li>新浪财经《用 AI 迭代 AI：雷军投了一位 90 后清华教授》（元环智能），2026-09-06。<a href="https://finance.sina.cn/2026-09-06/detail-iniqwwyu6737750.d.html">链接</a></li>
+    <li>雷峰网《7 个月融 4 亿美刀背后，站着代季峰 8 人团》，2026-10-08。<a href="https://www.leiphone.com/category/industrynews/f0nfLFiAdLXtig24.html">链接</a></li>
+    <li>创业邦 / 硅谷 101《"没水了，鱼需要进化"：再访田渊栋，46.5 亿美金估值的 RSI 与 AI 自进化》，2026-06-08。<a href="https://www.cyzone.cn/article/835944.html">链接</a></li>
+    <li>科学网《超衍智能完成近 4 亿元人民币天使系列融资》，2026-09。<a href="https://news.sciencenet.cn/htmlnews/2026/9/571689.shtm">链接</a></li>
+    <li>中关村科学城《中关村科学城成果转化基金完成对超衍智能天使+轮投资》。<a href="http://m.zgccity.com/view/pc/news/227.html">链接</a></li>
+    <li>证券之星《【投融资动态】智衍慧生 Naive.ai Pre-A+轮融资，投资方为星睿资本、腾讯投资等》，2026-09-11。<a href="https://wap.stockstar.com/detail/RB2026091100043995">链接</a></li>
+    <li>北京无涯智远科技有限公司工商信息，天眼查。<a href="https://www.tianyancha.com/company/8087870553">链接</a></li>
+    <li>MμLab 实验室官网（张牧涵课题组，北京大学）成员页。<a href="https://mulabpku.com/people/">链接</a></li>
+    <li>超衍智能官网（Apex Intelligence），Team 与 Join Us 页面。<a href="https://apexin.ai/">链接</a></li>
+    <li>清华大学人工智能学院教师页 Yongchao Chen。<a href="https://collegeai.tsinghua.edu.cn/info/1463/1261.htm">链接</a></li>
+    <li>中国教育报 / 中国青年网《推广"先赋权后行权" 成果作价不低于 70% 奖励团队——北京为高校科技成果转化"破障"》，2026-04-07。<a href="http://txs.youth.cn/xw/202604/t20260407_16594647.htm">链接</a></li>
+    <li>中国新闻周刊 / 脉脉《2026 春招洞察》关于 AI 人才薪资的报道，2026-07-06。</li>
+    <li>网易 / 新浪财经关于元环智能的报道《用 AI 迭代 AI：雷军投了一位 90 后清华教授》，2026-09-06。</li>
+  </ol>
+</section>
+
+<footer>
+  <p><b>关于本报告。</b>数据截止 2026-10-08。所有结论均基于公开信息，不构成投资建议。凡标注「已核实」的条目均有可溯源来源；标注「存疑」的条目建议在尽调中直接向公司求证。</p>
+  <p>报告由公开资料整理与研究分析生成，涉及的公司财务、股权与估值数据请以官方披露及工商档案为准。</p>
+</footer>
+
+</div>
+
+</body>
+</html>

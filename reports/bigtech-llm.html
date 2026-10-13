@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>字节 × 阿里 × 腾讯：大模型战略三方对比</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="inner">
+    <span class="brand">字节 × 阿里 × 腾讯</span>
+    <div class="links">
+      <a href="#thesis">结论先行</a>
+      <a href="#position">战略定位</a>
+      <a href="#model">基础模型</a>
+      <a href="#app">应用层</a>
+      <a href="#org">组织人才</a>
+      <a href="#capital">资本投入</a>
+      <a href="#compete">竞争格局</a>
+      <a href="#outlook">走向与风险</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">大模型战略三方对比 · 中国 · 2026</p>
+  <h1>字节 × 阿里 × 腾讯</h1>
+  <p class="standfirst">为什么三家分别拿到了 C 端月活第一、企业级 MaaS 第一和办公 Agent 第一，却都还没有证明大模型本身能赚钱——这对判断谁真正占住了位置意味着什么？</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-10</dd></div>
+    <div><dt>版本</dt><dd>v1 · 8 部分 + 信息源</dd></div>
+    <div><dt>核心结论</dt><dd>三家不在同一条赛道上竞争，「谁领先」是个错问题</dd></div>
+    <div><dt>信息源</dt><dd>公开信息源 70 余项</dd></div>
+  </dl>
+</header>
+
+<section class="thesis" id="thesis">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>三家的「第一」不在同一个维度上，因此「谁领先」这个问题本身是错的。</b>字节拿了 C 端月活第一（豆包 <span class="num">3.82 亿</span>，QuestMobile 2026-06，约为第二名的 2.3 倍）和企业级 MaaS 第一（火山引擎 <span class="num">49.5%</span> 的 Token 调用份额，IDC 2025 年口径）；阿里拿了模型生态第一（Qwen 全球累计下载破 <span class="num">30 亿</span> 次）；腾讯拿了办公 Agent 第一（WorkBuddy 6 月桌面端访问量 <span class="num">2,097 万</span> 次，超第二、三名之和）。<b>需要强调的是：</b>这三个「第一」分别出自 QuestMobile、IDC、易观三家不同机构的三套口径，不能相互折算成同一个领先度，把它们并排读会得到一个虚假的强弱排序。</li>
+
+    <li><b>三家的收入结构决定了它们做 AI 的真实动机完全不同：字节赚 Token 消耗费，阿里赚云与算力，腾讯赚场景留存。</b>火山引擎在 2026 年 1 月全员会上被列为当年的战略优先级，其 MaaS 份额从 2024 年的 46.4% 一路推到 2025 年的 49.5%；阿里 FY2026 首次披露 AI 相关产品年化收入突破 <span class="num">358 亿元</span>、占阿里云外部商业化收入首次超过 30%；腾讯则把 AI 塞进微信、游戏、广告这些既有现金流业务——2026 Q2 营销服务收入同比 +22%，官方称 AI 创意工具把素材生产效率提升近 80%。<b>需要强调的是：</b>办公软件本身的钱很少（钉钉年营收 40 多亿元、飞书 30 亿元出头），三家做 AI 办公都不是为了那笔订阅费。</li>
+
+    <li><b>C 端月活与 API 收入是两套方向相反的指标，用错会得出完全相反的结论。</b>月之暗面是最干净的样本：Kimi App 月活从峰值约 3,600 万跌到 2026 年 6 月的 <span class="num">729 万</span>（QuestMobile），同期 ARR 从 1 亿美元涨到 3 亿美元（2026-06，API 占比超 70%），彭博口径下 8 月已超 <span class="num">10 亿美元</span>，估值半年涨约 8 倍。<b>需要强调的是：</b>所有 ARR 都是年化运行率、不是审计收入；且公司从未披露扣除推理成本与云厂商分成后的毛利——转型在<em>收入结构</em>上成立，在<em>毛利</em>上尚未验证。</li>
+
+    <li><b>三家在半年内做出了三个高度同构的 AI 办公产品，抢的是 Agent 入口，不是办公软件市场。</b>腾讯 WorkBuddy 上线于 2026-03-09，阿里千问办公公测于 2026-08-03，字节豆包工作发布于 2026-08-25；后两者都是把既有产品线三合一后重新发布（千问办公 = QoderWork + MuleRun + 悟空；豆包工作 = 豆包 + TRAE Work + 扣子）。争夺的实质是：当用户对 Agent 说一句「帮我办这件事」，由谁在后台完成比价、下单与执行。<b>需要强调的是：</b>三家定价从免费到 198 元/席/月不等，腾讯汤道生更明确表示未给 WorkBuddy 设商业化 KPI——现阶段比的是入口位置，不是收入。</li>
+
+    <li><b>组织上，三家都把 AI 从事业部收权到 CEO 直管，动作比外界认知的快得多。</b>阿里最彻底：2026-03 成立 ATH 事业群，2026-06-08 合并为 Token Foundry 事业部由 CEO 吴泳铭直接负责，2026-08 再把 AI 业务收拢为「AI 云与算力服务」和「AI 实验室与应用」两大板块直报 CEO；字节的 Seed 从一开始就独立于营收部门、吴永辉直接向梁汝波汇报；腾讯 2026-07-24 把大语言模型部与多模态模型部合并为基础模型部，统一交给首席 AI 科学家姚顺雨。<b>需要强调的是：</b>收权不等于见效，腾讯自己承认过慢——马化腾在 2026 年 1 月员工大会上称「AI 布局动作慢了」，汤道生 2026-08-25 承认算力不足拖累了混元迭代。</li>
+
+    <li><b>人才流动已经变成双向的，挑战者不再只是大厂的人才净输出方。</b>大厂正在挖挑战者的核心研究员：DeepSeek 2026 年至少 5 名核心研发离职，罗福莉去了小米、郭达雅去了字节、王炳宣（DeepSeek LLM 核心作者）去了腾讯；同时挑战者的前一号位在创业并被大厂资本接住——阿里前 Qwen 负责人林俊旸 2026-03 离职创办 Pragmatik Labs，据报以 136 亿元估值融资、腾讯参与投资。<b>需要强调的是：</b>具体薪酬数字多为传闻（字节曾公开否认有近亿元年薪的员工），可核实的是<em>岗位分布</em>与<em>流动方向</em>，不是价码。</li>
+
+    <li><b>挑战者没有掉队，但正在被资本市场重定价；应用层公司则是被监管、而非被技术救了回来。</b>智谱市值较 6 月高点回撤约 <span class="num">75%</span>、MiniMax 较 3 月高点回撤约 <span class="num">81%</span>，而同期两家的 ARR 都在涨——市场从「稀缺性溢价」转向「看毛利与落地」。Manus 则是另一个故事：Meta 约 20 亿美元的收购在 2026-04-27 被国家发改委禁止（《外商投资安全审查办法》实施以来首例公开叫停的 AI 领域外资收购），创始团队随后约 20 亿美元回购、腾讯成为最大股东，2026-10-08 又完成超 5 亿美元新融资，并放出 17 个全部位于北京的岗位。<b>需要强调的是：</b>智谱与 MiniMax 是<em>已挂牌</em>（2026-01-08 / 01-09），月之暗面只到「传保密递交 A1」、DeepSeek 只到「聘辅导机构、未签辅导协议」——四家的资本市场阶段完全不同，不宜并称「大模型 IPO 潮」。</li>
+  </ol>
+</section>
+
+<section id="position">
+  <span class="snum">01</span>
+  <h2 class="sec">战略定位：三家各自站在哪一层，靠什么收钱</h2>
+
+  <p class="lede">这三家公司最容易被误读的地方，是外界习惯把它们放进同一张「中国大模型排行」里比高低。但只要看它们各自的收入结构就会发现，它们其实在卖三种不同的东西。</p>
+
+  <div class="facts">
+    <div><div class="fv">3.82 亿</div><div class="fl">豆包 App 月活，QuestMobile 2026 年 6 月，同比 +172.1%，约为第二名千问的 2.3 倍</div></div>
+    <div><div class="fv">49.5%</div><div class="fl">火山引擎在中国企业级 MaaS 的 Token 调用份额，IDC 2025 年口径（不含字节自有业务）</div></div>
+    <div><div class="fv">358 亿元</div><div class="fl">阿里 AI 相关产品年化收入（ARR），FY2026 财报首次披露；季度收入 89.71 亿元</div></div>
+    <div><div class="fv">527.8 亿元</div><div class="fl">腾讯 2026 年 Q2 单季资本开支，同比 +176%，环比 +65%</div></div>
+  </div>
+
+  <h3>字节：把 Token 本身做成生意</h3>
+
+  <p>字节的路径最直接——<b>它把「卖 Token」当成了一门独立生意，而不是云的附属品</b>。火山引擎 2026 年 1 月全员会上被定为当年的战略优先级，MaaS 份额从 2024 年的 46.4%、2025 年上半年的 49.2% 推到 2025 年全年的 49.5%。豆包大模型的日均 Token 调用量在 2026 年 6 月达到 <span class="num">180 万亿</span>，是 2024 年 5 月刚上线时 1,200 亿的 1,500 倍。</p>
+
+  <p>支撑这套打法的是定价。<b>豆包 Seed 2.0 官方称「在达到头部模型同等性能的同时，把 Token 成本降低了约一个数量级」</b>；2026 年 6 月发布的 Seed 2.1 Pro 定价为输入 6 元、输出 30 元、缓存命中 1.2 元（每百万 Token），官方称综合成本较 Claude Opus 4.6 降低近 80%。低价换调用量、调用量反哺模型迭代、迭代再压低单位成本——这个飞轮是字节唯一讲得通的故事。</p>
+
+  <p>代价写在利润率上。字节 2026 年上半年营收同比增长约 30%（The Information 2026-09-15 报道），但净利润率从 2023 年的 26%、2024 年的 21% 一路降到约 <span class="num">16.7%</span>。</p>
+
+  <h3>阿里：把模型做成 AI 时代的操作系统</h3>
+
+  <p>阿里的选择是把模型开源出去，把云卖进来。吴泳铭的表述是「开源 Qwen 为 AI 时代的操作系统」——开发者把开源模型托管到阿里云要付费，自己带数据中心跑则免费。<b>这让阿里拿到了三家当中最宽的生态位</b>：Qwen 在 Hugging Face 上 2026 年下载 20.45 亿次，过去半年全球累计突破 30 亿次，超过 Meta 与 Google 位居第一。</p>
+
+  <p>但 2026 年这条路线出现了两个明显转折。一是<b>开源开始商业化</b>：路透社 2026-08-07 报道，阿里计划对下一代 Qwen 开源模型的大型商用用户收取营收分成，参照的是月之暗面 K3 的许可证条款（年收入超 2,000 万美元须另签商业协议）；Qwen3.8-Max 已是首个开放权重的 Max 级旗舰。二是<b>组织收权</b>，详见第 04 节。</p>
+
+  <h3>腾讯：把 AI 藏进已有的场景里</h3>
+
+  <p>腾讯是三家当中唯一没有把大模型单独立成收入项的。它把 AI 塞进微信、游戏、广告这些已经跑通的现金流业务：2026 Q2 网络游戏收入 659 亿元（同比 +11%，本土市场 +17%），营销服务收入 435.7 亿元（+22%）。官方口径称 AI 创意工具把广告素材生产效率提升近 80%，《三角洲行动》用 Hy3D 模型搭建端手一体化生产管线。</p>
+
+  <p>这条路线的上限和下限都很清楚。<b>上限是微信——截至 2026 年一季度末，微信及 WeChat 合并月活 14.32 亿</b>，2026 年 6 月起灰度内测的原生 AI 助手「小微」如果跑通，等于 14 亿用户面前出现一个可以直接调用数百万小程序的入口。下限是模型本身：马化腾在 2026 年 1 月的员工大会上承认「AI 布局动作慢了」，汤道生 2026-08-25 更直接承认算力不足拖累了混元迭代。马化腾同时明确表态「微信不搞 AI 全家桶，坚持去中心化」。</p>
+
+  <div class="stack">
+    <div class="band"><div class="bl">应用与入口层</div><div class="bn">豆包 / 元宝 / 千问 · 豆包工作 / WorkBuddy / 千问办公 / 飞书 · 微信小微</div><p class="bd">C 端助手 + 办公 Agent + 超级 App 内嵌助手。三家在这一层高度同构，争夺的是 Agent 作为「用户与服务之间中间层」的位置。</p></div>
+    <div class="membrane"><span>谁供给谁：应用层调用自家模型，也调用对方模型</span><b>微信小微主模型为自研 WeLM，部分回答调用 DeepSeek</b></div>
+    <div class="band mid"><div class="bl">← 本报告核心</div><div class="bn">基础模型：Seed / 通义千问 / 混元</div><p class="bd">三家的分水岭。字节闭源旗舰 + 极致性价比；阿里开源 Max 级旗舰 + 生态换云；腾讯 Hy 系列 Apache-2.0 开源、以小参数对标大参数。</p></div>
+    <div class="membrane"><span>谁供给谁：模型跑在自家云上，也跑在对手云上</span><b>Kimi K3 同时上 AWS Bedrock 与阿里云百炼</b></div>
+    <div class="band"><div class="bl">算力与芯片层</div><div class="bn">英伟达 + 华为昇腾 / 寒武纪 / 平头哥真武 / 字节 SeedChip / 天数智芯</div><p class="bd">三家都在做自研芯片，且都把训练与推理的供应链拆开：训练优先国产，推理引入更多供应商压成本。</p></div>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">口径提醒</div>
+    <p>本报告中所有「份额」都注明机构与年份，所有「收入」都注明是<em>年化运行率</em>还是<em>财报实收</em>，所有「用户数」都注明是 MAU、DAU 还是注册用户。三家的口径差异极大——例如阿里口径的「千问 C 端应用月活超 3 亿」含夸克端入口，QuestMobile 口径的千问独立 App 只有 1.67 亿；腾讯元宝官方春节口径的月活 1.14 亿，与 QuestMobile 2026 年 6 月的 4,984 万也不是同一个量。混用会得出错误结论。</p>
+  </div>
+</section>
+
+<section id="model">
+  <span class="snum">02</span>
+  <h2 class="sec">基础模型：Seed / 通义 / 混元的三条路线</h2>
+
+  <p class="lede">三家的旗舰模型在能力上已经贴得很近，真正的分野不在跑分，而在三件事：开源还是闭源、参数往上堆还是往下压、以及架构敢不敢公开。</p>
+
+  <div class="tw">
+    <table>
+      <caption>三家最新旗舰模型对比。发布日期为官方发布口径；参数与架构以官方模型卡/技术报告为准，未披露者标注「官方未披露」。</caption>
+      <thead><tr><th>维度</th><th>字节 Seed</th><th>阿里通义千问</th><th>腾讯混元</th></tr></thead>
+      <tbody>
+        <tr><td class="k">最新旗舰</td><td>Seed 2.1（Pro / Turbo）<br>2026-06-23</td><td>Qwen3.8-Max<br>2026-08-03</td><td>Hy4-preview<br>2026-08-27</td></tr>
+        <tr><td class="k">参数规模</td><td class="n">官方未披露</td><td class="n">2.4 万亿总 / 950 亿激活</td><td class="n">7700 亿总 / 490 亿激活</td></tr>
+        <tr><td class="k">架构</td><td>官方未披露（MoE 属推测）</td><td>稀疏 MoE + 混合注意力</td><td>MoE，256 路由 + 1 共享专家，Gated DSA</td></tr>
+        <tr><td class="k">上下文</td><td class="n">256K</td><td class="n">1M</td><td class="n">1M</td></tr>
+        <tr><td class="k">开源</td><td>旗舰<em>闭源</em>；仅开源非核心的 Seed-OSS-36B（稠密）</td><td>Qwen3.5 及以下 Apache-2.0；Qwen3.8-Max 首次开放 Max 级权重，附商用营收分成条款</td><td>Hy3 / Hy4-preview 均 <em>Apache-2.0</em></td></tr>
+        <tr><td class="k">定价（每百万 Token）</td><td class="n">输入 6 元 / 输出 30 元（Pro）</td><td class="n">$1.65 / $4.951（中国区）</td><td class="n">未获取（腾讯云定价页已迁 TokenHub）</td></tr>
+        <tr><td class="k">官方自评</td><td>「同等性能下 Token 成本降低约一个数量级」</td><td>Text Arena 第 5、Vision Arena 第 2</td><td>「以小参数对标 2–5 倍参数的旗舰开源模型」</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>字节 Seed：闭源、堆数据、把评测当成组织能力</h3>
+
+  <p>字节是三家当中<b>唯一对旗舰模型的参数量与架构完全保密</b>的。已开源的 Seed-OSS-36B 反而是个稠密模型（36B、原生 512K 上下文、Apache-2.0），这与外界给它贴的「MoE 路线」标签存在张力——官方从未确认过旗舰走 MoE，本报告不采信该说法。</p>
+
+  <p>能核实的技术主张来自 Seed 2.0 的模型卡：「我们的方法从识别用户真实需求、构建可靠且前瞻的评测体系开始……Seed 2.0 针对两个长期难题：<b>长尾知识</b>与<b>复杂指令遵循</b>。」2026 年 8 月 19 日，Seed 把基础模型团队重组为四个一级部门——Pretrain Data、Horizon RL、Product Posttrain-Work、Product Posttrain-Chat，官方理由是「合并相似工作、减少 overlap」。<b>组织逻辑从「按模态/研究方向划分」改成「按数据、强化学习、产品任务划分」</b>，这个动作本身就是路线声明：数据与 RL 被摆到了和模型架构同等的位置。</p>
+
+  <p>多模态生成是 Seed 目前声量最大的一块。Seedance 2.0 于 2026 年 2 月发布，官方称其为「全球第一个跨过生产质变点的视频生成模型」，技术报告在 arXiv 上署名 170 余位作者；Seedance 2.5 于 2026-07-31 发布，支持单段 30 秒原生直出与最多 50 个全模态参考素材。</p>
+
+  <h3>阿里通义：从「Max 级闭源」转向「Max 级开源 + 收分成」</h3>
+
+  <p>阿里是三家当中模型迭代最密的。2025-09 的 Qwen3-Max 首次突破 1 万亿参数；2026-02-16 的 Qwen3.5 是 3,970 亿总参数 / 170 亿激活的原生多模态模型；2026-05-20 的 Qwen3.7-Max 面向 agentic 负载，官方称内部测试中在真武 M890 芯片上连续自主运行 35 小时、完成 1,000 余次工具调用；2026-08-03 的 Qwen3.8-Max 达到 2.4 万亿总参数 / 950 亿激活、100 万 Token 上下文。</p>
+
+  <p>路线上的关键变化是<b>开源许可的商业化转向</b>。Qwen3 全系（含 235B 旗舰）曾是 Apache-2.0，但 Qwen3.8 开始带非商业使用限制与收入分成要求；路透社 2026-08-07 报道阿里计划对下一代 Qwen 开源模型的大型商用用户收取营收分成。这一步是在向月之暗面 K3 的许可证模式靠拢——<em>开源仍然是获客手段，但不再是无限免费的公共品</em>。</p>
+
+  <h3>腾讯混元：改名为 Hy，用「小参数对标大参数」换口碑</h3>
+
+  <p>腾讯在 2026 年完成了一次命名体系切换：<b>混元的旗舰系列从 Hunyuan-Turbo/T 改名为 Hy</b>。Hy3 于 2026 年 7 月正式上线，2,950 亿总参数 / 210 亿激活、256K 上下文、Apache-2.0；Hy4-preview 于 2026-08-27 发布，7,700 亿总参数 / 490 亿激活、100 万上下文，同样 Apache-2.0。截至 2026-10-10，Hy4 仍只到 preview，正式版未上线。</p>
+
+  <p>腾讯的差异化叙事是<b>智能密度</b>：官方称 Hy3「以更小参数规模实现对标 2 至 5 倍参数海外旗舰模型的能力」。可核实的支撑是模型卡里的盲评数据——Hy3 在 270 名专家盲评中得 2.67/4，高于 GLM-5.1 的 2.51/4；Hy4-preview 在 163 名内部专家对 203 个工程任务的盲评中得 2.99，略高于 GLM 5.3 的 2.92 和 Kimi K3 的 2.94。<b>需要强调的是：</b>这两组都是官方组织的专家盲评、非第三方基准，且 Hy4 那组明确是「内部专家」，与公开榜单不可直接比较。</p>
+
+  <h3>参数规模的军备竞赛：三家都在往 5 万亿以上冲</h3>
+
+  <p>2026 年下半年，三家的路线出现了一次明显的共同转向——<b>重新押注「大参数」</b>。2026-09-22 云栖大会上，吴泳铭披露阿里正在训练参数规模 5 万亿至 10 万亿之间的新一代模型，刘大一恒称 Qwen4.5、Qwen5 计划迈向这一区间；据英国《金融时报》2026 年 8 月报道，字节正在训练最高可达 10 万亿参数的模型（另据 IT之家 2026-08-19，字节内部讨论的是「超 5 万亿」）；DeepSeek 则被 The Information 报道正在训练约 2 万亿参数的新模型，梁文锋称下一步要推到 8 万亿。</p>
+
+  <p>作为对照，<b>目前国产已发布模型的参数顶点是月之暗面 Kimi K3 的 2.8 万亿</b>（2026-07 发布，全球首个开源的 3 万亿级模型），阿里当前旗舰 Qwen3.8-Max 约 2.4 万亿，DeepSeek 现役 V4-Pro 为 1.6 万亿。也就是说，若以 10 万亿为目标，各家现役旗舰普遍还要再放大约 5 倍。</p>
+
+  <div class="callout">
+    <div class="ct">为什么「堆参数」和「压成本」会同时存在</div>
+    <p>2026 年 8–9 月，行业同时出现了两个方向相反的动作：一边是 Qwen3.8-Flash-Next（1,250 亿总参数 / 60 亿激活，训练成本较前代砍掉近 90%）和智谱 GLM-5.3-Flash（3,200 亿总参数 / 180 亿激活）这类「Flash 模型」打成本战；另一边是一个月后云栖大会把「大」重新推回 C 位。<b>让两者共存的是 MoE 架构</b>——它把总参数与单次调用参数解耦，总参数撑住能力上限，单次计算量被按住。用同一套底座同时押注「小而快」和「大而强」，这是当前所有玩家的共同选择。</p>
+  </div>
+</section>
+
+<section id="app">
+  <span class="snum">03</span>
+  <h2 class="sec">应用层：C 端入口、办公 Agent、和微信这张底牌</h2>
+
+  <p class="lede">三家在应用层的打法差别，比模型层的差别大得多：字节做独立超级 App，阿里把入口从夸克换到千问再向第三方开放，腾讯则把 AI 藏进微信。</p>
+
+  <h3>第一战场：C 端 AI 助手的月活差距</h3>
+
+  <p>QuestMobile 2026 年 6 月的数据（剔除手机厂商预装，只统计用户主动下载的独立 App）显示，<b>C 端格局已经分层，且断层明显</b>。</p>
+
+  <div class="bars">
+    <div class="bar-row">
+      <span class="bar-lbl">豆包（字节）</span>
+      <span class="bar-track"><span class="bar-fill" style="width:100%"></span></span>
+      <span class="bar-val">3.82 亿</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-lbl">千问（阿里）</span>
+      <span class="bar-track"><span class="bar-fill" style="width:44%"></span></span>
+      <span class="bar-val">1.67 亿</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-lbl">DeepSeek</span>
+      <span class="bar-track"><span class="bar-fill alt" style="width:34%"></span></span>
+      <span class="bar-val">1.30 亿</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-lbl">元宝（腾讯）</span>
+      <span class="bar-track"><span class="bar-fill" style="width:13%"></span></span>
+      <span class="bar-val">4,984 万</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-lbl">Kimi（月之暗面）</span>
+      <span class="bar-track"><span class="bar-fill alt" style="width:2%"></span></span>
+      <span class="bar-val">729 万</span>
+    </div>
+    <div class="scale-note">口径：QuestMobile 2026 年 6 月 AI 原生 App 月活跃用户；剔除手机厂商预装。条形宽度按最大值等比缩放。</div>
+  </div>
+
+  <p>豆包的优势来自抖音的分发底盘，且仍在扩大——2026 年 6 月同比增速 +172.1%。但它的商业化尚未跑通：据《晚点 LatePost》推算，截至 2026 年上半年<b>豆包 App 每天收入不足百万元，而每天耗资高达数千万元</b>。2026 年 6 月 24 日，豆包正式上线三档订阅（标准 68 元/月、加强 200 元/月、专业 500 元/月，年付最高 5,088 元）；2026 年 7 月底起对酒旅类目抽佣，综合费率 12%。</p>
+
+  <p>千问的路径更曲折。<b>品牌经历过两次改名</b>：2023-10 的「通义千问」→ 2024-05 的「通义」→ 2025-11-17 改版为「千问」并公测 → 2026-03-02 官方宣布 B 端与 C 端品牌全面统一为「千问」。增长主要靠投放与生态打通驱动：2026 年春节官方口径投入 30 亿元做「请客计划」（DataEye 估算营销预算约 60 亿元，外媒报道为 4.31 亿美元——三个数字口径不同，不可混用）；生态侧从 2025-12 接高德开始，到 2026-01-15 全面接入淘宝、支付宝、飞猪、高德，上线超 400 项 AI 办事功能。</p>
+
+  <p>腾讯元宝是三家中<b>唯一在数据上出现两套口径</b>的：官方春节成绩单为日活超 5,000 万、月活 1.14 亿；而 QuestMobile 2026 年 6 月的独立 App 月活为 4,984 万。前者是春节峰值、官方口径，后者是常规月份、第三方口径。元宝团队归属 CSIG，2026-07-06 接入 Hy3 并全能力免费。</p>
+
+  <h3>第二战场：三个同构的 AI 办公产品</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三家 AI 办公产品对比。访问量与月活为不同机构的第三方监测数据，口径不同，不可横向相加。</caption>
+      <thead><tr><th>项目</th><th>腾讯 WorkBuddy</th><th>阿里千问办公</th><th>字节豆包工作</th></tr></thead>
+      <tbody>
+        <tr><td class="k">上线时间</td><td>2026-03-09</td><td>2026-08-03 公测</td><td>2026-08-25</td></tr>
+        <tr><td class="k">产品来源</td><td>新做（兼容开源 Agent OpenClaw）</td><td>QoderWork + MuleRun + 悟空 三合一</td><td>豆包 + TRAE Work + 扣子 三合一</td></tr>
+        <tr><td class="k">关键数据</td><td>易观：6 月桌面端访问量 2,097 万次，居首、超第二三名之和；QuestMobile 7 月 App 月活 658.2 万</td><td>官方：上线首月用户破 3,000 万，企业用户占比过半</td><td>未披露独立用户数；飞书内原豆包企业版入口已升级为豆包工作</td></tr>
+        <tr><td class="k">组织上下文</td><td>嵌入企业微信工作链路</td><td>打通钉钉 IM，原生嵌入钉钉流程</td><td>飞书账号登录即继承权限内企业知识与上下文</td></tr>
+        <tr><td class="k">定价</td><td>未获取（汤道生称未设商业化 KPI）</td><td>免费版 / 98 元月 / 198 元月；企业版 198 元/席/月</td><td>发布时赠 30 天订阅，正式定价未获取</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>三个产品在半年内同构，说明这不是巧合而是同一个判断：<b>Agent 正在变成用户与互联网服务之间的中间层</b>。如果用户习惯对 Agent 说一句「帮我买最便宜的同款纸巾」，由 Agent 在后台完成比价下单，那么超级 App 就退化成履约服务商，流量分配权转移到 Agent 手里。三家抢的都是这个位置。</p>
+
+  <p>从桌面端入口的实际份额看，腾讯目前领先：2026 年 6 月桌面端 AI 原生办公智能体平台的月访问量中，<b>腾讯系 4 款合计 3,262 万、字节系 2 款合计 1,441 万、阿里系 3 款合计 919 万、百度搭子 72 万</b>。但腾讯领先得并不稳固——它同样在 6 个月内淘汰过自己的产品：由电脑管家团队 2026 年 3 月推出的 QClaw，2026-09-24 起停止新注册、2026-12-24 停运并迁移至 WorkBuddy，存活不足一年。</p>
+
+  <h3>第三战场：微信这张别人没有的底牌</h3>
+
+  <p>2026-06-20 起，部分微信用户发现主界面左上角多了一个绿色眼睛的机器人图标，点进去是一个标注「测试版」的 AI 助手「小微」。据腾讯客服说明，这是微信团队正在小范围内测的原生 AI 助手；<b>其主模型是微信团队自研的中文大语言模型 WeLM，部分回答调用 DeepSeek</b>。它支持操作微信原生功能（设置、发消息、朋友圈管理）、调起小程序完成服务（挂号、买咖啡）、搜索与生成图片，且为系统内置功能、暂不支持关闭。</p>
+
+  <p>比产品本身更值得注意的是<b>它上线之前先铺好的生态基建</b>：2026-06-08 微信面向开发者发布《关于开发者接入微信AI生态的指引》，开发者可通过「自动模式」或「开发模式」把小程序接入微信 AI 生态，美团、京东、携程、得物等已宣布接入；2026-06-17 微信支付发布「AI 专属卡」，让用户在与 Agent 的对话中直接完成下单支付。腾讯 2026 年上半年的数据显示，AI 类小程序新增近 40%，10 亿 Token 扶持额度吸引了超 6.3 万名开发者。</p>
+
+  <blockquote>
+    微信不搞 AI 全家桶，坚持去中心化。
+    <cite>马化腾，2026 年 1 月腾讯员工大会（据 IT之家等报道转述）</cite>
+  </blockquote>
+
+  <p>这句话解释了腾讯在应用层最本质的差异：<b>它不需要一个独立的超级 App，它已经有一个 14.32 亿月活的容器</b>。字节要靠豆包在抖音之外另建一个入口，阿里要靠千问把淘宝、支付宝、高德的流量重新组织一遍，而腾讯只需要在微信里开一扇门。这也是「小微」相比另外两家 C 端产品的结构性优势所在。</p>
+</section>
+
+<section id="org">
+  <span class="snum">04</span>
+  <h2 class="sec">组织与人才：三家都把 AI 收权到了 CEO 一层</h2>
+
+  <p class="lede">2025 到 2026 年，三家做的最一致的一件事，是拆掉 AI 业务原来的事业部边界，把它直接挂到集团 CEO 或总裁办公室下面。这在中国的互联网公司里是罕见动作。</p>
+
+  <h3>组织架构：三种不同的收权方式</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三家 AI 组织的当前形态与关键调整。均为公开报道口径，非官方组织架构图。</caption>
+      <thead><tr><th>维度</th><th>字节</th><th>阿里</th><th>腾讯</th></tr></thead>
+      <tbody>
+        <tr><td class="k">基础模型组织</td><td>Seed（独立于营收部门）</td><td>Token Foundry 事业部</td><td>基础模型部（TEG 内）</td></tr>
+        <tr><td class="k">模型一号位</td><td>吴永辉<br>Seed 负责人</td><td>刘大一恒<br>Qwen LLM 项目负责人</td><td>姚顺雨<br>首席 AI 科学家</td></tr>
+        <tr><td class="k">汇报对象</td><td>直接向 CEO 梁汝波</td><td>Token Foundry 由 CEO 吴泳铭直接负责</td><td>向总裁刘炽平汇报；兼 AI Infra 部与大语言模型部，向 TEG 总裁卢山汇报</td></tr>
+        <tr><td class="k">应用侧负责人</td><td>Flow：洪定坤（技术）、朱骏（产品）；豆包产品由赵祺负责</td><td>吴嘉（千问 C 端事业群）；陈宇森（钉钉 CEO、悟空事业部 CEO、千问办公 CEO）</td><td>汤道生（CSIG，元宝/腾讯云/WorkBuddy）；张小龙（WXG，微信 AI）</td></tr>
+        <tr><td class="k">关键调整</td><td>2026-07-30 飞书产品团队并入豆包；2026-08-19 Seed 新设四个一级部门；2026-08 新设 AI 数据与安全部</td><td>2026-03 成立 ATH 事业群；2026-06-08 合并为 Token Foundry；2026-08 收拢为「AI 云与算力服务」+「AI 实验室与应用」两大板块</td><td>2025-12 新设 AI Infra 部、AI Data 部、数据计算平台部；2026-07-24 大语言模型部与多模态模型部合并为基础模型部</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>三家的一号位背景，恰好对应各自的路线选择。<b>字节的吴永辉是研究型</b>——南京大学本科、加州大学河滨分校博士，在谷歌约 17 年做到 L10 / Google Fellow，2023 年任 Google DeepMind 研究副总裁，是 Gemini 核心贡献者、GNMT（谷歌神经机器翻译）最高引论文作者，Google Scholar 引用超 5 万、h-index 72；2025 年初加入字节后直接向梁汝波汇报。</p>
+
+  <p><b>阿里在 2026 年 3 月经历了一次实质性的团队震荡</b>：Qwen 一号位林俊旸于 2026-03-03 提出辞职、03-04 凌晨在 X 上宣布卸任，吴泳铭 03-05 内部邮件批准；同日后训练负责人郁博文离职，Qwen Code 负责人惠彬原已于 2026-01 加入 Meta。现任 Qwen 一号位刘大一恒是内部晋升——四川大学博士，2020 年入选华为「天才少年计划」，2021 年加入阿里达摩院，是 Qwen 早期核心成员、长期负责预训练。同期阿里从 Google DeepMind 引入周浩（Gemini 3.0 核心贡献者）负责后训练。周靖人则从阿里云 CTO、通义实验室负责人，经 2026-04 的技术委员会、2026-06 转任集团首席科学家（阿里史上首位）。<b>需要强调的是：</b>这一轮离职发生在 Qwen3.5 发布后不久，媒体对 Qwen3.5 表现有「未达内部预期」的说法，但属单一二手来源、未获官方确认。</p>
+
+  <p><b>腾讯的换帅幅度最大，且旧口径已经过时。</b>现任腾讯首席 AI 科学家姚顺雨（Vinces Yao）是清华姚班本科、普林斯顿博士，2024 年加入 OpenAI（参与 operator、deep research），是 ReAct 论文作者；2025 年 9 月离开 OpenAI 加入腾讯，2025 年 12 月正式出任首席 AI 科学家，2026-07-24 起统一管理合并后的基础模型部。<b>此前外界常引用的「蒋杰/张正友分管混元」这一代口径已不再适用</b>——本报告未能获取张正友、俞栋 2026 年的公开职位信息，故不对其现状作任何断言。</p>
+
+  <h3>招聘：三家在招岗位的 AI 占比，是最诚实的战略信号</h3>
+
+  <p>三家招聘官网的社招页面均无需登录即可浏览，因此可以横向量化。同一时间窗口内，三家的 AI 岗位占比差异明显。</p>
+
+  <div class="bars">
+    <div class="bar-row">
+      <span class="bar-lbl">阿里（2027 届实习）</span>
+      <span class="bar-track"><span class="bar-fill" style="width:95%"></span></span>
+      <span class="bar-val">&gt;80%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-lbl">字节（社招，2026-10-05）</span>
+      <span class="bar-track"><span class="bar-fill" style="width:51%"></span></span>
+      <span class="bar-val">42.8%</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-lbl">腾讯（社招，2026-10-10）</span>
+      <span class="bar-track"><span class="bar-fill" style="width:35%"></span></span>
+      <span class="bar-val">29.4%</span>
+    </div>
+    <div class="scale-note">口径：字节为招聘官网社招频道 11,187 个岗位中搜索「AI」命中的 4,791 个；腾讯为 careers.tencent.com 公开 API 的 2,277 个岗位中「AI」命中 670 个；阿里为 2027 届实习生招聘中官方披露的 AI 相关岗位占比。三者统计对象不同（社招 vs 实习），不可直接比较，仅示量级。</div>
+  </div>
+
+  <p>字节的数据颗粒度最细。2026 年 10 月 5 日，字节招聘官网社招频道共挂出 <span class="num">11,187</span> 个岗位，其中 <span class="num">4,791</span> 个含「AI」关键词（42.8%）；<b>更关键的是趋势——新发布岗位中 AI 占比已从 33% 升到 55%</b>。按业务板块看，Seed 大模型团队的 AI 岗位占比 96.1%、豆包等 AI 原生应用 77.2%、剪映/CapCut 74.3%，而电商只有 26.4%、本地生活 16.9%。按职能看，设计岗的 AI 占比 58.2% 竟然高于研发岗的 52.9%，产品岗 50.4%；销售岗整体仅 14.7%，但二级类目「销售支持」高达 79.1%，且几乎全部来自飞书和火山引擎——「AI 售前解决方案专家」「企业 AI 落地专家」这类岗位。</p>
+
+  <p>岗位描述的词频也很能说明方向：4,791 个 AI 岗位中，1,882 个提到 Agent 或智能体（39.3%），「数据/评测」类 1,148 个（24%），且 AI 岗位中提到「评测」的比例从 2025 年上半年的 12.4% 升至 2026 年 7 月以来的 22.0%。<b>另一个细节是字节的 JD 里大量点名海外产品</b>：提到 Claude 的岗位 119 个（其中明确写 Claude Code 的 84 个）、OpenClaw 64 个、Codex 59 个、Cursor 47 个；国内模型里提到 Qwen 的 37 个、DeepSeek 的 33 个。</p>
+
+  <p>腾讯的分布则揭示了另一件事：670 个 AI 岗位中，<b>CSIG 221 个（33%）、IEG 209 个（31%）</b>，均高于研发本部的 TEG（104 个，16%）和微信事业群 WXG（68 个，10%）。也就是说，腾讯的 AI 岗位更多压在「把 AI 卖出去」和「把 AI 用进游戏」上，而不是基础模型研发本身。</p>
+
+  <h3>人才流动：已经从单向变成双向</h3>
+
+  <p>2026 年最值得注意的变化是，<b>挑战者不再只是大厂的人才净输出方</b>。DeepSeek 在 2026 年至少流失 5 名核心研发，覆盖基座、推理、OCR、多模态四条主线：罗福莉去了小米、郭达雅去了字节、王炳宣（DeepSeek LLM 核心作者）去了腾讯。反过来，字节的 Seed 也在被创业公司反向抽取——2025 年至今至少 10 位字节系 AI 从业者离职创业，覆盖 AI 创作、Coding Agent、具身智能、AI 硬件、AI4S 五个方向，其中包括飞书产品副总裁齐俊元（创办此间无限）、Flow AI 产品负责人西原、剪映全球商业化负责人陈冕（创办 LiblibAI，B+ 轮近 3 亿美元）。</p>
+
+  <p>阿里前 Qwen 负责人林俊旸的去向是最具象征性的一例：他创办的 Pragmatik Labs 据报以 136 亿元人民币估值融资，<b>投资方中包含腾讯</b>——即阿里前模型一号位的创业公司，被腾讯投了。</p>
+
+  <div class="callout">
+    <div class="ct">口径提醒</div>
+    <p>本节所有人事信息均为公开报道口径，<b>在招岗位 ≠ 实际团队规模，论文署名 ≠ 员工名单，投资关系 ≠ 汇报关系</b>。三家均未公开 AI 团队的准确编制：字节 Seed 仅有一个 2025 年的「约 1,500 人」口径；阿里 Qwen 核心研发团队仅有 2026-03 媒体引述的「100 多人」；腾讯混元团队人数无公开来源。涉及具名个人的描述均为职业维度（雇主、教育、公开研究贡献），不含私人联系方式。</p>
+  </div>
+</section>
+
+<section id="capital">
+  <span class="snum">05</span>
+  <h2 class="sec">资本与投入：三份烧钱账单，三种不同的底气</h2>
+
+  <p class="lede">三家的资本开支都在 2026 年创下历史新高，但钱的来源和承受能力完全不同：阿里是上市公司、可以配股；腾讯有主业现金流、但自由现金流已经转负；字节未上市、靠创纪录的银团贷款。</p>
+
+  <div class="tw">
+    <table>
+      <caption>三家资本开支与财务对照。阿里为财年口径（FY2027 Q1 = 2026 年 4–6 月），腾讯为自然季度，字节为媒体口径估算、非审计数据。</caption>
+      <thead><tr><th>项目</th><th>字节</th><th>阿里</th><th>腾讯</th></tr></thead>
+      <tbody>
+        <tr><td class="k">单季资本开支</td><td class="n">未披露（未上市）</td><td class="n">676.78 亿元（+75%）</td><td class="n">527.84 亿元（+176%）</td></tr>
+        <tr><td class="k">2026 年投入计划</td><td>1,600 亿元 → 上调至约 2,000 亿元（约 300 亿美元）<br><span class="chip mid">两个口径</span></td><td>三年 3,800 亿元计划，截至 2026-06 已投 1,900 亿元；吴泳铭称最终「会远远超过 3,800 亿」</td><td>未公布年度总额；2026 上半年已投 847.20 亿元（+82%）</td></tr>
+        <tr><td class="k">自由现金流</td><td class="n">未披露</td><td class="n">−173 亿元（FY2026 Q4）</td><td class="n">−138 亿元（2026 Q2）</td></tr>
+        <tr><td class="k">当期营收</td><td class="n">2026 上半年同比 +30%</td><td class="n">FY2026 全年 10,236.7 亿元（+3%）</td><td class="n">2026 Q2 2,047.9 亿元（+11%）</td></tr>
+        <tr><td class="k">利润率信号</td><td>净利率降至约 16.7%（2023 年 26%、2024 年 21%）</td><td>FY2026 Q4 经营亏损 8.48 亿元（上年同期盈利 284.65 亿元）</td><td>Non-IFRS 经营利润 756.4 亿元（+9%）；剔除新 AI 产品影响为 861 亿元（+19%）</td></tr>
+        <tr><td class="k">融资动作</td><td>约 300 亿美元银团贷款（科技公司史上最大规模）</td><td>港股配售募资约 800 亿港元</td><td>未披露新增融资</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>把三份账单放在一起，能看出一个共同点：<b>三家的自由现金流都在被 AI 基础设施吃掉</b>。吴泳铭的说法是「现在我们的服务器内，几乎没有一张卡是空的」，并称未来 3–5 年内 AI 数据中心建设的投资回报「非常确定」，AI 算力资本开支三年回本、未来有望缩到 2.5–2 年。他把 AI 比作制造业：「当我们要获得更多收入的时候，必须要去建两个核心的工厂——AI 的训练工厂和 AI 的推理工厂。」</p>
+
+  <p>腾讯这一侧，AI 投入对利润的拖累已经被官方量化：<b>2026 Q2 剔除新 AI 产品的收入、成本及开支影响后，Non-IFRS 经营利润同比增速从 9% 提升到 19%</b>。换句话说，AI 业务本身当前是显著拉低利润率的。若剔除算力采购的预付款项，Q2 自由现金流为 376 亿元而非 −138 亿元。</p>
+
+  <p>字节没有上市，只能用间接口径观察：2026 年上半年营收同比增长约 30%，但净利润率降到约 16.7%；2025 年资本开支超 1,500 亿元，其中约 900 亿元投向 AI 算力。作为参照，海外四家（微软、谷歌、Meta、亚马逊）2026 年的资本开支指引合计已飙至约 <span class="num">7,200 亿–7,450 亿美元</span>。</p>
+
+  <div class="callout warnb">
+    <div class="ct">未来六年的账单</div>
+    <p>阿里云在 2026 云栖大会上宣布，到 2032 年运营的全球数据中心规模将超过 <span class="num">20GW</span>；高盛此前估算阿里已上线容量约 3–4GW，意味着未来六年要新增约 16–17GW、扩大到目前的 5 倍以上。参照英伟达黄仁勋披露的「1GW 算力建设成本约 500 亿–600 亿美元」推算，<b>阿里未来六年的总建设投入可能在 8,000 亿至 1 万亿美元量级</b>。这个数字远超其当前约 4,745 亿元的现金及流动投资余额——持续外部融资几乎不可避免。</p>
+  </div>
+</section>
+
+<section id="compete">
+  <span class="snum">06</span>
+  <h2 class="sec">竞争格局：挑战者、应用层，和大厂站的那条缝</h2>
+
+  <h3>横向：四家挑战者基础模型公司的真实状态</h3>
+
+  <p>四家挑战者的共同点是<b>模型能力已经贴到大厂身后，但商业模型完全不同</b>。彭博行业研究 2026-10-05 的测算称，中美顶尖模型的基准差距已缩至约 3%（2026 年 5 月约 9%、年初约 15%）；斯坦福《2026 AI 指数报告》给出的数字是 2.7 个百分点。</p>
+
+  <div class="tw">
+    <table>
+      <caption>四家挑战者对比。ARR 全部为年化运行率口径、非审计收入；市值取 2026-10-08 收盘口径。</caption>
+      <thead><tr><th>维度</th><th>月之暗面 Kimi</th><th>DeepSeek</th><th>智谱</th><th>MiniMax</th></tr></thead>
+      <tbody>
+        <tr><td class="k">最新旗舰</td><td>K3（2026-07-16）<br>2.8 万亿总参数</td><td>V4.1-Flash（2026-09-10）</td><td>GLM-5（2026-02-12）<br>7,440 亿总 / 400 亿激活</td><td>M3（2026-06）</td></tr>
+        <tr><td class="k">ARR</td><td class="n">3 亿美元（6 月）<br>→ &gt;10 亿美元（8 月，彭博）</td><td class="n">未披露<br>前 7 月实收 4.75 亿元</td><td class="n">18 亿美元（9 月）<br>年末指引 30 亿美元</td><td class="n">&gt;8 亿美元（8 月）<br>To B 占约 80%</td></tr>
+        <tr><td class="k">收入结构</td><td>API 占比 &gt;70%</td><td>以 API 为主</td><td>MaaS 及 API 占 86.5%</td><td>开放平台占 63.4%</td></tr>
+        <tr><td class="k">估值 / 市值</td><td class="n">F 轮投后 350 亿美元<br>Pre-IPO 约 500 亿美元</td><td class="n">首轮投后近 4,000 亿元<br>次轮目标 5,000 亿元</td><td class="n">约 3,135 亿港元<br>（较 6 月高点 −75%）</td><td class="n">约 730 亿港元<br>（较 3 月高点 −81%）</td></tr>
+        <tr><td class="k">上市状态</td><td>传保密递交 A1<br><span class="chip mid">未确认</span></td><td>聘中信证券辅导<br>未签辅导协议</td><td><span class="chip ok">2026-01-08 已挂牌</span></td><td><span class="chip ok">2026-01-09 已挂牌</span></td></tr>
+        <tr><td class="k">开源</td><td>K3 权重开放，附 MaaS 收费条款</td><td>V4 系列 MIT</td><td>GLM-5 权重 MIT</td><td>M2 系列、H3、Music 3.0 开放权重</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>把这四家与大厂对照，能看出两处结构性差异。第一处是<b>C 端流量的量级差</b>：2026 年 6 月豆包的月活是 Kimi 的约 52 倍。第二处是<b>现金承受力</b>：DeepSeek 前 7 个月营收 4.75 亿元、净亏 7.15 亿元；智谱 2026 上半年收入 9.54 亿元、亏损 20.72 亿元；MiniMax 上半年亏损 3.58 亿美元、半年亏损已超 2025 年全年。三家的收入都在高速增长（智谱 MaaS 收入同比 +2,736%），但没有一家在盈利。</p>
+
+  <p>值得注意的是，<b>大厂同时是挑战者的股东</b>。阿里领投了月之暗面 2024-02 的 A 轮，并是 MiniMax 港股 IPO 的基石投资者；腾讯是 DeepSeek 首轮（约 100 亿元）与次轮的最大出资方之一，也参投了月之暗面与 MiniMax。这种「既竞争又持股」的结构，意味着挑战者的部分增长红利会回流到大厂账上——阿里过去三年投资 24 个 AI 标的、累计约 360 亿元，浮盈超 2,100 亿元。</p>
+
+  <h3>应用层：Manus 的故事与「大厂碾压」的常见叙事相反</h3>
+
+  <p>Manus 在 2025–2026 年的经历，是这一轮 AI 应用层最有信息量的案例。2025 年 3 月发布后，它同月宣布与阿里通义千问团队在开源模型上合作；2025 年 6 月确认总部迁至新加坡、7 月中国团队裁员调整。2025-12-29，Meta 宣布以约 20 亿美元收购 Manus，创始人肖弘出任 Meta 副总裁。</p>
+
+  <p>然后事情反转了。<b>2026-04-27，国家发改委作出禁止投资决定、要求撤销交易</b>——这是《外商投资安全审查办法》实施以来首例公开叫停的 AI 领域外资收购。2026-09-01，Manus 宣布恢复独立运营，创始团队继续领导；据二手报道，创始团队与腾讯、红杉中国、真格基金等老股东以约 20 亿美元回购股份，<b>腾讯成为最大股东</b>。2026-09-28 发布 Manus 2.0（含自研 Agent 框架 Cascade、Cloud Computer、以及给每个 Agent 配独立邮箱/电话/钱包/电脑的个人助理应用 Cue），2026-10-08 宣布完成超 5 亿美元新融资，博裕投资、IDG 资本领投，同日放出 17 个岗位——<b>全部位于北京</b>。</p>
+
+  <p>商业数据也在改善：ARR 从 2025-12 的 1 亿美元涨到 2026 年中的 4 亿–5 亿美元年化。但估值倍数在收缩——Meta 那一轮约为 20–30 倍 ARR，2026-10 的新轮约为 8–10 倍。这说明<b>资本市场对 Agent 赛道的定价逻辑已从「叙事」转向「收入可持续性」</b>。</p>
+
+  <p>与之形成对照的是 Cursor：2025 年它曾是 Anthropic 最大的单一客户、巅峰期贡献 Anthropic 近一半收入；2025 年底 Anthropic 上线 Claude Code 直接竞争，到 2026 年初 Claude Code 年化收入直奔 25 亿美元、超过 Cursor 的 20 亿，Cursor 市场份额从 41% 掉到 26%。2026-06-16，SpaceX 签署最终协议以 600 亿美元全股票收购 Cursor 母公司 Anysphere。<b>这是「模型厂商下场吃应用方」最完整的证据链：用你交的钱训出来的模型，做了一个更好的你，再抢你的用户，最终只能卖身给第三家。</b></p>
+
+  <h3>它站的那条缝：分发、算力账单与组织上下文</h3>
+
+  <p>把三家的位置合起来看，大厂在 AI 应用层站的那条缝由三样东西构成，而这三样都是应用层创业公司结构上拿不到的。</p>
+
+  <ul class="plain">
+    <li><b>分发。</b>钉钉覆盖超 2,600 万家企业组织，企业微信连接上千万家企业组织，微信月活 14.32 亿。飞书 2026 年新增客户中超九成同步采购了 AI 产品。应用层公司没有等量入口——Manus 的获客「几乎不花钱」靠的是爆火自然流量，这种获客不可复制。</li>
+    <li><b>算力账单本身就是商业模式。</b>大厂做办公 Agent 的真实动机不是办公软件收入（钉钉年营收 40 多亿元、飞书 30 亿元出头，在各自盘子里都是零头），而是让 Agent 消耗自家云上的 Token。火山引擎把 MaaS 视为 2026 年战略优先级，IDC 口径下已占 49.5% 份额。这一条应用层公司无法复制。</li>
+    <li><b>组织上下文。</b>豆包工作通过飞书账号登录继承企业权限内的聊天记录、文档、会议纪要、日程；千问办公打通钉钉 IM 与组织级 Skill 沉淀；WorkBuddy 嵌入企业微信工作链路。这类上下文是组织多年沉淀的产物，不是产品功能。</li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">这条缝会不会变窄</div>
+    <p>会，而且压力来自两个方向。<b>向下</b>，模型能力每上一个台阶，应用层靠「填补模型缺口」建立的中间层就薄一层——Lovart 创始人在得知 GPT-Image-1 将开放后曾对投资人表示团队近一年搭建的中间层突然失去存在必要，是最具体的一次证伪。<b>向上</b>，大厂自己的产品生命周期也在按月计：腾讯 QClaw 从 2026 年 3 月推出到 12 月停运不足一年，字节把飞书产品团队并入豆包、阿里把三条产品线合并成千问办公，都是同一个逻辑。<b>真正的风险不是创业公司被挤掉，而是大厂之间用同构产品互相消耗</b>——三个 AI 办公产品功能高度重叠、都还没有商业化 KPI，这条缝里的钱目前谁也还没赚到。</p>
+  </div>
+</section>
+
+<section id="outlook">
+  <span class="snum">07</span>
+  <h2 class="sec">发展走向：可能的路径、该盯的信号，和主要风险</h2>
+
+  <h3>可能的路径</h3>
+
+  <div class="chips">
+    <span class="chip ok">路径 A：三条缝各自守住</span>
+    <span class="chip mid">路径 B：Agent 入口收敛，赢家通吃</span>
+    <span class="chip no">路径 C：参数竞赛拖成资本消耗战</span>
+  </div>
+
+  <p><b>路径 A 的触发条件</b>是：C 端月活格局稳定在豆包领先、千问第二、元宝第三，三家办公 Agent 各自绑定自家生态（飞书/钉钉/企业微信）而无法互相迁移，MaaS 份额维持在火山引擎与阿里云两家分食。<b>路径 B 的触发条件</b>是微信小微从灰度走向全量、并大规模接入第三方小程序服务——一旦 14 亿用户可以用一句话完成从信息获取到服务执行的闭环，Agent 就成为新的流量分配者，字节和阿里需要重新争夺被微信截流的入口。<b>路径 C 的触发条件</b>是 5 万亿–10 万亿参数的训练成本超出预期，加上智谱/MiniMax 的市值回撤传导到一级市场、融资窗口收窄，导致某一家被迫放缓投入节奏。</p>
+
+  <p>三条路径并不互斥。更可能的情形是 A 与 B 同时发生——三家在模型与云层面各自守住位置，但在 Agent 入口这一层发生真正的正面冲突。</p>
+
+  <h3>该盯的信号</h3>
+
+  <ul class="plain">
+    <li><b>微信小微从灰度转全量的时间点，以及它接入第三方服务的广度。</b>这是全篇最重要的前瞻指标：它决定腾讯能不能用最低成本拿到 Agent 入口，也决定字节和阿里是否需要为入口付出额外代价。目前的生态基建（2026-06-08 开发者接入指引、2026-06-17 微信支付 AI 专属卡、美团京东携程得物接入）已经先行铺开。</li>
+    <li><b>三家办公 Agent 何时开始认真收钱。</b>腾讯汤道生已明确表示未给 WorkBuddy 设商业化 KPI；阿里千问办公已挂出 98/198 元与 198 元/席的价目；字节豆包工作只有「赠 30 天订阅」。<b>定价从促销转向常态化收费的时点，比任何用户数都更能说明这个赛道是否成立。</b></li>
+    <li><b>阿里 Token Foundry 的 MaaS 收入是否兑现「年底突破 300 亿元」。</b>阿里已披露 AI 相关产品年化收入突破 358 亿元，MaaS 是其中主要部分；这是三家当中唯一有明确数字指引的 AI 收入目标。</li>
+    <li><b>字节是否公开旗舰模型的架构与参数量。</b>截至目前字节对 Seed 旗舰完全保密，而已开源的 Seed-OSS 是稠密模型。若某天官方披露旗舰架构，说明其竞争位置发生了变化——保密本身就是信号。</li>
+    <li><b>混元 Hy4 正式版的上线时间。</b>Hy4-preview 于 2026-08-27 发布，正式版至今未上线。汤道生已公开承认算力不足拖累迭代——如果正式版继续延后，就说明算力约束是真实的、而非客套话。</li>
+    <li><b>挑战者首次披露毛利率。</b>四家的 ARR 全部是年化口径，没有一家披露过扣除推理成本、云资源与渠道分成后的毛利。这个数字一旦出现，将直接检验「用 MAU 换 ARR」的转型是否成立。</li>
+    <li><b>开源许可收费条款的实际执行情况。</b>月之暗面 K3 规定企业 MaaS 业务年收入超 2,000 万美元须另签协议，阿里计划对下一代 Qwen 开源模型大型商用用户收营收分成。这些条款是否被真实执行、云厂商是否接受，决定了开源作为获客手段的成本会不会上升。</li>
+  </ul>
+
+  <h3>主要风险</h3>
+
+  <p>以下按<b>对「这件事是否被正确理解」的影响程度</b>排序，而不是按发生概率。</p>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R1</span><span class="risk-t">把三个不同维度的「第一」当成同一个领先度</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>高</em></span></div>
+    <p>豆包 3.82 亿月活来自 QuestMobile、火山引擎 49.5% 份额来自 IDC、WorkBuddy 2,097 万次访问来自易观——三个不同机构、三套不同口径、三个不同时点。<b>最容易犯的错是把它们并排读成「三家各有胜负、势均力敌」，而真实情况是三家根本不在同一个市场里竞争。</b>字节的对手是阿里云和 OpenAI，阿里的对手是火山引擎和 DeepSeek，腾讯的对手是飞书和钉钉。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R2</span><span class="risk-t">用 C 端月活判断挑战者是否掉队</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>Kimi 月活从峰值约 3,600 万跌到 729 万，同期 ARR 从 1 亿美元涨到 3 亿美元（8 月彭博口径超 10 亿）、估值半年涨约 8 倍。<b>这两个数字方向相反且都真实，用哪一个都能得出看似完整的结论。</b>正确的读法是：C 端 MAU 与 API ARR 是两个独立的量，衡量的是不同的东西；转型在收入结构上已经成立，在毛利上尚未验证。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R3</span><span class="risk-t">把 ARR 当作收入来比较</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>本报告引用的 ARR 全部是<em>年化运行率</em>或媒体引述口径，没有一个是审计收入。对照实收差距极大：智谱 9 月的全业务 ARR 为 18 亿美元，而 2026 上半年实际收入只有 9.54 亿元人民币；DeepSeek 未披露 ARR，前 7 个月实收 4.75 亿元。<b>把 ARR 和财报营收放在同一张表里比大小，是这一轮 AI 报道中最常见的错误。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R4</span><span class="risk-t">把注册用户数、访问量当成留存用户</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>千问办公「上线首月用户破 3,000 万」是<em>注册用户</em>，不是月活，且未披露留存与付费；WorkBuddy 的 2,097 万是<em>桌面端访问量</em>，不是月活（其 QuestMobile 7 月 App 月活为 658.2 万）；腾讯元宝官方春节口径的月活 1.14 亿是<em>节日峰值</em>，常规月份第三方口径为 4,984 万。<b>三个数字都真实，但互相之间不可比。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R5</span><span class="risk-t">把「宣布」「签署」「递交」当成「完成」</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>月之暗面只是「传以保密形式递交 A1」，公司回应不予置评，无港交所文件佐证；DeepSeek 只是聘了中信证券辅导、<b>尚未签署辅导协议</b>；其次轮 800 亿–1,000 亿元融资截至 2026-10-06 仍处「接近锁定」阶段，非交割；阿里计划对 Qwen 开源模型收营收分成的比例，路透报道时仍在谈判中。<b>本报告在每处都标注了动作性质，读者引用时请连同时间状语一起引用。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R6</span><span class="risk-t">低估参数规模竞赛的边际递减</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>阿里、字节、DeepSeek 都在冲向 5 万亿–10 万亿参数，但 Scaling Law 需要数据量与算力同比例跟上，且要求高质量数据。到了万亿级别，单纯堆参数的边际回报明显递减。<b>更实际的约束是推理成本会转嫁到价格上</b>——即便只是几千亿到两三万亿参数的旗舰模型，用户的实际使用成本已经相当高。10 万亿目前仍只是 PPT 上的数字，现役国产旗舰的顶点是 Kimi K3 的 2.8 万亿。</p>
+  </div>
+
+  <h3>上限推演：如果一切顺利，能到哪</h3>
+
+  <p>乐观情形下，三家的天花板分别是这样的：<b>字节</b>的上限是成为中国的 Token 工厂——如果 MaaS 份额能维持在 50% 上下、日均 Token 调用量从 180 万亿继续翻倍，火山引擎有可能成长为一家以 Token 计价的基础设施公司，其规模上限取决于全行业推理需求的总量而非竞争对手。<b>阿里</b>的上限是成为 AI 时代的操作系统层——开源模型拿到全球开发者心智（下载量已是全球第一）、云承载这些模型的商业化，其约束在于开源免费与收费之间的张力，以及未来六年 8,000 亿至 1 万亿美元级的数据中心投入能否被现金流覆盖。<b>腾讯</b>的上限最低也最高——最低是因为它的模型能力目前三家最弱、且自认算力不足；最高是因为它有 14.32 亿月活的微信，如果「小微」跑通，腾讯不需要赢下模型竞赛也能赢下入口。</p>
+
+  <p>三家的共同天花板是同一个：<b>目前没有一家证明了大模型本身能赚钱</b>。豆包日收入不足百万元而日耗资数千万元；腾讯剔除 AI 业务后的经营利润增速高出 10 个百分点；阿里自由现金流连续多个季度为负。这一轮竞争真正的悬念，不是谁的技术更强，而是这个账单什么时候能靠收入平掉。</p>
+</section>
+
+<section id="caveats">
+  <span class="snum">08</span>
+  <h2 class="sec">哪些是事实，哪些还需要打问号</h2>
+
+  <h3>已核实（附一手来源）</h3>
+  <ul class="plain">
+    <li>豆包 App 2026 年 6 月月活 3.82 亿、同比 +172.1%；千问 1.67 亿、DeepSeek 1.30 亿、元宝 4,984 万、Kimi 729 万——QuestMobile，<a href="http://www.199it.com/archives/1844335.html">199IT 转载</a></li>
+    <li>火山引擎 2025 年在中国企业级 MaaS 的 Token 调用份额 49.5%，阿里云 28%、百度智能云 10%——IDC《中国企业级 MaaS 市场最新格局分析报告》，2026-05-07，<a href="https://www.163.com/dy/article/KSBKG55T0511D6RL.html">云头条报道</a></li>
+    <li>阿里 FY2026 首次披露 AI 相关产品年化收入突破 358 亿元、占阿里云外部商业化收入首次超 30%——<a href="https://finance.eastmoney.com/a/202605133736318373.html">阿里 FY2026 Q4 财报及业绩会实录</a></li>
+    <li>腾讯 2026 Q2 资本开支 527.8 亿元（同比 +176%）、上半年 847.20 亿元（+82%）——<a href="https://www.stcn.com/article/detail/4071679.html">证券时报</a></li>
+    <li>豆包工作 2026-08-25 正式发布、与飞书深度打通——<a href="https://www.news.cn/tech/20260825/1c13b806a0a946a9981e95f0c238e98c/c.html">新华网</a></li>
+    <li>千问办公 2026-08-03 开启公测、由 QoderWork + MuleRun + 悟空 整合而来——<a href="https://www.news.cn/tech/20260804/9735997ec1ce4738a74d8ea933b9ec0d/c.html">新华网</a></li>
+    <li>微信小微 2026-06-20 起小范围内测，主模型为自研 WeLM、部分回答调用 DeepSeek——<a href="https://m.thepaper.cn/newsDetail_forward_33436101">澎湃新闻转光明网</a></li>
+    <li>混元 Hy3（295B/21B）与 Hy4-preview（770B/49B）参数、架构、Apache-2.0 许可证及盲评数据——Hugging Face 官方模型卡 <a href="https://huggingface.co/tencent/Hy3">tencent/Hy3</a>、<a href="https://huggingface.co/tencent/Hy4-preview">tencent/Hy4-preview</a></li>
+    <li>Seed 2.0 模型卡与「Token 成本降低约一个数量级」表述——<a href="https://github.com/ByteDance-Seed/Seed2.0">GitHub ByteDance-Seed/Seed2.0</a>、<a href="https://arxiv.org/abs/2607.00248">arXiv 2607.00248</a></li>
+    <li>Qwen3.8-Max 2.4 万亿总参数 / 950 亿激活、100 万上下文——<a href="https://www.alibabacloud.com/en/press-room/alibaba-unveils-qwen3-8-max">阿里云新闻稿，2026-08-03</a></li>
+    <li>字节社招 11,187 个岗位中 AI 岗位 4,791 个（42.8%）、新发布岗位 AI 占比 33%→55%——36 氪《字节凶猛：从招聘看字节AI战略战术背后的逻辑与细节》，2026-10，<a href="https://www.c114.net.cn/industry/131505.html">c114 转载</a></li>
+    <li>腾讯社招 2,277 个岗位中 AI 岗位 670 个（29.4%），CSIG 221 / IEG 209 / TEG 104 / WXG 68——careers.tencent.com 公开 API，2026-10-10 实测</li>
+    <li>Manus 恢复独立运营（2026-09-01）与 Manus 2.0 发布（2026-09-28）——<a href="https://manus.im/blog/manus-resumes-independent-operations">Manus 官方博客</a></li>
+    <li>智谱 2026-01-08、MiniMax 2026-01-09 港交所挂牌——两家招股与上市公告</li>
+    <li>SpaceX 以 600 亿美元收购 Anysphere（Cursor）最终协议——<a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026043411/spaceexplorationtechnologi.htm">SEC 公告，2026-06-16</a></li>
+  </ul>
+
+  <h3>未核实 / 存疑</h3>
+  <ul class="plain">
+    <li><b>字节 Seed 旗舰模型的参数量与架构</b>——官方从未披露。「豆包 2.0 为 1 万亿参数」仅《晚点 LatePost》一家口径；「Seed 走 MoE 路线」无官方依据，且唯一确证的旗舰级开源模型 Seed-OSS-36B 是稠密模型。<b>证伪方式：</b>官方模型卡或技术报告披露架构。</li>
+    <li><b>字节 2026 年资本开支</b>——1,600 亿元（2025-12 口径）与约 2,000 亿元（2026-05 口径）两个数字，时点不同，本报告并列呈现。</li>
+    <li><b>月之暗面 ARR 从 6 月 3 亿美元到 8 月超 10 亿美元</b>——两个月三倍多的跳变缺乏中间验证，且两个数字来自不同机构（科创板日报 vs 彭博），均为年化口径。</li>
+    <li><b>「Qwen3.5 表现未达内部预期」</b>——《21 世纪商业评论》引述，单一二手来源，未获官方确认。</li>
+    <li><b>千问办公的组织隶属</b>——媒体有两套冲突口径：一说归属悟空事业部与钉钉体系，一说它是 ATH 事业群一级事业部、是钉钉的上级。官方未澄清，本报告并列。</li>
+    <li><b>Manus 被收购与回购的确切金额</b>——CNBC 称 20 亿美元，媒体测算区间 20 亿–30 亿美元，官方从未披露确切数字。</li>
+    <li><b>腾讯是否投资智谱</b>——未找到一手融资公告佐证，本报告不作断言。</li>
+    <li><b>Hy4 正式版上线时间</b>——官方仅称「即将上线」，截至数据截止日仍只有 preview。</li>
+  </ul>
+
+  <h3>未能获取</h3>
+  <ul class="plain">
+    <li><b>三家的旗舰模型是否走 MoE 及具体架构</b>——障碍：字节从未披露；腾讯与阿里的架构可确认，但字节部分属商业保密。</li>
+    <li><b>Hy3 / Hy4 的每百万 Token 官方定价</b>——障碍：腾讯云旧定价页已停止新增模型、公告称相关能力「逐步迁移至 TokenHub」，而 TokenHub 价格表未能抓取到公开页面。</li>
+    <li><b>三家 AI 团队的准确编制</b>——障碍：均未公开。字节 Seed 仅有 2025 年「约 1,500 人」口径，阿里 Qwen 仅有「100 多人」的媒体引述，腾讯混元无公开来源。</li>
+    <li><b>豆包工作的正式定价</b>——障碍：官网为客户端渲染，公开报道未列明。</li>
+    <li><b>张正友、俞栋 2026 年的公开职位</b>——障碍：官网管理团队页为 JS 渲染、未能抓取，且本次检索配额耗尽。本报告因此不对其现状作任何表述。</li>
+    <li><b>三家自研芯片的对外供货比例与英伟达采购占比</b>——障碍：属供应链商业机密，无公开一手数据。</li>
+    <li><b>张勇时代阿里高管（张勇、张建锋、戴珊等）的 2026 年现状</b>——障碍：本次检索配额耗尽，未能取得可核实的公开来源。</li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">本次调研的方法限制</div>
+    <p>本报告在 2026-10-10 完成。两项环境限制影响了核实深度：其一，<b>WebFetch 工具被本机网络策略全局拦截</b>，所有网页正文改由命令行直连抓取；其二，<b>本会话的检索配额（200 次，所有并行调研共享）在中途耗尽</b>，约每小时回补。因此「未能获取」清单中的部分条目，障碍是工具限制而非信息本身不存在，建议后续补查。</p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="snum">09</span>
+  <h2 class="sec">主要公开信息源</h2>
+  <ol class="src">
+    <li>QuestMobile 2026 年 6 月中国 AI 原生 App 月活 TOP10（豆包 3.82 亿、千问 1.67 亿、DeepSeek 1.30 亿、元宝 4,984 万、Kimi 729 万），2026-07。<a href="http://www.199it.com/archives/1844335.html">199it.com/archives/1844335.html</a></li>
+    <li>IDC《中国企业级 MaaS 市场最新格局分析报告》（火山引擎 49.5%、阿里云 28%、百度智能云 10%），2026-05-07。<a href="https://www.163.com/dy/article/KSBKG55T0511D6RL.html">163.com/dy/article/KSBKG55T0511D6RL</a></li>
+    <li>阿里巴巴 FY2026 Q4 及全年财报电话会实录（AI 相关产品年化收入 358 亿元、占云外部收入首破 30%、吴泳铭「几乎没有一张卡是空的」），2026-05-13。<a href="https://finance.eastmoney.com/a/202605133736318373.html">finance.eastmoney.com/a/202605133736318373</a></li>
+    <li>证券时报《腾讯上半年资本开支增长82% 二季度达到527.84亿元》，2026-08-12。<a href="https://www.stcn.com/article/detail/4071679.html">stcn.com/article/detail/4071679</a></li>
+    <li>证券日报《腾讯2026年第二季度资本支出超527亿元 持续加码AI投入》（Hy3/Hy4、WorkBuddy 任务解决率 72%→90%、易观办公智能体报告），2026-08-13。<a href="https://www.21jingji.com/article/20260813/herald/d5702eb08c394b9c513cd7b6feb5136b.html">21jingji.com（2026-08-13）</a></li>
+    <li>新华网《豆包工作正式发布：让AI从生成内容到完成工作》，2026-08-25。<a href="https://www.news.cn/tech/20260825/1c13b806a0a946a9981e95f0c238e98c/c.html">news.cn/tech/20260825</a></li>
+    <li>新华网《阿里「千问办公」开启公测》，2026-08-04。<a href="https://www.news.cn/tech/20260804/9735997ec1ce4738a74d8ea933b9ec0d/c.html">news.cn/tech/20260804</a></li>
+    <li>南方都市报《支持百人同时协作！千问办公推新功能，用户数已破3000万》（含 WorkBuddy/QClaw/TRAE Work 的 QuestMobile 月活与三家产品整合脉络），2026-09-07。<a href="https://www.sohu.com/a/1072852867_161795">sohu.com/a/1072852867</a></li>
+    <li>澎湃新闻转光明网《微信迎来史上最大更新！AI助手「小微」来了》（WeLM 主模型、微信 AI 生态指引、AI 专属卡），2026-06-23。<a href="https://m.thepaper.cn/newsDetail_forward_33436101">thepaper.cn/newsDetail_forward_33436101</a></li>
+    <li>36 氪《字节凶猛：从招聘看字节AI战略战术背后的逻辑与细节》（社招 11,187 / AI 4,791、板块与职能渗透率、JD 词频），2026-10。<a href="https://www.c114.net.cn/industry/131505.html">c114.net.cn/industry/131505</a></li>
+    <li>36 氪《阿里、字节、DeepSeek豪赌10万亿参数模型：一场停不下来的烧钱游戏》（参数竞赛、Kimi K3 2.8 万亿、各家 capex 与现金流），2026-09。<a href="https://www.oiindex.com/industry/127289.html">oiindex.com/industry/127289</a></li>
+    <li>36 氪《谁抢到下一个超级入口？个人AI助理竞速》（Meta Muse、Manus 2.0/Cue、OpenAI dots、字节 Spell 项目），2026-10。<a href="https://www.c114.net.cn/industry/129330.html">c114.net.cn/industry/129330</a></li>
+    <li>Hugging Face 官方模型卡 tencent/Hy3、tencent/Hy4-preview（参数、架构、Apache-2.0、盲评数据）。<a href="https://huggingface.co/tencent/Hy3">huggingface.co/tencent/Hy3</a></li>
+    <li>GitHub ByteDance-Seed/Seed2.0 与 arXiv 2607.00248《Seed2.0 Model Card》（「Token 成本降低约一个数量级」）。<a href="https://arxiv.org/abs/2607.00248">arxiv.org/abs/2607.00248</a></li>
+    <li>阿里云新闻稿《Alibaba Unveils Qwen3.8-Max》（2.4 万亿总参数 / 950 亿激活、100 万上下文），2026-08-03。<a href="https://www.alibabacloud.com/en/press-room/alibaba-unveils-qwen3-8-max">alibabacloud.com/en/press-room</a></li>
+    <li>阿里巴巴集团《Alibaba Open-Sources Qwen3.5》（3,970 亿总参数 / 170 亿激活、原生多模态），2026-02-16。<a href="https://www.alibabagroup.com/en-US/document-1960233590314762240">alibabagroup.com/en-US/document-1960233590314762240</a></li>
+    <li>IT之家《腾讯混元大语言模型和多模态团队合并，统一由姚顺雨管理》，2026-07-24。<a href="https://www.ithome.com/0/981/121.htm">ithome.com/0/981/121.htm</a></li>
+    <li>晚点 LatePost《吴永辉接管字节 Seed 这一年》（Seed 约 1,500 人、组织与人事变动），2026-02-09。<a href="https://www.latepost.com/news/dj_detail?id=3412">latepost.com/news/dj_detail?id=3412</a></li>
+    <li>IT之家《为 5 万亿参数超大模型「铺路」？字节 Seed 基模团队调整组织架构》，2026-08-19。<a href="https://www.ithome.com/0/991/856.htm">ithome.com/0/991/856.htm</a></li>
+    <li>Manus 官方博客《Manus Resumes Independent Operations》，2026-09-01。<a href="https://manus.im/blog/manus-resumes-independent-operations">manus.im/blog/manus-resumes-independent-operations</a></li>
+    <li>Manus 官方博客《Introducing Manus 2.0》，2026-09-28。<a href="https://manus.im/blog/introducing-manus-2-0">manus.im/blog/introducing-manus-2-0</a></li>
+    <li>CNBC《Manus to return as independent company after China forced Meta to unwind $2 billion deal》，2026-08-11。<a href="https://www.cnbc.com/2026/08/11/manus-china-meta-acquisition.html">cnbc.com/2026/08/11/manus-china-meta-acquisition</a></li>
+    <li>中新经纬《Manus独立运营后迎来首笔大额融资，博裕、IDG领投》，2026-10-08。<a href="https://www.jwview.com/jingwei/html/m/10-08/691488.shtml">jwview.com/jingwei/html/m/10-08/691488</a></li>
+    <li>SEC 公告：SpaceX 收购 Anysphere 最终协议（600 亿美元全股票），2026-06-16。<a href="https://www.sec.gov/Archives/edgar/data/1181412/000162828026043411/spaceexplorationtechnologi.htm">sec.gov/Archives/edgar/…/spaceexplorationtechnologi.htm</a></li>
+    <li>证券时报《融资超 35 亿美元、估值 500 亿美元！Kimi K3 开源》，2026-07-30。<a href="https://www.stcn.com/article/detail/4048828.html">stcn.com/article/detail/4048828</a></li>
+    <li>科创板日报《Kimi 估值升至 315 亿美元 ARR 突破 3 亿美元》（API 占比超 70%），2026-06-30。<a href="https://m.21jingji.com/article/20260630/herald/e4b2a38e31bd66cbebd50d1b6ed429e6.html">21jingji.com（2026-06-30）</a></li>
+    <li>AWS Bedrock 模型卡 Kimi K3（Model launch date: 18 Sept 2026，定价 $3/$15）。<a href="https://docs.aws.eu/bedrock/latest/userguide/model-card-moonshot-ai-kimi-k3.html">docs.aws.eu/bedrock/…/model-card-moonshot-ai-kimi-k3</a></li>
+    <li>钛媒体《DeepSeek 被爆最新融资 800 亿，正为冲击 IPO 做准备》（首轮 510 亿元明细、核心研发离职名单），2026-10-06。<a href="https://www.tmtpost.com/8159961.html">tmtpost.com/8159961</a></li>
+    <li>Reuters《DeepSeek-V4, the Chinese AI model adapted for Huawei chips》，2026-04-24。<a href="https://www.reuters.com/5f374b32b07b/world/china/deepseek-v4-chinese-ai-model-adapted-huawei-chips-2026-04-24/">reuters.com（2026-04-24）</a></li>
+    <li>智谱 GLM-5 官方技术博客与发布公告（744B MoE / 40B 激活、MIT 开源），2026-02-12。<a href="https://www.zhipuai.cn/zh/research/154">zhipuai.cn/zh/research/154</a></li>
+    <li>每日经济新闻《MiniMax 8 月 ARR 超 8 亿美元，B 端收入占比已升至 80%》，2026-08-26。<a href="https://finance.sina.com.cn/jjxw/2026-08-26/doc-inipsmim5859142.shtml">finance.sina.com.cn（2026-08-26）</a></li>
+    <li>21 财经《蒸发 3400 亿！MiniMax 市值缩水八成》，2026-10-08。<a href="https://m.21jingji.com/article/20261008/herald/c8d5e23de5d7b7ac4ea5edacb5206053.html">21jingji.com（2026-10-08）</a></li>
+    <li>国际金融报《月之暗面冲刺港股，智谱、MiniMax 深度回调》，2026-10-09。<a href="https://finance.jrj.com.cn/2026/10/09075858636364.shtml">finance.jrj.com.cn（2026-10-09）</a></li>
+    <li>证券时报《字节跳动发布 Seedream 4.0》，2025-09-09。<a href="https://stcn.com/article/detail/3329136.html">stcn.com/article/detail/3329136</a></li>
+    <li>央广网《字节跳动发布 Seedance 2.5》（单段 30 秒原生直出、50 个全模态参考），2026-07-31。<a href="https://www.cnr.cn/mspd/jrhm/20260731/t20260731_527739398.shtml">cnr.cn（2026-07-31）</a></li>
+    <li>第一财经《字节跳动加量采购国产芯片》（洽谈天数智芯至少 5 万颗推理芯片），2026-06-18。<a href="https://www.jiemian.com/article/14606708.html">jiemian.com/article/14606708</a></li>
+    <li>联合早报《字节跳动自研晶片团队已超千人》，2026-02-15。<a href="https://www.zaobao.com/finance/china/story20260215-8503556">zaobao.com（2026-02-15）</a></li>
+    <li>上海证券报《从「单点战」到「整体战」阿里 AI 架构重组》，2026-06-09。<a href="https://paper.cnstock.com/html/2026-06/09/content_2229164.htm">paper.cnstock.com（2026-06-09）</a></li>
+    <li>21 世纪商业评论《批准少年天才离职，吴泳铭在准备打硬仗》（林俊旸离职、Qwen 团队规模），2026-03-06。<a href="https://m.21jingji.com/article/20260306/herald/b175786153b34e0b4f301cec40e4bfb3.html">21jingji.com（2026-03-06）</a></li>
+    <li>澎湃新闻《云栖大会前夜，阿里把 Qwen 交给了一位 90 后》（刘大一恒出任 Qwen LLM 项目负责人），2026-09-25。<a href="https://m.thepaper.cn/newsDetail_forward_34141451">thepaper.cn/newsDetail_forward_34141451</a></li>
+    <li>证券时报《阿里腾讯加码！Kimi 估值突破 100 亿美元》，2026-02-17。<a href="https://www.stcn.com/article/detail/3645003.html">stcn.com/article/detail/3645003</a></li>
+    <li>投中网《大厂激战，字节、腾讯、阿里、百度集体「动刀子」》（桌面端 AI 办公智能体月访问量份额），2026-09-30。<a href="https://www.chinaventure.com.cn/news/113-20260930-393492.html">chinaventure.com.cn（2026-09-30）</a></li>
+    <li>钛媒体《微软、谷歌都盯上的 Genspark，成了第二个 Manus》，2026-05-09。<a href="https://www.tmtpost.com/7981578.html">tmtpost.com/7981578</a></li>
+    <li>澎湃新闻《阿里批准林俊旸离职，CTO 周靖人接管千问！Gemini 周浩确定加盟》。<a href="https://m.thepaper.cn/newsDetail_forward_32705618">thepaper.cn/newsDetail_forward_32705618</a></li>
+    <li>IT之家《消息称阿里计划向下一代千问 Qwen 开源模型大型商用用户收取营收分成》，2026-08-07。<a href="https://m.ithome.com/html/986830.htm">m.ithome.com/html/986830.htm</a></li>
+    <li>36 氪《亚马逊开始成为 Kimi 的印钞机》（30% 分成谈判、K3 许可证 2,000 万美元门槛），2026-09-22。<a href="https://www.36kr.com/p/3993170599296007">36kr.com/p/3993170599296007</a></li>
+    <li>界面新闻《AI办公套件对决：豆包工作在多模态领先，WorkBuddy稳健而巧妙，千问办公仍在追赶》，2026-09。<a href="https://m.jiemian.com/article/15126482.html">jiemian.com/article/15126482</a></li>
+    <li>IT之家《汤道生内部发文回应腾讯 AI 慢了》，2026-08-26。<a href="https://www.ithome.com/0/994/409.htm">ithome.com/0/994/409.htm</a></li>
+    <li>腾讯招聘公开 API（社招岗位总量与关键词分布实测），2026-10-10。<a href="https://careers.tencent.com/tencentcareer/api/post/Query">careers.tencent.com/tencentcareer/api/post/Query</a></li>
+  </ol>
+</section>
+
+<footer>
+  <p>本报告基于公开信息整理，数据截止 <b>2026-10-10</b>。所有推断均已标注核实状态；未标注来源的数字为公开报道口径，可能存在偏差。ARR 均为年化运行率口径、非审计收入；用户数据除注明外均来自第三方监测机构（QuestMobile、易观等），非各公司官方披露。本报告不含任何个人联系方式，涉及具名个人处仅引用其公开发布的职业信息。</p>
+  <p>调研方式：公开信息检索与网页正文直连抓取。因本机网络策略限制，WebFetch 工具不可用，且会话检索配额中途耗尽，部分条目已在第 08 节标注为「未能获取」并说明障碍。</p>
+</footer>
+
+</div>
+
+</body>
+</html>

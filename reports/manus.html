@@ -1,0 +1,1157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Manus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+</style>
+</head>
+<body>
+
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">Manus</span>
+    <div class="links">
+      <a href="#premise">公司脉络</a>
+      <a href="#org-talent">组织人才</a>
+      <a href="#compete">竞争分析</a>
+      <a href="#app">AI 应用层</a>
+      <a href="#outlook">发展走向</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">公司深度研究 · AI应用 · 2026</p>
+  <h1>Manus</h1>
+  <p class="standfirst">一家不做基础模型、也不掌握分发的应用层公司，怎么做到了独立厂商中的头部收入规模，它接下来还能往哪走？</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-09-29</dd></div>
+    <div><dt>版本</dt><dd>v5 · 五部分 + 信息源</dd></div>
+    <div><dt>核心结论</dt><dd>窄缝中的独立样本，走向待观察</dd></div>
+    <div><dt>信息源</dt><dd>公开报道 55 项</dd></div>
+  </dl>
+</header>
+
+<section class="thesis" id="thesis" style="border-top-width:2px">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>Manus 是一家独立公司，主体、产品与市场分属三层，不重合。</b>法律主体在开曼、总部在新加坡、研发重心在武汉与北京，产品面向全球公开发售，收入几乎全部来自海外；2026 年 9 月 28 日它宣布筹建面向国内市场的产品线，是把中国当作一个<b>新增市场</b>来做。这三层各自独立，读法不同结论会完全相反。</li>
+    <li><b>它站在一条两头受挤的窄缝里，而在这个位置上站得住的公司本来就不多。</b>上游模型公司既卖铲子又亲自下场——DeepSeek 在 2026 年 8 月开源了 MIT 协议的 Agent harness，还配了 700 亿元融资；下游超级 App 把免费当入口——WorkBuddy 免费版送积分、豆包工作免费 30 天。可是在这个位置上，<b>收入成型、面向全球发售、既不隶属模型公司也不隶属超级 App 的通用 Agent，公开信息里很难找到第二家。</b></li>
+    <li><b>它的技术资产确实在被商品化，而它此前几次站住脚，靠的也不只是技术资产。</b>跨模型的 Agent 工程能力（上下文工程、VM 编排、工具循环）现在有了免费的开源替代，这一点必须承认。但中金那条尺子——<b>1 元 token 成本要带回 10 元收入</b>——考的是交付价值而非技术稀缺性：Manus 2.0 的 Cascade 把单任务成本降了 32%、时间降了 28.2%，同时把产品线推向视频、游戏、云电脑这类<b>交付物本身值钱</b>的场景。它是在按这条尺子的方向走，只是还没公开交卷。</li>
+    <li><b>它有两项短期内不容易被复制的条件。</b>一是"纯应用层、收入成型、独立于模型公司与超级 App"这个位置——同时满足这三个条件的产品很少，而它在"断供政治化"之后反而更受关注；二是它跑完了"中国团队 → 全球化 → 被中资买回 → 重回独立运营"的全程，在服务出海中国企业这条赛道上，具备同等完整经历的公司很少。</li>
+    <li><b>较为合理的活法可能不是争通用入口，而是继续做深交付。</b>Manus 2.0 已经指向的方向——云电脑、事件触发自动化、视频与游戏这类<b>重执行、高交付物价值</b>的场景——恰好是免费锚点较难覆盖的部分。用中金的尺子说，就是找到那条能证明 1:10 的业务曲线；用腾讯研究院"流量 2.0"的话说，就是从"抢流量"转向"接管任务"。</li>
+  </ol>
+</section>
+
+<section id="premise">
+  <span class="snum">01 / 公司脉络</span>
+  <h2 class="sec">先把它是谁、卖什么、卖给谁说清楚</h2>
+  <p class="lede">关于这家公司的一种常见误读，是把"主体在哪、产品卖到哪、收入来自哪"三件事混成一件。这三层在 Manus 身上是分开的，而分开本身不是缺陷，是它 2025 年做全球化时形成的结构。</p>
+
+  <div class="tw">
+  <table>
+    <caption>三层归属各自独立。混为一谈会得出完全相反的结论——把主体当业务，会以为它已经回国；把业务当主体，会以为它已经出海。</caption>
+    <thead><tr><th style="width:22%">层次</th><th style="width:18%">归属</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td class="k">法律主体</td><td><span class="chip ok">开曼 · 新加坡</span></td><td>开曼控股 + VIE 架构（2025 年 7 月搭建），总部设在新加坡。腾讯牵头中资财团按成本价接回 Meta 份额，合计约 <span class="num">20%</span>，单一最大股东；红杉中国、真格基金各约 <span class="num">10%</span>。全部为财务投资、少数股东保护权益，<b>实控方为创始团队</b>。</td></tr>
+      <tr><td class="k">产品</td><td><span class="chip ok">全球公开发售</span></td><td>Manus 2.0、Cue 均面向全球发布，产品语言与计费以海外为主。研发重心仍在武汉、北京与新加坡三地。</td></tr>
+      <tr><td class="k">收入</td><td><span class="chip ok">海外为主</span></td><td>ARR 4–5 亿美元量级，主要来自海外订阅。未见任何国内收入披露。</td></tr>
+      <tr><td class="k">中国业务</td><td><span class="chip mid">筹建中</span></td><td>2026-09-28 官方表态"正在组建团队开发面向国内市场的产品，与国产模型厂商及生态伙伴合作稳步进行"——措辞是<b>筹建</b>，不是上线。国内经营主体、大模型备案、数据出境路径均未见公开落地信息。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>9 月这一个月，把问题整个换掉了</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:16%">时点</th><th style="width:34%">事件</th><th>对问题的影响</th></tr></thead>
+    <tbody>
+      <tr><td class="n">2026-09-01</td><td class="k">Meta 收购正式撤销</td><td>官网宣布恢复独立运营，创始团队继续领导。既不再是"Meta 的中国资产"，也不是"被腾讯收购"。</td></tr>
+      <tr><td class="n">2026-09-17</td><td class="k">彭博：5 亿美元融资</td><td>投后估值 <span class="num">40 亿美元</span>，较回购价 20 亿翻倍；消息称后续或赴港上市。资本重新给独立应用层定价。</td></tr>
+      <tr><td class="n">2026-09-28</td><td class="k">Manus 2.0 + Cue</td><td>首次把"国内产品线"写成公司动作。形式是国内产品线，<b>不是总部搬迁</b>。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <p class="ct">由此产生的核心张力</p>
+    <p>主体上它更靠近中国（备案、数据出境、国资背景股东），模型获取上却更需要"像一家海外公司"。<b>这两个要求互相拉扯，而且都不由 Manus 决定。</b>这是它未来三年需要处理的结构性约束之一。</p>
+  </div>
+
+  <h3>完整时间线</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:16%">时间</th><th>事件</th></tr></thead>
+    <tbody>
+      <tr><td class="n">2022-04</td><td>蝴蝶效应（Butterfly Effect）成立，前身为 Monica.im 团队</td></tr>
+      <tr><td class="n">2025-03</td><td>Manus 上线；底座为 Qwen + Claude（季逸超 2025-03 自述）</td></tr>
+      <tr><td class="n">2025-07</td><td>国内 120 人，约 80 人裁撤，40 余名核心技术人员迁往新加坡</td></tr>
+      <tr><td class="n">2025-07-18</td><td>官方博客《Context Engineering for AI Agents》发布，提出 KV-cache 命中率为生产级 Agent 最重要单一指标</td></tr>
+      <tr><td class="n">2026-01-13</td><td>Anthropic 上线 Claude Cowork（据报由 Claude Code 在约 1.5 周内建成）</td></tr>
+      <tr><td class="n">2026-01-18</td><td>开源克隆 Openwork 出现，迫使 Anthropic 把 Cowork 从 100 美元 Max 档下放到 20 美元 Pro 档</td></tr>
+      <tr><td class="n">2026-02-20</td><td>Anthropic 修订法律条款：订阅额度的 OAuth 不得用于第三方 harness（<b>API key 明确不受影响</b>）</td></tr>
+      <tr><td class="n">2026-04 → 06-17</td><td>Anthropic 扩大封禁引发开发者反弹，<b>6 月 17 日正式撤回</b>，"暂不推行该调整"，订阅额度照常计</td></tr>
+      <tr><td class="n">2026-08-13</td><td><b>DeepSeek 开源 DeepSeek Harness（MIT 协议）</b>，同期发布 V4-Pro 正式版</td></tr>
+      <tr><td class="n">2026-08-25</td><td>字节发布豆包工作桌面客户端，与飞书深度打通</td></tr>
+      <tr><td class="n">2026-08-29</td><td>OpenAI 宣布 <b>2026-11-12 切断 Cursor 的模型访问</b>（截至今日：已宣布、未生效）</td></tr>
+      <tr><td class="n">2026-09-01</td><td>Meta 交易撤销，Manus 恢复独立运营</td></tr>
+      <tr><td class="n">2026-09-11</td><td>Anthropic 发 145 页报告，指控月之暗面用 5380 个虚假账户转发近 30 万条请求蒸馏 Claude；同时点名 DeepSeek 与小米</td></tr>
+      <tr><td class="n">2026-09-28</td><td>Manus 2.0 与 Cue 发布，同期宣布筹建国内产品团队</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="org-talent">
+  <span class="snum">02 / 组织人才</span>
+  <h2 class="sec">组织人才：谁在做，以及他们怎么组织自己</h2>
+  <h3 class="sub"><span class="subn">02.1</span>创始团队：一个被真格基金"撮合"出来的互补铁三角</h3>
+  <p class="lede">这家公司的组织形态与它的走向直接相关，同时也是它的关键人风险所在。三个人的分工相当清晰：一个人管商业与成本纪律，一个人管技术判断与克制，一个人管产品与全球沟通。</p>
+
+  <h4>肖弘 · CEO</h4>
+  <p>1992 或 1993 年生于江西吉安遂川县，2011 年考入华中科技大学软件工程。在校期间加入学生创新团队"冰岩作坊"，2013 年做过"华科版微信校内漂流瓶"。<b>2015 年创立夜莺科技</b>——先试匿名社交和二手集市，均失败；2016 年 10 月带"壹伴"参加品玩产品黑客马拉松夺冠，拿到真格基金 100 万元天使投资（合伙人刘元当场拍板），一年后用户破百万；2017 年推出企业微信 CRM 工具"微伴助手"；<b>2020 年将壹伴与微伴打包卖给一家未具名的独角兽公司</b>。2022 年 4 月创办蝴蝶效应。</p>
+  <p>他有一套一以贯之且自己总结过的方法论：<em>"贸易、制造、再技术"</em>——先找市场，再做商业，最后才碰技术。他承认前两步已完成（千万级付费用户、数亿美元级 ARR），<b>第三步从未触碰</b>。办公室里挂着"唯快不破"。</p>
+  <blockquote>大厂能理解你创新的时候，就是很危险的时候。<cite>肖弘</cite></blockquote>
+  <p>面对 ARR 质疑时他给过一个值得记住的回答：<em>"为了让更多人用上而放弃短期的收入……ARR 显然不是正确的「激励函数」。"</em> 他长期扎根武汉，曾有 VC 因他不肯搬离武汉而拒绝发 TS。</p>
+
+  <h4>季逸超（Peak）· 联合创始人兼首席科学家</h4>
+  <p>父亲是北大物理系教授，母亲是中关村老一辈连续创业者。北大附中毕业，高二（2008 年 App Store 上线后）开发第三方 iOS 应用"猛犸浏览器"，靠"一份拷贝一份钱"赚到第一桶金；大二辍学创业，<b>连续两次失败</b>。此后约五年做知识图谱引擎 <b>Maggie</b>：从零训模型、手写向量索引、与英特尔合作优化底层硬件。</p>
+  <p>转折点是 <b>2019 年拿到 GPT-3 内测资格</b>——他随手写了个 prompt，效果与团队五年心血五五开。他形容那段日子"每天醒来都感觉海水在上涨，昨晚还在脚踝，今早就淹到鼻子"。这段经历直接定义了 Manus 的第一原则：<b>不下注基座模型</b>，转而做"顶级模型厂商的甲方"，用全球顶级 token 消耗量换取谷歌为其开放 API、Anthropic 按其反馈优化 function calling。</p>
+  <p>他对自己的判断异常直接：</p>
+  <blockquote>我根本不是做 CEO 的那块料……我既不喜欢商业化，也很讨厌管人——人太复杂了。<br>组织越大，复杂度指数级增长。<cite>季逸超</cite></blockquote>
+  <p>技术声誉来自 2025-07-18 那篇官方博客《Context Engineering for AI Agents: Lessons from Building Manus》，其中几个被反复引用的数字：</p>
+  <div class="facts">
+    <div><div class="fv">KV-cache</div><div class="fl">命中率被定义为生产级 Agent 最重要的单一指标（Claude Sonnet 缓存 $0.30/MTok vs 未缓存 $3/MTok）</div></div>
+    <div><div class="fv">100:1</div><div class="fl">Manus 平均输入输出 token 比</div></div>
+    <div><div class="fv">≈50</div><div class="fl">单任务平均工具调用次数</div></div>
+    <div><div class="fv">4 次</div><div class="fl">框架推倒重建次数，自称方法为"随机研究生下降法"</div></div>
+  </div>
+
+  <h4>张涛 · 联合创始人兼产品官</h4>
+  <p>十余年产品经理。此前在<b>字节跳动负责国际化产品战略规划与落地（飞书国际化）</b>，再往前在神策数据做 SaaS 四年。2023 年加入王慧文创办的<b>"光年之外"任产品负责人</b>，做儿童 AI 绘画产品 Dodoboo。2024 年 7 月与季逸超、肖弘共同创立 Manus AI，负责产品战略、市场沟通与用户体验。他 2025-04-16 在亚马逊云科技大会首次公开亮相，是 Manus <em>"less structure, more intelligence"</em> 理念的对外阐述者——该句此后成为官网 tagline。当时他披露：Manus 给每个任务分配一台云端虚拟机、底层绝大部分跑在 AWS 上，<b>发布前公司"只有几十号人"</b>。</p>
+
+  <div class="callout">
+    <p class="ct">容易被忽略的组织事实</p>
+    <p>三个人是<b>真格基金牵线撮合</b>的。真格从 2023 年种子轮到 B 轮四轮全跟，除投资外还负责为 Manus 招来季逸超与张涛。</p>
+  </div>
+
+  <div class="callout riskb">
+    <p class="ct">假信息警示</p>
+    <p>中文互联网流传的《学历已死？Manus 团队用代码重写了人才规则书》<b>是伪造的</b>。该文编造了"联合创始人亚历克斯·陈""首席算法设计师莎拉·米勒"等不存在的人物，以及"半数核心工程师无完整学历"的说法。Manus 创始人均为中国人，未见此类履历披露。<b>本报告不采信该文任何内容</b>——它也说明围绕 Manus 的中文内容噪音很大。</p>
+  </div>
+
+  <h5>对走向的含义</h5>
+  <ul class="plain">
+    <li><b>能力互补是真的，单点依赖也是真的。</b>肖弘提供商业与成本纪律（在一个"每一秒都在烧钱"的生意里会算 ROI 的人），季逸超提供技术判断与克制（"Manus 更大的风险不是竞争，而是变得复杂"），张涛提供产品与全球沟通。这个组合解释了它为什么能在 6 个月做出 Manus，又能在 7 个月监管动荡里一个人不掉。</li>
+    <li><b>三个人的履历有一条共同主线：都是"先做过一遍完整生意"的人。</b>肖弘卖过公司、季逸超赚过第一桶金也连续失败过两次、张涛在字节做过国际化落地。这条主线在 AI 原生组织里并不常见——它影响了公司在"该不该做一件事"上是否会集体上头。</li>
+    <li><b>"克制"是核心资产，也是天花板。</b>不下注模型、只做产品层，意味着它同时贴着用户和巨头的能力边界——正好落在大厂三层结构里容易被上下夹击的位置。这是它必须用组织效率去弥补的地方（详见下文的 AI 原生组织部分）。</li>
+    <li><b>关键人风险集中且真实。</b>肖弘与季逸超是互补型双核，任一人离开会同时拿走商业纪律与技术判断；季逸超本人公开说过自己"搞不定人际关系、不喜欢管人"，组织从 150 人继续膨胀时，这套"只招成年人 + 无中层"模型的可扩展性<b>还没有经过 300 人以上规模的验证</b>。</li>
+  </ul>
+  <h3 class="sub"><span class="subn">02.2</span>AI 原生组织：Manus 的一项资产，和它必须跨过的那道坎</h3>
+  <p class="lede">Manus 常被称作"完全 AI 原生的创业团队"。这个标签是否站得住，值得单独看——因为 2026 年出现了 Block、Anthropic 两个被公开拆解的组织样本，使组织形态在部分环节上可以被横向比较。这一节先看 Manus 自己的做法，再把它放进这两个样本里对照，并指出哪些地方可比、哪些地方不可比。</p>
+
+  <h4>Manus 自己的几组数字</h4>
+  <div class="tw">
+  <table>
+    <caption>人均产出两项为据公开数据自行推算，非公司披露；ARR 口径见《信息源与未核实项》。</caption>
+    <thead><tr><th style="width:26%">维度</th><th>数据</th></tr></thead>
+    <tbody>
+      <tr><td class="k">团队规模</td><td>发布 Manus 前"只有几十号人"；2025-07 国内 120 人 → 裁撤约 80 人、40 余名核心迁新加坡；被 Meta 收购时约 100–105 人；Meta 扩编至 <b>150 人</b></td></tr>
+      <tr><td class="k">人均产出</td><td>$1 亿 ARR / ~105 人 ≈ <span class="num">95 万美元/人</span>；$4 亿+ ARR / 150 人 ≈ <span class="num">270 万美元/人</span></td></tr>
+      <tr><td class="k">累计交付量</td><td>创建超 <span class="num">8000 万台</span>虚拟计算机实例，处理 <span class="num">147 万亿</span> token</td></tr>
+      <tr><td class="k">峰值消耗</td><td>单日烧钱 <span class="num">50 万美元</span></td></tr>
+      <tr><td class="k">团队稳定性</td><td>7 个月监管动荡期间，150 人<b>无一离职</b>（36氪）</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>人均 270 万美元这个数字，在 AI 应用层属于靠前的一档。</b>作为对照，传统 SaaS 的人均 ARR 大约在 15–25 万美元区间，而 AI 原生公司的分布是 100–500 万美元。Manus 落在这个区间偏上的位置。需要说明的是，这两个数字都是自行推算而非公司披露，且它做的不是工具型小产品，是通用任务 Agent——后者对工程与运维的复杂度要求高得多，人均口径的可比性因此有限。</p>
+
+  <h4>组织哲学中较具体的三条</h4>
+  <p>来源为《中外企业文化》2026 年第 2 期对季逸超的整理，属二手材料、可信度中等，但机制描述具体：</p>
+  <ul class="plain">
+    <li><b>GPA 决策三明治</b>——G（定目标）专制，CEO 拍板；P（定优先级）专制加民主；A（给方案）充分民主，且<b>方案数量比质量更重要</b>。季逸超明确反对投票："真理往往掌握在少数人手里，投票只会让产品平庸。"</li>
+    <li><b>只招"成年人"</b>，即不需要被管理的高密度人才；全员使用 AI 工具、报销不限；"反内卷"。</li>
+    <li><b>把人的复杂度外包</b>——"人的复杂度比黑盒 AI 还高，与其补强自己，不如把能力外包出去。"</li>
+  </ul>
+  <p>一个产品洞察恰好来自内部观察：看到运营同事用 Cursor 写周报、分析 Excel，团队得出结论——<b>编程不是垂类技能而是通用媒介，Agent 不该是工程师的玩具</b>。这直接定义了 Manus 的定位。</p>
+
+  <div class="callout">
+    <p class="ct">一条被忽略的技术判断</p>
+    <p>Manus 在 2025 年 3 月成立时就押了两个与同行相反的注：<b>不做 workflow，绝对信任模型的智能</b>（workflow 是人把智能总结下来，等于用昨天的答案限制今天的能力）；以及<b>token 消耗高是好事不是坏事</b>（用户在做更复杂的任务，token 会变得像水电一样便宜）。当时大多数团队在拼命省 token，Manus 在拼命花。傅盛对这套判断的评价是"毛骨悚然"。事后看，这两条与 Agent 品类后来的主流方向一致——如果"AI 原生"在 Manus 身上有具体所指，大概就是这个：<b>它不是用 AI 提升旧流程，它是按 AI 的能力边界重新设计产品。</b></p>
+  </div>
+
+  <h4>把 Manus 放进行业坐标：2026 年的组织实验已经跑出了数据</h4>
+  <p>2026 年出现了两个被完整公开拆解的组织样本——Block 和 Anthropic。它们的方法不同，但结论指向同一个方向，而这个方向恰好是 Manus 三年前就在做的事。</p>
+
+  <h5>样本一 · Block：把公司本身压缩成一个 agent</h5>
+  <p>Jack Dorsey 的论证起点不是生产力，是结构：<em>"我不认为这是个生产力问题，这是个结构问题。"</em> 传统层级制本质上是一套<b>信息路由系统</b>，原型来自罗马军团（8 人小队 → 80 人百人队 → 480 人大队 → 5000 人军团），它围绕一个人类局限设计——一个领导者能有效管理的人数只有 3 到 8 人，这就是"管理跨度"。Dorsey 的判断是：<b>AI 可以直接承担层级所承担的协调、汇总与决策传导功能，中间管理层因此失去了存在的结构性理由。</b>所以 Block 做的不是"给每个人配一个 AI 助手"，而是以 AI 为中心重建公司。</p>
+  <div class="facts">
+    <div><div class="fv">40%</div><div class="fl">Block 裁员比例，10,000 → 约 6,000 人；从决定到执行不到 3 周</div></div>
+    <div><div class="fv">2–3 层</div><div class="fl">目标层级深度（原来最多 5 层）；理想状态是 6,000 人全部直接向 Dorsey 汇报</div></div>
+    <div><div class="fv">3 种角色</div><div class="fl">IC（个人贡献者）/ DRI（直接负责人）/ <b>Player-Coach</b>——取代传统经理，但本人仍然动手做产品</div></div>
+    <div><div class="fv">80 / 20</div><div class="fl">工具能解决 80%，剩下 20% 是创造力、品味与判断——那是人的位置</div></div>
+  </div>
+  <p>Block 同时在建两个"世界模型"：<b>公司世界模型</b>与<b>客户世界模型</b>（Dorsey 的说法是"钱是最诚实的信号"）。组织架构被拆成四层——能力层 → 世界模型 → 智能层 → 界面（Square、Cash App、Afterpay、TIDAL、bitkey、proto）。一个反直觉的推论是：<b>公司不再有产品路线图，路线图由智能层的失败自动生成。</b>红杉资本的 Brian 把这个结构形容为"圆圈"——AI 做大多数决定，人分布在边缘；而 CEO 的职能从"管理"转向"对齐"。</p>
+  <blockquote>去年以来，我在同一个小时里，既感受到深深的存在性恐惧，又感受到真切的希望和乐观。"什么是公司"这件事，我已经不确定了。<cite>Jack Dorsey</cite></blockquote>
+  <p>他对 100 人规模公司的建议很具体：<b>先问"这一层到底需不需要"</b>，再把所有 Slack、文档、会议录音灌进一个可对话的智能系统。他也承认自己最大的错误是过度授权（多 CEO 结构 → 控股公司）。</p>
+
+  <h5>样本二 · Anthropic：把公司设计成一张并行网络</h5>
+  <p>AI涌现的整理把 AI 原生组织分成三代：华为"把公司当成一个流程来跑" → 字节"把公司当成一个产品来开发" → Anthropic"把公司设计成一张并行网络"。核心度量是<b>阿姆达尔定律：最大加速比 = 1/(1−P)</b>——你永远被没被加速的那部分卡住。大象的 (1−P) 是结构性的，蚂蚁的 (1−P) 是设计出来的。所以 Anthropic 的十条组织原则，每一条都在压缩一个具体的 (1−P)：</p>
+  <ul class="plain">
+    <li><b>Evals 取代 PRD</b>——产品经理写的是评测集，不是需求文档。这是"PM 角色被重塑"较为具体的一例。</li>
+    <li><b>CLAUDE.md 作为持久上下文</b>——把组织知识沉淀成模型可读的文件，而不是人的记忆。</li>
+    <li><b>Research Preview 机制</b>与<b>双周项目复盘 + 人才池回流</b>——用发布节奏替代规划节奏。</li>
+    <li><b>工程师提交测试视频</b>；<b>Evergreen Launch Room</b>；<b>法务审查 Agent</b>。</li>
+    <li><b>高管以下不设职级，所有人都是 MTS</b>——这是十条里最激进的一条，也部分解释了它的招人能力。</li>
+  </ul>
+  <p>这套设计跑出来的数字很硬：<b>ARR 从 1 亿美元到 450 亿美元用了不到 3 年</b>；Q1 2026 的 ARR 增长是计划的 8 倍（80× vs 10×）；<b>人才留存率 80%</b>（OpenAI 67%、DeepMind 78%），从 OpenAI 的净人才流入比是 8.2:1；烧钱速度比 OpenAI 低约 80%。</p>
+  <p>更值得记的是它的用人结构，因为它直接反驳了"AI 原生公司只招年轻人"的想象。<b>一份对 1,680 份简历的研究显示：入职者中位经验 12.2 年；13 年以上占 44%；3 年以下只有 50 人（3%）；博士仅 13.7%。</b> 2025 年招了 686 人（团队规模 3 倍），其中 53% 是最近 12 个月加入的，中位司龄仅 10 个月。岗位分布上，<b>基础设施/平台/云占 40.4%，强化学习只占 3.3%</b>——也就是说，一家"AI 原生"公司把最多的人放在了工程与平台，而不是模型研究。这也解释了为什么多位大厂 CTO 愿意以 MTS 身份加入。</p>
+  <p>产品侧的节奏同样反常识：<b>52 天上线 74 个功能</b>，发布周期从 6–12 个月压到 1 天；Cowork 从想法到上线只用了 10 天——内部的说法是"再开发两个月、加 50 个功能可能更有用吗？不，那样只是室内种树"。以及一条常被引用的判据：<b>"100% 自动化才算自动化"</b>——95% 准确率配 5% 人工复核等于假自动化，没有杠杆。</p>
+  <p>它甚至给出了一个可以直接横比的效率口径：<b>token 消耗量正在成为新的组织指标</b>。顶级工程师的月度编码预算在数千到 1 万美元；黄仁勋的说法是"一个年薪 50 万的工程师，至少应该再花 25 万在 token 上"。行业侧，Ramp 的 AI 指数显示最激进的公司人均每月在 AI 上花 <b>7,500 美元</b>；token 单价两年内跌了 <b>98%</b>（从 $20/M 到 $0.4/M），但企业 AI 总账单反而涨了 <b>320%</b>——这正是 Manus 当年那条"token 消耗高是好事"的判断在行业层面的验证。</p>
+
+  <h5>把两个样本和 Manus 叠在一起看</h5>
+  <div class="tw">
+  <table>
+    <caption>Manus 的数据为公开报道与自行推算，其余为公司披露或媒体整理。</caption>
+    <thead><tr><th style="width:22%">维度</th><th style="width:26%">Manus</th><th style="width:26%">Block</th><th>Anthropic</th></tr></thead>
+    <tbody>
+      <tr><td class="k">规模</td><td class="n">~150 人</td><td class="n">~6,000 人（裁 40%）</td><td class="n">~4,000 人量级</td></tr>
+      <tr><td class="k">层级</td><td>无中层，创始人直管</td><td>5 层 → 目标 2–3 层</td><td>高管以下不设职级</td></tr>
+      <tr><td class="k">人均 ARR</td><td class="n">≈270 万美元</td><td class="n">—</td><td class="n">第一梯队</td></tr>
+      <tr><td class="k">决策机制</td><td>GPA 三明治（目标专制 / 方案民主）</td><td>AI 在中心，人分布边缘</td><td>Evals 取代 PRD</td></tr>
+      <tr><td class="k">对人的要求</td><td>只招"成年人"，不需被管理</td><td>IC / DRI / Player-Coach</td><td>中位经验 12.2 年，博士仅 13.7%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <p class="ct">这一节真正的结论</p>
+    <p>Manus 的组织形态<b>未必只是"小公司还没长大"的过渡态</b>：无中层、创始人直管、以 AI 承担协调、只招能自我管理的人——这套特征与 2026 年 Block、Anthropic 公开描述的调整方向有重合。差别在于，Block 用 40% 的裁员从金字塔换到这个形态，Anthropic 用"所有人都是 MTS"换到这个形态，Manus 是从第一天就这样长的，<b>因而没有承担那笔转型成本。这算一项优势，但它同时也是"尚未经过大规模检验"的同义词。</b></p>
+    <p>但资产有边界。阿姆达尔定律同样适用：<b>Manus 的 (1−P) 是创始人的注意力</b>。150 人时"创始人直管"是优势；如果国内产品线、港股上市、Cue 与 Manus 2.0 四条线同时铺开，这个 (1−P) 会迅速变成瓶颈——而它目前没有中层可以承接。季逸超自己说过"组织越大，复杂度指数级增长"，这句话在他这里是自陈，不是评论。</p>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">行业侧的一个警告，Manus 也在射程内</p>
+    <p>德勤 2026 年对 3,235 位高管的调研显示，<b>84% 的公司从未重新设计过任何一个岗位</b>，只有 16% 真正改过组织结构；BCG 的判断是 AI 转型"30% 是技术，70% 是人与组织"。而 AI 原生组织文献里反复出现的一句话是：<b>最大的风险群体是 100–2,000 人的中型公司</b>——它们既没有大厂的资源，也没有小团队的密度。Manus 的 150 人正好在这个区间里，它靠密度而不是靠规模取胜，这意味着<b>它在人数上的容错空间很小</b>。</p>
+  </div>
+</section>
+
+<section id="compete" class="wide">
+  <span class="snum">03 / 竞争分析</span>
+  <h2 class="sec">竞争分析：上游、下游，和它站的那条缝</h2>
+  <h3 class="sub"><span class="subn">03.1</span>基础模型公司不是"一类公司"，是三种身份的叠加</h3>
+  <p class="lede">这是本轮调研中改变结论最多的一条。DeepSeek、Kimi、Anthropic、OpenAI 这四家，并不是简单意义上的"供应商"或"竞争者"——它们<b>同时坐在三个互斥的位置上</b>，而且同一家公司在三个位置上同时出现。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:16%">角色</th><th style="width:30%">行为</th><th>证据</th></tr></thead>
+    <tbody>
+      <tr><td class="k">卖铲人</td><td>便宜卖 token、开放权重</td><td>DeepSeek V4-Pro 2.5 折优惠永久化；Qwen / GLM / K3 全部开源可自托管</td></tr>
+      <tr><td class="k">下场者</td><td>自己做 Agent 产品</td><td>DeepSeek 组建 Harness 团队，研究员陈德里公开表示"对标 Claude Code，做 DeepSeek Code Harness"；Claude Code、Codex、Cowork、Kimi Work、Antigravity 同理</td></tr>
+      <tr><td class="k">断供者</td><td>保留掐断下游的权利</td><td>OpenAI 2026-08-29 宣布 2026-11-12 切断 Cursor 的模型访问（<b>已宣布、未生效</b>）</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Manus 完整经历了这三段：底座原本是 Qwen + Claude → Anthropic 拿订阅套利开刀 → 而 DeepSeek Harness 的招聘 JD 里，<b>把 Manus 明确列为候选人必须深度使用过的产品之一</b>。</p>
+
+  <div class="callout">
+    <p class="ct">一段需要纠正的流行说法</p>
+    <p>Anthropic 2026 年初那轮"封禁第三方 harness"，针对的是<b>用订阅额度跑第三方工具的 OAuth 套利</b>（OpenClaw 这类以几十美元月费跑出上千美元 token 的用法），官方条款明确写着 <code>Except when you are accessing our Services via an Anthropic API Key</code>——<b>按 token 付费的 API 客户不在封禁范围内</b>。而且这场封禁在开发者社区反弹后，已于 2026-06-17 正式撤回。所以它<b>并不构成对 Manus 的断供威胁</b>；真正成立的断供先例是 OpenAI 切断 Cursor。</p>
+  </div>
+
+  <h4>本轮新增的关键事实：DeepSeek 从模型公司变成了 harness 公司</h4>
+  <p>这是第一轮报告里没有、且直接改变风险排序的一条。</p>
+  <div class="facts">
+    <div><div class="fv">MIT</div><div class="fl">DeepSeek Harness 开源协议——商用、修改、再分发均无限制</div></div>
+    <div><div class="fv">15 万</div><div class="fl">GitHub star（截至 2026-08-18），1.6 万 fork</div></div>
+    <div><div class="fv">700 亿元</div><div class="fl">融资弹药</div></div>
+    <div><div class="fv">3 步</div><div class="fl">腾讯 QQ Bot 接入 DeepSeek Harness 所需步骤</div></div>
+  </div>
+  <ul class="plain">
+    <li><b>2026-08-13</b> 发布 V4-Pro 正式版的同时开源 <b>DeepSeek Harness（DSH）</b>，MIT 协议，TypeScript 编写，核心是 Cordis 插件系统，官方定位"一切皆插件"——模型、工具、技能、会话、沙箱、存储、Agent 循环、调度、UI 全部可替换。</li>
+    <li><b>2026-05</b> 组建 Harness 团队，招 Agent Harness 产品经理与研发工程师，定位公式是"Model + Harness = Agent"。</li>
+    <li><b>2026-09-25</b> 桌面版预览偷跑（v0.1.7-rc.2，Windows x64 + macOS Apple Silicon），不用装 Node.js、不开终端；四种模式中含"创造"模式，即让 Agent 自己写插件定制 DSH。</li>
+    <li>人才侧：挖来前 Jane Street 九年的崔添翼进入 Harness 团队，前字节 Seed 的徐名宇（DeltaFormer 一作）进入模型结构组。同时 <b>DeepSeek-Coder 一作郭达雅 2026-03 离职去了字节 Seed</b>，据报道原因是他看好 Agent 方向而"DeepSeek 内部当时 Agent 优先级并不高"——三周后 DeepSeek 掉头做 Harness。</li>
+    <li>招商证券国际 2026-08-17 判断其战略意图是<b>从模型层上移到框架层，做"Agent 时代的安卓"</b>。</li>
+  </ul>
+
+  <div class="callout riskb">
+    <p class="ct">对 Manus 的直接含义</p>
+    <p>它此前被视为核心的资产——Agent Runtime、上下文工程、VM 编排、工具循环——现在有了一个 <b>MIT 协议的免费开源实现</b>，背后站着 700 亿人民币。中金那条判据因此必须重写：不是"1 元 token 带回 10 元收入"，而是<b>"harness 免费之后，收入从哪来"</b>。答案只剩分发、信任、垂直数据和工具生态——而这四项恰好是 Manus 相对大厂偏弱的环节。</p>
+  </div>
+
+  <h4>四家模型公司的财务位置，决定了它们还有多少余力往下打</h4>
+  <div class="tw">
+  <table>
+    <caption>ARR 口径严重不统一：《金融时报》2026-08-27 专文讨论过这个问题——既可以是年度经常性收入，也可以是"最近一个月收入 ×12"。对用量计费的模型公司，两者差距可以很大。任何拿 ARR 横比的结论都要打折看。</caption>
+    <thead><tr><th style="width:16%">公司</th><th>收入</th><th>利润</th><th>毛利率</th><th class="n">研发/收入</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Anthropic</td><td>4 月 <span class="num">$30B</span> ARR → 7 月底年化 <span class="num">&gt;$65B</span> → 9-18 报道称 2026 全年年化将破 <span class="num">$100B</span></td><td>Q2 调整后营业利润<b>首次转正</b>（约 $559M）</td><td>推理毛利 70–85%</td><td class="n">—</td></tr>
+      <tr><td class="k">OpenAI</td><td>Q2 <span class="num">$6.7B</span>；ARR <span class="num">&gt;$40B</span>；企业业务占比 &gt;40%</td><td>2025 年归母净亏 <span class="num">$38.5B</span></td><td>Q1 39%</td><td class="n">—</td></tr>
+      <tr><td class="k">智谱</td><td>2026H1 <span class="num">¥9.54 亿</span>（+399.7%）</td><td>H1 净亏 ¥20.72 亿，<b>亏损率 217%</b></td><td>50.0% → 26.4%</td><td class="n">2.23×</td></tr>
+      <tr><td class="k">MiniMax</td><td>2026H1 <span class="num">$1.17 亿</span>（+283.1%）</td><td>H1 净亏 $3.58 亿</td><td>17.9%</td><td class="n">2.5×</td></tr>
+      <tr><td class="k">月之暗面</td><td>ARR 3 月 $1 亿 → 6 月 $3 亿 → 8 月破 <span class="num">$10 亿</span></td><td>未披露</td><td>未披露</td><td class="n">—</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>Anthropic 是目前少数被公开数据支撑、跑通了成本曲线的公司。</b>它的"每 1 美元收入对应算力成本"从 Q1 的 <span class="num">71 美分</span>降到 Q2 的 <span class="num">56 美分</span>，靠三件事：Claude 缓存命中率 &gt;90%、Opus 系列混合推理成本约为标价的 1/5、前沿模型训练单位成本约为 OpenAI 的 1/4。它预计 Q3 GAAP EBIT 超 10 亿美元——前提是算力成本继续维持在 56 美分。</p>
+  <p>对照之下，<b>中国的模型公司都不单独披露算力成本</b>，能比的只有研发支出倍数（智谱 2.23 倍、MiniMax 2.5 倍），且口径含人力，不能换算成"每 1 元收入花几毛算力"。</p>
+
+  <h4>Kimi：一个"模型能力已制造需求、算力还没准备好承接"的样本</h4>
+  <p>K3 为 2.8 万亿总参数、100 万 token 上下文，主打长程 Coding 与 Agent 任务。<b>2026-07-19 它主动暂停 C 端新用户订阅</b>——不是没人买，是 K3 发布 48 小时内请求量逼近集群承载极限，GPU 不够。团队仅约 300 人，平均年龄不到 30 岁。</p>
+  <p>它的算力来源很能说明行业结构：<b>阿里给了约 2 万张英伟达 GPU 规模的算力合作</b>。阿里既通过投资分享 Kimi 的增长，又通过云赚算力钱，同时千问在模型层与 Kimi 直接竞争。出路是把推理外包——Together AI、DigitalOcean 已托管 K3，同时正与微软、谷歌、亚马逊谈<b>最高 30% 的收入分成</b>（业内此前普遍把 20% 视为这类谈判上限）。</p>
+  <div class="callout">
+    <p class="ct">模型公司的成本曲线和软件公司是反的</p>
+    <p>能力越强，用户越愿意付钱；但任务越复杂，单次运行成本也越高。上一代模型刚开始挣钱，下一代模型的训练账单已经来了。所以月之暗面能在 9 个月里把估值从 43 亿美元抬到 500 亿美元，同时还在"追着投资人要钱"。</p>
+  </div>
+
+  <h4>中金的尺子，以及它被 DeepSeek 改写的部分</h4>
+  <p>中金 2026-09 的 Agent 经济报告给出了一把被广泛引用的尺子：<b>1 元 token 成本必须带回 10 元收入，否则只是 model wrapper（套壳）——"过路费而非价值创造"</b>。配套数字同样值得记：</p>
+  <div class="facts">
+    <div><div class="fv">8 : 1</div><div class="fl">Agent 的输入输出 token 结构（chatbot 为 2:1）；单价更低，但用量是 chatbot 的几十上百倍</div></div>
+    <div><div class="fv">$950B</div><div class="fl">全球白领 Agent 基准 TAM（乐观情形 $3T）</div></div>
+    <div><div class="fv">16%</div><div class="fl">真正部署了 Agent 系统的企业比例——多数还停在 Prompt + RAG + if/else</div></div>
+  </div>
+  <p><b>但 DeepSeek Harness 开源之后，这把尺子必须重写。</b>如果 harness 本身免费了，那 10 元收入就必须来自 harness 之外的东西。</p>
+
+  <h4>中美之间新出现的那道裂缝</h4>
+  <p>2026-09-11，Anthropic 发布 145 页报告，指控月之暗面将近 <span class="num">30 万条</span>用户请求秘密转发给 Claude Opus，使用 <span class="num">5380 个虚假账户</span>（多数定位在新加坡、日本）绕过 Claude 不对中国大陆开放的限制作答，再把回复冒充成 Kimi 输出，并认为这些回复被用于训练其模型；同时点名 DeepSeek 和小米。中方商务部回应称所谓"工业级蒸馏"<b>"于事无凭，于法无据"</b>。</p>
+  <p>这条裂缝对 Manus 的意义比对这些模型公司更大。它最初的护城河之一是"能在海外合法调用最好的美国模型"。现在"最好的模型不给做 harness 的公司用"正从个案变成政策——而<b>开放权重在这件事上从"便宜"变成了"不能被断供"</b>。这是中国模型公司对抗上游掐断的真正武器。</p>
+  <h3 class="sub"><span class="subn">03.2</span>大厂的 Agent 布局：产品与组织都已落位</h3>
+  <p class="lede">三家在两三个月内密集完成了组织调整与产品发布。比"它们各自做了什么产品"更值得注意的，是<b>它们把 Agent 当作云与算力消费的入口，而不是当作要独立盈利的产品</b>——这一点决定了这个品类在价格上的走向。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:12%">公司</th><th style="width:20%">产品</th><th>关键动作与数据</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="k">腾讯</td><td class="k">WorkBuddy</td>
+        <td>2026-03-09 上线；<b>2026-07-06 混元 Hy3（MoE 2950 亿总参数 / 210 亿激活 / 256K）发布当天首发接入并限免</b>，两天后算力峰值、排队率一度超 50%；主动选模型的用户中 Hy3 占比 &gt;60%；<b>2026-09-02 开放平台 open.WorkBuddy.cn</b>，100+ 伙伴、9 款联名硬件、30+ 行业 Buddy、20+ 领域、50+ 版本迭代；已接入混元 / DeepSeek / GLM / Kimi <b>多模型</b></td>
+      </tr>
+      <tr>
+        <td class="k">字节</td><td class="k">豆包工作</td>
+        <td><b>2026-08-25 发布</b>，独立桌面客户端，与<b>飞书深度打通</b>（登录即继承企业知识上下文），免费领 30 天订阅；此前 7-30 飞书产品团队并入豆包、8-24 <b>TRAE + 扣子团队整体并入豆包体系</b></td>
+      </tr>
+      <tr>
+        <td class="k">阿里</td><td class="k">千问办公</td>
+        <td><b>2026-08-03 公测</b>，整合 QoderWork + 钉钉悟空 + MuleRun；8-18 接入企业微信，至此<b>打通钉钉 / 飞书 / 企微三大平台</b>；云栖大会 2026-09-22 发布"企业上下文"与 QwenNote A2；负责人束骏亮明确表示上下文应与企业解耦，<em>"Context is all you need"</em></td>
+      </tr>
+      <tr>
+        <td class="k">百度</td><td class="k">搭子</td>
+        <td>2026-03 上线；7 月推企业版；8 月内部办公智能体 dodo 并入搭子</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">一处需要作废的数字</p>
+    <p>坊间广泛流传的"WorkBuddy 1300 万 DAU"与一手口径直接冲突。界面新闻 2026-08-08 的原话是"<b>WorkBuddy 月活在 2000 万级别，日活则在百万级别</b>"。易观的 2097 万口径是"<b>PC 端月访问量</b>"，被多家媒体当成"月活"转述，两者并不等价。<b>本报告采用：MAU ~2000 万级、DAU 百万级，并作废 1300 万 DAU 一说。</b></p>
+  </div>
+
+  <div class="facts">
+    <div><div class="fv">6000 万+</div><div class="fl">2026-06 国内 17 款桌面端 AI 原生办公智能体合计月访问量（3 月仅 2000 万，三个月翻两倍）· 易观</div></div>
+    <div><div class="fv">120 万亿</div><div class="fl">豆包大模型日均 token 调用量（2026-03，较 2024-05 增长 1000 倍）</div></div>
+    <div><div class="fv">17% → 9%</div><div class="fl">腾讯 2026 Q1：剔除 Hy、元宝、CodeBuddy、WorkBuddy、QClaw 成本后，Non-IFRS 经营利润增速本应 17%，实际 9%</div></div>
+  </div>
+
+  <h4>关键结构判断：大厂在故意把应用层商品化</h4>
+  <p>证据链有四条，指向同一个结论。</p>
+  <ul class="plain">
+    <li><b>免费不是补贴战，是入口战争。</b>腾讯把旗舰模型 Hy3 的免费期从 7 月初一路顺延到 8 月 31 日，两度延期。目的是"培养用户习惯并完成生态绑定"——用户把文件、任务、反馈交进来，混元拿到真实战场数据完成率提升，这就是马化腾说的"数据飞轮"。</li>
+    <li><b>代价是真实且已计入财报的。</b>腾讯 2026 Q1 的 AI 产品吃掉了约 8 个百分点的经营利润增速。</li>
+    <li><b>字节的算力账单更大。</b>豆包日均 token 调用 120 万亿；Xsignal 测算其 token 推理成本<b>每年约 80 亿元</b>，芯片算力成本每年数百亿元。</li>
+    <li><b>两家高层都把话说白了。</b>刘炽平——AI 每一次交付都产生算力和 token 成本，<b>不能沿用互联网时代先追 DAU 再找变现的逻辑</b>；汤道生——WorkBuddy <b>还在投入阶段，没有给团队设商业化 KPI</b>；刘毅——要把 WorkBuddy 做成"<b>面向 Agent 时代的操作系统</b>……不是做一个更强的工具，而是做一个能承载所有工具的平台"。</li>
+  </ul>
+  <div class="callout riskb">
+    <p class="ct">这对 Manus 的定价构成直接压力</p>
+    <p>它的订阅收入要对抗的，是一个<b>"不要钱、只要你的工作流"</b>的对手。价格锚点是量级差：MiniMax M3 Token Plan ¥49/月 600M tokens、WorkBuddy 免费版每月 500 积分、百度心响发布时完全免费、DeepSeek Harness 桌面版 MIT 免费。<b>Manus 的 $39/月在国产锚点体系里差一个数量级。</b></p>
+  </div>
+
+  <h4>一个绕不开的结构：腾讯悖论</h4>
+  <p>腾讯牵头的中资财团是 Manus 单一最大股东（约 20%），而腾讯同时运营 WorkBuddy——它最直接的国内竞争对手。这个结构没有公开的解决方案，也不需要立刻解决：<b>只要国内产品线一天不上线，两者的正面冲突就一天不触发。</b>这可能是 Manus 国内动作慢的一部分原因。</p>
+  <h3 class="sub"><span class="subn">03.3</span>位置：一条两头受挤的窄缝</h3>
+  <p class="lede">把上游和下游放在一起看，Manus 的位置就很清楚了。它不在这条链的任何一层上，而是在两层之间——被两头挤压，同时也因此<b>同时贴着两头的需求</b>。这一层并非没有其他玩家，但大多是垂类工具或地区性产品。</p>
+
+  <div class="stack">
+    <div class="band">
+      <div class="bl">上游 · 基础模型层</div>
+      <div class="bn">Anthropic · OpenAI · DeepSeek · 月之暗面 · 智谱 · MiniMax · Qwen</div>
+      <p class="bd">同步扮演三个角色：便宜卖 token 的卖铲人、亲自做 Agent 产品的下场者、保留掐断下游权利的断供者。Anthropic 年化收入已过 650 亿美元且推理毛利 70–85%；DeepSeek 用 MIT 协议开源 harness 并配 700 亿元弹药。</p>
+    </div>
+    <div class="membrane"><span>↓ 卖铲人 · 下场者 · 断供者</span><b>同时向下挤压</b></div>
+    <div class="band mid">
+      <div class="bl">中间层 · 通用 Agent 应用层</div>
+      <div class="bn">Manus · Genspark · OpenClaw 生态</div>
+      <p class="bd">没有模型，也没有分发。核心资产是上下文工程、Agent Runtime、VM 编排与工具循环——这一层已被开源成公共品，所以竞争维度<b>从"技术稀缺性"转向"交付价值"</b>。评分标准是"1 元 token 成本带回多少元收入"；Manus 是这一层里收入成型、且公开数据可查的独立玩家之一，也是少数有资格拿这张卷子去交的公司。</p>
+    </div>
+    <div class="membrane"><span>↑ 免费吸收 · 价格锚点 · 分发垄断</span><b>同时向上挤压</b></div>
+    <div class="band">
+      <div class="bl">下游 · 平台与分发层</div>
+      <div class="bn">腾讯 WorkBuddy · 字节豆包工作 · 阿里千问办公 · 百度搭子</div>
+      <p class="bd">把 Agent 当作云与算力消费的免费楔子，不当作独立盈利产品。腾讯 Q1 的 AI 产品已吃掉 8 个百分点经营利润增速；字节豆包单是 token 推理成本每年约 80 亿元。它们的 KPI 是入口，不是收入——<b>这既是 Manus 面临的主要威胁，也是它目前可利用的空档：大厂暂时不做"为一个任务收 39 美元"这门生意。</b></p>
+    </div>
+  </div>
+
+  <p>全球 agent 网站访问量的分布也印证了这个位置：</p>
+  <div class="bars">
+    <div class="bar-row"><span class="bar-lbl">纳米AI</span><div class="bar-track"><div class="bar-fill alt" style="width:100%"></div></div><span class="bar-val">151.92M</span></div>
+    <div class="bar-row"><span class="bar-lbl">Manus</span><div class="bar-track"><div class="bar-fill" style="width:15.7%"></div></div><span class="bar-val">23.90M <span style="color:var(--risk)">−17.2%</span></span></div>
+    <div class="bar-row"><span class="bar-lbl">GenSpark</span><div class="bar-track"><div class="bar-fill alt" style="width:8%"></div></div><span class="bar-val">12.15M</span></div>
+    <div class="bar-row"><span class="bar-lbl">OpenClaw</span><div class="bar-track"><div class="bar-fill alt" style="width:3.1%"></div></div><span class="bar-val">4.78M</span></div>
+    <div class="bar-row"><span class="bar-lbl">Trae</span><div class="bar-track"><div class="bar-fill alt" style="width:2.4%"></div></div><span class="bar-val">3.61M</span></div>
+  </div>
+  <p class="scale-note">AICPB 2026-08 · 横轴同一线性比例，最长条 = 151.92M。注意这里的横轴是"访问量"，而 Manus 的商业模式是订阅与任务计费——它 −17.2% 的访问量下滑与收入增长同时发生，说明<b>用访问量衡量它从一开始就是错的指标</b>（详见《AI 应用层》）。</p>
+  <h3 class="sub"><span class="subn">03.4</span>估值断层：9 倍、31 倍、50 倍</h3>
+  <p class="lede" style="max-width:var(--col)">同一个"套壳"之问，资本市场给出了分层的答案。注意 Manus 采用的是报道价，且融资仍在进行中。</p>
+
+  <div class="bars">
+    <div class="bar-row"><span class="bar-lbl">Manus<br><span style="color:var(--muted);font-size:12px">应用层</span></span><div class="bar-track"><div class="bar-fill" style="width:18%"></div></div><span class="bar-val">≈9×</span></div>
+    <div class="bar-row"><span class="bar-lbl">智谱<br><span style="color:var(--muted);font-size:12px">模型层</span></span><div class="bar-track"><div class="bar-fill alt" style="width:62%"></div></div><span class="bar-val">≈31×</span></div>
+    <div class="bar-row"><span class="bar-lbl">月之暗面<br><span style="color:var(--muted);font-size:12px">模型层</span></span><div class="bar-track"><div class="bar-fill alt" style="width:100%"></div></div><span class="bar-val">≈50×</span></div>
+  </div>
+  <p class="scale-note" style="max-width:var(--col)">市销率 PS，同一线性比例，最长条 = 50×。月之暗面按 500 亿美元投前估值 / 8 月 ARR 10 亿美元计；若按年底目标 20 亿美元则降至约 25×。智谱按市值 3872 亿港元 / 年化约 16 亿美元计。Manus 按 40 亿美元 / ARR 约 4.5 亿美元计。</p>
+
+  <div class="tw">
+  <table>
+    <caption>智谱与 MiniMax 的市值均为发行后高点大幅回撤后的水平——6 月 22 日智谱市值曾首破 1 万亿港元，MiniMax 较 3 月峰值回撤约 78%。</caption>
+    <thead><tr><th style="width:20%">公司</th><th class="n">估值</th><th class="n">ARR</th><th class="n">PS</th><th>备注</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Manus</td><td class="n">$40 亿</td><td class="n">~$4.5 亿</td><td class="n">≈9×</td><td>报道价，融资进行中</td></tr>
+      <tr><td class="k">智谱</td><td class="n">3,872 亿港元</td><td class="n">~$16 亿</td><td class="n">≈31×</td><td>2026-01-09 上市，全球大模型第一股</td></tr>
+      <tr><td class="k">月之暗面</td><td class="n">$500 亿（投前）</td><td class="n">$10 亿</td><td class="n">≈50×</td><td>9-02 已保密递表港交所</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3 class="sub"><span class="subn">03.5</span>四项可以观察到的长处，和它们的边界在哪</h3>
+  <p class="lede">这四项每一条都能被反向读成弱点——这正是窄缝位置的特征。它们同时也是大厂和模型公司<b>短期内不容易补齐</b>的四件事。</p>
+
+  <h5>一 · "纯应用层、收入成型、不隶属模型公司也不隶属超级 App"这个位置</h5>
+  <p>ARR 4–5 亿美元这个体量在全球 agent 应用层并不常见。Anthropic 与 OpenAI 有模型，但不做 Manus 这个程度的通用任务 Agent；智谱与 Kimi 有模型，但产品化仍在追赶；WorkBuddy 与豆包工作有分发，但不面向海外公开发售。<b>这个位置上的公司在公开信息里并不多见</b>：当企业客户需要一个不与云厂商绑定、可以跨模型路由的 Agent 时，可选范围有限。</p>
+
+  <h5>二 · 模型中立性在"断供政治化"之后，从成本考量变成了风险缓冲</h5>
+  <p>Cursor 被 OpenAI 掐断、Anthropic 拿订阅套利开刀，说明<b>单一模型依赖是致命弱点</b>。能自由路由到 DeepSeek / GLM / K3 / Qwen 的架构在这个时点反而是优点——而且这条能力在 2025 年 3 月就被季逸超定为第一原则（"不下注基座模型"），<b>比行业普遍意识到这一点早了大约一年半</b>。</p>
+  <p>但必须诚实：<b>Manus 的路由自由度远不如 Cursor 的议价能力</b>——Cursor 是 OpenAI 最大的单一客户之一，切断它要上新闻；Manus 的用量不足以形成这种筹码。它的中立性是"没有被绑架的自由"，不是"可以要价的力量"。</p>
+
+  <h5>三 · 跑完"中国团队 → 全球化 → 被中资买回 → 重回独立运营"全程的经历</h5>
+  <p>这条路径在上一轮报告里被评为"较被低估的一条"，而它现在有了可查的凭证：交易撤销、40 亿美元融资、创始团队保持实控。在服务出海的中国企业这条赛道上，具备同等完整经历的公司很少——<b>它同时懂中国的合规语言与海外的产品语言，而这两件事通常不长在同一支团队身上。</b></p>
+
+  <h5>四 · 产品迭代速度仍是它较突出的一项，且方向正在避开正面战场</h5>
+  <p>Manus 2.0 带来 Cascade 框架（官方口径：一项测试配置下 token −23.2%、任务时间 −28.2%、成本 −32%）、云电脑、<b>事件触发自动化</b>（邮件 / 广告数据 / 日历 / Slack / Notion 变动触发工作流）、Manus Studio、视频编辑器（Alchemy 模式）、游戏开发、Computer Use 远程操作；<b>Cue</b> 则给每个 Agent 独立邮箱、电话、钱包与电脑，支持多 Agent 群聊分工。</p>
+  <p>这些功能有一个共同指向：<b>更垂直、更重执行、更高交付物价值</b>。它们避开了通用入口的直接交锋——这是较理性的选择，也是"用交付价值而非技术稀缺性定价"的具体执行。</p>
+  <div class="callout">
+    <p class="ct">第四条里有一条值得单独看的线索</p>
+    <p>Manus 2.0 的迭代方向说明它<b>已经在回答中金那道题了</b>：不是提高 harness 的技术门槛（那条路已经被开源堵死），而是把任务本身推到"便宜方案做不了"的复杂度上。视频、游戏、跨系统事件触发、远程操作电脑——这些场景的共同点是<b>失败的代价高、交付物本身可计价</b>。免费锚点覆盖不了它们，因为免费产品的容错率撑不住这种任务。这是 Manus 相对大厂真正的错位竞争空间。</p>
+  </div>
+</section>
+
+<section id="app">
+  <span class="snum">04 / AI 应用层</span>
+  <h2 class="sec">AI 应用层：用户为什么用，以及它和谁比</h2>
+  <h3 class="sub"><span class="subn">04.1</span>用户视角：它卖的不是智能，是"这件事被办成了"</h3>
+  <p class="lede">前面八节都是从供给侧看 Manus——模型、大厂、监管、组织。这一节换个方向：用户为什么选它，以及在一个"意图即流量"的时代，它的增长逻辑到底是什么。这两个问题的答案，比技术指标更能说明它能不能活下去。</p>
+
+  <h4>张涛在清华校园行里给出的三个反直觉事实</h4>
+  <p>2025 年 11 月 30 日，真格基金戴雨森与张涛在清华做了一场对话。张涛在这场里第一次公开了一批此前从未披露过的数字，而这三个数字共同指向一件事：<b>Manus 不是靠资源赢的，是靠判断和速度赢的。</b></p>
+  <div class="facts">
+    <div><div class="fv">$5–6 万</div><div class="fl">七个月（2025-03 至 10）的<b>全部营销支出</b>。发布视频用他自己的索尼 A7C2 加一支借来的镜头拍摄，剪映会员 $14.9，BGM 授权 $9.9</div></div>
+    <div><div class="fv">5 人</div><div class="fl">发布前 40 天的开发团队规模（其中张涛本人不写代码）。当时整个公司约 40 人，班底是 Monica 团队</div></div>
+    <div><div class="fv">20 天</div><div class="fl">账上约 $800–900 万，峰值单日烧 $50 万——<b>距离破产大约 20 天</b>。邀请码机制不是饥饿营销，是现金流纪律</div></div>
+  </div>
+  <p>这三个数字解释了一个常被误读的现象：<b>邀请码。行业里普遍把它当成营销手法，实际上它更像是"每天烧 50 万美元、账上只够 20 天"时不得不做的选择。</b>张涛的说法是，定价是在发布约 20 天后才加的。一家在悬崖边上做了七个月产品的公司，它的克制不是姿态，是生存条件。</p>
+  <p>还有一段被反复引用的前史：团队先做了七个月 AI 浏览器，2024 年 9 月完工，<b>在发布前一周砍掉</b>。理由是一句产品判断——"AI 很擅长用电脑，但它不应该用你的电脑，而应该用它自己的电脑"。浏览器形态让 AI 像一个必须跟你共用一台笔记本的实习生。这个判断直接导向了今天 Manus 的形态：<b>每个任务一台云端虚拟机。</b></p>
+
+  <h4>"Less structure, more intelligence" 的商业含义</h4>
+  <p>这句话是 Manus 的官网 tagline，也是张涛对外阐述最多的理念。它的技术含义是 <b>Zero Predefined Workflow</b>：不做预设工作流，由模型自己决定任务怎么拆解、该调用哪些原子能力（开网页、点击、滚动、在虚拟机里建文件、跑终端命令）。张涛的说法是"当你把智能真正交还给模型，魔法才会发生"。</p>
+  <p>但它同时是一条<b>商业判断</b>，而且这一点很少被讨论。张涛对模型公司的处境有一段很直白的分析：<em>"模型公司只能用自己的模型，既是优势也是桎梏。"</em> 因为到了 2025 年，已经没有任何单一模型在所有任务上占优——所以 Manus 按<b>任务的每一步</b>分别路由：网页搜索用 Gemini（因为谷歌的搜索索引），最难推理用 GPT-5，后端与 Python 用 Claude。他补了一句很关键的推论：<em>"你很难想象一个 ChatGPT 的产品经理会去用 Anthropic 的模型，显然不会。"</em></p>
+  <div class="callout">
+    <p class="ct">这句话是创始团队对 Manus 护城河最直接的一次表述</p>
+    <p>模型公司做 Agent 产品，结构上倾向于优先卖自己的模型；而 Manus 可以按每一步分别路由。<b>这使"中立"对 Manus 而言不只是营销词，而是一道真实的产品差异——模型公司要复制它，代价是放弃自家模型的优先地位，所以它们通常不会这么做。</b>《竞争分析》里的第二点在这里拿到了来自创始团队的原始表述。</p>
+  </div>
+  <p>他对竞争形态的另一个判断同样重要：<b>"Agent 的竞争是系统对系统，不是模型对模型"</b>——比的是环境构建、工具链、上下文工程。这句话在 DeepSeek 把 harness 开源之后反而更成立了：框架开源了，但环境、工具生态和上下文工程的经验没有开源。</p>
+
+  <h4>一个容易被低估的决定：做通用，而不是做垂类</h4>
+  <p>张涛在清华这场里明确讲了为什么不做垂类 ToC，理由是一个很朴素的结构问题：<b>普通人的需求频次太低。</b>他以旅行为例——一般人一年旅行一到两次，这意味着为了触达用户必须付出极高的 CAC，而用户一年只回来两次。</p>
+  <blockquote>你必须让用户每天都能找到用你的理由。<cite>张涛</cite></blockquote>
+  <p>他说这个决定做得很快，但是<b>最重要的一个</b>。回头看，这个决定同时决定了三件事：它解释了为什么 Manus 能积累跨场景的上下文与工具生态；解释了为什么它的用户留存能撑起订阅制；也解释了为什么它会正面对上大厂——<b>通用赛道大概率是巨头的主场，而垂类赛道巨头通常懒得打。</b>Manus 是主动选择了更难的那条路，代价就是这份报告前八节描述的全部压力。</p>
+
+  <h4>从"流量"到"意图"：腾讯研究院给这个品类的时间坐标</h4>
+  <p>腾讯研究院刘莫闲 2026 年 4 月的《流量 2.0 时代》给出了一个可以直接套在 Manus 身上的框架：<b>流量 1.0 是"注意力即流量"，流量 2.0 是"意图即流量"。</b>度量的单位从"点击"变成"词元（token）"，变现方式从"卖注意力"变成"卖意图完成"。</p>
+  <div class="tw">
+  <table>
+    <caption>据腾讯研究院《流量 2.0 时代》（2026-04-23）整理。</caption>
+    <thead><tr><th style="width:22%">维度</th><th style="width:39%">流量 1.0 · 注意力</th><th>流量 2.0 · 意图</th></tr></thead>
+    <tbody>
+      <tr><td class="k">度量单位</td><td>点击、PV、DAU、时长</td><td><b>词元（token）</b>、意图完成率</td></tr>
+      <tr><td class="k">变现方式</td><td>卖注意力（广告、佣金、订阅）</td><td><b>卖意图完成</b></td></tr>
+      <tr><td class="k">监测对象</td><td>人的行为</td><td><b>Agent 的行为</b>——用户可能只在线 5 分钟，他的 Agent 却工作了几小时</td></tr>
+      <tr><td class="k">入口</td><td>门户 → 搜索 → 社交 → 信息流</td><td>Agent 触点，且 <b>Agent 会自己长出新的入口</b></td></tr>
+      <tr><td class="k">增长曲线</td><td>线性，受人口约束</td><td><b>超线性</b></td></tr>
+      <tr><td class="k">天花板</td><td>人口（11.23 亿网民 / 14.05 亿人口）</td><td><b>算力与能源</b></td></tr>
+      <tr><td class="k">护城河</td><td>社会财富资产（好友关系、余额、积分、会员等级）</td><td><b>个人智慧资产</b>（你的架构偏好、编码与写作风格、研究方法）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>几组支撑数字值得记住。国家数据局 2026 年 3 月披露：中国<b>日均 token 消耗 140 万亿</b>，两年增长约 1,400 倍，同月 token 拿到官方中文名"词元"。同期中国移动互联网 MAU 净增不足 2,000 万、同比仅 +1.5%，为四年最低；人均单日使用时长 7.96 小时，已接近生理极限。模型单价方面，同级别模型的 token 单价两年内最大跌幅达 <b>900 倍</b>，国产开源模型成本约为顶级模型的十分之一。</p>
+  <p>腾讯研究院特别警告了一个认知陷阱，这条对理解 Manus 尤其重要：<b>核心指标不是 token 总消耗量，而是 Agent 的行为质量，比如意图完成率。</b>他的类比是运营商卖 3G/4G 流量包——消耗流量不是用户的目的，把事办成才是。<b>这条判断正好是中金"1 元 token 成本带回 10 元收入"那把尺子的另一个说法</b>：两份来自完全不同机构的研究，指向同一个结论。</p>
+
+  <h4>护城河正在换地方：从"社会财富资产"到"个人智慧资产"</h4>
+  <p>这是《流量 2.0 时代》里与 Manus 关系最直接的一段。文章认为，1.0 时代的粘性来自<b>社会财富资产</b>——你的朋友都在这个平台上，你的钱、积分和会员等级存在这里，迁移成本是社交性的。而 2.0 时代的粘性来自<b>个人智慧资产</b>：一个 AI 在你的代码库和知识库里工作三个月，会积累你的架构偏好、编码与写作风格、研究方法，以及对业务逻辑的深层理解，这些存在人机共享的记忆里。<em>"换一个 AI 助手就意味着从零磨合。"</em></p>
+  <p>对 Manus 而言，这个框架给出了一个具体的战略含义：<b>它的护城河不在 harness 里，在用户的历史任务里。</b>Manus 的架构里有两样东西正好承载这种资产——云电脑里的持久文件系统（《组织人才》一节提到的"8000 万台虚拟计算机实例"），以及 Session Replay 沉淀下来的任务轨迹。这解释了为什么"技术资产被开源"这件事的杀伤力没有想象中大：<b>开源的是框架，不是任何一个用户三个月的工作史。</b></p>
+
+  <h4>用户视角里必须承认的两条边界</h4>
+  <p>张涛自己在清华那场里把两条边界说得很清楚，这里如实记录。</p>
+  <p><b>第一，自然流量是一个陷阱。</b>Manus 早期的增长几乎全是自然流量：3 月发布加 Session Replay 的传播；5 月埃及突然冲到当地 App Store 第一，顺势带起沙特和阿联酋；7 月巴西一个不知名的 YouTuber 又带来一波。张涛的判断是，自然流量只能触达创新者与早期采用者（《跨越鸿沟》里的前两批人）。<b>要进入主流市场，2026 年必须转向更传统的系统性营销。</b>他的说法是"做营销的关键是信息传递效率，而不是简单地花钱"。</p>
+  <blockquote>大家根本不关心你是不是"第一个做通用智能体的"。他们只关心一句话：你能为我做什么？<cite>张涛</cite></blockquote>
+  <p><b>第二，"套壳"的指控他从未回避，但给出的答案不是技术。</b>原话是"我们从来没有藏着掖着。发布第三周，我们就向全世界讲了这个技术秘密"。他的框架是：<em>"技术本身没有秘密，就算有，行业里两三个月也会形成共识。但能不能把这个「秘密」真正落地才是检验一个团队能力的关键。"</em> 这段表述在 DeepSeek 开源 harness 之后变得更有分量——它实际上提前一年就承认了技术会扩散，并把赌注押在执行上。</p>
+  <div class="callout">
+    <p class="ct">张涛给出的三个未来方向，恰好是这份报告里"化解方向"的对应项</p>
+    <p>他在清华那场里点明了三条路线，每一条都能在《发展走向》里的风险清单找到对应：<b>①接入更多工具与平台</b>——目前是 Linux 虚拟机，微软正在把 Manus 集成进 Windows 以便调用 Windows 独有应用，之后是安卓（对应 R5"复杂任务首选工具"）；<b>②24 小时连续推理</b>——基础设施按"有人愿意付费让一个 Agent 全天候在后台为自己工作"来建，他称 Manus 可以同时跑 1,000 个研究对象而不幻觉、不偷懒（对应 R1"harness 之外的能力"）；<b>③主动性</b>——内部原型已把 Manus 接进 Gmail、日历和 Notion，让它自己找活干，"就像一个眼里有活的实习生"，他早上 8 点当天的工作已经被准备好（对应本节开头的"意图完成"）。</p>
+  </div>
+  <h3 class="sub"><span class="subn">04.2</span>与 Cursor、Meta Muse 的对比：同一个夹层，三种立足方式</h3>
+  <p class="lede">三者都站在应用层、都不自己训练前沿模型，但走的是三条完全不同的路。差别不在产品能力，在<b>议价能力、分发能力与目标市场</b>——而这三件事基本决定了应用层公司的走向。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:16%">维度</th><th style="width:28%">Manus</th><th style="width:28%">Cursor（Anysphere）</th><th>Meta Muse</th></tr></thead>
+    <tbody>
+      <tr><td class="k">一句话定位</td><td>通用任务 Agent，跨模型中立交付</td><td>AI 编程工具，应用层议价能力较强的一方</td><td>超级 App 的个人 Agent，分发即壁垒</td></tr>
+      <tr><td class="k">分发</td><td><span class="chip mid">自立</span>自然流量 + 系统性营销起步</td><td><span class="chip mid">自立</span>开发者社区口碑驱动</td><td><span class="chip ok">继承</span>Meta 约 30 亿用户的产品面</td></tr>
+      <tr><td class="k">模型来源</td><td>按任务每一步路由 Gemini / GPT-5 / Claude / 国产开源</td><td>Composer 2 基于<b>月之暗面 Kimi K2.5</b>（经 Fireworks AI 授权）</td><td><b>自研 Muse Spark</b>（架构未公开）</td></tr>
+      <tr><td class="k">ARR</td><td class="n">$4–5 亿</td><td class="n">$20 亿（2026-04）</td><td class="n">未披露</td></tr>
+      <tr><td class="k">估值 / 归属</td><td>40 亿美元，独立；腾讯系约 20%</td><td>被 SpaceX 以 <b>600 亿美元</b>全股票收购（2026-08-14 完成）</td><td>Meta 内部业务线</td></tr>
+      <tr><td class="k">定价</td><td class="n">$39/月起</td><td class="n">$20/月起</td><td><b>免费</b> + $20 / $100 两档</td></tr>
+      <tr><td class="k">上游关系</td><td>被拿订阅套利开刀（<b>已于 2026-06-17 撤回</b>，API 客户不受影响）</td><td><b>被 OpenAI 宣布 2026-11-12 切断供应</b>（已宣布、未生效）</td><td>自供，无断供风险</td></tr>
+      <tr><td class="k">变现路径</td><td>订阅 + 任务计费</td><td>订阅 + 企业版</td><td>订阅 + <b>交易分成</b>（尚未上线）</td></tr>
+      <tr><td class="k">最硬的弱点</td><td>技术资产被开源商品化；分发自立</td><td>单一上游依赖已实际发生</td><td>变现模型未被验证；用户信任门槛</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="scale-note">Cursor 的 ARR 口径冲突：AgentMarketCap 记 2026-04 为 20 亿美元，华福证券引彭博称 6 月已超 40 亿美元。<b>本报告采用 20 亿美元并标注冲突。</b>坊间流传的"Cursor ARR 30 亿""PS ≈20 倍"两个数字本轮均未能核实。</p>
+
+  <h4>Muse 是这一节里最需要单独讨论的对手，它的强项和弱项同样极端</h4>
+  <p>Meta Muse 于 2026 年 9 月 8 日发布（美国、加拿大，18+），形态不是聊天机器人，而是<b>跑在一台独立云端虚拟机上、由自研 Muse Spark 驱动的个人 Agent</b>，能处理邮件分流、填表、订餐、生成购物清单这类真实的网络动作。它的增长数据非常漂亮：</p>
+  <div class="facts">
+    <div><div class="fv">260 万</div><div class="fl">发布 13 天下载量（iOS 约 150 万 / 安卓约 110 万）；第 5 天 73 万，第 10 天登上美国 App Store 免费榜第一</div></div>
+    <div><div class="fv">+11.4%</div><div class="fl">发布当日 Meta 收盘涨幅，市值增加约 <span class="num">2000 亿美元</span>——2025 年年中以来最大单日涨幅</div></div>
+    <div><div class="fv">1500+</div><div class="fl">开发者连接器数量（开放平台上线不到一周）；已接入 Stripe、Shopify、PayPal、Best Buy、Sephora、Walmart 等</div></div>
+    <div><div class="fv">$1300–1450 亿</div><div class="fl">Meta 2026 财年资本开支上调后的区间——这是 Muse 免费策略的底气来源</div></div>
+  </div>
+  <p>把 Muse 放进这张表，Manus 的位置反而更清楚了。<b>Muse 代表的是"分发 + 免费"这一极</b>：它不需要证明自己能盈利，因为 Meta 可以把它当作资本开支的出口和生态的入口——这和腾讯做 WorkBuddy、字节做豆包工作的逻辑完全一致，只是规模更大、模型是自研的。Manus 无法在分发和价格上与这一极竞争，也不应该尝试。</p>
+  <p>但 Muse 的弱点同样是结构性的，而且已经被公开数据暴露出来：</p>
+  <ul class="plain">
+    <li><b>变现模型没有被验证。</b>Rosenblatt 的分析很直接：Muse 要产生收入，要么算力成本大幅下降，要么用户平均每月通过 Muse 完成 <b>1,000 美元以上</b>的消费——后者远高于电商或亚马逊的平均客单价。目前交易分成仍是计划，不是收入。</li>
+    <li><b>信任是它主要的摩擦。</b>Oppenheimer 的调研显示，只有 <b>8%</b> 的用户愿意把账号访问权交给它。而 Muse 自己也在设计上承认了这一点——支付与发送邮件需要用户显式确认，凭证不由 AI 直接读取。</li>
+    <li><b>平台反制已经发生。</b><b>亚马逊在自己的零售站点封禁了 Muse</b>，理由是它绕过既有推荐机制、疑似存储客户凭证并抓取账户数据（亚马逊自己也在做自动购物工具）。沃尔玛、Sephora、Best Buy 则选择了合作。<b>这是"Agent 与平台争夺入口"较早有据可查的一次公开封禁</b>，也是 Manus 未来很可能遇到的同一类摩擦。</li>
+    <li><b>用户把它当一次性工具。</b>TechCrunch 的实测很有代表性：Muse 帮他找到了无人认领的资金，钱真的到账了——但他认为这更接近一次性用途。FUNDA 对发布前 12 天 654 个公开案例的研究也显示，<b>62.8% 属于"生活事务"，19.6% 是省钱/退款/个人财务</b>；49 个可量化案例的年化节省总额 35,426 美元，中位数 490 美元。<b>这正是《发展走向》里 R5 说的"高频低价值场景被预吸收"——Muse 吃掉的是生活事务，不是重交付任务。</b></li>
+  </ul>
+
+  <div class="callout">
+    <p class="ct">三条路线的分野，用一句话概括</p>
+    <p><b>Cursor 的筹码来自议价能力</b>——它是 OpenAI 最大的单一客户之一，切断它要上新闻，所以它既被断供也握有筹码；<b>Meta Muse 卖分发</b>——30 亿用户的产品面加免费，短期内不需要向资本市场证明单位经济；<b>Manus 卖交付</b>——没有分发、议价筹码也有限，能卖的主要是"这件事被办成了"。三者里，只有 Manus 这条路必须在每一单上真实地赚到钱。</p>
+    <p>这也决定了它该往哪走：Cursor 的路（做大到被收购）和 Muse 的路（靠分发免费）它都走不了，剩下的是<b>把交付价值做厚</b>——《发展走向》里的路径 A 与路径 B，本质上是同一件事的两个市场。</p>
+  </div>
+
+  <div class="callout">
+    <p class="ct">一个值得记下的观察：供应链倒置</p>
+    <p>美国头部的 AI 编程工具，把最新的基础模型押在<b>中国的开源权重</b>上（Kimi K2.5）；而中国的通用 Agent，长期把底座押在<b>美国的闭源 API</b> 上。两边的供应链刚好互为镜像——这让"断供"这件事在两边都不是单方面的武器。而 Muse 是三者里唯一自供模型的，它因此没有这个风险，也因此失去了跨模型路由带来的成本与能力弹性。</p>
+  </div>
+</section>
+
+<section id="outlook">
+  <span class="snum">05 / 发展走向</span>
+  <h2 class="sec">发展走向：可能的路径、该盯的信号与主要风险</h2>
+  <h3 class="sub"><span class="subn">05.1</span>四条可能的发展路径</h3>
+  <p class="lede">概率是本次分析的判断。9 月的事件让路径 A 明显增强——恢复独立、40 亿美元融资、港股上市传闻，都指向同一条线。</p>
+
+  <div class="bars">
+    <div class="bar-row"><span class="bar-lbl"><b>A</b> 海外为主 + 港股 IPO</span><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><span class="bar-val">55%</span></div>
+    <div class="bar-row"><span class="bar-lbl"><b>B</b> 国内 B2B，服务出海中国企业</span><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><span class="bar-val">25%</span></div>
+    <div class="bar-row"><span class="bar-lbl"><b>C</b> 成为大厂（腾讯）的 Agent 拼图</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><span class="bar-val">10%</span></div>
+    <div class="bar-row"><span class="bar-lbl"><b>D</b> 国内 C 端正面竞争</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><span class="bar-val">10%</span></div>
+  </div>
+
+  <h5>A · 海外为主 + 港股 IPO（55%）</h5>
+  <p>目前与事实吻合度较高的一条路径。2026-09-01 恢复独立运营、09-17 以 40 亿美元投后融资 5 亿美元、有赴港上市传闻；Manus 2.0 与 Cue 均面向海外发布。国内产品线作为期权保留，不承担收入目标。<b>这条路的风险是估值锚定</b>——应用层拿 9 倍 PS，而它的融资对手拿 25–50 倍。</p>
+
+  <h5>B · 国内 B2B，服务出海的中国企业（25%）</h5>
+  <p>被上一轮报告评为较被低估的路径，也是目前看最能绕开"腾讯悖论 + 价格锚点 + 场景被预吸收"三重障碍的一条路。目标客户是那些自身要出海、需要跨境多工具协作、且愿意为交付质量付费的中国企业。它需要的是 Manus 已经有的东西：跨境合规经验、多模型路由能力、全球工具生态。<b>障碍是这条赛道同时被阿里（钉钉 2000 万+ 组织）和字节（飞书打通）盯着。</b></p>
+
+  <h5>C · 成为大厂（腾讯）的 Agent 拼图（10%）</h5>
+  <p>腾讯已是单一最大股东且运营 WorkBuddy。理论上把 Manus 的海外能力与品牌并入腾讯的 agent 版图是顺理成章的——但对价与监管都会很复杂，且与"创始团队实控"的现状直接冲突。9 月恢复独立运营实际上是<b>降低了</b>这条路的概率。</p>
+
+  <h5>D · 国内 C 端正面竞争（10%）</h5>
+  <p>概率最低。要在国内消费级市场正面打，必须先解决备案模型、数据出境、免费锚点、超级 App 预吸收四个问题，同时 $39 的定价对标一个免费市场。<b>没有看到任何迹象表明它会选这条路。</b></p>
+  
+  <h3 class="sub"><span class="subn">05.2</span>四个可以持续跟踪的指标</h3>
+  <p class="lede">判断上面四条路径哪一条在成真，看这四个信号就够了。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:34%">指标</th><th>为什么它决定走向</th></tr></thead>
+    <tbody>
+      <tr><td class="k">① 国内产品线的备案主体与所用模型</td><td>备案主体落在哪、用哪家国产模型，直接决定它能否在国内开张，以及它"模型中立"的能力还剩多少</td></tr>
+      <tr><td class="k">② 港股递表后的招股书是否披露 ARR 与毛利率</td><td>这是验证"套壳"之问最直接的一类硬证据。中金的 1:10 尺子能否被满足，主要得看这张表</td></tr>
+      <tr><td class="k">③ DeepSeek Harness 的生态接入量</td><td>是否有厂商用 DSH 复刻出 Manus 的核心体验。一旦发生，应用层的技术溢价归零</td></tr>
+      <tr><td class="k">④ 国内定价与免费锚点的差距</td><td>如果 Manus 国内定价仍在三位数人民币以上，路径 D 基本可以排除；如果降到 49 元量级，说明它真的准备正面打</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <h3 class="sub"><span class="subn">05.3</span>监管不是变量，是门槛</h3>
+  <p class="lede">这一层不构成"竞争"意义上的对手，但决定国内业务能不能开张。相关法律专家的公开分析指向同一个结论：审查看的是实质，不是形式。</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:30%">制度</th><th>要求</th></tr></thead>
+    <tbody>
+      <tr><td class="k">外商投资安全审查</td><td>外资取得境内企业控制权或重大影响需申报；<b>穿透式审查</b>——不看注册地，看实际控制人、数据流向与技术归属</td></tr>
+      <tr><td class="k">大模型备案</td><td>面向境内公众提供生成式 AI 服务需完成备案；境内产品必须使用已备案模型</td></tr>
+      <tr><td class="k">数据出境安全评估</td><td>个人信息与重要数据出境需评估。Manus 的云电脑架构天然涉及跨境数据流</td></tr>
+      <tr><td class="k">智能体专项规范</td><td>《智能体规范应用与创新发展实施意见》对 Agent 的自主决策、工具调用与责任归属提出要求</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>对 Manus 而言，这几项的组合后果很具体：<b>国内产品线必须换用国产已备案模型</b>。这既是合规成本，也切断了它与自家海外产品线共用同一套模型配置的可能——而模型中立、可自由路由正是它宣称的核心能力。</p>
+  
+  <h3 class="sub"><span class="subn">05.4</span>六个风险，以及每一条对应的化解方向</h3>
+  <p class="lede">严重度是本次分析的判断，不是公司披露。编号仅表示排序。<b>风险清单不加化解路径就只是情绪</b>，所以每一条后面都写了它对应的、已经在发生或可以发生的应对。</p>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R1</span>
+      <span class="risk-t">Harness 被开源成公共品</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>6/6</em></span>
+    </div>
+    <p>这是本轮新增、且对 Manus 冲击最直接的一条。DeepSeek Harness 以 MIT 协议开源，配 700 亿元弹药，桌面版开箱即用，腾讯 QQ Bot 三步接入。<b>Manus 的核心技术资产确实一夜之间有了免费替代。</b></p>
+    <p><b>化解方向：</b>把竞争维度从"harness 能力"移到"harness 之外"。Manus 2.0 的做法已经指向这里——Cascade 优化的是<b>单位任务的成本与时长</b>（−32% 成本 / −28.2% 时间），这是运营能力不是代码能力；云电脑、事件触发、视频与游戏这些场景，考的是<b>工具生态的深度与任务编排的可靠性</b>，而这两样需要长期与真实用户打磨，无法靠开源一份框架获得。中金那道题因此不是"harness 免费了怎么办"，而是<b>"免费 harness 跑不出 1:10，谁能跑出来"</b>——而这正是 Manus 相对有资格交卷的地方。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R2</span>
+      <span class="risk-t">估值断层：资本市场给模型层溢价、给应用层折价</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>5/6</em></span>
+    </div>
+    <p>资本用真金白银回答了"套壳"之问：<b>模型层拿 25–50 倍 PS，应用层拿 9 倍</b>。这既意味着 Manus 的融资能力与模型公司不在一个量级，也意味着<b>它的估值并不贵</b>——9 倍 PS 对应 4–5 亿美元 ARR 且仍在增长，这个组合在应用层里不常见。</p>
+    <p><b>化解方向：</b>估值折价的根源是"应用层可替代"的怀疑，而瓦解这个怀疑只需要一件事——<b>披露真实的单位经济</b>。港股递表若披露 ARR、毛利率与留存，把 1:10 那道题正面答出来，9 倍与 50 倍的差距就有机会收敛。这也是本节把它列为头号观察指标的原因。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R3</span>
+      <span class="risk-t">上游断供从理论变成已发生</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>5/6</em></span>
+    </div>
+    <p>OpenAI 宣布 2026-11-12 切断 Cursor 的模型访问，Anthropic 点名月之暗面、DeepSeek 与小米。Manus 的主体在腾讯财团回购后更靠近中国，而模型获取更需要"像海外公司"——<b>这两个要求互相拉扯，且不由 Manus 决定</b>。</p>
+    <p><b>化解方向：</b>这恰恰是它 2025 年"不下注基座模型"那条原则开始收息的地方。开源权重把"断供"从单方面武器变成了互相威慑——美国头部的 AI 编程工具 Cursor 已经把最新基础模型押在中国的开源权重上（Kimi K2.5），供应链是互为镜像的。Manus 的架构天然可以路由到 DeepSeek / GLM / K3 / Qwen，<b>它是少数在断供情境下不需要重新设计产品的公司</b>。真正的成本是性能折损，不是生存问题。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R4</span>
+      <span class="risk-t">模型公司集体下场做 Agent</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>4/6</em></span>
+    </div>
+    <p>DeepSeek 的招聘 JD 把 Manus 列为必用产品。这是<b>有人把你的产品当作 benchmark 研究，然后用 700 亿元和 MIT 协议免费发一份自己的</b>。同时 Kimi Work、Claude Code、Codex、Cowork、Antigravity 都在同一片战场上。</p>
+    <p><b>化解方向：</b>被当作 benchmark 说明产品定义权在自己手上。模型公司的 Agent 产品有一个共同的结构性限制——<b>它们必须优先卖自己的模型</b>，所以天然做不到真正的跨模型中立与成本最优路由。Manus 的模型中立在这个语境下不只是营销词，而是它与所有"下场者"之间难以被抹平的一项产品差异。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R5</span>
+      <span class="risk-t">超级 App 的免费吸收 + 价格锚点差一个数量级</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>4/6</em></span>
+    </div>
+    <p>对 Meta Muse 654 个案例的研究显示，62.8% 是"生活事务"、19.6% 是省钱——<b>通用任务里的高频低价值场景正在被超级 App 预吸收</b>。WorkBuddy 免费版送积分、百度搭子免费、DeepSeek Harness 免费，Manus 的 $39 在国内锚点体系里差一个量级。</p>
+    <p><b>化解方向：</b>这条风险的真实含义比表面窄——被免费吸收的是<b>生活事务与省钱</b>，不是"用一小时换一份可交付成果"。Manus 2.0 的迭代方向（视频、游戏、跨系统自动化、远程操作）全部落在后者。它要守住的不是"通用入口"，而是<b>"复杂任务的首选工具"这个位置</b>；在这个位置上，$39 不是贵，是便宜。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R6</span>
+      <span class="risk-t">模型公司自己的财务不可持续，反过来也是 Manus 的风险</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><em>3/6</em></span>
+    </div>
+    <p>智谱亏损率 217%、毛利率 26.4%；MiniMax 毛利率 17.9%；月之暗面靠外部资本补足"模型 → API 收入 → 下一轮研究"的最后一环。上游为抢份额打到成本线以下，短期对 Manus 是好事（token 更便宜），但当模型公司自己需要靠 Agent 产品变现时，<b>它们会优先在自己的产品里用自己最好的模型</b>——Manus 拿到的可能是次优供给。</p>
+    <p><b>化解方向：</b>供给风险的另一面是<b>议价窗口</b>。上游打到成本线以下、且急于扩大 API 收入时，像 Manus 这样"纯消耗、不竞争、量大且稳定"的客户反而是它们较想留住的。这与 Cursor 被切断的情况不同——Cursor 切了会疼，是因为它是最大的单一客户；Manus 不会被切，也同样是因为它不构成威胁。<b>"不够大到值得被断供"在这个阶段是保护，不是弱点。</b></p>
+  </div>
+</section>
+
+<section id="caveats">
+  <span class="snum">06 / 信息源</span>
+  <h2 class="sec">信息源与未核实项</h2>
+  <p class="lede">这份报告里的数字并非同等可靠。以下是分层说明。</p>
+
+  <h3>必须打折看的</h3>
+  <div class="chips">
+    <span class="chip mid">⚠ ARR 口径</span>
+    <span class="chip mid">⚠ Manus 估值</span>
+    <span class="chip mid">⚠ 单一信源</span>
+  </div>
+  <ul class="plain">
+    <li><b>所有 ARR 数字。</b>《金融时报》2026-08-27 专文讨论过这个口径正在失控——既可以是年度经常性收入，也可以是"最近一个月收入 ×12"。对用量计费的模型公司，两者差距可以很大。<b>"Anthropic 4 月 300 亿美元 ARR"与"7 月底年化超 650 亿美元"不是矛盾，是两个时点、两种口径。</b>"Anthropic 2026 全年年化将破 1000 亿美元"亦为媒体报道口径。</li>
+    <li><b>Manus 的 40 亿美元估值。</b>是报道价而非确认价，融资据报仍在进行中。</li>
+    <li><b>Codex 2000 万周活。</b>单一信源，未能交叉核实。</li>
+    <li><b>WorkBuddy 的 DAU。</b>"百万级"来自界面新闻，非腾讯官方披露；广泛流传的"1300 万 DAU"与之直接冲突，本报告作废该数字。</li>
+    <li><b>人均产出两项。</b>为据公开数据自行推算，非公司披露。</li>
+  </ul>
+
+  <h3>未能核实的</h3>
+  <div class="chips">
+    <span class="chip no">✗ 毛利率</span>
+    <span class="chip no">✗ 融资条款</span>
+    <span class="chip no">✗ Coze 数据</span>
+    <span class="chip no">✗ Muse Spark 架构</span>
+    <span class="chip no">✗ Cursor 估值倍数</span>
+  </div>
+  <ul class="plain">
+    <li><b>Manus 最新毛利率</b>——50% 是 2025 年末口径，此后未更新。</li>
+    <li><b>DeepSeek 700 亿元融资的具体条款。</b></li>
+    <li><b>扣子 / 扣子空间的开发者与 Agent 数量</b>——多处站点反爬，未能取到一手数据。扣子空间作为 2025-04-18 首个大厂 Manus 类产品，其当前规模无法确认。</li>
+    <li><b>Anthropic 毛利率</b>与 Claude Agent SDK 的具体条款，本轮未取得一手来源。</li>
+    <li><b>智谱"按最近一周折算超 20 亿美元年化"</b>——为公司自述，未经审计。</li>
+    <li><b>Meta Muse Spark 的架构</b>——界面新闻只说明它是 Meta 自研、非 OpenAI 或 Anthropic 的模型，规模、训练方式与是否属于前沿水平均未公开。</li>
+    <li><b>Cursor 的 ARR 与估值倍数。</b>坊间流传的"ARR 30 亿美元""PS ≈20 倍"本轮均未能核实。ARR 本身存在口径冲突（20 亿 vs 超 40 亿），已在《AI 应用层》的对比表中标注。Cursor CEO Michael Truell 所称"OpenAI 模型仅服务约 5% 的用户流量"<b>为其本人陈述，未经独立验证</b>。</li>
+    <li><b>Cursor 毛利率</b>存在争议：截至 2025 年末的投资者分析认为接近零或为负（约 6.5 亿美元/年付给 Anthropic，对应约 5 亿美元收入，约 −30%），另有分析师预测其将从约 74% 升至 2027 年的约 85%。两个口径差距过大，本报告不取用。</li>
+  </ul>
+
+  <h3>本报告不采信的内容</h3>
+  <div class="chips"><span class="chip no">✗ 伪造文章</span></div>
+  <ul class="plain">
+    <li>《学历已死？Manus 团队用代码重写了人才规则书》——伪造，编造了不存在的人物与履历。详见《组织人才》一节。</li>
+    <li>任何把"掉队"一类评价性判断直接当作结论的转述。本报告在 MAU、ARR、估值等指标相互冲突时，<b>标注所用的是哪个指标</b>，而不是替读者选一个。</li>
+  </ul>
+
+  <h3>关于"主体、产品与市场"的表述口径</h3>
+  <p>本报告把三件事分开陈述，因为它们在公司架构上本来就是分开的：<b>法律主体</b>在开曼、总部在新加坡；<b>产品</b>面向全球公开发售；<b>收入</b>以海外订阅为主。中国是它在 2026 年 9 月开始筹建的一个<b>新增市场</b>，不是公司注册地或总部的变更。凡涉及此处的表述，本报告一律按这三层分别标注。</p>
+</section>
+
+<section id="sources">
+  <span class="snum">来源</span>
+  <h2 class="sec">主要公开信息源</h2>
+  <ol class="src">
+    <li><a href="http://yuanchuang.caijing.com.cn/2026/0901/5181219.shtml">财经 · Meta 收购 Manus 交易已撤销（独家）</a></li>
+    <li><a href="https://m.163.com/dy/article_v5/L73SPH7205527T1C.html">Manus 将完成 5 亿美元融资，估值翻倍至 40 亿美元</a></li>
+    <li><a href="https://m.ithome.com/html/1008064.htm">IT之家 · Manus 2.0 发布与国内产品计划</a></li>
+    <li><a href="https://zhidx.com/p/598008.html">智东西 · Manus 2.0 挑战 Meta Muse</a></li>
+    <li><a href="https://www.thepaper.cn/newsDetail_forward_31178225">澎湃 · Manus「撤出」中国</a></li>
+    <li><a href="https://m.thepaper.cn/newsDetail_forward_32342006">澎湃 · 起底 Manus：20 亿的豪赌</a></li>
+    <li><a href="https://m.thepaper.cn/newsDetail_forward_32374111">澎湃 · Manus 和它的「8000 万名员工」</a></li>
+    <li><a href="https://m.thepaper.cn/newsDetail_forward_30327625">澎湃 · 张涛独家专访</a></li>
+    <li><a href="https://www.thepaper.cn/newsDetail_forward_30327625">澎湃 · 张涛谈 less structure, more intelligence</a></li>
+    <li><a href="https://hub.baai.ac.cn/view/51571">智源社区 / 量子位 · 收购案细节</a></li>
+    <li><a href="https://eu.36kr.com/en/p/3937363192757634">36氪 · 回归后收入翻五倍</a></li>
+    <li><a href="https://m.thepaper.cn/newsdetail_forward_33586662">澎湃 · 135 亿接盘 Manus</a></li>
+    <li><a href="https://www.zaobao.com.sg/news/china/story20260917-9689732">联合早报 · 拟融资 5 亿美元、估值翻倍至 40 亿</a></li>
+    <li><a href="https://www.sohu.com/a/1004500144_121140238">搜狐 · 季逸超：非典型天才的 AI 创业之路</a></li>
+    <li><a href="https://www.bianews.com/news/details?id=229105">鞭牛士 / 金错刀 · 字节错过的江西 90 后</a></li>
+    <li><a href="https://www.tmtpost.com/7537575.html">钛媒体 · 张涛谈 Claude 与 less structure</a></li>
+    <li><a href="https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus">Manus 官方博客 · Context Engineering for AI Agents</a></li>
+    <li><a href="https://assets.theregister.com/2026/02/20/anthropic_clarifies_ban_third_party_claude_access/">The Register · Anthropic 澄清第三方 harness 禁令（含 API key 豁免条款）</a></li>
+    <li><a href="https://www.36kr.com/p/3856699188892933">36氪 / 新智元 · Anthropic 撤回第三方订阅限制</a></li>
+    <li><a href="https://fortune.com/2026/01/13/anthropic-claude-cowork-ai-agent-file-managing-threaten-startups/">Fortune · Anthropic 发布 Claude Cowork</a></li>
+    <li><a href="https://www.163.com/dy/article/KJJ2AU8D0511ABV6.html">新智元 · 开源版 Cowork 爆火，逼得 Anthropic 下放 Cowork</a></li>
+    <li><a href="https://agentmarketcap.ai/blog/2026/04/25/claude-code-25b-arr-fastest-ai-developer-tool-billion-dollar-revenue">AgentMarketCap · Claude Code 达 25 亿美元 ARR</a></li>
+    <li><a href="https://www.bloomberg.com/news/articles/2026-09-18/anthropic-s-annualized-revenue-to-top-100-billion-in-2026-nyt">Bloomberg · Anthropic 年化收入 2026 年将破 1000 亿美元</a></li>
+    <li><a href="https://www.nasdaq.com/articles/anthropics-revenue-run-rate-just-hit-65-billion-spacex-and-amazon-may-be-biggest-winners">Nasdaq · Anthropic 年化运行率达 650 亿美元</a></li>
+    <li><a href="https://www.jiemian.com/article/14225259.html">界面新闻 · OpenAI 企业业务收入占比超 40%</a></li>
+    <li><a href="https://m.sgpjbg.com/labelsyh/agentjingji/1/7234478.html">中金 · Agent 经济报告摘要（1 元 token 带回 10 元收入）</a></li>
+    <li><a href="https://m.eeo.com.cn/2026/0820/1004946.shtml">经济观察报 · DeepSeek 一放一收，框架开源模型涨价</a></li>
+    <li><a href="https://www.pingwest.com/w/313891">品玩 · DeepSeek 组建 Harness 团队，进军代码智能体</a></li>
+    <li><a href="https://www.ithome.com/0/100/7099.htm">IT之家 · DeepSeek Harness 桌面版预览偷跑</a></li>
+    <li><a href="https://www.tmtpost.com/7999833.html">钛媒体 · 梁文锋有了「隆中对」</a></li>
+    <li><a href="https://stcn.com/article/detail/3975770.html">证券时报 · 智谱市值首超 1 万亿港元</a></li>
+    <li><a href="https://www.tmtpost.com/8130885.html">钛媒体 · AI 六小虎 IPO 大年：谁先爬过算力成本那道坎</a></li>
+    <li><a href="https://m.jiemian.com/article/15052426.html">界面新闻 · ARR 3 亿美元的 Kimi，为什么还在追着投资人要钱</a></li>
+    <li><a href="https://eu.36kr.com/zh/p/3978923620177539">36氪 · Kimi 冲刺 20 亿美元年销售额，筹备 500 亿美元估值香港 IPO</a></li>
+    <li><a href="https://inews.hket.com/article/4191848/">经济日报 · Anthropic 指控月之暗面套取 Claude 答复，涉近 30 万次</a></li>
+    <li><a href="https://global.hk01.com/财经快讯/60389066/">香港01 · 月之暗面被控「出猫」，用 Claude 答复回应 Kimi 用户</a></li>
+    <li><a href="https://www.stheadline.com/zh-hans/realtime-finance/3614295/">星岛头条 · Anthropic 指中资 AI 公司违规蒸馏 Claude</a></li>
+    <li><a href="https://www.jiemian.com/article/14892732.html">界面新闻 · 腾讯大力把 WorkBuddy 送上牌桌</a></li>
+    <li><a href="https://www.stdaily.com/web/gdxw/2026-09/02/content_574097.html">科技日报 · 腾讯 WorkBuddy 开放平台上线</a></li>
+    <li><a href="https://stcn.com/article/detail/4115647.html">证券时报 · 豆包工作，来了</a></li>
+    <li><a href="https://xinwen.bjd.com.cn/content/s6a8fe677e4b0e45f3fd69105.html">长安街知事 · 字节、阿里、腾讯、百度全部入局</a></li>
+    <li><a href="https://w.geekpark.net/news/371040">极客公园 · 千问办公怎么打这场大战</a></li>
+    <li><a href="https://m.pedaily.cn/news/567137">投资界 · AI 大厂打起了 Token 奶茶大战</a></li>
+    <li><a href="https://shopex.cn/news/35148">商派 · 腾讯把 Hy3 一直免费，到底在抢什么</a></li>
+    <li><a href="https://www.36kr.com/p/3855891603035398">36氪 · Manus 与 Genspark 的架构与产品哲学</a></li>
+    <li><a href="https://cursor.com/cn/changelog/3-0">Cursor · 3.0 更新日志</a></li>
+    <li><a href="https://www.nasdaq.com/articles/spacex-buy-cursor-maker-anysphere-60-bln-all-stock-deal">Nasdaq · SpaceX 以 600 亿美元全股票交易收购 Cursor</a></li>
+    <li><a href="https://www.iimedia.cn/c1061/113664.html">艾媒咨询 · 中国 AI Agent 市场规模</a></li>
+    <li><a href="https://www.vergex.cn/2737.html">真格基金 · 张涛首次回应争议，Manus 为什么没有被替代？｜清华校园行（2025-11-30 活动 / 2025-12-28 刊发）</a></li>
+    <li><a href="https://cloud.tencent.cn/developer/article/2659610">腾讯研究院 · 刘莫闲《流量 2.0 时代》（2026-04-23）</a></li>
+    <li><a href="https://hub.baai.ac.cn/view/54118">Founder Park · AI Native 的组织架构应该是怎么样的？Block CEO：每家公司都可以压缩成一个 agent（2026-04-21）</a></li>
+    <li><a href="https://news.qq.com/rain/a/20260622A0BQ5200">AI涌现 · Anthropic 及 AI Native 组织最佳实践总结（2026-06-22）</a></li>
+    <li><a href="https://www.jiemian.com/article/15127574.html">界面新闻 · Meta Muse 发布与用户数据（2026-09-22）</a></li>
+    <li><a href="https://www.theinformation.com/">The Information · Muse 试用用户与 DAU 数据</a></li>
+    <li><a href="https://techcrunch.com/">TechCrunch · Sean O'Kane 实测 Meta Muse</a></li>
+  </ol>
+</section>
+
+<footer>
+  <p>本报告由公开信息整理与分析构成，不构成投资建议。所有数字均标注时点与来源；口径冲突处保留冲突而不取平均。《信息源与未核实项》一节列出全部未能核实项。</p>
+  <p>数据截止 2026-09-29 · 整理于同日的公开资料。</p>
+</footer>
+
+</div>
+</body>
+</html>

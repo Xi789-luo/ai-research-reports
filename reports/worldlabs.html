@@ -1,0 +1,1180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>World Labs</title>
+<style>
+
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+</style>
+</head>
+<body>
+
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">World Labs</span>
+    <div class="links">
+      <a href="#premise">公司脉络</a>
+      <a href="#org-talent">组织人才</a>
+      <a href="#compete">竞争分析</a>
+      <a href="#neolabs">Neolabs</a>
+      <a href="#outlook">发展走向</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">公司深度研究 · 空间智能 · 2026</p>
+  <h1>World Labs</h1>
+  <p class="standfirst">一家把"空间智能"当作独立技术路线来做的实验室，为什么最终同意以 82 亿美元的对价被一家芯片公司收购——这对它自己、对整个 Neolab 群体意味着什么？</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-09-30</dd></div>
+    <div><dt>版本</dt><dd>v1 · 五部分 + 信息源</dd></div>
+    <div><dt>核心结论</dt><dd>技术路线成立，独立公司形态不成立</dd></div>
+    <div><dt>信息源</dt><dd>公开信息源 94 项</dd></div>
+  </dl>
+</header>
+
+<section class="thesis" id="thesis" style="border-top-width:2px">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>World Labs 卖的不是模型，是能直接进管线的 3D 资产。</b>这是它和几乎所有"世界模型"公司最本质的分野。Genie 3、Cosmos、混元世界交付的是可交互的生成结果，Marble 交付的是可导出的 Gaussian splat、mesh、视频，以及给物理引擎用的 collider mesh。<b>这个选择决定了它的客户是谁，也决定了它的天花板在哪</b>——它更像一家给游戏、影视、机器人仿真供货的工具公司，而不是一家平台公司。</li>
+    <li><b>以 82 亿美元对价签约并入 AMD，是 2026 年 Neolab 退出路径的标志性样本。</b>全股票对价、AMD 史上第二大收购、李飞飞将在交割后出任 AMD 执行副总裁兼首席科学家。<b>需要强调的是：截至本报告数据截止日，这是一份已签署但尚未交割的最终协议，仍需通过监管审批。</b>它说明一件事：做世界模型这类<b>重资产、长周期、必须贴着硬件</b>的方向，独立公司的合理终局大概率是被硬件方收编，而不是长成独立的平台公司。这不是失败，但也不是"独立厂商跑出来了"。</li>
+    <li><b>它的竞争位置比叙事听起来要挤得多，但拥挤的方式和通常想象的不一样。</b>按 World Labs 自己提出的分类（渲染器 / 模拟器 / 规划器），Genie 3 与 Decart 其实不在它的类别里，真正正面竞争的只有英伟达 Cosmos 一条线——<b>而这条线是开放许可加产业联盟，对几十人规模的团队来说是最难跟的打法</b>。与此同时，上游同时是股东与对手，横向被腾讯的开源持续压价，下游的波士顿动力在需要基础模型时选择了谷歌而非它，银河通用与智元则选择自建。三个方向都在收窄。</li>
+    <li><b>Neolab 的结构性困境在它身上体现得很完整。</b>估值按"基础设施"定价、产品按"工具"交付、收入证据按"数据服务"呈现——三套口径彼此不匹配。全行业 119 家 Neolab 里只有 16 家披露过收入，这个比例本身就是结论。World Labs 是少数有可验证产品与定价的一家，但它同样没有公开过收入。</li>
+    <li><b>交割之后，真正需要观察的已经不是产品路线，而是整合。</b>World Labs 会被保持独立运营到交割完成，但"贴着硬件"这句话具体怎么落地、创始团队在 AMD 体系里的实际权限有多大，目前都没有公开信息可以判断。<b>把它当成已经完成的成功案例来引用，为时过早。</b></li>
+  </ol>
+</section>
+
+<section id="premise">
+  <span class="snum">01 / 公司脉络</span>
+  <h2 class="sec">先把它是谁、卖什么、靠什么收钱说清楚</h2>
+  <p class="lede">关于这家公司最常见的两种误读，一种把它当成"李飞飞的实验室"，一种把它当成"又一个世界模型公司"。前者低估了它的工程化程度——Marble 是一套有定价、有 API 计费、有商用授权的产品；后者看错了它的产品形态——它交出去的是文件，不是画面。</p>
+
+  <div class="tw">
+  <table>
+    <caption>三个常被混为一谈的层次。把它们当成一件事，会同时高估它的平台属性、低估它的工具属性。</caption>
+    <thead><tr><th style="width:20%">层次</th><th style="width:20%">实际是什么</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td class="k">技术叙事</td><td><span class="chip ok">空间智能</span></td><td>李飞飞 2024 年公开提出的路线主张：语言模型之后，需要一类能理解、生成、推理三维世界的模型。公司名与全部对外表述都锚在这条路线上。</td></tr>
+      <tr><td class="k">产品形态</td><td><span class="chip ok">可导出的 3D 资产</span></td><td>Marble 的产出可以导出为 Gaussian splat、mesh、视频，以及供物理引擎使用的 collider mesh。这是它与其他世界模型最硬的差别。</td></tr>
+      <tr><td class="k">收入结构</td><td><span class="chip mid">订阅 + 积分 + 企业授权</span></td><td>Marble 分 Free / Standard 20 / Pro 35 / Max 95 美元四档，商用权利从 Pro 档才开放；另有 World API 按积分计费，1.00 美元买 1,250 积分，最低起购 5.00 美元。<b>未披露任何收入数字。</b></td></tr>
+      <tr><td class="k">最终去向</td><td><span class="chip mid">已签协议<br>待交割</span></td><td>2026-09-28 签署最终协议，全股票对价约 82 亿美元，预计 2026 年底前交割，需通过监管审批。<b>尚未完成。</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>起点：一顿晚饭，和三条能追溯到源头的研究血统</h3>
+  <p>公司成立于 2024 年 1 月，总部在旧金山，四位联合创始人是李飞飞（CEO）、Justin Johnson、Christoph Lassner、Ben Mildenhall。据公开报道，创办这件事的触发点可以追到 2023 年初与 a16z 合伙人 Martin Casado 的一次晚饭——资本先于公司存在。</p>
+  <p>更值得看的是四个人各自带来的技术资产。它们不是同一件事的不同部分，而是三条独立的研究脉络，在 2023 年前后才第一次具备了汇合的条件。</p>
+
+  <div class="tw">
+  <table>
+    <caption>三条血统分别对应 3D 重建、可微渲染、视觉系统三个环节，缺任何一条都做不出 Marble 这类产品。</caption>
+    <thead><tr><th style="width:18%">人</th><th style="width:26%">技术资产</th><th>来源与时间</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Ben Mildenhall</td><td>NeRF（神经辐射场）</td><td>2020 年于 Google Research 参与提出，把场景重建从显式几何推向隐式表示。这是整个 3D 生成方向的方法论起点之一。</td></tr>
+      <tr><td class="k">Christoph Lassner</td><td>Pulsar 可微渲染器</td><td>在 Meta Reality Labs 期间主导，基于球面的可微渲染方案，是 2023 年 3D Gaussian Splatting 出现的直接前身之一。</td></tr>
+      <tr><td class="k">Justin Johnson</td><td>Detectron 与 CS231n</td><td>在 FAIR 构建 Detectron 视觉系统；与李飞飞、Andrej Karpathy 共同讲授第一版 CS231n。工程落地经验来自这里。</td></tr>
+      <tr><td class="k">李飞飞</td><td>ImageNet、斯坦福 HAI</td><td>把"数据集 + 评测基准"这套方法带进公司——这一点在下文 Neolab 部分会看到它为什么重要。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>融资阶梯：从 2 亿美元估值到 82 亿美元对价</h3>
+  <p>两年半时间里，这家公司的估值涨了约 40 倍。把每一档拆开看，能看到资本对它的定价逻辑在变：早期按"顶级研究团队"定价，中期按"世界模型头部"定价，最后一档按"下一代 AI 负载的理解权"定价。</p>
+
+  <div class="tw">
+  <table>
+    <caption>估值阶梯。2026 年 2 月那一轮的名单里同时出现 AMD 与英伟达，是理解 9 月这笔交易的关键前提。</caption>
+    <thead><tr><th style="width:16%">时间</th><th style="width:20%">事件</th><th style="width:16%">估值 / 金额</th><th>要点</th></tr></thead>
+    <tbody>
+      <tr><td class="n">2024-04</td><td>早期轮次</td><td class="n">约 2 亿美元</td><td>公司成立后数月内的估值水平，此时尚未出隐身。</td></tr>
+      <tr><td class="n">2024-06 → 07</td><td>NEA 领投</td><td class="n">突破 10 亿美元</td><td>约 1 亿美元融资，把它推入独角兽区间，早于正式发布。</td></tr>
+      <tr><td class="n">2024-09-13</td><td>正式出隐身</td><td class="n">2.3 亿美元</td><td>a16z、NEA、Radical Ventures 参投；天使名单包括 Geoffrey Hinton、Jeff Dean、Eric Schmidt、Reid Hoffman。这份名单本身就是叙事的一部分。</td></tr>
+      <tr><td class="n">2026-01</td><td>彭博报道融资洽谈</td><td class="n">约 50 亿美元估值</td><td>传闻规模至多 5 亿美元。此时市场仍按"独立世界模型头部"给它定价。<b>该估值随后被 2 月那一轮基本确认。</b></td></tr>
+      <tr><td class="n">2026-02-18</td><td>10 亿美元融资</td><td class="n">投后约 54 亿美元</td><td>投资方包括 <b>AMD、英伟达</b>、Autodesk、Emerson Collective、Fidelity、Sea。两个芯片方同时进场，是这笔收购的先声。累计融资额约 12.3 亿美元。</td></tr>
+      <tr><td class="n">2026-09-28</td><td>AMD 宣布收购</td><td class="n">82 亿美元</td><td>全股票交易，已签最终协议、<b>尚未交割</b>，预计 2026 年底前完成。较 2 月那一轮的投后估值溢价约 62%。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>产品线：Marble、World API、Spark、Atlas</h3>
+  <p>四条产品线的关系是"一个交付物、一个交付通道、一个播放器、一个底座"。其中 <b>Spark 是最容易被外部忽略的一条</b>——它不生成任何东西，但决定了生成出来的东西能不能被人看见。理解这个分工，就不会把 Atlas 的发布当成一次普通的模型升级。</p>
+
+  <div class="tw">
+  <table>
+    <caption>Spark 与 RTFM 这两条线在中文报道里几乎不出现，但它们构成了"生成→交付→观看"的完整闭环。</caption>
+    <thead><tr><th style="width:16%">产品</th><th style="width:18%">时间</th><th>它是什么</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Marble</td><td class="n">2025-09 内测<br>2025-11-12 正式</td><td>核心交付物。输入文字、图片、视频或 3D 布局，输出可编辑、可导出的三维世界。支持导出 Gaussian splat、mesh、视频，以及给物理引擎用的 collider mesh；配 Chisel 编辑工具。分四档定价，商用权利从 Pro 档开放。</td></tr>
+      <tr><td class="k">World API</td><td class="n">2026-01-21</td><td>交付通道。把世界生成变成一次可编程调用，支持文本、单图、多图、360° 全景与视频五类输入，异步返回可导航的三维世界。按积分计费，1.00 美元对应 1,250 积分，最低起购 5.00 美元，积分不过期。<b>Marble 积分与 World API 积分互相独立、不可转移</b>——这是两个独立计费体系，不是同一套额度的两种用法。</td></tr>
+      <tr><td class="k">Spark</td><td class="n">2025 年发布<br>2.0 于 2026-04-14</td><td>面向网页的 3D Gaussian Splatting 渲染器，接入 THREE.js、基于 WebGL2，在桌面、iOS、Android 与 VR 上都能跑。Spark 2.0 加入 Level-of-Detail 系统，可按视点自动降低细节并流式加载数据。<b>没有这一层，Marble 生成的世界只能以视频形式被人看到。</b></td></tr>
+      <tr><td class="k">RTFM</td><td class="n">—</td><td>实时世界模型，按用户输入逐帧生成画面。World Labs 在自己的分类文章里把它与 Genie 3 并列，归入"渲染器"一类——<b>也就是说，公司自己承认这条线不是它的主战场。</b></td></tr>
+      <tr><td class="k">Atlas</td><td class="n">2026-09-01</td><td>底座模型。多模态自回归扩散 Transformer，从零开始在文本、图像、视频、3D 四种模态上预训练，全部输入汇入同一个空间上下文。可生成最长约 1 分钟的 1440p 视频并支持像素级相机控制；可从一张到数十张输入图像重建真实场景；支持面向机器人的 real-to-sim 工作流。<b>官方表述是它将驱动未来版本的 Marble——也就是说，发布时它还没有接进当前产品。</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>客户：收入数字没有，但有名字</h3>
+  <p>公司从未披露过任何收入数字，这是判断它的商业化时最大的空白。但官网的客户案例页给出了一批<b>有名字的使用方</b>，这批名字本身构成一种弱证据：它至少说明产品被真实的外部团队接进了生产流程，而不只是内部演示。</p>
+
+  <div class="tw">
+  <table>
+    <caption>客户案例页上署名的使用方。这些是合作性质的公开案例，不等于付费客户名单，也不代表收入规模。</caption>
+    <thead><tr><th style="width:18%">方向</th><th>公开的使用方</th></tr></thead>
+    <tbody>
+      <tr><td class="k">创意与内容平台</td><td>Magnific（官方表述为"全球最大的创意平台之一"）、OpenArt、Rosebud AI、Viverse、Lightcraft、Magnific 之外的多家影视与设计工作室</td></tr>
+      <tr><td class="k">机器人与仿真研究</td><td>研究者 Hang Yin（维护 BEHAVIOR-1K 项目与 OmniGibson 仿真器）与 Abhishek Joshi（参与 RoboSuite、Infinigen-Articulated 等仿真框架）合作验证了 Marble 生成场景用于机器人训练与 real-to-sim 迁移的可行性</td></tr>
+      <tr><td class="k">VR 与空间体验</td><td>Vive Mars、Splat World 等开发者案例</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">一个不该被引用的页面</p>
+    <p>客户案例目录里存在一个标题为"<b>NVIDIA Isaac Sim 与 Marble</b>"的页面，但它的正文至今仍是占位内容（"这是一篇占位案例，内容待补充"）。<b>这一页本身不能作为合作证据</b>——本报告把它列出来，是因为未完成的页面很容易被二手报道当成既成事实引用。</p><p>但要避免由这一页反推出"双方没有合作"。英伟达开发者博客在 2025-12-17 发布过一篇完整的技术教程《Simulate Robotic Environments Faster with NVIDIA Isaac Sim and World Labs Marble》，给出了 PLY → USDZ → Isaac Sim 的完整流程，案例机器人包括 Nova Carter、UR10、ANYmal 与 Spot；英伟达同时也是 World Labs 的投资方。<b>真实的关系比那一页占位内容所暗示的更强，也比"只是投资关系"更深——它是工程层面的对接。</b></p>
+  </div>
+
+  <h3>2026 年：两笔动作，决定了它的结局</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:16%">时间</th><th style="width:24%">事件</th><th>为什么重要</th></tr></thead>
+    <tbody>
+      <tr><td class="n">2026-07-21</td><td class="k">收购 SceniX</td><td>机器人仿真公司，联合创始人 Yunzhu Li 与 Changxi Zheng 加入，对价未披露。带来 real-to-sim-to-real（R2S2R）引擎。<b>这是它第一次明确往机器人仿真方向落子</b>，也是"空间智能"从内容生成走向物理世界的一次具体动作。</td></tr>
+      <tr><td class="n">2026-09-01</td><td class="k">发布 Atlas</td><td>把底座模型换掉并公开架构，说明 Marble 此前的生成能力主要建立在外部方法之上。自研底座是"要独立做下去"的信号。</td></tr>
+      <tr><td class="n">2026-09-28</td><td class="k">AMD 宣布收购</td><td>距 Atlas 发布不到一个月。这两件事放在一起看，更像是"先把技术资产亮出来，再谈价格"。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="facts">
+    <div><div class="fv">82 亿美元</div><div class="fl">全股票对价，AMD 史上第二大收购，仅次于 2022 年约 500 亿美元收购赛灵思</div></div>
+    <div><div class="fv">2026 年底</div><div class="fl">预计交割时间，需通过监管审批</div></div>
+    <div><div class="fv">EVP</div><div class="fl">李飞飞将出任 AMD 执行副总裁兼首席科学家，向苏姿丰汇报</div></div>
+    <div><div class="fv">2 人留任</div><div class="fl">Justin Johnson 与 Ben Mildenhall 继续带领 World Labs 团队</div></div>
+  </div>
+
+  <p>这笔交易不是一次突然的转身。按官方公告的说法，双方的技术合作在 2025 年就已经开始，起点是<b>在 AMD GPU 上做模型训练与推理优化</b>，随后才发展为投资（2026 年 2 月）与收购协议（2026 年 9 月）。这个顺序值得注意：先有工程层面的耦合，再有资本层面的结合。</p>
+
+  <blockquote>
+    要把这件事做下去，需要扩大投入、拓宽触达，并且更靠近硬件。没有一支专注的硬件力量，AI 在效率和规模上都会被束缚；对我们而言，它也会一直被困在数字世界里。
+    <cite>李飞飞就 AMD 交易致团队的公开信，2026-09-28</cite>
+  </blockquote>
+
+  <div class="callout warnb">
+    <p class="ct">公告里一句容易被跳过的话</p>
+    <p>AMD 与 World Labs 的联合表述里提到，双方要共同构建"覆盖硬件、软件、平台，以及<b>广泛可获取的开放模型</b>的端到端开放 AI 生态"。这句话如果被兑现，意味着 Marble 赖以收钱的模型能力可能被自己的母公司开源出去。<b>这对整个赛道是好事，对 Marble 的订阅定价是另一回事。</b>目前这只是一句战略表述，没有任何开放时间表——但它是这份报告里最值得跟踪的一句话。</p>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">一个没有被回答的问题</p>
+    <p>AMD 的公告里明确写了 Justin Johnson 与 Ben Mildenhall 将继续领导 World Labs 团队，但<b>四位联合创始人中的 Christoph Lassner 没有被提及</b>。这不等于他已经离开，也不等于存在分歧——只是公开信息里缺了一块。在拿到明确信息之前，把它记成"未核实项"，不要往任何方向推断。</p>
+  </div>
+</section>
+
+<section id="org-talent">
+  <span class="snum">02 / 组织人才</span>
+  <h2 class="sec">组织人才：一支研究密度极高、学科跨度很宽、但规模很小的队伍</h2>
+
+  <h3 class="sub"><span class="subn">02.1</span>四个人，和一个不对称的权力结构</h3>
+  <p>创始团队的构成决定了一件事：这是一家<b>由学术声誉主导对外、由工程经验主导对内</b>的公司。李飞飞承担了几乎全部对外叙事与资本对接，另外三人承担技术实现。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:20%">角色</th><th style="width:22%">分工</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td class="k">李飞飞 · CEO</td><td>对外叙事、融资、招人</td><td>公司叙事的唯一出口。"空间智能"这个词之所以能被资本市场当成一个赛道来讨论，与她的公开表达直接相关。按 AMD 公告口径，交割后转任 AMD 执行副总裁兼首席科学家，向苏姿丰汇报。</td></tr>
+      <tr><td class="k">Justin Johnson</td><td>技术实现</td><td>Detectron 与 CS231n 背景，工程落地的主要负责人。AMD 公告中明确继续带队。</td></tr>
+      <tr><td class="k">Ben Mildenhall</td><td>技术实现</td><td>NeRF 共同作者，3D 表示方向的负责人。AMD 公告中明确继续带队。</td></tr>
+      <tr><td class="k">Christoph Lassner</td><td>渲染与图形</td><td>Pulsar 作者。见下方关于创始人名单口径差异的说明。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>创始人名单在两处一手来源里并不一致：官网 /about 页列四位，但李飞飞本人的公开文章与 AMD 的收购公告都只提到 Justin Johnson 与 Ben Mildenhall 两人将继续带队，两处都不提 Christoph Lassner。<b>本报告不对他的现状做任何推断</b>，这个空缺的完整说明见 01 部分的未核实项。</p>
+
+  <p>这个结构还有一个不常被注意的配套装置。在招岗位里有一个 <b>Executive Business Partner (Office of the CEO)</b>，薪资带 20–25 万美元——这是典型的幕僚长（chief of staff）角色。对一位同时担任斯坦福教授、公司 CEO、且即将进入 AMD 管理层的创始人来说，这个岗位的作用是<b>把日常运营事务隔离出去</b>，让 CEO 的时间可以继续投在叙事与研究判断上。它是"学术明星兼任 CEO"这一形态的标准补丁。</p>
+
+  <h3 class="sub"><span class="subn">02.2</span>这支队伍要的不是 NLP 工程师，是图形学和机器人</h3>
+  <p>理解这支团队，用"有多少人"是问错了问题，应该问<b>"要什么学科的人"</b>。</p>
+  <p>李飞飞自己的表述是最直接的论据："解决这个问题域需要一个独特的团队，技能范围包括数据、计算机视觉、大模型训练、系统，甚至计算机图形学。"把它和一家前沿语言模型实验室的招聘口径并排看，差别立刻显现：<b>LLM 实验室要的是 NLP、分布式系统、数据工程；空间智能要的是计算机视觉、图形学、系统，加上机器人。</b>两者只在"系统"这一项上重叠。</p>
+
+  <div class="tw">
+  <table>
+    <caption>World Labs 在招岗位的学科分布。数据取自公司招聘页（Ashby 公开接口），2026-09-30 实取。</caption>
+    <thead><tr><th style="width:22%">方向</th><th style="width:10%">岗位数</th><th>具体方向</th></tr></thead>
+    <tbody>
+      <tr><td class="k">研究</td><td class="n">5</td><td>SLAM、Robot Learning、Generative Modeling、3D Tech Lead 等</td></tr>
+      <tr><td class="k">工程</td><td class="n">4</td><td>Graphics / 3D Pipeline、渲染系统、GPU</td></tr>
+      <tr><td class="k">商务</td><td class="n">2</td><td>商务与生态方向</td></tr>
+      <tr><td class="k">产品与设计</td><td class="n">0</td><td><b>没有在招岗位</b>，见 02.3</td></tr>
+      <tr><td class="k">NLP / LLM</td><td class="n">0</td><td><b>没有任何一个岗位指向语言模型方向</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>最后一行是这个团队最本质的特征。<b>一家在 2026 年被反复放进"世界模型"话题里讨论的公司，它的招聘页上没有一个 NLP 或 LLM 方向的岗位。</b>这不是疏忽，是路线选择的直接体现——它要解决的不是语言问题，是三维表示、渲染管线与机器人学习的问题。这也意味着它的人才竞争范围，与 OpenAI、Anthropic 那一批实验室<b>只是部分重叠</b>：重叠在系统工程师，不重叠在研究者。</p>
+
+  <div class="callout">
+    <p class="ct">为什么这一点值得单独说</p>
+    <p>资本市场习惯把"世界模型"和"大模型"放在同一张表里比较，因为它们的估值逻辑看起来相似。但<b>它们要的学科、要的人、要的评测方式都不一样</b>。一家公司如果需要的是图形学博士和 SLAM 工程师，那么它面对的候选池比 LLM 实验室小得多，扩张速度也就天然更慢。02.3 里那个规模数字，一部分原因在这里，而不只在钱。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.3</span>规模：几十个人，十几亿美元，和招聘页上的一个 0</h3>
+  <p>关于团队规模，公开来源给出的数字不一致：第三方研究机构 Contrary Research 在 2025 年 12 月的记录是 <b>42 人</b>，另有中文来源称约 <b>70 人</b>（2026 年 9 月，含 7 月 SceniX 收购带入的机器人仿真团队）。<b>两个数字都没有 AMD 或 World Labs 的官方确认</b>，本报告不采信其中任何一个作为事实，只用于说明量级。</p>
+  <p>把规模放回融资语境里看，这个类别的特征才显现出来。按 Leonis Capital 的口径，World Labs 累计融资约 12.3 亿美元，2026 年 2 月那一轮为 10 亿美元、投后估值约 54 亿美元。以 70 人计：</p>
+
+  <div class="facts">
+    <div><div class="fv">≈1,760 万美元</div><div class="fl">人均累计融资额（按 70 人估算）</div></div>
+    <div><div class="fv">≈1.17 亿美元</div><div class="fl">人均估值（按 70 人与 82 亿对价估算）</div></div>
+    <div><div class="fv">0</div><div class="fl">11 个在招岗位里的产品与设计岗</div></div>
+    <div><div class="fv">2 / 4</div><div class="fl">AMD 公告中明确继续带队的创始人</div></div>
+  </div>
+
+  <p>作为对照，Thinking Machines 在 2025 年初约 29–30 人、融资 20 亿美元、估值 120 亿美元，人均融资约 6,700 万美元——是 World Labs 的近四倍。<b>两家公司的人均数字都远远超出任何一家正常创业公司，说明这不是某家公司的特例，而是这个类别的形态特征。</b></p>
+
+  <p>然后是那个 0。官网 /about 声称团队覆盖 "research, engineering, robotics, product, design, and business"，但招聘页上 11 个岗位里<b>产品与设计为 0</b>。<b>这里要避免把它读成"不重视产品"——它更可能是一条因果链的结果：</b>这个类别的公司没有收入压力，因此不需要为损益表设计组织，也就不需要产品、销售、运营这些职能。产品在早期是研究工作的副产品（Marble 就是一次研究进展的产品化），而不是组织的一等目标。</p>
+
+  <p>这条链也解释了 01 部分那个问题：为什么它最终需要并入一家硬件公司。当组织被设计成"研究优先、不含商业化职能"时，<b>它把商业化的部分整体外包给了买方</b>——这在独立经营时是效率，在需要自己造血时就是缺口。</p>
+
+  <h3 class="sub"><span class="subn">02.4</span>招聘：估值本身是招聘工具</h3>
+  <p>这个类别招人的方式，和传统创业公司有一个根本区别：<b>它给出的价格不是由业务倒推出来的，而是直接由人定出来的。</b></p>
+  <p>Leonis Capital 把机制说得很清楚：从 OpenAI 或 DeepMind 挖一位资深研究员，可能需要一份能与八到九位数留任报价竞争的股权包；而高企的估值与大额融资，正是在为这份薪酬融资——<b>"在这个意义上，估值本身成了招聘基础设施"</b>。同一份研究里还有一句更直接的判断：能可信地主导前沿训练任务的人，全球"很可能只有几千人"，<b>而 Neolab 就是这部分劳动力的价格发现机制</b>。</p>
+  <p>这个机制对 World Labs 有具体含义。它在 2026 年 2 月那一轮拿到的 10 亿美元，投资方名单里同时有 AMD、英伟达、Autodesk、Emerson Collective、Fidelity、Sea——<b>其中相当一部分资本的真实用途，是让公司有能力去竞争那几千人里的一小部分</b>，而不是去建一条产线。</p>
+
+  <div class="callout">
+    <p class="ct">一个刚性约束：明星研究者要的是联合创始人身份</p>
+    <p>田渊栋在解释自己为什么选择加入 RSI 时说得很直接：其他不少团队也找过他，但给出的角色"更像是 head of AI 或 head of research，而不是联合创始人"，而他坚持要做 co-founder。<b>这不是个例，是这个类别的组织刚性</b>——如果核心资产就是那几千人的判断力，那么用雇员身份去雇佣他们，本身就是结构性错配。这解释了为什么 Neolab 的创始人名单普遍很长（RSI 有 8 位联合创始人），也解释了 World Labs 为什么从第一天起就是四人联创结构。</p>
+  </div>
+
+  <p>发布方式上也有一处细节值得记录。<b>World Labs 的技术成果绝大多数以 "World Labs team" 署名发布，只有两篇愿景性文章署名李飞飞本人。</b>研究归团队、愿景归创始人——这是研究型组织里一种有意的署名分工：它让技术信用留在组织身上，而把对外叙事集中到唯一一个出口。</p>
+
+  <h3 class="sub"><span class="subn">02.5</span>SceniX 的两个人，是这家公司最被低估的一次补强</h3>
+  <p>2026 年 7 月 21 日对 SceniX 的收购金额未披露，容易被当成一次普通的人才收购。但从技术结构上看，它补的是 World Labs 最缺的一环：<b>把生成出来的三维世界，变成物理上说得通、可以被机器人训练使用的仿真环境</b>。</p>
+  <p>Yunzhu Li 与 Changxi Zheng 带来的 R2S2R 引擎，指向的是"真实采集 → 仿真重建 → 回到真实"这条闭环。这恰好是 Marble 导出的 collider mesh 的下游用途。把 01 部分的产品线与这次收购放在一起看，会发现它其实在 2026 年年中就已经把"内容生成"和"机器人仿真"接上了——而后者才是它愿意并入一家硬件公司的技术理由。</p>
+  <p>这笔交易也是这个类别扩张组织的标准方式：<b>靠买团队，而不是靠招人。</b>买的是方向与整建制的人，不是产品线。</p>
+</section>
+
+<section id="compete" class="wide">
+  <span class="snum">03 / 竞争分析</span>
+  <h2 class="sec">竞争分析：上游、横向、大厂，和它站的那条缝</h2>
+
+  <h3 class="sub"><span class="subn">03.1</span>上游：算力与底座，以及"股东就是对手"这件事</h3>
+  <p>World Labs 的上游有两层。第一层是算力，第二层是它自己用来训练 Atlas 的方法与工具链。这两层的问题不一样。</p>
+  <p>算力这一层没有太多可说的：训练一个从零开始在四种模态上预训练的扩散 Transformer，成本结构与其他前沿实验室没有本质差别，议价能力也有限。<b>真正的结构性问题是第二层</b>——它的两个上游，同时是它的股东，也同时在做同类产品。</p>
+
+  <div class="tw">
+  <table>
+    <caption>2026 年 2 月那一轮的名单里，AMD 与英伟达同时出现。七个月后 AMD 宣布收购它。上游同时是股东、是供应商、是潜在买家，也是竞争对手——四种身份叠在同一家公司身上。</caption>
+    <thead><tr><th style="width:16%">上游</th><th style="width:22%">对 World Labs 的身份</th><th>影响</th></tr></thead>
+    <tbody>
+      <tr><td class="k">英伟达</td><td><span class="chip no">股东 + 对手</span></td><td>2026 年 2 月参投。同时以 Cosmos 系列直接提供世界模型能力，且采取开放模型许可。<b>它不需要 World Labs 成功，只需要这个方向有人做。</b></td></tr>
+      <tr><td class="k">AMD</td><td><span class="chip mid">股东 → 买方</span></td><td>同样在 2026 年 2 月参投，9 月签署收购协议（尚未交割）。AMD 在 AI 加速卡上的软件生态弱于英伟达，买 World Labs 更接近一次"补齐叙事与工具链"的动作。</td></tr>
+      <tr><td class="k">谷歌</td><td><span class="chip no">对手</span></td><td>Genie 3 是同类能力中最接近消费级分发的一个，已产品化为 Project Genie，作为 Google AI Ultra 的订阅权益提供——<b>Ultra 本身覆盖 150 多个国家</b>（美国限定的是一批具体功能，不是这个订阅档位）。2026 年 5 月接入街景后，其真实场景锚定覆盖 110 个国家。</td></tr>
+      <tr><td class="k">云与图形软件</td><td><span class="chip ok">供应商</span></td><td>Autodesk 在 2026 年 2 月轮次中出现——它是 Marble 导出的 mesh 与 splat 的下游消费方，既是投资方也是渠道。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">这条链上最不舒服的位置</p>
+    <p>一家公司的股东名单里同时有英伟达和 AMD，意味着<b>它的成功对双方都有价值，但双方都不需要它独立</b>。这种股权结构下，被其中一方收编几乎是默认结局——差别只在价格和时机。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.2</span>横向：先分清"世界模型"底下到底有几种东西</h3>
+  <p>这一层最容易被做错的地方，是把所有自称世界模型的公司放进同一张表里比参数。World Labs 自己在 2026 年 6 月发过一篇文章专门处理这个问题，<b>而且他们的结论比外部批评者更直白</b>：世界模型是"当下 AI 里最重要也最被滥用的词之一"，计算机视觉、机器人、强化学习、生成式 AI 各自都在说自己在做世界模型，指的却是完全不同的东西。</p>
+  <p>他们给出的分类是按<b>输出什么</b>来切，而不是按技术名词：</p>
+
+  <div class="tw">
+  <table>
+    <caption>World Labs 在自家文章里提出的功能分类。这份分类的价值在于：它承认了大多数被称为世界模型的产品彼此并不竞争。</caption>
+    <thead><tr><th style="width:14%">类别</th><th style="width:16%">输出什么</th><th style="width:24%">判定标准</th><th>代表产品</th></tr></thead>
+    <tbody>
+      <tr><td class="k">渲染器<br>Renderer</td><td>给人看的像素</td><td>视觉保真度。模型不携带显式的三维结构理解——<b>它产出"观者看到什么"，不是"实际是什么"</b>。</td><td>Genie 3、World Labs 自己的 RTFM、各类文生视频模型</td></tr>
+      <tr><td class="k">模拟器<br>Simulator</td><td>可计算的状态</td><td>几何、物理、动力学上的忠实表示。契约是结构性的，要求几何经得起检查、物理遵守牛顿定律。同时服务两类消费者：人类专业人士，以及强化学习智能体与机器人控制器。</td><td>Marble、英伟达 Cosmos</td></tr>
+      <tr><td class="k">规划器<br>Planner</td><td>动作</td><td>给定观测与目标，回答"下一步该做什么"。是渲染器的逆运算，闭合感知—行动回路。</td><td>各类 VLA 模型、世界动作模型</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>按这个切法，前面那张"所有对手"的表就散了：<b>Genie 3 与 Marble 不在同一个类别里</b>，前者是渲染器，后者是模拟器；Decart 也是渲染器，只是把延迟压到了极致；真正与 Marble 正面竞争的只有英伟达 Cosmos 这一条线。而 World Labs 在文章里明确说，三类之中<b>模拟器得到的公众关注最少，却最重要</b>——这句话既是技术判断，也是一次自我定位。</p>
+
+  <div class="tw">
+  <table>
+    <caption>按类别重排。列在"是否直接竞争"一栏的判断，依据的是各方公开的产品描述与输出形态。</caption>
+    <thead><tr><th style="width:16%">对手</th><th style="width:12%">类别</th><th style="width:30%">公开能力与形态</th><th>是否直接竞争</th></tr></thead>
+    <tbody>
+      <tr><td class="k">英伟达 Cosmos 3</td><td><span class="chip no">模拟器</span></td><td>2026 年 5 月 31 日发布，采用 Mixture-of-Transformers，可处理文本、图像、视频、环境音与动作，分 Super / Nano / Edge 三档；7 月 15 日推出 Cosmos 3 Edge（40 亿参数，可在 Jetson 等端侧运行）。官方定位为"世界动作模型（World Action Models）"的骨干。同时组织"Cosmos 联盟"，创始成员包括 Agile Robots、Black Forest Labs、Generalist、LTX、Runway、Skild AI；2026 年 7 月另有 20 余家日本企业加入，含发那科、索尼、软银、本田研发、Preferred Networks。<b>代码仓库已从 nvidia-cosmos 迁至 github.com/NVIDIA/Cosmos。</b></td><td><b>是，而且是唯一一个正面的。</b>同样面向机器人与仿真训练，与 SceniX 的方向重叠。但它是开放许可并配有联盟——<b>竞争形式是拼生态，不是拼价格</b>。对一个几十人规模的团队来说，这种打法最难跟。</td></tr>
+      <tr><td class="k">腾讯混元世界</td><td><span class="chip no">模拟器</span></td><td>HunyuanWorld 1.0、1.1 WorldMirror、1.5 WorldPlay（2025-12）、HY-World 2.0（2026-04）连续开源；FlashWorld 可在单卡上 5–10 秒生成。</td><td><b>是，形式是压价。</b>能力相近、完全开源、免费。它不抢 Marble 的客户，它把 Marble 能收的价压下来。</td></tr>
+      <tr><td class="k">谷歌 Genie 3</td><td><span class="chip mid">渲染器<br>→ 正在越界</span></td><td>2025 年 8 月发布，实时 720p / 24fps，连贯性可维持数分钟量级。已产品化为 <b>Project Genie</b>，向 Google AI Ultra 订阅用户（18 岁以上）开放，单次会话因算力限制封顶 60 秒；2026 年 5 月接入街景，覆盖 110 个国家的约 2,800 亿张图像。</td><td><b>按分类不是同类，但正在越界。</b>产出是实时交互画面而非可导出资产，客户不是同一批。可是 Genie 3 已经在给 Waymo 的仿真器提供罕见场景训练数据——<b>它已经进入了"模拟器"这个类别，而且是从自动驾驶这个最难的场景进门的。</b></td></tr>
+      <tr><td class="k">Decart</td><td><span class="chip mid">渲染器</span></td><td>Oasis / Lucy 系列，主打 30 毫秒以内的延迟，2026 年 6 月推出面向自动驾驶的 Oasis 3；累计融资超过 4.5 亿美元，估值约 40 亿美元。</td><td><b>不是同类，但方向在靠近。</b>实时流式与 Marble 的分钟级生成不在同一维度；面向自动驾驶的定位说明它也在往物理世界走。</td></tr>
+      <tr><td class="k">World Labs · Marble</td><td><span class="chip ok">模拟器</span></td><td>输出 Gaussian splat、mesh、视频与 collider mesh，配 Chisel 编辑器与 Spark 网页渲染器；四档订阅，商用权利从 35 美元档开放。</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <p class="ct">开源这一刀砍在哪里</p>
+    <p>混元世界的开源不会让 Marble 归零，但会把它的定价天花板压住。<b>凡是"生成一个 3D 场景"这件事本身，长期价格会趋近于零</b>；能留下来的价值在物理正确性、导出格式的兼容性，以及和下游工具链的接缝上。Marble 的 collider mesh、Spark 的网页流式渲染、SceniX 的 R2S2R，恰好都在这条线上——<b>这说明公司自己也是这么判断的。</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.3</span>综合大厂：四家都在做，但动机完全不同</h3>
+  <p>把 Google、字节跳动、腾讯、阿里放在一起，容易得出"大厂全面碾压"的结论。这个结论不准确。<b>四家做世界模型的动机不一样，投入的形态也不一样</b>，因此对 World Labs 的实际压力也不同。这里按各家的公开动作逐一看。</p>
+
+  <div class="tw">
+  <table>
+    <caption>同样叫"世界模型"，四家的战略意图差别很大。判断威胁程度要看"它有没有理由把这件事做到最好"，而不只看它有没有在做。</caption>
+    <thead><tr><th style="width:12%">大厂</th><th style="width:30%">公开动作</th><th style="width:16%">动机</th><th>对 World Labs 的实际压力</th></tr></thead>
+    <tbody>
+      <tr><td class="k">阿里巴巴</td><td><b>两条并行线。</b>其一，<b>HappyOyster（快乐牡蛎）</b>2026-04-16 进入内测，出自 ATH 创新事业部；实时可交互开放世界模型，含"导演"与"漫游"两种模式，后续通过通义 App 与阿里云百炼平台提供，<b>未开源</b>；另有 Qwen-AgentWorld 与 Qwen-RobotWorld。<b>其对外定位明确对标 Google Genie 与 World Labs。</b>其二，高德（AMAP）CV Lab 设有正式的 <b>World Modeling 研究部门</b>，产出 <b>ABot 世界模型家族</b>——含 ABot-World（单张桌面 GPU 上的无限交互式世界推演，开源仓库约 2,500 stars）、AstraNav-World、ABot-3DWorld、ABot-PhysWorld、ABot-Recon 与生成式三维地球模型。<b>这一条线是开源且成体系的。</b></td><td><span class="chip no">最直接</span></td><td><b>四家里唯一公开点名对标 World Labs 的一家。</b>它的形态是渲染器而非模拟器，但"实时可交互 + 云平台分发"的组合，会直接吃掉 Marble 在"想要一个能走进去的世界"这类需求上的份额。</td></tr>
+      <tr><td class="k">腾讯</td><td>混元世界系列连续开源：1.0（2025-07）、Voyager（2025-09）、WorldMirror 1.1（2025-10）、WorldPlay 1.5（2025-12）、HY-World 2.0（2026-04，同期发布技术报告）；2026-05-18 开源推理代码与 WorldStereo 2.0 权重，5 月另发布 HY-Pano 2.0；<b>2026-07 更新 HY-World 2.1，已有可用的产品形态</b>。此外还有 Hunyuan3D-WorldClaw（智能体式三维开放世界生成）、HunyuanWorld-Mirror（ICML 2026）、Hunyuan3D-Buffalo1.0 与 HY-Embodied。另有 Robotics X 实验室。</td><td><span class="chip mid">中</span><br>开源换生态位</td><td><b>压力形式特殊：它不抢客户，它压价格。</b>连续开源把"生成三维场景"的商品化速度加快。腾讯同时还是智元机器人的股东——在具身智能这一侧，它既压 Marble 的价格，又参与塑造 Marble 的客户。</td></tr>
+      <tr><td class="k">字节跳动</td><td>Seed3D 1.0（2025 年 9 月末）主打"从图像到高保真、可直接用于仿真的三维资产"，面向具身智能；通过火山方舟以 API 形式提供，<b>仓库中只有说明文档与报告，未见开放权重</b>。此前有开源的 VideoWorld（2025-01）与 Depth Anything 3（2025-11）。<b>需要指出的是：按 Seed 官方模型列表，字节目前没有任何可交互的世界模型产品</b>——视觉侧最新的是 Seedance 2.5（2026-07-31，视频）与 Seedream 5.0 Pro（2026-07-08，图像），另有一篇 EdgeBench（2026-07-07）属于环境学习评测。<b>四家之中，字节在这一轴上最弱。</b></td><td><span class="chip mid">中</span><br>给主业与云服务供给能力</td><td>压力集中在内容侧与仿真侧。字节做世界模型的第一理由是给影视、游戏、短视频供给三维素材——<b>这恰好是 Marble 最主要的付费场景</b>。但它选择闭源走 API，说明它要的是云消耗，不是模型影响力。</td></tr>
+      <tr><td class="k">Google</td><td>Genie 3 已产品化为 Project Genie 并进入消费级订阅；Gemini 系列覆盖多模态；Waymo 提供真实物理世界的数据闭环；DeepMind 长期的世界模型研究积累。</td><td><span class="chip no">最强</span></td><td><b>综合压力最大。</b>同时掌握分发、算力与模型，且不用靠世界模型本身赚钱。不过按 World Labs 自己的分类，Genie 3 属于渲染器而非模拟器，两者抢的是不同需求。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">一个不该被忽略的差别</p>
+    <p>四家之中，只有阿里公开把 World Labs 当作对标对象，也只有 Google 有理由把世界模型做到最好。<b>腾讯与字节的共同点是：它们做这件事是为了给主业降本或给云服务引流，而不是为了卖世界模型本身。</b>这意味着它们的产出会长期停留在"够用就好"的水平，留给专业工具的空间依然存在——但这个空间的价格会被它们持续压低。</p>
+  </div>
+
+  <div class="callout riskb">
+    <p class="ct">一个必须澄清的重名</p>
+    <p>中文公开信息里另有一位"李飞飞"，为阿里云方面人士。他与 World Labs 的创始人李飞飞<b>不是同一个人</b>，两者在检索结果中经常同时出现。本报告涉及的所有"李飞飞"，均指 World Labs 联合创始人兼 CEO。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.4</span>头部 Physical AI 公司：谁在同一条链上，谁只是被归到一起</h3>
+  <p>把 SpaceX、银河通用、智元机器人、VAST、波士顿动力列成一组"头部 Physical AI 公司"是很自然的直觉，但这一组里<b>至少有两家不属于同一个技术谱系</b>。如果直接把它们当成同类对手来比较，结论会失真。按 03.2 那套"渲染器 / 模拟器 / 规划器"的分类，这五家的位置其实很清楚。</p>
+
+  <div class="tw">
+  <table>
+    <caption>按类别而非名气排列。判断依据是各家公司公开的产品定义与输出形态。</caption>
+    <thead><tr><th style="width:12%">公司</th><th style="width:12%">类别</th><th style="width:12%">与 World Labs 的关系</th><th>关键事实</th></tr></thead>
+    <tbody>
+      <tr><td class="k">VAST<br>哇嘶嗒科技</td><td><span class="chip no">渲染器<br>（资产级）</span></td><td>直接对手</td><td>2022 年底成立，创始人宋亚宸。做的是<b>物体与资产级</b>的三维生成（Tripo 系列），而非场景级世界生成。7 轮累计融资约 60 亿元人民币量级；2026 年 3 月的 A 轮 5,000 万美元由<b>阿里巴巴</b>与恒旭资本联合领投；2026 年 9 月 1 日又宣布约 30 亿元的 B 与 B+ 轮，由经纬创投领投，同步发布 Tripo P2.0——<b>不到半年累计融资约 50 亿元，刷新了 3D 原生智能领域的融资纪录</b>。公开经营数据：2025 年 8 月年化收入约 1,200 万美元，专业用户约 500 万、其中八成以上在海外，开发者 9 万以上。<b>2025 年宣布要推世界模型产品，但截至本报告数据截止日，未能核实到已交付的成品。</b></td></tr>
+      <tr><td class="k">银河通用<br>Galbot</td><td><span class="chip mid">规划器</span></td><td>客户兼对手</td><td>2023 年 5 月成立，创始人王鹤。路线是"合成数据优先、真实机器人校准"——自建 AstraSynth 合成数据引擎，并在 2026-06-19（CVPR 2026）发布 <b>AstraBrain-WBC 0.5</b>，一个被描述为"小脑"的通用基座：2 万小时人类动作数据、8,040 万参数，官方称真机零样本泛化达 92.58%。<b>注意区分：WBC 0.5 是已发布的那一个，"大脑"侧的 WAM 组件并未以 0.5 版本发布。</b><b>它一边是 Marble 这类仿真工具的天然买家，一边在自建同类能力。</b>资本侧：34 个月内 6 轮、累计约 70 亿元人民币，估值超 200 亿元；2026-03-02 完成 25 亿元 B++ 轮，国家人工智能产业基金（大基金三期）<b>参投</b>——这是该基金首次出手具身智能（<b>无官方口径支持"领投"的说法</b>）。落地场景：宁德时代电池工厂内 7×24 全自主作业。公司自述的效率与成功率数字（如"千倍于特斯拉的真实训练效率"）<b>属于企业口径，未获独立验证</b>。</td></tr>
+      <tr><td class="k">智元机器人<br>AgiBot</td><td><span class="chip mid">规划器</span></td><td>客户兼对手</td><td>2023 年 2 月成立，邓泰华与彭志辉（稚晖君）创办，团队以华为背景为主。这是名单里<b>唯一一家有可验证规模收入的公司</b>：2025 年收入约 10.5 亿元人民币、同比接近 20 倍，2026 年第一季度单季已超过 10 亿元，公司自述全年目标 40 亿元；2025 年出货约 5,100 台（灼识咨询口径），按 Omdia 口径约占全球人形机器人 39% 的份额。<b>交付爬坡是这条线上最值得注意的数字：2026 年 3 月累计突破 1 万台，6 月达 1.5 万台，9 月 24 日第 2 万台下线</b>——即 2026 年内新增交付约 1.5 万台。资本与上市：腾讯领投 B 轮、京东参与 B+ 轮，2026-07-24 正式启动赴港上市，目标估值 400–500 亿港元，并已控股上纬新材（688585.SH），形成 A+H 双平台。<b>更关键的是它自建仿真能力的证据是公开可查的</b>：开源项目 AgiBot World 在 GitHub 上有约 3,200 stars，获 IROS 2025 最佳论文入围与 IEEE TRO 2026 收录，另有 genie_sim 仿真平台（约 1,400 stars）。<b>收入规模越大、自建能力越实，这条客户通道就收窄得越快。</b></td></tr>
+      <tr><td class="k">波士顿动力</td><td><span class="chip mid">规划器<br>+ 本体</span></td><td><span class="chip no">已经选了别人</span></td><td>现代汽车集团自 2020 年 12 月起持股约 80%，2026 年 7 月收购软银所持约 10% 转为全资（按 3.25 亿美元买入 9.65% 反推，隐含估值约 33.7 亿美元）。电动 Atlas 于 CES 2026 亮相（56 个自由度，可举 110 磅）；2026-09-21 在佐治亚州现代 Metaplant America 内开设机器人应用中心。<b>但这一行需要特别处理口径问题：CES 上"在旗下工厂部署 25,000 台 Atlas、新工厂目标年产能 30,000 台"的说法是展会营销口径，与实际产能相差两个数量级。</b>按 2026 年 5 月的报道（量子位引 Korea Herald），<b>Atlas 的实际产量约为每月 4 台</b>。财务侧同样吃紧：2024 年第二、三季度分别净亏损 2,386 亿与 3,156 亿韩元；自现代收购以来累计注资超过 22 亿美元，而累计营收仅约 2.7 亿美元、累计亏损超过 9.5 亿美元。<b>2026-09-14 现代高管公开表示明年 IPO 的可能性不大，Atlas 尚未规模化部署，公司仍未盈利</b>；同期还有核心高管出走、CTO 转赴谷歌的报道。<b>至于它为什么仍然值得放在这份名单里：它在 CES 2026 宣布的基础模型合作方是 Google DeepMind，2026 年 4 月其学习系统已改用 Google 的 Gemini Robotics，3 月还与 FieldAI 建立了合作。</b>也就是说，这份名单里最著名的机器人本体公司，在需要"大脑"的时候<b>选了谷歌，而不是 World Labs</b>——而它自身的量产已经实质性受阻。</td></tr>
+      <tr><td class="k">SpaceX</td><td><span class="chip no">不在这个分类里</span></td><td>无直接关系</td><td><b>需要明确说清楚：按上述任何一种分类，它都不是一家 Physical AI 公司。</b>它的自动化集中在导航、对接、回收这类控制问题上，与"世界模型"不同源；它 2026 年的大额 AI 动作发生在软件侧，而不是具身侧。把它放进这份名单，反映的是"物理世界里的 AI"这个更宽泛的直觉，而不是技术同源。<b>保留它是为了尊重原始问题的框架，不代表本报告认可这个归类。</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">这组比较真正说明了什么</p>
+    <p>World Labs 在这条链上的位置是"卖工具的"：它不造身体，也不做终端应用。这类位置有一个反复出现的规律——<b>当客户开始规模化，它们会把工具内化</b>。</p>
+    <p>而这份名单提供了两个方向相反的证据。银河通用与智元机器人都已经自建合成数据与世界模型能力，智元还做出了可验证的收入规模——<b>"客户兼对手"在这条链上不是假设，是已经发生的事</b>。但另一面是波士顿动力：全球最知名的机器人本体公司，在需要基础模型时选了 Google DeepMind。<b>这说明"下游一定会向专业仿真公司采购"这个假设，至少在这份名单里没有成立。</b>客户既可能自建，也可能投向另一个大厂。SceniX 那笔收购本质上是在抢一个正在关闭的窗口。<br><b>而这一轮核验让波士顿动力这条反证比原先更硬：它的实际产量约为每月 4 台，核心高管出走，累计亏损超过 9.5 亿美元，现代高管已公开表示明年 IPO 可能性不大。</b>换言之，选择 Google DeepMind 的那一方自己也没有走通——这既削弱了"投向另一个大厂"这条路的示范效应，也说明这条链上<b>目前没有任何一方给出了被验证的答案</b>。</p>
+  </div>
+
+  <h4>名单之外，还有四个更直接的信号</h4>
+  <p>原始名单没有包含 Figure AI、1X Technologies、宇树科技与特斯拉，但这四家在 2026 年的动作，对 World Labs 的参照意义比名单里多数公司更强——<b>其中两家给出了与"买世界模型"相反的答案，一家给出了规模化的答案，一家给出了量产的答案。</b></p>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:16%">公司</th><th style="width:34%">2026 年的关键动作</th><th>为什么它对 World Labs 重要</th></tr></thead>
+    <tbody>
+      <tr><td class="k">1X Technologies</td><td>2026 年 1 月发布自家世界模型，用视频加提示词让机器人学会未训练过的任务；同时<b>以 Apache 2.0 协议开放了 100 小时以上的向量量化视频数据</b>。2026-08-27 软银据报正<b>洽谈</b>以约 60 亿美元收购其多数股权（The Information，尚未完成）。</td><td><b>这是一条与混元世界同性质的威胁。</b>一家机器人公司把自己的世界模型与数据开放出来，直接降低了"买世界模型"的必要性——而且它开放的是数据，这比开放模型更难被追赶。<br><b>反证：</b>2025 年 11 月摩根士丹利的实测认为其现阶段更像"融资策略"；2025 年 10 月《华尔街日报》指出它仍依赖人工遥操作。开放数据与真实自主之间，还有距离。</td></tr>
+      <tr><td class="k">Figure AI</td><td>2025 年 9 月完成超 10 亿美元 C 轮、投后 390 亿美元；2026 年 8 月推出 Index 数据集并向贡献者支付了 1,500 万美元；9 月发布的 Helix 2.5 在 30 个未见过的新家中实现零样本全身自主，官方称 Index 预训练把零样本成功率从 9% 提到 56%。<b>但这条口径有明确的反方证据：2026-09-24 伯恩斯坦的分析认为 Helix 2.5 实现的是"场景泛化"而非"任务泛化"，离商用仍有距离；2026-09-20 极客公园的报道中亦有同行称其"根本不会泛化"。</b></td><td>它给出的路径与 World Labs 相反：<b>不靠生成式仿真，靠真实数据规模化。</b>如果这条路径被证明更有效，那么"用生成的世界训练机器人"这个前提本身就要重新评估。但官方口径与第三方评估存在明显落差，成功率 56% 本身也不高——<b>这条路径远未走通，且证据强度不如其融资规模所暗示的那么高。</b></td></tr>
+      <tr><td class="k">宇树科技<br>Unitree</td><td><b>2026-08-19 在科创板上市</b>，上市首日收盘涨 460.34%、市值 3,417.72 亿元；2025 年营收 17.08 亿元。<b>2026-09-29 股价跌至 450 元，创上市以来新低。</b></td><td>它是这条链上<b>唯一一家以本体规模化出货跑通资本市场</b>的公司，也是"客户兼对手"最极端的一种：有足够的资金与动力自建一切。它的存在说明<b>这条链上的价值分配正在向下游本体公司倾斜</b>——而工具供应商并不在这条分配曲线上。</td></tr>
+      <tr><td class="k">特斯拉<br>Tesla Optimus</td><td>2026-09-25 报道其产量较此前提升约 10 倍，8 月已达每周数百台（推测 300–500 台），年底目标每周 1,000 台。<b>但 V3 目前仅供弗里蒙特工厂内部测试，暂不对外销售。</b></td><td>它给出的是第三种答案：<b>既不自建仿真工具，也不采购，而是把整条链路内化在一家整车厂里。</b>如果这条路径成立，那么"独立的仿真工具供应商"在最大的那个潜在客户那里，从一开始就没有位置。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.5</span>位置：它站的那条缝，比 Manus 那条还窄</h3>
+  <p>用"上游—自身—下游"的框架看，World Labs 的处境可以概括成一句话：<b>上游既是供应商又是股东又是对手，下游既是客户又是潜在自研方，横向还有开源免费替代。</b>三个方向同时受压，这在同类公司里并不常见。</p>
+
+  <div class="stack">
+    <div class="band">
+      <div class="bl">上游 · 算力与底座</div>
+      <div class="bn">英伟达、AMD、谷歌</div>
+      <p class="bd">供算力、供方法、参股、并各自提供同类模型。英伟达与 AMD 同时出现在 2026 年 2 月的股东名单上，七个月后 AMD 成为买方。</p>
+    </div>
+    <div class="membrane"><span>议价能力</span><b>弱 · 规模决定成本，无特殊地位</b></div>
+    <div class="band mid">
+      <div class="bl">自身 · 可导出的三维资产</div>
+      <div class="bn">Marble + World API + Atlas</div>
+      <p class="bd">唯一把"能被下游软件读进去的文件"当作主交付物的玩家。护城河在导出格式兼容性、物理正确性与工程可用性，而不在生成能力本身。</p>
+    </div>
+    <div class="membrane"><span>议价能力</span><b>中 · 有真实付费与定价权，但天花板被开源压住</b></div>
+    <div class="band">
+      <div class="bl">下游 · 内容生产与机器人仿真</div>
+      <div class="bn">游戏影视工作室、具身智能公司</div>
+      <p class="bd">内容侧面对大厂自研与开源替代；仿真侧面对客户自建。两端都有真实的付费意愿，也都有内化的能力。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.6</span>长处与短板</h3>
+  <p>把长处说成"技术领先"没有意义——这类公司的技术差距通常在半年内被追平。真正需要判断的是：<b>哪些优势是结构性的，哪些只是时间差。</b></p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:22%">判断</th><th style="width:12%">类型</th><th>依据与反证</th></tr></thead>
+    <tbody>
+      <tr><td class="k">导出管线与下游接缝</td><td><span class="chip ok">结构性</span></td><td>collider mesh、splat、mesh、视频四种导出格式，加上 Chisel 编辑器，构成了与现有内容管线的接缝。竞品可以复制格式，但复制"已经被管线接受"这件事需要时间。另需注意：<b>Marble 的 PLY 与 GLB 导出需要付费套餐</b>——导出这一层本身就是它收费的地方。<br><b>反证：</b>格式本身不是壁垒，一旦成为事实标准就会被免费实现。</td></tr>
+      <tr><td class="k">可微渲染与三维表示的研究积累</td><td><span class="chip ok">结构性</span></td><td>NeRF 与 Pulsar 两条脉络的直接作者在公司内，这是少数难以用钱快速堆出来的资产。<br><b>反证：</b>这些成果已经公开发表，学界与工业界都在沿着同一条路走。</td></tr>
+      <tr><td class="k">"空间智能"的叙事所有权</td><td><span class="chip mid">时间差</span></td><td>这个说法能被资本市场当成一个赛道讨论，与李飞飞的公开表达直接相关，融资成本因此更低。<br><b>反证：</b>叙事所有权在估值上是资产，在收入上是零。它不能阻止客户选择开源方案。</td></tr>
+      <tr><td class="k">生成质量与一致性</td><td><span class="chip mid">时间差</span></td><td>Atlas 可由 1–6 张输入图生成最长约 1 分钟的 1440p 视频，并支持像素级相机控制，在公开可比项里处于前列。<br><b>反证：</b>这个领先幅度以季度计，且评测基准本身尚不成熟，见 04.4。</td></tr>
+      <tr><td class="k">独立生存能力</td><td><span class="chip no">已被自己否定</span></td><td>公司签署了以 82 亿美元并入 AMD 的最终协议，这本身就是对"独立做下去"这个选项的否定回答。<b>这是本报告里推断成分最少的一个判断，但仍有一处保留：协议尚未交割，需通过监管审批。</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="neolabs" class="wide">
+  <span class="snum">04 / Neolabs</span>
+  <h2 class="sec">Neolabs：一个没有记分牌的类别——它为什么成立，卡在哪里，走向何处</h2>
+  <p class="lede">World Labs 不是孤例，它是一个类别的样本。这个类别在 2026 年被起了名字——Neolab——并且第一次有了可统计的规模。看懂这个类别的结构，才能判断 World Labs 这笔交易到底意味着什么。</p>
+
+  <h3 class="sub"><span class="subn">04.1</span>Neolab 是一个分类，不是一个赛道</h3>
+  <p>按 Leonis Capital 在 2026 年 9 月发布的研究口径，Neolab 指的是<b>以研究为主导、成立时间较新、把某种"下一个范式"当作立身之本的公司</b>。这个定义本身是宽泛的——它把世界模型、人形机器人、超级智能实验室放在同一个筐里。</p>
+
+  <div class="facts">
+    <div><div class="fv">119</div><div class="fl">被归入 Neolab 的公司数量</div></div>
+    <div><div class="fv">943 亿美元</div><div class="fl">2024 年以来投入这个类别的资本总额</div></div>
+    <div><div class="fv">16 / 119</div><div class="fl">披露过收入的公司比例，约 13%</div></div>
+    <div><div class="fv">34 / 119</div><div class="fl">英伟达出现在其股东名单上的公司数量<br><b>单一机构口径，见 06</b></div></div>
+  </div>
+
+  <p>还有一份更早、口径不同的统计可以对照。Menlo Ventures 合伙人 Deedy Das 在 2026 年 5 月整理过一份 63 家榜单：<b>总估值约 3,000 亿美元、平均近 50 亿美元，其中前 10 家合计近 1,800 亿、占约 60%。</b>他把这类公司定义为 "pre-revenue scale startup"——<b>有规模，无收入</b>。两份数据集的成员名单（119 家 vs 63 家）与计量对象（投入资本 vs 估值）都不相同，但指向同一个结构：<b>头部极度集中，长尾极长。</b></p>
+  <p>这份榜单里有一条与 World Labs 直接相关的记录：<b>在世界模型这条线上，"目前唯一拿到 10 亿美元融资的"就是 World Labs。</b>这个说法有明确的时点（2026 年 5 月），但它是理解 04.3 那张四象限表的前提——在这个类别里，它并不是"又一家世界模型公司"，而是这条细分线上唯一进入十亿美元级融资的一家。</p>
+
+  <p>最值得注意的不是总额，是<b>16 比 119</b> 这个比例。它意味着这个类别里绝大多数公司在拿到大额资本时，都还没有可验证的收入。这不是个别公司的治理问题，是这一类资产的定价方式的直接结果。</p>
+
+  <p>要理解这个定价方式为什么能成立，得先看清 Neolab 到底是什么。<b>它不是一个商业模式，是一个融资结构。</b>它给一个赌注融资：AGI 是一个边界足够清晰的研究问题，可以靠把一小批人从商业干扰里彻底隔离、再配上不受限的算力来显著推进。<b>这件事在别处做不成——学术界缺资源，大厂缺自由度，Neolab 填的就是中间那个空位。</b></p>
+  <p>空位解释了它为什么<b>存在</b>，但解释不了它为什么有 <b>119 家</b>。让它成批出现的，是 AGI 叙事。叙事在这里干的是三件很具体的活：</p>
+  <p><b>它替代了记分牌。</b>生物技术靠临床里程碑被重新定价，SaaS 靠收入，Neolab 两样都没有。"我们离 AGI 更近了一步"是一个无法证伪、却可以连续叙述的进度条——只要它被相信，估值就不需要收入来支撑。这解释了这类公司对外沟通里一个看起来奇怪的现象：<b>论文和 demo 的位置，等同于一家消费品公司的月度流水。</b></p>
+  <p><b>它是唯一能把主权型资本和风投型资本放进同一张表的语言。</b>国家要主权能力，风投要回报倍数，两套目标本来无法对齐（见 04.3）。让它们同时出钱的公约数只有一个：AGI 会到来，而在场的人会赢。<b>叙事因此不只是对外的宣传口径，它是这个类别资本结构得以成立的黏合剂。</b></p>
+  <p><b>它还是招募语言。</b>"参与定义人类的下一个阶段"是唯一能与大厂薪酬竞争的报价——02.4 里那个"估值即招聘基础设施"的机制，靠的就是这句话。</p>
+  <p>所以这个形态的价值是真实的，<b>它确实在生产东西</b>：World Labs 四年、约 12 亿美元、几十个人，产出了 Marble、World API，以及一条被 NVIDIA 写进官方开发者教程的仿真管线——这个产出密度，放在大厂内部或学术界都不会出现。<b>但意义真实不保证定价合理</b>：前者说的是它确实在生产，后者说的是市场为它付的价格。04.2 的承销真空针对的从来是后者。</p>
+  <p><b>而它最深的脆弱也来自同一处：AGI 叙事给的是一个无限长的回报期，这套融资结构给的却是 12 到 18 个月的可见步进。</b>这个错配，是 04.4 与 04.5 那两组问题的共同根源——不是这些公司做错了什么，而是它们用一套短期资本的时间表，去承接了一个长期叙事的命题。</p>
+
+  <div class="callout">
+    <p class="ct">一个反向的证据</p>
+    <p>这个类别的成员自己也在处理"概念太乱"这个问题。World Labs 在 2026 年 6 月专门发了一篇文章，说"世界模型"是当下 AI 里最重要也最被滥用的词之一，并提出了 03.2 里那套"渲染器 / 模拟器 / 规划器"的功能分类。<b>这说明至少有一部分参与者并不希望这个词继续含混下去</b>——含混对融资有利，对招人、对客户、对技术判断都不利。这条线索不改变 04.4 那五个错配的成立，但它说明这个类别内部存在自我校正的力量。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.2</span>定价：一个没有记分牌的类别</h3>
+  <p>如果只记住 04 里的一件事，应该是这一件：<b>这个类别之所以能这样定价，是因为它没有记分牌。</b>Leonis Capital 把这件事命名为"承销真空"（the neolab underwriting vacuum），论证方式是把 Neolab 与另外两种资产并列比较。</p>
+
+  <div class="tw">
+  <table>
+    <caption>三种资产的"重新定价依据"完全不同。Neolab 的问题不是定价太高，而是缺少任何能被外部核对的定价依据。</caption>
+    <thead><tr><th style="width:16%">资产类型</th><th style="width:30%">靠什么分轮重新定价</th><th>有没有外部可核对的记分牌</th></tr></thead>
+    <tbody>
+      <tr><td class="k">生物科技</td><td>临床里程碑：临床前、I 期、II 期、III 期、获批。每一关都有终点指标与监管机构把门。</td><td><b>有，而且是被监管强制的。</b></td></tr>
+      <tr><td class="k">SaaS</td><td>收入、留存率、净收入留存（NRR）。市场每个季度都能核对一次。</td><td><b>有，来自财务报表。</b></td></tr>
+      <tr><td class="k">Neolab</td><td>创始人血统、明星研究员加盟、算力承诺、私下分享给投资人的评测结果、战略合作公告。</td><td><b>没有。</b>每一条都能提高成功概率，但没有一条提供"留存率"或"临床终点"那样的可比性。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>这解释了 04.1 那个 16/119 的比例为什么不是治理问题，而是结构问题。它也解释了一个看起来反常的现象：<b>即使公开证据几乎没有变化，估值的重定价幅度也可以异常宽。</b>最典型的例子是 Thinking Machines——它在 2025 年底据报寻求约 500 亿美元估值、约为上一轮的四倍，<b>而那一轮从未关闭，120 亿美元至今仍是它最后一个完成的估值。</b>同一份研究还给出了另一个例子：在同一个 2026 年，Mistral 的年化收入约 4 亿美元、估值约 140 亿；Skild 的收入约 3,000 万美元、估值同样约 140 亿。<b>同样的价格，完全不同的证据。</b></p>
+
+  <div class="callout">
+    <p class="ct">价格是怎么定出来的：两笔算术</p>
+    <p>Leonis 用两组回报算术说明，这个类别的定价并不荒唐——它只是<b>换了参照系</b>。一个估值 320 亿美元的超级智能实验室，在商业化之前还需要约 150 亿美元投入；若最终以 1,000 亿美元退出，今天进场的人大约拿到 <b>2.5 倍</b>；要拿到 10 倍，退出估值需要到约 4,000 亿美元。而一个估值 10 亿美元的风投型实验室，再投入 3 亿，同样以 1,000 亿退出，回报约 <b>87 倍</b>。</p>
+    <p><b>这两笔算术合起来解释了 04.3 那张四象限表为什么长成那样：</b>90% 的已披露资本落在"高验证成本"一侧，不是因为出资方算错了账，而是因为主权型资产的赔付结构完全不同——它赌的不是倍数，是入场资格。</p>
+  </div>
+
+  <p>最后是这一节里最需要认真对待的一句判断。Leonis 的结论是：<b>"资本对它所资助的研究并非中性。"</b>一个由需要每 12 到 18 个月看到估值台阶的投资人资助的五年期科学问题，最终会被要求按这个节奏产出里程碑——实验室可能开始把尚未成熟的研究包装成产品、追逐对投资人更容易解释的 benchmark、或在核心技术假设成熟之前就把研究者转向商业目标。<b>"误解自己所持有资产的资本，不只是有亏钱的风险，它可能改变被研究的东西，以及研究的节奏。"</b></p>
+  <p>把这句话放回 World Labs 身上，01 部分那条产品线时间轴就有了第二种读法：从 Marble 到 World API 到 Atlas，节奏相当密。<b>这不必然是坏事，但它说明这家公司同样在按投资人的时间表工作。</b>而它跳出这个节奏的方式，是整个组织被一家芯片公司吸收——这恰好是 04.5 要处理的问题。</p>
+
+  <h3 class="sub"><span class="subn">04.3</span>四象限：World Labs 站在哪一格，为什么那一格最难</h3>
+  <p>Leonis 用两个维度给这 119 家分了四类：<b>验证成本有多高</b>，以及<b>商业化有多快</b>。这两个维度合起来决定了资本的结构——谁出钱、为什么出钱、以及最后怎么退出。</p>
+
+  <div class="tw">
+  <table>
+    <caption>四象限的资本结构差异极大。World Labs 属于第一类，这一类拿了整个类别约六成的资本，也承担了最长的回报周期。</caption>
+    <thead><tr><th style="width:14%">类型</th><th style="width:10%">数量</th><th style="width:14%">资本占比</th><th style="width:24%">典型成员</th><th>特征</th></tr></thead>
+    <tbody>
+      <tr><td class="k">主权型<br>Sovereign</td><td class="n">60</td><td class="n">约 60%</td><td>世界模型、人形机器人、超级智能实验室</td><td>验证成本最高、商业化最慢。资金来自主权基金、产业资本与大厂战投——<b>出资方图的不是财务回报，是入场券</b>。World Labs 在这一格。</td></tr>
+      <tr><td class="k">战略型<br>Strategic</td><td class="n">24</td><td class="n">约 30%</td><td>API 前沿实验室、国防自主系统</td><td>验证成本中等、商业化较快，但客户集中且带有战略属性。资本与订单常常来自同一批人。</td></tr>
+      <tr><td class="k">风投型<br>VC-type</td><td class="n">26</td><td class="n">约 8%</td><td>垂直工具、应用层研究公司</td><td>按常规风险投资的逻辑运作，验证周期短，退出路径清楚。<b>这一格最接近传统创业公司。</b></td></tr>
+      <tr><td class="k">拨款型<br>Grant-type</td><td class="n">9</td><td class="n">约 2%</td><td>公共资金支持的研究机构</td><td>以研究产出而非商业回报为目标，不参与商业竞争。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">主权型这一格的结构性难题</p>
+    <p>这一格拿了 60% 的钱，但它的出资方（主权基金、产业资本、大厂战投）<b>恰好是最不需要它独立成功的一批人</b>。产业资本要的是技术入场券，大厂战投要的是信息与期权。当这类公司走到需要退出的节点时，买方往往就在股东名单里——<b>World Labs 被 AMD 收购，是这个结构的一次标准演示，而不是一次意外。</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.4</span>困境：五个错配</h3>
+  <p>2026 年 6 月，钛媒体的一篇分析把世界模型这一类资产的问题拆成五个层面。它的判断值得完整引用，因为它对 World Labs 同样适用，且至今没有被证伪。</p>
+
+  <div class="tw">
+  <table>
+    <caption>五个错配。它们的共同点是：每一层单看都能自圆其说，叠在一起才构成问题。</caption>
+    <thead><tr><th style="width:16%">层面</th><th style="width:30%">错配是什么</th><th>World Labs 上的具体表现</th></tr></thead>
+    <tbody>
+      <tr><td class="k">概念</td><td>"世界模型"是一个融资标签，底下至少覆盖四条技术路线</td><td>Genie 3 的可交互画面、Cosmos 的开放模型、Decart 的低延迟流、Marble 的可导出资产，被同一批资本用同一个词定价。</td></tr>
+      <tr><td class="k">能力</td><td>演示到可交付之间存在明确差距</td><td>更长时间跨度下的物理一致性、穿模、流体行为等问题在同类产品中普遍存在。<b>能画出苹果落地，不等于理解重力。</b>Marble 的 collider mesh 是对这个问题的正面回应，但回应的是可用性，不是正确性。</td></tr>
+      <tr><td class="k">评测</td><td>缺乏公认的评测基准，"全球第一"随处可见</td><td>WorldPrediction 基准的公开结果显示，前沿世界模型在预测任务上的表现约 57%，人类为 100%；程序化规划类任务的得分低至 38% 量级。<b>没有基准，就没有可验证的领先。</b></td></tr>
+      <tr><td class="k">商业</td><td>按基础设施定价，按工具或数据服务交付</td><td>估值口径对应的是"下一代 AI 的基础设施"，实际售卖的是订阅、积分与企业授权。<b>这两套口径之间的差额，就是这类公司估值的脆弱之处。</b></td></tr>
+      <tr><td class="k">叙事</td><td>"与语言模型互补"被包装成"替代语言模型"</td><td>空间智能与语言模型的关系是互补的，这一点李飞飞本人的表述是准确的。但资本市场在传播过程中把它升级成了替代叙事，从而给出了替代叙事的估值。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <p class="ct">一个能把问题说清楚的对比</p>
+    <p>Mistral 的年化收入约 <span class="num">4 亿美元</span>，估值约 <span class="num">140 亿美元</span>；Skild 的收入约 <span class="num">3,000 万美元</span>，估值同样约 <span class="num">140 亿美元</span>。<b>同样的价格，完全不同的证据。</b>这不是说 Skild 定价错了——主权型资产的定价本来就不基于当期收入，而是基于"如果这条路走通了，它值多少"。但这个对比说明：用收入去验证这类公司的估值，在方法上就是不成立的。</p>
+  </div>
+
+  <p>同一时期国内的同类资产也在按这个逻辑定价：极佳视界在一个月内融资约 25 亿元人民币、估值超过 100 亿元；千寻智能累计融资超过 45 亿元、估值超过 200 亿元。<b>这些数字的共同特征是规模大、速度快、且没有对应的收入披露。</b></p>
+
+  <p>更值得单独拿出来说的是 AMI Labs。它在 2026 年 3 月以约 10.3 亿美元的种子轮、35 亿美元的投前估值起步，被报道为欧洲规模最大的一笔种子轮；投资方包括英伟达、三星、Sea、淡马锡、丰田风投，以及贝索斯和埃里克·施密特等个人。它的技术路线是杨立昆提出的 <b>JEPA</b>——<b>在抽象的表征空间里做预测，而不是生成像素或 token</b>。这和 World Labs 走的"生成可导出的三维表示"是两条不同的路。<b>把它和 Marble 放在同一张估值表里，恰好是 04.4 里"概念错配"那条最直观的例子：两家公司在做的事几乎没有重叠，却共享同一个标签和同一套定价逻辑。</b></p>
+
+  <h3 class="sub"><span class="subn">04.5</span>组织形态的内在张力：用股权替代现金薪酬，然后股权开始波动</h3>
+  <p>04.2 说的是定价，这一节说的是<b>这套定价方式对组织本身做了什么</b>。前面 02 部分讲的是 World Labs 这一支队伍；这里讲的是整个类别共有的一个结构性张力，而 2026 年 1 月的一起事件把它暴露得很彻底。</p>
+
+  <div class="callout warnb">
+    <p class="ct">Thinking Machines：58 分钟</p>
+    <p>2026 年 1 月 14 日，Thinking Machines 的联合创始人兼 CTO Barret Zoph 被以"不道德行为"为由解雇；联合创始人 Luke Metz 与创始成员 Sam Schoenholz <b>在同一天离职</b>；<b>58 分钟后，OpenAI 的 Fidji Simo 公开发文欢迎三人"回家"。</b>那一周该公司至少 5 人离职、其中 4 人去了 OpenAI——人数约占全员 5%，但<b>其中包含两位联合创始人和一位 CTO</b>。六位联合创始人已走三位，Soumith Chintala 接任 CTO。</p>
+  </div>
+
+  <p>这起事件值得记录，不是因为它戏剧性，而是因为它暴露了一个机制性的问题。<b>Neolab 无法在现金薪酬上与大厂竞争</b>——这一点在 02.4 已经说过，估值本身就是用来融资这份薪酬的。Thinking Machines 早期的应对方式是给出<b>接近零行权价、入职即可行权的期权</b>：2025 年夏天 Meta 大规模挖角时，该公司多名研究员全部拒绝了邀约。这是一套用股权弹性替代现金的机制，在估值单边上涨时非常有效。<b>而当组织内部出现动荡、估值前景变得不确定时，同一套机制会立刻失效。</b></p>
+  <p>同一时期，同类事件在别处也在发生：SSI 同样融了 10 亿美元、同样没有产品，联合创始人 Daniel Gross 被 Meta 挖走。<b>把这两件事放在 04.2 那个"没有记分牌"的框架里看，会得到一个不太舒服的推论：</b>当外部没有客观指标可以依赖时，组织内部的稳定本身就成了一种隐性资产——而它恰恰是最难在融资材料里体现、也最容易被一次人事事件摧毁的那一种。</p>
+
+  <div class="callout">
+    <p class="ct">这批人自己怎么看组织</p>
+    <p>田渊栋在解释为什么加入 RSI 时，把问题提到了组织层面：<b>"前沿大模型之争其实是组织架构之争。"</b>他的判断是"团队会变得更小，速度会更快，组织之间的摩擦会更少"，并把"小而精"称为大趋势。他还提到一个具体的约束——多数 Neolab 成员来自大厂，<b>"习惯了花很多钱，可能会花几个亿甚至十亿去做个实验，但那都是公司付的钱"</b>，而新公司必须让学习过程本身更有效率，绕开算力堆叠。RSI 自己就是 8 位联合创始人、6.5 亿美元融资、46.5 亿美元估值、无产品。</p>
+  </div>
+
+  <p>还有一面是这套形态的<b>下行保护</b>。同一份研究指出：Inflection、Adept、Character 在被大厂收编后都保留了战略价值，SAP 收购 Prior Labs 也说明成功的研究能吸引战略买家。<b>换句话说，人才既是这个类别的主要投入，也是它的残值。</b>这个"地板"压缩了损失分布，也让早期定价在低端变得可以解释。</p>
+
+  <div class="callout warnb">
+    <p class="ct">这个张力的完整形状</p>
+    <p>把 02.4、04.2 和这一节连起来看，这个类别的运转方式是：<b>用高估值融来的钱去买那几千人的判断力，再用股权（而非现金）支付他们的薪酬；而股权的吸引力依赖估值持续上涨，估值的上涨又依赖那个不存在的记分牌。</b>这是一个自我参照的循环——它在顺境里极其有效，在逆境里没有缓冲。<b>World Labs 选择在循环仍然有效的时候把自己并入一家有现金流的芯片公司，从组织角度看，这是一次时点选择，而不只是财务选择。</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.6</span>走向：这个类别的三条出路</h3>
+  <p>把 119 家 Neolab 放在一起看，能观察到的出口只有三条。World Labs 走的是第一条，而且走得很标准。</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:18%">出路</th><th style="width:24%">形态</th><th>条件与代价</th></tr></thead>
+    <tbody>
+      <tr><td class="k">被硬件方收编</td><td><span class="chip ok">World Labs 已走</span></td><td>买方通常是算力、芯片或产业方，动机是补齐能力或叙事。代价是失去独立性，收益是技术资产被保留并放大。<b>这条路的成功率取决于股东名单里有没有合适的买方</b>——World Labs 的名单里有，而且有两个。</td></tr>
+      <tr><td class="k">并入综合大厂</td><td><span class="chip mid">常见</span></td><td>被平台公司吸收为内部团队。代价是研究自主性大幅下降，且创始人通常不进入核心管理层。适合验证成本中等、与主业协同明确的公司，如战略型与风投型。</td></tr>
+      <tr><td class="k">独立跑出单位经济</td><td><span class="chip no">最难</span></td><td>需要证明一条可复制的收入曲线，并且这条曲线不依赖持续的资本输入。<b>主权型这一格目前几乎没有成功案例</b>——这既是它的问题，也是它还能继续融资的原因。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <p class="ct">不要从 World Labs 这一笔交易里读出太多</p>
+    <p>82 亿美元是一个很高的价格，AMD 也因此买到了它想要的东西。但<b>一笔交易的价格不构成对一个类别的判断</b>。同一份研究里提到，Thinking Machines 在没有产品的情况下以 120 亿美元估值融了 20 亿美元；杰夫·迪恩的 Discovery Loop 正在寻求约 100 亿美元估值、10 亿美元的融资。这些数字说明的是<b>这个类别的资本供给仍然充沛</b>，而不是这条路已经被验证走通了。</p>
+  </div>
+</section>
+
+<section id="outlook">
+  <span class="snum">05 / 发展走向</span>
+  <h2 class="sec">发展走向：交易待交割，接下来该盯什么，风险在哪</h2>
+  <p class="lede">这一部分要处理的是一个时间差问题：<b>交易已签署但未交割</b>，因此现在既不能按"独立公司"来观察它，也还不能按"AMD 的一个部门"来观察它。下面的三种路径讨论的是交割完成之后的形态，而 05.2 的信号清单里，前两条恰好是交割之前就能看到的——这是本节最实用的部分。</p>
+
+  <h3 class="sub"><span class="subn">05.1</span>交割一旦完成，三种可能的形态</h3>
+  <p>三种可能不是互斥的，更可能是先后发生。区分它们的意义在于：<b>它们对应的观察指标完全不同</b>，如果盯错了指标，会把整合期当成发展期。</p>
+
+  <div class="tw">
+  <table>
+    <caption>三种可能的判断依据都指向同一件事：World Labs 在 AMD 体系内被赋予的是"能力单元"还是"业务单元"。</caption>
+    <thead><tr><th style="width:14%">路径</th><th style="width:26%">形态</th><th>需要看到什么</th></tr></thead>
+    <tbody>
+      <tr><td class="k">路径 A<br>能力内化</td><td>World Labs 成为 AMD 在 AI 软件栈与机器人叙事上的能力单元，产品对外保留但战略优先级下降</td><td>Marble 与 World API 继续独立运营、定价不变；但 AMD 开始把 World Labs 的技术打包进自己的开发者工具与硬件方案。<b>这是最可能的路径。</b></td></tr>
+      <tr><td class="k">路径 B<br>业务放大</td><td>AMD 投入资源把 Marble 推到更大的客户规模，World Labs 作为独立业务线保留并扩张</td><td>团队规模显著增长、企业客户公开披露、World API 调用量成为 AMD 对外沟通的一部分。</td></tr>
+      <tr><td class="k">路径 C<br>人才沉淀</td><td>核心团队在交割后一段时间内陆续流出，技术资产并入 AMD 的既有团队</td><td>Justin Johnson 或 Ben Mildenhall 的对外角色发生变化；Marble 的产品更新节奏放缓。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.2</span>该盯的信号</h3>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:8%">编号</th><th style="width:26%">信号</th><th>为什么它比新闻标题更有信息量</th></tr></thead>
+    <tbody>
+      <tr><td class="n">S1</td><td class="k">Marble 的定价与档位是否变化</td><td>被收购后的工具产品如果开始免费或大幅降价，说明它被重新定位为硬件生态的引流入口，路径 A 成立。</td></tr>
+      <tr><td class="n">S2</td><td class="k">World API 的积分价格</td><td>1.00 美元 / 1,250 积分的定价如果长期不变，说明它仍被当作一项独立业务在经营。</td></tr>
+      <tr><td class="n">S3</td><td class="k">SceniX 团队与 R2S2R 的产品化进度</td><td>这是判断"空间智能 → 机器人仿真"这条线是否真的落地的最直接证据。至今没有公开产品。</td></tr>
+      <tr><td class="n">S4</td><td class="k">AMD 的开发者工具里是否出现 Marble 组件</td><td>比任何新闻稿都更能说明整合深度。</td></tr>
+      <tr><td class="n">S5</td><td class="k">监管审批的进展</td><td>交易预计 2026 年底前完成，需通过监管审批。审批延迟本身会改变团队的去留决策。</td></tr>
+      <tr><td class="n">S6</td><td class="k">四位联合创始人的公开角色</td><td>目前只明确了三人。第四人的去向是团队稳定性最直接的温度计。</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.3</span>主要风险</h3>
+  <p>以下六条按<b>对"这笔交易是否被正确理解"的影响程度</b>排序，而不是按发生概率。每一条都对应本报告 06 部分里列出的未核实项。</p>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R1</span><span class="risk-t">把交割前的宣布当成已经完成的事实</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>交易需通过监管审批，预计 2026 年底前完成，且 AMD 表示在交割前会保持 World Labs 独立运营。<b>在交割完成之前，所有关于整合的判断都只是推测。</b>把"宣布收购"当成"已经整合"，是这类事件里最常见的误读。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R2</span><span class="risk-t">用"82 亿美元"反推整个世界模型赛道已经跑通</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>这个价格反映的是 AMD 在算力竞争中的位置需求，不是 World Labs 的收入能力。<b>把它当成赛道验证的信号，会把一次战略收购误读成一次商业模式验证。</b>04.4 里那五个错配，没有一条因为这笔交易而消失。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R3</span><span class="risk-t">开源替代把定价权持续压向零</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>腾讯混元世界的连续开源已经证明"生成一个三维场景"可以被免费提供。Marble 的定价空间建立在下游工程接缝上，而这个接缝的宽度取决于竞品愿不愿意做工程。<b>这是一条会随时间变窄的护城河。</b></p>
+    <p>更值得注意的是：AMD 与 World Labs 的联合表述里提到了"广泛可获取的开放模型"。如果这句话被兑现，<b>压价的将不再只是竞争对手，还包括自己的母公司</b>。这不是必然会发生的事——它只是一句战略表述，没有时间表——但它是这份报告里唯一一条"风险来自内部"的条目。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R4</span><span class="risk-t">下游客户自建仿真能力</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>具身智能公司在规模化之后有强烈动机把仿真内化——既省成本，也保数据。银河通用与智元机器人都具备这个能力。<b>SceniX 那笔收购正是在抢这个窗口期，但窗口能开多久没有公开依据。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R5</span><span class="risk-t">团队在整合期流失</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>研究型团队在被大公司收购后的留存率通常低于预期，尤其是当创始人进入买方管理层、注意力被分散之后。目前只有两人的留任被明确写入公告。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R6</span><span class="risk-t">技术领先被追平的时间短于预期</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>Atlas 在 2026 年 9 月发布的公开能力处于前列，但缺乏公认评测基准（见 04.4）。<b>在没有基准的情况下，领先幅度既无法被证明，也无法被证伪</b>——这既是风险，也是它至今仍能以高价成交的原因。</p>
+  </div>
+</section>
+
+<section id="caveats">
+  <span class="snum">06 / 信息源</span>
+  <h2 class="sec">信息源与未核实项</h2>
+  <p class="lede">本报告的依据以公司官方公告、官方产品文档与定价页为主，辅以主流财经媒体的报道。以下逐条列出<b>无法核实或存在冲突</b>的部分。凡本报告正文中出现的数字，若在此处被列出，说明它只能作为量级参考。</p>
+
+  <h3>团队与组织</h3>
+  <ul class="plain">
+    <li><b>团队规模存在冲突。</b>第三方研究机构记录为 42 人（2025-12），部分中文报道称约 70 人（2026-09，含 7 月 SceniX 收购带入的团队）。<b>两者均无 AMD 或 World Labs 的官方确认</b>，本报告不采信任一数字，只在 02.3 中以"70 人"作为量级假设做人均换算，并在该处注明了假设。</li>
+    <li><b>Christoph Lassner 的现状未明。</b>AMD 收购公告中明确提及 Justin Johnson 与 Ben Mildenhall 将继续领导团队，但未提及 Lassner。这不构成他已离开的证据，本报告不作推断。</li>
+    <li><b>李飞飞在 AMD 的实际职权范围未公开。</b>已知职务为执行副总裁兼首席科学家，向苏姿丰汇报；她对 World Labs 事务的实际投入程度没有公开信息。</li>
+    <li><b>SceniX 收购对价未披露。</b>联合创始人 Yunzhu Li 与 Changxi Zheng 的加入已确认，交易金额与估值均未公开。</li>
+  </ul>
+
+  <h3>财务与估值</h3>
+  <ul class="plain">
+    <li><b>公司从未披露任何收入数字。</b>Marble 的订阅价格与 World API 的积分单价来自官方定价页，但用户规模、付费转化率、企业客户数量均无公开数据。</li>
+    <li><b>累计融资额口径不一。</b>第三方数据库记录约 12 亿美元，另有来源给出约 12.3 亿美元。差额可能来自是否计入可转债或次级份额，本报告只采用"约 12 亿美元量级"的表述。</li>
+    <li><b>2026 年 1 月"约 50 亿美元估值"来自媒体报道的融资洽谈</b>，当时未经公司确认。2026 年 2 月那一轮披露的投后估值约 54 亿美元（Leonis Capital 口径），与这一传闻量级吻合，但两者并非同一口径，<b>因此不能视为该传闻已被证实</b>。</li>
+    <li><b>82 亿美元对价的构成未公开。</b>已知为全股票交易，但换股比例、是否有锁定期与业绩条件均未披露。</li>
+    <li><b>交易是否已完成未确认。</b>公告口径为"预计 2026 年底前交割，需通过监管审批"，本报告数据截止日（2026-09-30）时尚未完成。<b>本报告正文中所有涉及该交易的表述，均按"已签署、待交割"处理。</b></li>
+    <li><b>私募估值与收购对价是两个不可相减的口径。</b>2026 年 2 月那一轮的投后估值约 54 亿美元，2026-09-28 公告的全股票对价约 82 亿美元，相差约 62%。<b>但这不构成"估值上涨"的证明</b>——并购对价通常包含控制权溢价与协同价值，与一级市场融资估值不可直接比较。本报告在正文中并列保留两个数字，不据此推导任何结论。</li>
+  </ul>
+
+  <h3>产品与技术</h3>
+  <ul class="plain">
+    <li><b>Marble 积分与 World API 积分是两套独立体系，不可互相转移。</b>这一点在官方计费文档中明确，容易被误读为同一套额度的两种用法。</li>
+    <li><b>Atlas 的"约 1 分钟 1440p"是公开的能力上限表述</b>，未说明该时长下的稳定性与物理一致性表现；单次生成的输入图像数量口径（1–6 张）来自官方产品页，未见第三方在统一条件下复现。</li>
+    <li><b>SceniX 的 R2S2R 引擎至今没有公开的产品化形态</b>，其技术指标与落地进度均不可核实。</li>
+    <li><b>竞品的性能数字（Genie 3 的分辨率与时长、Decart 的延迟、FlashWorld 的生成时间）均来自各方自述或媒体报道</b>，没有统一基准下的横向验证。</li>
+    <li><b>WorldPrediction 基准的结果来自公开论文</b>，其基准本身的代表性尚未形成共识。本报告引用它是为了说明"缺乏公认基准"这一状态，而非用它的分数给任何一家公司排序。</li>
+  </ul>
+
+  <h3>行业与竞争</h3>
+  <ul class="plain">
+    <li><b>Neolab 的 119 家、943 亿美元、16 家披露收入、四象限分类，均来自 Leonis Capital 单一机构的研究口径。</b>该口径中的"Neolab"定义较为宽泛，不同机构采用不同标准时结论会变化。本报告采用它是为了提供一个可统计的框架，而不是把它当作行业共识。</li>
+    <li><b>"英伟达出现在 34 家 Neolab 股东名单上"这一数字现已核对到一手来源。</b>该表述出自 Leonis Capital 原报告原文（"Nvidia has backed more neolabs than any venture firm in our dataset, appearing on 34 of 119 cap tables"）。<b>但它仍然只是单一机构的数据集口径</b>——"Neolab"的边界由该机构自行定义，换一套标准这个数字就会变。请把它当作一个有出处、但依赖于定义的量级参考，而不是一个跨机构可比的统计事实。</li>
+    <li><b>Mistral 与 Skild 的收入与估值对比来自媒体报道</b>，两者的收入口径（年化 vs. 实际）可能不一致，直接并列存在误差。</li>
+    <li><b>国内具身智能公司的融资与估值数字来自媒体报道</b>，未经企业确认，且不同报道之间存在差异。具体包括：银河通用的累计融资约 70 亿元与估值超 200 亿元、其"千倍于特斯拉的真实训练效率"与 99% 成功率（<b>属企业口径</b>）；智元的收入与出货量（含 Omdia 的全球份额口径）；VAST 的累计融资约 60 亿元与 B/B+ 轮规模。</li>
+    <li><b>智元机器人的交付量存在三个不可互换的口径。</b>灼识咨询（CIC）给出 2026 年上半年约 5,100 台；企业口径的<b>累计</b>交付量约 2 万台（2026-09-24）；2026 年出货<b>目标</b>从 1 万台起逐季上调至 2 万台。<b>"半年""累计""目标"三者含义完全不同，本报告在正文中分别标注了各自口径。</b>其 2025 年收入 10.5 亿元与 2026 年 40 亿元目标均为企业口径，未经审计披露。</li>
+    <li><b>智元"新工厂年产能 30,000 台"属规划口径，未获独立核实。</b>规划产能与当期实际交付量是两回事，本报告不做换算，也不把它当作"已实现"的能力。</li>
+    <li><b>VAST 的成立年份存在冲突</b>，一处来源记为 2022 年 11 月，另一处记为 2023 年。<b>其估值缺乏一线中文来源确认，本报告因此没有给出具体估值数字。</b></li>
+    <li><b>VAST 是否已交付世界模型产品未能核实。</b>该公司 2025 年宣布要推出世界模型，本报告未能找到已上线产品的证据，因此 03.4 中把它归为"资产级三维生成"而非世界模型。</li>
+    <li><b>Google Genie 3 的可用范围，本报告此前表述有误，现已更正。</b>2025 年 8 月发布时它是一个研究预览（DeepMind 博客口径）；2026 年 1 月以 <b>Project Genie</b> 之名向 Google AI Ultra 订阅用户开放，而 Ultra 覆盖 150 多个国家，<b>因此"仅限美国"的说法不成立</b>。2026 年 5 月接入的街景数据覆盖 110 个国家。<b>正文已按更正后的口径重写</b>，"140 多个国家"这一数字与"110 个国家的街景数据"是两个不同的量，不应混用。</li>
+    <li><b>Figure AI 的能力口径存在明确的反方证据。</b>官方称 Helix 2.5 在 30 个未见过的家庭中实现零样本全身自主，Index 预训练把零样本成功率从 9% 提到 56%。但 2026-09-24 伯恩斯坦的分析认为它实现的是"场景泛化"而非"任务泛化"，离商用仍有距离；2026-09-20 极客公园的报道中亦有同行对其泛化能力提出质疑。<b>本报告在 03.4 中并列呈现两种口径，不采信任何一方。</b>此外，Figure 在 2026 年是否完成新一轮融资未能核实——已确认的最近一轮为 2025 年 9 月的 C 轮，第三方数据库给出的"累计融资 19 亿美元"未能对应到具体轮次。</li>
+    <li><b>SpaceX 被列入"头部 Physical AI 公司"是一次口径拉伸。</b>它不做世界模型，也不做通用机器人；2026 年它与 AI 相关的大额动作（收购 xAI、IPO）都发生在软件与资本层面。本报告在 03.4 中已明确说明它不属于同一技术谱系，保留它是为了尊重原始问题的框架，而非认可这个归类。</li>
+    <li><b>四家大厂在世界模型上的投入规模与内部优先级没有公开数据。</b>03.3 的判断基于各家的公开产品与开源动作，属于推断，不是事实陈述。</li>
+    <li><b>阿里巴巴 HappyOyster 对标 Genie 与 World Labs 的定位表述来自行业媒体报道</b>，未见官方文件使用同等措辞。</li>
+  </ul>
+
+  <h3>数据口径的其他冲突</h3>
+  <ul class="plain">
+    <li><b>Thinking Machines 的估值在不同来源间差异很大。</b>2025 年初种子轮约 120 亿美元、2025 年 7 月传出约 500 亿美元的新一轮洽谈、2026 年 2 月另有约 100 亿美元的说法。<b>这三个数字对应不同时点与不同性质（已完成 vs. 洽谈中 vs. 传闻）</b>，本报告在 04.2 与 04.5 中引用时已分别注明口径，请勿把它们并列比较或取平均。</li>
+    <li><b>Reflection AI 的估值存在量级冲突。</b>一处来源记为 5.55 亿美元，另一处记为 250 亿美元，两者相差近 45 倍。<b>本报告未能确定哪一个对应哪一轮</b>，因此正文中未使用该公司的估值数字。</li>
+    <li><b>Neolab 的赛道划分方式存在多种版本。</b>Leonis Capital 按出资方性质分四象限，另有机构按技术方向分为"五条赛道"或"六大范式"。这些划分互不排斥，<b>但把不同划分下的家数与金额并列相加会产生重复计数</b>。本报告统一采用 Leonis 的四象限口径，其余划分仅在 04.1 中作为参照提及。</li>
+    <li><b>波士顿动力的产能数字存在营销口径与产能事实之间的落差。</b>CES 2026 的公开表述给出过"部署 25,000 台 Atlas、新工厂目标年产能 30,000 台"；而韩国媒体 2026 年 5 月援引的实际产量约为<b>每月 4 台</b>。前者是展示口径，后者是当期产能，<b>两者相差三个数量级</b>。本报告在 03.4 中并列呈现两者，不采信任一数字作为"已实现"的事实。</li>
+    <li><b>特斯拉 Optimus 的产量数字是媒体推测，不是官方披露。</b>"每周数百台（推测 300–500 台）"与"年底目标每周 1,000 台"均来自 2026-09-25 的报道，其中区间上限为报道方的推测值。<b>本报告在 03.4 中已标注"推测"二字。</b></li>
+  </ul>
+
+  <h3>一个容易混淆的重名</h3>
+  <ul class="plain">
+    <li><b>中文公开信息里另有一位"李飞飞"，为阿里云方面人士。</b>他与 World Labs 的创始人李飞飞不是同一个人，但在检索结果中经常同时出现，容易被合并引用。<b>本报告涉及的所有"李飞飞"，均指 World Labs 联合创始人兼 CEO。</b></li>
+  </ul>
+
+  <div class="callout riskb">
+    <p class="ct">使用这份报告时请注意</p>
+    <p>本报告中所有关于"竞争位置""战略意图""未来路径"的判断，都是基于公开信息的推断，不是事实。<b>唯一一个不需要推断的事实是：World Labs 已于 2026-09-28 签署以约 82 亿美元全股票对价并入 AMD 的最终协议。</b>这笔交易尚未交割，仍需通过监管审批；但签署这一动作本身已足以说明，"独立做下去"不是它选的那条路。<b>请注意区分"已签署"与"已完成"——本报告通篇按前者处理。</b>其余部分，请当作待验证的假设使用。</p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="snum">来源</span>
+  <h2 class="sec">主要公开信息源</h2>
+  <ol class="src">
+    <li>World Labs 官方博客《World Labs is Joining AMD》，2026-09-28。<a href="https://www.worldlabs.ai/blog/amd-announcement">worldlabs.ai/blog/amd-announcement</a></li>
+    <li>李飞飞《To Seek a Newer World》致团队公开信，2026-09-28。<a href="https://www.worldlabs.ai/blog/to-seek-a-newer-world">worldlabs.ai/blog/to-seek-a-newer-world</a></li>
+    <li>李飞飞公开信（Substack 版本）。<a href="https://drfeifei.substack.com/worldlabs-joining-amd">drfeifei.substack.com/worldlabs-joining-amd</a></li>
+    <li>World Labs 官方博客《Atlas: A World Model for Spatial Intelligence》，2026-09-01。<a href="https://www.worldlabs.ai/blog/atlas">worldlabs.ai/blog/atlas</a></li>
+    <li>World Labs 官方博客《Building Worlds That Train Robots》（R2S2R），2026-07-28。<a href="https://www.worldlabs.ai/blog/real-to-sim-to-real">worldlabs.ai/blog/real-to-sim-to-real</a></li>
+    <li>World Labs 官方博客《A Functional Taxonomy of World Models》，2026-06-03。<a href="https://www.worldlabs.ai/blog/taxonomy-of-world-models">worldlabs.ai/blog/taxonomy-of-world-models</a></li>
+    <li>World Labs 官方博客《World Labs Acquires SceniX》，2026-07-21。<a href="https://www.worldlabs.ai/blog/scenix">worldlabs.ai/blog/scenix</a></li>
+    <li>World Labs 官方博客《Streaming 3DGS worlds on the web》（Spark 2.0），2026-04-14。<a href="https://www.worldlabs.ai/blog/spark-2.0">worldlabs.ai/blog/spark-2.0</a></li>
+    <li>World Labs 官方博客《3D as code》，2026-03-03。<a href="https://www.worldlabs.ai/blog/3d-as-code">worldlabs.ai/blog/3d-as-code</a></li>
+    <li>World Labs 官方博客《Announcing the World API》，2026-01-21。<a href="https://www.worldlabs.ai/blog/announcing-the-world-api">worldlabs.ai/blog/announcing-the-world-api</a></li>
+    <li>World Labs 官方博客《World Labs Announces New Funding》，2026-02-18。<a href="https://www.worldlabs.ai/blog/funding-2026">worldlabs.ai/blog/funding-2026</a></li>
+    <li>World Labs 官方博客《Marble: A Multimodal World Model》，2025-11-12。<a href="https://www.worldlabs.ai/blog/marble-world-model">worldlabs.ai/blog/marble-world-model</a></li>
+    <li>World Labs 官网首页。<a href="https://www.worldlabs.ai/">worldlabs.ai</a></li>
+    <li>World Labs 公司介绍页（四位联合创始人表述）。<a href="https://www.worldlabs.ai/about">worldlabs.ai/about</a></li>
+    <li>World Labs 官网站点地图（用于核对全部页面路径）。<a href="https://www.worldlabs.ai/sitemap.xml">worldlabs.ai/sitemap.xml</a></li>
+    <li>Marble 产品站与定价页。<a href="https://marble.worldlabs.ai/pricing">marble.worldlabs.ai/pricing</a></li>
+    <li>World Labs 开发者文档：World API 定价（积分口径）。<a href="https://docs.worldlabs.ai/api/pricing">docs.worldlabs.ai/api/pricing</a></li>
+    <li>World Labs 开发者文档：账户与计费（两套积分体系说明）。<a href="https://docs.worldlabs.ai/marble/support/account-billing">docs.worldlabs.ai/marble/support/account-billing</a></li>
+    <li>World Labs 客户案例《Scaling Robotic Simulation with Marble》，2025-11-12。<a href="https://www.worldlabs.ai/case-studies/1-robotics">worldlabs.ai/case-studies/1-robotics</a></li>
+    <li>World Labs 客户案例《From Image to Studio: Magnific》，2026-05。<a href="https://www.worldlabs.ai/case-studies/magnific">worldlabs.ai/case-studies/magnific</a></li>
+    <li>World Labs 客户案例《Rosebud AI x Marble》，2025-11-12。<a href="https://www.worldlabs.ai/case-studies/rosebud">worldlabs.ai/case-studies/rosebud</a></li>
+    <li>World Labs 案例页《NVIDIA Isaac Sim and Marble》——<b>截至数据截止日仍为占位内容，不作为合作证据</b>。<a href="https://www.worldlabs.ai/case-studies/2-simulate">worldlabs.ai/case-studies/2-simulate</a></li>
+    <li>Contrary Research 公司档案：World Labs（团队规模 42 人）。<a href="https://research.contrary.com/company/world-labs">research.contrary.com/company/world-labs</a></li>
+    <li>Dealroom《Fei-Fei Li's World Labs buys SceniX to push into robotics》。<a href="https://dealroom.co/news/140205-fei-fei-lis-world-labs-buys-scenix-to-push-into-robotics/">dealroom.co/news/140205</a></li>
+    <li>Wccftech《AMD 以 82 亿美元收购 World Labs》，含"针对英伟达 Cosmos"的判断。<a href="https://wccftech.com/amd-acquires-world-labs-for-8-2-billion-in-what-is-essentially-a-talent-grab-for-building-a-competitor-to-nvidias-cosmos-ai-model/">wccftech.com</a></li>
+    <li>Tech Insider《Genie 3 vs Marble vs NVIDIA Cosmos：2026 年世界模型对比》。<a href="https://tech-insider.org/genie-3-vs-marble-vs-nvidia-cosmos-world-models-2026/">tech-insider.org</a></li>
+    <li>Skywork《Marble AI 定价与访问方式》。<a href="https://skywork.ai/blog/ai-image/marble-ai-pricing-access">skywork.ai/blog/ai-image/marble-ai-pricing-access</a></li>
+    <li>钛媒体《世界模型不是错了，是太早被卖贵了》，2026-06-25（五个错配的来源）。<a href="https://www.tmtpost.com/7619815.html">tmtpost.com/7619815.html</a></li>
+    <li>钛媒体英文版相关报道。<a href="https://en.tmtpost.com/news/7762778">en.tmtpost.com/news/7762778</a></li>
+    <li>钛媒体世界模型系列报道。<a href="https://www.tmtpost.com/8130885.html">tmtpost.com/8130885.html</a></li>
+    <li>钛媒体相关报道。<a href="https://www.tmtpost.com/8039925.html">tmtpost.com/8039925.html</a></li>
+    <li>钛媒体相关报道。<a href="https://www.tmtpost.com/8033803.html">tmtpost.com/8033803.html</a></li>
+    <li>钛媒体相关报道。<a href="https://www.tmtpost.com/8030966.html">tmtpost.com/8030966.html</a></li>
+    <li>极客公园关于 Leonis Capital「Neolab」研究的报道，2026-09（119 家、943 亿美元、四象限的来源）。<a href="http://www.geekpark.net/news/371210">geekpark.net/news/371210</a></li>
+    <li>极客公园相关报道。<a href="http://www.geekpark.net/news/371143">geekpark.net/news/371143</a></li>
+    <li>极客公园相关报道。<a href="http://www.geekpark.net/news/371040">geekpark.net/news/371040</a></li>
+    <li>极客公园关于世界模型的报道。<a href="https://www.geekpark.net/news/368943">geekpark.net/news/368943</a></li>
+    <li>极客公园相关报道。<a href="https://www.geekpark.net/news/365422">geekpark.net/news/365422</a></li>
+    <li>经济观察报关于 AMD 收购 World Labs 的解读（网易转载），2026-09-29。<a href="https://www.163.com/dy/article/KJJ2AU8D0511ABV6.html">163.com/dy/article/KJJ2AU8D0511ABV6</a></li>
+    <li>网易转载：World Labs 与 AMD 交易分析。<a href="https://m.163.com/dy/article/L8040I6K0519U3I5.html">m.163.com/dy/article/L8040I6K0519U3I5</a></li>
+    <li>网易转载：世界模型行业分析。<a href="https://m.163.com/dy/article/L80PB7NG05199DKK.html">m.163.com/dy/article/L80PB7NG05199DKK</a></li>
+    <li>网易转载：Neolab 相关分析。<a href="https://www.163.com/dy/article/L20D1G3H05567EKQ.html">163.com/dy/article/L20D1G3H05567EKQ</a></li>
+    <li>腾讯云开发者社区关于世界模型的文章。<a href="https://cloud.tencent.cn/developer/article/2659610">cloud.tencent.cn/developer/article/2659610</a></li>
+    <li>腾讯云开发者社区相关文章。<a href="https://cloud.tencent.cn/developer/article/2702612">cloud.tencent.cn/developer/article/2702612</a></li>
+    <li>NVIDIA 新闻稿《NVIDIA Launches Cosmos 3》，2026-05-31（含 Cosmos 联盟创始成员）。<a href="https://nvidianews.nvidia.com/news/nvidia-launches-cosmos-3-the-open-frontier-foundation-model-for-physical-ai">nvidianews.nvidia.com</a></li>
+    <li>NVIDIA 新闻稿：Cosmos 3 Edge 与日本产业方加入，2026-07-15。<a href="https://nvidianews.nvidia.com/news/japans-robotics-and-manufacturing-leaders-build-on-nvidia-cosmos-to-advance-physical-ai-frontier">nvidianews.nvidia.com</a></li>
+    <li>Google DeepMind 博客《Genie 3: A new frontier for world models》，2025-08。<a href="https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/">deepmind.google/discover/blog/genie-3</a></li>
+    <li>TechCrunch：Project Genie 向美国 Ultra 订阅用户开放，2026-01-29。<a href="https://techcrunch.com/2026/01/29/i-built-marshmallow-castles-in-googles-new-ai-world-generator-project-genie/">techcrunch.com</a></li>
+    <li>TechCrunch：Genie 接入街景（110 个国家、约 2,800 亿张图像），2026-05-19。<a href="https://techcrunch.com/2026/05/19/googles-genie-world-model-can-now-simulate-real-streets-with-street-view/">techcrunch.com</a></li>
+    <li>Tech Times：Genie 3 用于 Waymo 仿真器的罕见场景训练，2026-05-20。<a href="https://www.techtimes.com/articles/316902/20260520/genie-3-trains-waymos-robotaxis-rare-scenarios-street-view-grounding-now-global-200-ultra.htm">techtimes.com</a></li>
+    <li>腾讯混元世界 HY-World 2.0 开源仓库。<a href="https://github.com/Tencent-Hunyuan/HY-World-2.0">github.com/Tencent-Hunyuan/HY-World-2.0</a></li>
+    <li>腾讯混元世界 1.0 开源仓库。<a href="https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0">github.com/Tencent-Hunyuan/HunyuanWorld-1.0</a></li>
+    <li>字节跳动 Seed3D 1.0 仓库（仅说明文档与报告，未见开放权重）。<a href="https://github.com/Seed3D/Seed3D">github.com/Seed3D/Seed3D</a></li>
+    <li>字节跳动 VideoWorld 开源仓库。<a href="https://github.com/ByteDance-Seed/VideoWorld">github.com/ByteDance-Seed/VideoWorld</a></li>
+    <li>阿里巴巴 HappyOyster（快乐牡蛎）相关报道，2026-04-16 内测。<a href="https://aihub.cn/news/alibaba-happyoyster">aihub.cn/news/alibaba-happyoyster</a></li>
+    <li>TechCrunch：波士顿动力电动 Atlas 与 Google DeepMind 合作，2026-01-05。<a href="https://techcrunch.com/2026/01/05/boston-dynamicss-next-gen-humanoid-robot-will-have-google-deepmind-dna/">techcrunch.com</a></li>
+    <li>Boston Dynamics 新闻稿：开设 Robotics Metaplant Application Center，2026-09-21。<a href="https://bostondynamics.com/news/boston-dynamics-opens-robotics-metaplant-application-center-to-train-humanoid-robots-for-manufacturing-tasks/">bostondynamics.com</a></li>
+    <li>Boston Dynamics 博客：AIVI-Learning 改用 Google Gemini Robotics，2026-04-14。<a href="https://bostondynamics.com/blog/aivi-learning-now-powered-google-gemini-robotics/">bostondynamics.com</a></li>
+    <li>Boston Dynamics 新闻稿：与 FieldAI 合作，2026-03-12。<a href="https://bostondynamics.com/news/boston-dynamics-fieldai-partner-to-bring-robots-into-uncharted-dynamic-environments/">bostondynamics.com</a></li>
+    <li>Figure AI 官方：Series C 超 10 亿美元、投后 390 亿美元，2025-09-16。<a href="https://www.figure.ai/news/series-c">figure.ai/news/series-c</a></li>
+    <li>Figure AI 官方：Index 数据集，2026-08-25。<a href="https://www.figure.ai/news/introducing-index">figure.ai/news/introducing-index</a></li>
+    <li>Figure AI 官方：Helix 2.5 零样本泛化，2026-09-17。<a href="https://www.figure.ai/news/helix-2-5-zero-shot-30-home-generalization">figure.ai/news/helix-2-5</a></li>
+    <li>Figure AI 官方：与 Nscale 的算力合作，2026-09-03。<a href="https://www.figure.ai/news/figure-and-nscale-sign-strategic-partnership">figure.ai/news/figure-and-nscale</a></li>
+    <li>1X Technologies 官方：1X World Model，2026-01-12。<a href="https://www.1x.tech/discover/1x-world-model">1x.tech/discover/1x-world-model</a></li>
+    <li>1X Technologies 官方：世界模型与自学习。<a href="https://www.1x.tech/discover/world-model-self-learning">1x.tech/discover/world-model-self-learning</a></li>
+    <li>TechCrunch：1X 发布世界模型及其能力边界，2026-01-13。<a href="https://techcrunch.com/2026/01/13/neo-humanoid-maker-1x-releases-world-model-to-help-bots-learn-what-they-see/">techcrunch.com</a></li>
+    <li>TechCrunch：AMI Labs 以 10.3 亿美元种子轮、35 亿美元投前估值起步，2026-03-09。<a href="https://techcrunch.com/2026/03/09/yann-lecuns-ami-labs-raises-1-03-billion-to-build-world-models/">techcrunch.com</a></li>
+    <li>36kr：银河通用融资与估值梳理。<a href="https://eu.36kr.com/zh/p/3978672823417862">eu.36kr.com/zh/p/3978672823417862</a></li>
+    <li>币界网（bianews）：银河通用 B+ 与 B++ 轮、大基金三期领投。<a href="https://www.bianews.com/news/details?id=232963">bianews.com/news/details?id=232963</a></li>
+    <li>界面新闻：智元机器人融资与估值。<a href="https://m.jiemian.com/article/14828362.html">m.jiemian.com/article/14828362.html</a></li>
+    <li>21 世纪经济报道：智元机器人出货量与上市进程，2026-09-13。<a href="https://m.21jingji.com/article/20260913/herald/89cdbc4e75d40c531a2dc8419af20cc2.html">m.21jingji.com</a></li>
+    <li>新浪财经：智元机器人 2026 年收入与出货目标，2026-08-05。<a href="https://finance.sina.cn/2026-08-05/detail-inimfmyt4806679.d.html">finance.sina.cn</a></li>
+    <li>新浪财经：VAST 融资梳理，2026-09-01。<a href="https://finance.sina.com.cn/stock/t/2026-09-01/doc-iniqixxn4722106.shtml">finance.sina.com.cn</a></li>
+    <li>智东西：VAST A 轮由阿里巴巴与恒旭资本联合领投。<a href="https://zhidx.com/p/538012.html">zhidx.com/p/538012.html</a></li>
+    <li>投资界：VAST Pre-A+ 轮。<a href="https://news.pedaily.cn/202506/550816.shtml">news.pedaily.cn/202506/550816.shtml</a></li>
+    <li>1X Technologies 世界模型（另一入口）。<a href="https://www.1x.tech/">1x.tech</a></li>
+    <li>AMD 官方投资者关系新闻稿：收购 World Labs 最终协议，2026-09-28。<a href="https://ir.amd.com/news-events/press-releases">ir.amd.com/news-events/press-releases</a></li>
+    <li>Leonis Capital 原研究报告《We Finally Got Our Flying Cars. They're Called Neolabs》，2026-09。<a href="https://leoniscap.com/research/we-finally-got-our-flying-cars-they-re-called-neolabs">leoniscap.com/research</a>（本报告 04.2、04.3、04.5 与 02.3 的 Neolab 统计与机制引述均出自此篇）</li>
+    <li>Founder Park《119 家 Neolab 拿走 943 亿美元：没有产品、没有收入，投资人究竟在给什么定价？》，2026-09-09（后由极客公园 2026-09-28 转载）。</li>
+    <li>新智元：Deedy Das 整理的 63 家 Neolab 榜单及相关分析，2026-05-08。</li>
+    <li>NVIDIA 开发者博客《Simulate Robotic Environments Faster with NVIDIA Isaac Sim and World Labs Marble》，2025-12-17（含 PLY → USDZ → Isaac Sim 流程与 Nova Carter、UR10、ANYmal、Spot 案例）。<a href="https://developer.nvidia.com/blog/">developer.nvidia.com/blog</a></li>
+    <li>量子位援引韩国媒体（Korea Herald）：波士顿动力当期实际产量约每月 4 台，2026-05。</li>
+    <li>极客公园：同行对 Figure Helix 2.5 泛化能力的评价，2026-09-20。</li>
+    <li>伯恩斯坦（Bernstein）分析：Helix 2.5 为"场景泛化"而非"任务泛化"，2026-09-24。</li>
+    <li>灼识咨询（CIC）：智元机器人 2026 年上半年出货量约 5,100 台。</li>
+    <li>智元机器人累计交付量约 2 万台的企业口径报道，2026-09-24。</li>
+    <li>AGIBOT World 开源仓库与 genie_sim、Genie-Envisioner-V1 仓库。<a href="https://github.com/OpenDriveLab/AgiBot-World">github.com/OpenDriveLab/AgiBot-World</a></li>
+    <li>田渊栋谈加入 RSI 及"联合创始人身份"约束的公开访谈。</li>
+    <li>Google AI Ultra 订阅覆盖范围官方说明。<a href="https://one.google.com/about/google-ai-plans/">one.google.com/about/google-ai-plans</a></li>
+    <li>上纬新材（688585.SH）控制权变更与智元机器人 A+H 上市进程相关公告与报道。</li>
+    <li>Mildenhall 等《NeRF：将场景表示为神经辐射场以用于视图合成》，2020。<a href="https://arxiv.org/abs/2003.08934">arXiv:2003.08934</a></li>
+    <li>Kerbl 等《3D Gaussian Splatting for Real-Time Radiance Field Rendering》，2023。<a href="https://arxiv.org/abs/2308.04079">arXiv:2308.04079</a></li>
+    <li>Lassner 等《Pulsar: Efficient Sphere-based Neural Rendering》。<a href="https://arxiv.org/abs/2301.09629">arXiv:2301.09629</a></li>
+    <li>世界模型评测相关论文。<a href="https://arxiv.org/html/2606.31672v2">arXiv:2606.31672v2</a></li>
+  </ol>
+  <p>以上为本报告直接引用的公开信息源。<b>对于未能在本清单中给出链接的媒体内容</b>（包括部分中文报道的转载页与已失效页面），正文中已按媒体名与日期标注，读者可据此自行检索核对。</p>
+</section>
+
+<footer>
+  <p><b>World Labs · 公司深度研究</b> · 数据截止 2026-09-30 · v1</p>
+  <p>本报告全部内容基于公开信息整理与推断。所有涉及竞争位置、战略意图与未来路径的判断均为分析性意见，不构成事实陈述，也不构成任何投资建议。文中标注为"未核实"的部分，请勿作为结论引用。</p>
+</footer>
+
+</div>
+</body>
+</html>
