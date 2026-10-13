@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>2026 中国大模型融资全景</title>
+<meta name="description" content="2026 年中国大模型赛道的融资案例、时间、额度与估值全景：基础模型、AI Infra 与算力、应用层三层拆解，含资本结构与估值分析。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+<style>
+
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">中国大模型融资 · 2026</span>
+    <div class="links">
+      <a href="#overview">总体格局</a>
+      <a href="#foundation">基础模型</a>
+      <a href="#infra">算力与 Infra</a>
+      <a href="#app">应用层</a>
+      <a href="#capital">资本结构</a>
+      <a href="#valuation">估值分析</a>
+      <a href="#signals">降温信号</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">行业研究 · 融资与估值 · 2026</p>
+  <h1>2026 年中国大模型融资全景</h1>
+  <p class="standfirst">把 2026 年国内大模型赛道的每一笔融资按时间、金额、估值摊开看，会发现钱并没有平均地流向「做模型的」——它正在向两端集中：最上游的算力与 Infra，和最下游能收钱的应用。中间那层做基础模型的，融资额最大、估值最高，但也是最难证明单位经济性的一层。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-13</dd></div>
+    <div><dt>版本</dt><dd>v1</dd></div>
+    <div><dt>范围</dt><dd>中国 · 大模型赛道（不含机器人/具身）</dd></div>
+    <div><dt>信息源</dt><dd>公开来源 + 工商信息</dd></div>
+  </dl>
+</header>
+
+<section class="thesis" id="thesis" style="border-top-width:2px">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>2026 上半年中国 AI 融资超 3,000 亿元，六个月就超过 2025 年全年——但钱在向极少数公司集中。</b>AI 融资金额占一级市场约 <span class="num">48.6%</span>，事件数却只占 <span class="num">22.5%</span>。更精确的信号是：金额已达 2025 全年的 <span class="num">182%</span>，事件数只达 <span class="num">78%</span>——<em>金额增速是事件数增速的 2.3 倍</em>。</li>
+    <li><b>大模型赛道拿走 1,598 亿元（占 AI 赛道过半），其中三家公司拿走全市场的 30%。</b>DeepSeek、阶跃星辰、月之暗面合计约 <span class="num">930 亿元</span>。这是典型的「赢家通吃」——资本不是撒向更多公司，是压向更少公司。</li>
+    <li><b>最重要的一个信号：2026 上半年早期融资 TOP10 里，没有一家是纯大模型公司。</b>大模型赛道的<em>早期窗口已经基本关闭</em>。钱转向了下游——世界模型、具身大脑、物理 AGI。对一家现在才成立的 LLM 基础模型公司来说，要面对的不是「融资难」，而是「这条赛道的早期融资窗口已经关了」。</li>
+    <li><b>估值曲线被压缩到了半年走完过去三到五年。</b>月之暗面从 2025 年底的 43 亿美元到 2026 年 8 月目标投前 <span class="num">500 亿美元</span>，<em>11 个月 11 倍</em>；阶跃星辰被投资人形容为「估值从 40 亿美元涨到 50 亿美元只用了一个小时」。这是流动性驱动定价，不是基本面驱动。</li>
+    <li><b>中国 AI 公司的估值倍数不是低于美国，而是远高于。</b>智谱峰值时 P/S 约 <span class="num">1,280 倍</span>，而 OpenAI 约 34 倍、Anthropic 约 21 倍——<em>高出 37 到 61 倍</em>。另一个对比更直观：亏损中的智谱，市值一度是盈利的科大讯飞的近 4 倍（后者年营收 271 亿元、净利 8.39 亿元）。</li>
+    <li><b>上市不是终点，是估值校准的开始。</b>智谱从峰值万亿港元回落到不足 5,000 亿港元；MiniMax 从 4,100 亿港元跌到 <span class="num">754 亿港元</span>，<em>较高点 −82%</em>。两家的重估都发生在解禁窗口——二级市场用收入质量、毛利率、客户集中度、现金消耗四把尺子重新定价，而这四项目前都不好看（智谱 2025 年亏损是营收的 6.5 倍）。</li>
+    <li><b>DeepSeek 的「金额翻倍、估值不动」，是这份报告里最值得琢磨的一笔。</b>第二轮拟融资额从 500 亿跳升至约 <span class="num">1,000 亿元</span>，投前估值仍维持约 5,000 亿元。正常情况下融资翻倍会伴随估值上升；估值不动而金额翻倍，指向的是<em>内部消耗速度超出预算预期</em>——这笔钱买的不是增长，是时间缓冲期。</li>
+    <li><b>国资与产业资本已经取代 VC 成为主力，但两层逻辑不同。</b>算力层的国资是「重仓」（投产能与供应链安全），应用层的产业资本是「卡位」（投入口与生态绑定）。DeepSeek 二轮的新进方——中芯聚源、吉利、宁德时代——买的不是股权收益，是各自垂直领域的优先技术协同权。</li>
+  </ol>
+</section>
+
+
+
+<section id="overview">
+  <span class="snum">01 / 总体格局</span>
+  <h2 class="sec">半年三千亿，一半的钱进了 AI</h2>
+
+  <p class="lede">先把盘子说清楚。2026 年上半年，中国 AI 赛道融资事件 <span class="num">1,203 起</span>，融资总额突破 <span class="num">3,000 亿元</span>——仅六个月的体量就已超过 2025 年全年。</p>
+
+  <div class="facts">
+    <div><div class="fv">48.6%</div><div class="fl">AI 融资金额占一级市场比重；事件数只占 22.5%</div></div>
+    <div><div class="fv">1,598.53 亿</div><div class="fl">大模型赛道融资总额，占 AI 赛道过半</div></div>
+    <div><div class="fv">930.06 亿</div><div class="fl">DeepSeek + 阶跃星辰 + Kimi 三家合计，占全市场 30%</div></div>
+    <div><div class="fv">0 家</div><div class="fl">早期 TOP10 里的纯大模型公司数量</div></div>
+  </div>
+
+  <p>「每融出 2 块钱，就有近 1 块钱流向 AI」——这句话是 2026 上半年一级市场最直接的概括。<b>但事件数只占两成多、金额占了近半，说明 AI 赛道的单笔融资额远高于其他赛道</b>，钱在向少数大额项目集中。</p>
+
+  <div class="callout warnb">
+    <div class="ct">口径说明 · 本报告的范围</div>
+    <p>用户要求排除机器人/具身智能/physical AI。IT 桔子口径下 2026H1 各细分赛道为：<b>大模型 1,598.53 亿元</b>、AI 基础层（算力/AI 芯片/训练框架）725.68 亿元、<b>AI+具身智能 906.44 亿元（本报告排除）</b>、AIGC 应用 596.05 亿元。</p>
+    <p>本报告的核心是<b>大模型赛道</b>，同时纳入<b>基础层</b>与<b>应用层</b>作为相邻章节（这两层是大模型栈的上下游）。具身智能相关案例一律不收，即使其融资额很大。</p>
+  </div>
+
+  <h3>钱在向哪里集中：三家公司拿走 30%</h3>
+
+  <p>2026 上半年的结构性特征比总量更值得注意。<b>DeepSeek、阶跃星辰、月之暗面三家合计融资约 930.06 亿元，占全市场融资总额的 30%。</b>资本用「赢家通吃」的逻辑重仓头部，三家的融资节奏却完全不同：</p>
+
+  <div class="tw">
+  <table>
+    <caption>2026 上半年大模型赛道三巨头。三家的融资逻辑差异明显——一个是估值弹性，一个是上市冲刺，一个是均衡推进。</caption>
+    <thead>
+      <tr><th>公司</th><th class="n">上半年融资额</th><th>轮次节奏</th><th>资本逻辑</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">DeepSeek</td><td class="n">510 亿元</td><td>仅 1 轮（A 轮）</td><td>单笔即成，估值弹性与资本信任度极高</td></tr>
+      <tr><td class="k">阶跃星辰</td><td class="n">230 亿元</td><td>半年 4 轮</td><td>Pre-IPO 冲刺，为上市做资源储备</td></tr>
+      <tr><td class="k">月之暗面 Kimi</td><td class="n">189 亿元</td><td>两轮</td><td>节奏相对均衡</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>6 月是分水岭：单月融资总额突破 <span class="num">1,000 亿元</span>，主要因为 DeepSeek 的 510 亿元首轮落地。在此之前，3、4、5 月国内 AI 融资规模持续维持在 400 亿元以上。</p>
+
+  <h3>地域：四城垄断 86% 的钱</h3>
+
+  <p>北上杭深四城贡献了 <span class="num">73.89%</span> 的融资事件数和 <span class="num">86%</span> 的融资规模。其中北京以 321 起、<span class="num">955.17 亿元</span>位居第一；杭州凭借 DeepSeek 的首轮超 500 亿元认购，融资额一举超越上海、深圳位居第二。</p>
+
+  <div class="tw">
+  <table>
+    <caption>2026H1 中国 AI 融资城市分布（IT 桔子口径）。苏州排名第五，其中一半以上来自 Momenta 的基石轮与 Pre-IPO 轮。</caption>
+    <thead>
+      <tr><th>城市</th><th class="n">融资事件</th><th class="n">融资总额</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">北京</td><td class="n">321 起</td><td class="n">955.17 亿元</td><td>全国第一，绝对核心</td></tr>
+      <tr><td class="k">杭州</td><td class="n">—</td><td class="n">—</td><td>DeepSeek 单笔推高，跃居第二</td></tr>
+      <tr><td class="k">上海</td><td class="n">211 起</td><td class="n">595.70 亿元</td><td>单笔更重，估值中枢更高</td></tr>
+      <tr><td class="k">深圳</td><td class="n">215 起</td><td class="n">359.43 亿元</td><td>事件数多于上海，金额低于上海</td></tr>
+      <tr><td class="k">苏州</td><td class="n">—</td><td class="n">190.22 亿元</td><td>长三角第三极</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>阶段：早期「广撒网」，成熟期「压舱」</h3>
+
+  <p>不同阶段的资本逻辑差异极大，这组数字解释了很多事情：</p>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl">极早期<span style="color:var(--muted)"> 种子/天使/Pre-A</span></div><div class="bar-track"><div class="bar-fill alt" style="width:12%"></div></div><div class="bar-val">626 笔 · 单笔 0.73 亿</div></div>
+    <div class="bar-row"><div class="bar-lbl">成长期<span style="color:var(--muted)"> A/B 轮</span></div><div class="bar-track"><div class="bar-fill" style="width:79%"></div></div><div class="bar-val">占总融资 49.40% · 单笔 3.80 亿</div></div>
+    <div class="bar-row"><div class="bar-lbl">成熟期</div><div class="bar-track"><div class="bar-fill warnf" style="width:100%"></div></div><div class="bar-val">177 笔 · 单笔 6.24 亿</div></div>
+  </div>
+  <p class="scale-note">柱长表示单笔平均融资额。极早期用最多的事件数（626 笔）只拿到最少的单笔金额；成熟期用最少的事件数（177 笔）拿到最高的单笔金额。</p>
+
+  <p>这条曲线说明：<b>早期投资在「广撒网」，成熟期在「压舱」。</b>但最值得注意的信号藏在下面这一条——</p>
+
+  <div class="callout riskb">
+    <div class="ct">最重要的一个信号</div>
+    <p><b>2026 上半年早期融资 TOP10 里，没有一家是纯大模型公司。</b></p>
+    <p>这意味着大模型赛道的<b>早期窗口已经基本关闭</b>——资本判断基础大模型的竞争格局已初步形成，新的早期大模型项目很难再获得顶级 VC 的支持。钱转向了「大模型的下游」：世界模型、具身大脑、物理 AGI。</p>
+    <p>对一家现在才成立的 LLM 基础模型公司来说，这是一个必须正视的结构性事实：<b>你要面对的不是「融资难」，而是「这条赛道的早期融资窗口已经关了」。</b></p>
+  </div>
+
+  <p>另一个值得记下的现象是<b>天使轮融资额「通货膨胀」</b>：早期 TOP10 中有 4 家在种子轮或天使轮就完成了超 7 亿元的融资（卜拉格 21 亿、无界动力 19 亿、逆矩阵 9 亿、大晓 7 亿）。这在 2024 年之前不可想象，反映的是头部 VC 向更早期迁移、争夺稀缺顶级团队的竞争。</p>
+</section>
+
+<section id="foundation">
+  <span class="snum">02 / 基础模型层</span>
+  <h2 class="sec">基础模型：融资额最大，也最难证明单位经济性</h2>
+
+  <p class="lede">这一层拿走了 2026 上半年 AI 赛道过半的钱（1,598.53 亿元），也是唯一已经有公司上市、被二级市场重新定价过的一层。它的故事可以分成四段：上市的、未上市的头部、刚成立就拿到大钱的、以及收缩换轨的。</p>
+
+  <h3>2.1 已上市的两家：估值校准已经开始</h3>
+
+  <p>智谱（02513.HK）和 MiniMax（00100.HK）在 2026 年 1 月 8 日、9 日先后挂牌，是这一层唯一有公开市场定价的样本。它们的股价曲线说明了一件事：<b>上市不是终点，是估值校准的开始。</b></p>
+
+  <div class="tw">
+  <table>
+    <caption>两家港股上市公司的市值轨迹。数据来自二级市场公开行情，市值口径随日期变化，引用须带日期。</caption>
+    <thead>
+      <tr><th>公司</th><th>时间</th><th class="n">市值 / 估值</th><th>事件</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k" rowspan="5">智谱<br>02513.HK</td><td>2026-01-08</td><td class="n">—</td><td>IPO 挂牌</td></tr>
+      <tr><td>2026-06</td><td class="n">一度破 1 万亿港元</td><td>峰值</td></tr>
+      <tr><td>2026-07</td><td class="n">解禁市值超 400 亿港元</td><td>基石解禁（占总股本 5.76%），当日反涨 13.35%</td></tr>
+      <tr><td>2026-09</td><td class="n">配售 + 可转债约 50 亿美元</td><td>约 60% 投向下一代 GLM</td></tr>
+      <tr><td>2026-10</td><td class="n">回落至不足 5,000 亿港元</td><td>较峰值腰斩</td></tr>
+      <tr><td class="k" rowspan="5">MiniMax<br>00100.HK</td><td>2026-01-09</td><td class="n">发行价 165 港元</td><td>IPO 首日 +111%</td></tr>
+      <tr><td>2026-03-18</td><td class="n">最高 4,100 亿港元</td><td>M2.7 发布，股价 1,330 港元</td></tr>
+      <tr><td>2026-07-09</td><td class="n">当日 −17.98%</td><td>解禁（占总股本 48.9%），单日蒸发超 200 亿港元</td></tr>
+      <tr><td>2026-07-10</td><td class="n">新股 + 债券约 160 亿港元</td><td>闫俊杰宣布 AGI 前零薪酬</td></tr>
+      <tr><td>2026-07-17</td><td class="n">754 亿港元</td><td><b>较峰值 −82%</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>两家都在解禁窗口遭遇重估。二级市场用的尺子是四项：<b>收入质量、毛利率、客户集中度、现金消耗</b>。而这几项目前都不好看——</p>
+
+  <div class="callout riskb">
+    <div class="ct">招股书里的真实数字</div>
+    <p><b>智谱 2025 年营收 7.24 亿元，净亏 47.18 亿元——亏损是营收的 6.5 倍。</b></p>
+    <p>MiniMax 2025 年营收 7,904 万美元，年内亏损 18.7 亿美元；其中约 16 亿为优先股公允价值变动的一次性会计处理，经调整净亏约 2.5 亿美元。</p>
+    <p>这组数字解释了为什么解禁后估值会被重估：<b>一级市场给的是「技术可能性」的定价，二级市场要的是「收入质量」的证据。</b></p>
+  </div>
+
+  <h3>2.2 未上市的头部：11 个月走完 11 倍</h3>
+
+  <div class="tw">
+  <table>
+    <caption>未上市头部公司的融资与估值轨迹。月之暗面与阶跃星辰的估值为媒体/投资人口径，非公司披露；DeepSeek 从未官方确认任何融资，全部按「未核实」处理。</caption>
+    <thead>
+      <tr><th>公司</th><th>时间</th><th class="n">金额</th><th class="n">估值</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k" rowspan="5">月之暗面</td><td>2025 年底</td><td class="n">C 轮</td><td class="n">投后 43 亿美元</td><td>起点</td></tr>
+      <tr><td>2026-02</td><td class="n">两轮各 7 亿美元</td><td class="n">突破 100 亿美元</td><td>—</td></tr>
+      <tr><td>2026-05-07</td><td class="n">约 20 亿美元</td><td class="n">200 亿美元</td><td>美团龙珠领投，中国移动参投</td></tr>
+      <tr><td>2026-07</td><td class="n">F 轮超 35 亿美元</td><td class="n">投后 350 亿美元</td><td>超额认购 3 倍，提前关闭</td></tr>
+      <tr><td>2026-08 起</td><td class="n">Pre-IPO</td><td class="n">目标投前 500 亿美元</td><td><b>11 个月 11 倍</b></td></tr>
+      <tr><td class="k" rowspan="3">阶跃星辰</td><td>2026 上半年</td><td class="n">230 亿元（4 轮）</td><td class="n">—</td><td>腾讯连跟三轮</td></tr>
+      <tr><td>2026-05-08</td><td class="n">近 25 亿美元</td><td class="n">传 120 亿美元</td><td>华勤/龙旗/豪威/中兴等产业链资本</td></tr>
+      <tr><td>2026</td><td class="n">Pre-IPO 两拨</td><td class="n">投前 40 亿 → 50–60 亿美元</td><td>「估值从 40 亿涨到 50 亿只用了一个小时」</td></tr>
+      <tr><td class="k" rowspan="2">DeepSeek</td><td>2026-06</td><td class="n">首轮约 500 亿元</td><td class="n">投前 3,500 亿 / 投后约 4,000 亿元</td><td>梁文锋个人约 200 亿、腾讯约 100 亿、宁德时代约 50 亿</td></tr>
+      <tr><td>2026-10</td><td class="n">二轮约 1,000 亿元</td><td class="n">投前约 5,000 亿元</td><td><b>金额翻倍、估值不动</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>月之暗面的估值曲线是这个行业最陡的一条：<b>2025 年底投后 43 亿美元，到 2026 年 8 月目标投前 500 亿美元——11 个月 11 倍。</b>而且节奏在加速：F 轮超额认购 3 倍、提前关闭。</p>
+
+  <p>DeepSeek 是唯一一家「金额翻倍但估值不动」的。首轮 500 亿元对应投前 3,500 亿、投后约 4,000 亿元；第二轮拟融资额从 500 亿跳升至约 <span class="num">1,000 亿元</span>，<b>投前估值仍维持在约 5,000 亿元</b>。</p>
+
+  <div class="callout warnb">
+    <div class="ct">「金额翻倍、估值不动」意味着什么</div>
+    <p>正常情况下，融资额翻倍会伴随估值上升。估值不动而金额翻倍，通常指向一件事：<b>内部消耗速度超出了最初的预算预期。</b>公司需要更多钱来维持同样的时间窗口，但拿不出更高的估值来支撑加价。</p>
+    <p>换个说法：这笔千亿融资买的不是增长，是<b>时间缓冲期</b>——在未来一到两年内不被竞争对手甩开、且能继续支撑免费开源策略。DeepSeek 年化营收已突破 10 亿美元，但对照超大规模智算中心动辄数百亿的折旧与电力开销，仍是杯水车薪。</p>
+  </div>
+
+  <p>另一条值得注意的线索是投资方结构的变化。DeepSeek 第二轮的新进方——石溪资本、中芯聚源、CPE 源峰、君联资本、吉利汽车——<b>大多带有浓厚的产业背景</b>。宁德时代把投资从约 50 亿追加到约 100 亿。这些产业资本买的不是股权收益，是各自垂直领域的优先技术协同权（电池管理、储能调度、座舱智能化、国产半导体算力生态）。</p>
+
+  <p>上市进程也在提速：DeepSeek 已敲定中信证券保荐，计划 2026 年底递交招股书、2027 年挂牌；高瓴创投原合伙人严文韬于 9 月下旬出任 CFO。为配合审核，投行正协助梳理投资方背景，甚至要求部分专项基金做合规调整，以避免股东人数穿透后触碰 200 人红线。</p>
+
+  <h3>2.3 2026 年新成立的 RSI 方向：窗口在关，但仍有例外</h3>
+
+  <div class="tw">
+  <table>
+    <caption>2026 年新成立或新披露的 RSI / 自进化方向公司。金额与估值除注明外均为媒体口径，未获公司确认。</caption>
+    <thead>
+      <tr><th>公司</th><th>时间</th><th>轮次</th><th class="n">金额</th><th class="n">估值</th><th>主要方</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">超衍智能</td><td>2026-09-16</td><td>天使 + 天使+</td><td class="n">近 4 亿元</td><td class="n">推算 26–40 亿元</td><td>中关村科学城、IDG、星连、晶泰科技</td></tr>
+      <tr><td class="k">无涯智远</td><td>2026-09</td><td>天使</td><td class="n">未披露</td><td class="n">二轮预期 2.5 亿美元</td><td>红杉中国、联想之星、中关村科学城</td></tr>
+      <tr><td class="k">元环智能</td><td>2026-09</td><td>天使</td><td class="n">未披露</td><td class="n">未披露</td><td>顺为资本、启盈同创、上海未来产业基金、星连</td></tr>
+      <tr><td class="k">Naive AI</td><td>2026-09-11</td><td>Pre-A+</td><td class="n">累计 4 亿美元</td><td class="n">14.2 亿美元</td><td>星睿资本、腾讯投资</td></tr>
+      <tr><td class="k">Pragmatik Labs</td><td>2026</td><td>—</td><td class="n">未披露</td><td class="n">136 亿元</td><td>腾讯参与（创始人林俊旸，前阿里 Qwen 负责人）</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>这一组和前面的头部公司形成鲜明对比：几乎都是 2026 年才成立，却已经拿到大额天使轮。但它们的切口不是「再做一个基础模型」，而是 <b>RSI / 自进化、模型架构创新</b>这些细分方向。</p>
+
+  <p>这与第 01 节那个信号完全吻合：<b>早期 TOP10 里没有一家纯大模型公司。</b>资本不是不给早期钱，是不给「又一个基础模型」钱。想在这个时间点创业，方向的选择比团队背景更重要。</p>
+
+  <h3>2.4 收缩与换轨：比「掉队」更常见</h3>
+
+  <p>这一层已经出现了明确的分化案例，而且值得注意的是——<b>「换轨」的结果往往不比硬撑差</b>。</p>
+
+  <ul class="plain">
+    <li><b>百川智能</b>：最后一轮停在 2024 年 7 月（50 亿元 A 轮，估值 200 亿元）。2025 年 4 月王小川放弃通用赛道转 AI 医疗，全部联合创始人已离职。2026 年 1 月他称账上仍有 30 亿元，计划 2027 年启动 IPO。</li>
+    <li><b>零一万物</b>：2024 年底裁撤整个预训练团队并入阿里通义，年运营成本降至 2 亿多元。2025 年经审计收入 2.5 亿元、锁定订单 5 亿元。<b>反而比很多仍在烧钱的头部更接近盈亏平衡。</b></li>
+    <li><b>MiniMax</b>：市值 4 个月蒸发超 3,300 亿港元（见 2.1）。</li>
+    <li><b>行业面</b>：有报道称 2026 年约 30 家 AI 独角兽倒下。</li>
+  </ul>
+
+  <p>把百川和零一万物放在一起看，它们的共同点是<b>主动缩小了野心</b>——放弃通用基础模型的竞争，转向能收钱的垂直场景或企业服务。在一个「大模型早期窗口已关闭」的市场里，这可能是比继续融资硬撑更理性的选择。</p>
+</section>
+
+<section id="infra" class="wide">
+  <span class="snum">03 / 算力与 Infra</span>
+  <h2 class="sec">算力层：融资主线不是 VC 轮，是 IPO 与再融资</h2>
+
+  <p class="lede">这是 2026 年国内融资脉络最清楚的一层。但如果你只看 VC 轮，会完全错过它的主线——<b>这一层的钱主要来自二级市场</b>，用途是锁供应链和商业化，不是研发。</p>
+
+  <h3>国产 GPU 四小龙全部完成资本化</h3>
+
+  <div class="tw">
+  <table>
+    <caption>国产 GPU 四小龙的资本化路径与后续融资。四家合计市值曾达 6,132 亿元（2026-09），此后集体深度回调。</caption>
+    <thead>
+      <tr><th>公司</th><th>上市</th><th class="n">上市后融资</th><th class="n">最新市值</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">壁仞科技<br>6082.HK</td><td>2026-01 港股 IPO<br>净额 62.04 亿港元</td><td class="n">07 月配售 70.38 亿港元<br>10-08 配售 40.2 亿港元</td><td class="n">806 亿港元<br>（2026-10-09）</td><td><b>上市以来累计 172.61 亿港元（≈147 亿元），国产 GPU 之首</b></td></tr>
+      <tr><td class="k">沐曦股份<br>688802.SH</td><td>2025-12 科创板 IPO<br>首日 +692.95%</td><td class="n">2026-08 宣布赴港二次上市</td><td class="n">—</td><td>首日涨幅为四家最高</td></tr>
+      <tr><td class="k">摩尔线程<br>688795.SH</td><td>2025-12-05 科创板 IPO</td><td class="n">2026-06 宣布赴港二次上市</td><td class="n">股价较年内高点腰斩</td><td>—</td></tr>
+      <tr><td class="k">燧原科技<br>688801.SH</td><td>2026-09-10 科创板 IPO<br>首日高开近 1.9 倍</td><td class="n">—</td><td class="n">—</td><td>腾讯押注，账面浮盈超 350 亿元</td></tr>
+      <tr><td class="k">天数智芯<br>9903.HK</td><td>—</td><td class="n">2026-07 配售 70.34 亿港元</td><td class="n">股价较年内高点跌逾 70%</td><td>60% 用于供应链采购</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>一个值得注意的细节：<b>四小龙里已有两家在上市后宣布赴港二次上市（沐曦、摩尔线程），另有两家连续配售（壁仞、天数智芯）。</b>这说明二级市场对算力资产的承接能力，目前仍强于一级市场——但配售价格在走低（壁仞 7 月配售 46.20 港元/股，10 月配售降到 31.8 港元/股）。</p>
+
+  <h3>AI Infra：无问芯穹刷新双纪录</h3>
+
+  <p>严格意义上的「AI Infra」公司里，2026 年出现了两项纪录：</p>
+
+  <div class="facts">
+    <div><div class="fv">23 亿元</div><div class="fl">无问芯穹 C 轮（2026-10），累计 43 亿元，双项国内 AI Infra 纪录</div></div>
+    <div><div class="fv">77.4 亿元</div><div class="fl">硅基流动估值，年内累计融资近 29 亿元</div></div>
+    <div><div class="fv">97.6%</div><div class="fl">无问芯穹异构算力方案的算力利用率（公司口径）</div></div>
+    <div><div class="fv">≈143 亿元</div><div class="fl">无问芯穹传 Pre-IPO 估值（外媒口径，未获公司确认）</div></div>
+  </div>
+
+  <p>无问芯穹的技术卖点是异构算力——公司称其「4+2」方案支持 700 亿参数混合训练，算力利用率 97.6%，国产芯片适配成本降低 70%。硅基流动的投资方里有国家级基金、央地国资，以及阿里和华为。潞晨科技在 2026 年 3 月完成数亿元 B 轮，<b>北京国资重仓</b>。</p>
+
+  <div class="callout warnb">
+    <div class="ct">这一层的核心矛盾：估值与基本面错配</div>
+    <p>四小龙<b>主业均未盈利</b>。壁仞科技 2026H1 营收 12.36 亿元（同比 +1,997.59%），但净亏 3.77 亿元；硅基流动被指「困于负毛利」，有报道称其以约 77 亿元估值、年亏近 2 亿元冲刺港股。</p>
+    <p>7 月之后这一层集体回调，天数智芯跌逾 70%。<b>算力资产的问题不是没有需求，是重资产模式下折旧跑得比收入快。</b></p>
+  </div>
+
+  <p>另需说明一处<b>明确的空白</b>：本报告未能取得国内中间层（向量数据库、数据标注、Agent 框架）的独立融资案例。原因是这一层大多被算力平台公司吸收（无问芯穹、硅基流动均自称 AI Infra 并向下覆盖），或规模不足以进入公开报道。<b>这是「未能获取」，不是「没有」。</b></p>
+</section>
+
+<section id="app">
+  <span class="snum">04 / 应用层</span>
+  <h2 class="sec">应用层：钱跟着「可验证的收入」走</h2>
+
+  <p class="lede">这一层的融资逻辑和基础模型层完全不同：不看技术叙事，看产品与用户规模。而 AI 视频是 2026 年国内应用层最拥挤的一次资本聚集。</p>
+
+  <div class="tw">
+  <table>
+    <caption>2026 年国内应用层主要融资案例。金额除注明外均为媒体口径。</caption>
+    <thead>
+      <tr><th>公司</th><th>时间</th><th>轮次</th><th class="n">金额</th><th class="n">估值</th><th>领投</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">Manus / 蝴蝶效应</td><td>2026-10</td><td>—</td><td class="n">超 5 亿美元<br>（超 33 亿元）</td><td class="n">破 260 亿元</td><td>博裕投资、IDG 资本；腾讯跟投</td></tr>
+      <tr><td class="k">爱诗科技 PixVerse</td><td>2026-07</td><td>C 轮</td><td class="n">近 30 亿元</td><td class="n">超 20 亿美元</td><td>阿里领投；王慧文家族办公室</td></tr>
+      <tr><td class="k">可灵 AI</td><td>2026-07-02</td><td>—</td><td class="n">超 190 亿元</td><td class="n">投后最高 180 亿美元</td><td>腾讯、阿里、百度</td></tr>
+      <tr><td class="k">生数科技</td><td>2026-07</td><td>—</td><td class="n">5 亿美元<br>（五个月三轮）</td><td class="n">—</td><td>阿里系</td></tr>
+      <tr><td class="k">演语科技</td><td>2026-06</td><td>B+</td><td class="n">近 3 亿美元</td><td class="n">超 20 亿美元</td><td>—</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>AI 视频赛道四家（可灵、爱诗、生数、演语）合计吸金超 330 亿元</b>，BAT 全员入场。但盈利状况很差——可灵 2025 年净亏约 19 亿元，OpenAI 的 Sora 推出约半年即终止。有分析认为，资本涌入的动因之一是<b>为早期投资人制造退出通道</b>，而非赛道本身已跑通。</p>
+
+  <h3>一个反直觉的结构：金额更小、倍数更高</h3>
+
+  <p>把应用层和基础模型层放在一起比，会看到一个明显的错位：</p>
+
+  <div class="tw">
+  <table>
+    <caption>应用层与基础模型层的规模对比。应用层单笔金额远小于基础模型层，但估值倍数更高。</caption>
+    <thead>
+      <tr><th>维度</th><th>应用层</th><th>基础模型层</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">2026 最大单笔</td><td>Manus 约 33 亿元</td><td>智谱单次配售约 314 亿港元（≈286 亿元）</td></tr>
+      <tr><td class="k">差距</td><td colspan="2"><b>应用层最大单笔不到基础模型层的 1/8</b></td></tr>
+      <tr><td class="k">估值倍数</td><td>硅基流动市销率一度达 140 倍</td><td>壁仞科技市销率约 32 倍</td></tr>
+      <tr><td class="k">国资参与度</td><td><span class="chip no">最低</span> 未见地方引导基金主导大额融资</td><td><span class="chip ok">最高</span> 国资重仓</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>这个错位说明两件事：<b>第一，应用层的单笔融资规模受限于其收入体量，天花板明显更低；第二，但资本市场愿意给应用层更高的估值倍数</b>——因为应用层的收入是「可验证的」，而基础模型层的收入还依赖叙事。</p>
+
+  <p>Manus 和爱诗科技能拿到大额融资的共同点，是<b>已有可展示的产品与用户规模</b>。这也解释了国资为什么在这一层缺席——地方引导基金投的是产能与供应链安全，而应用层没有产能可投。</p>
+</section>
+
+<section id="capital">
+  <span class="snum">05 / 资本结构</span>
+  <h2 class="sec">谁在出钱：国资与产业资本取代了 VC</h2>
+
+  <p class="lede">2026 年最确定的结构性变化，是国资从「跟投」变成了「领投 / 托底」，产业资本从「财务投资」变成了「战略卡位」。</p>
+
+  <h3>国资：从跟投到领投</h3>
+
+  <div class="facts">
+    <div><div class="fv">450 亿元+</div><div class="fl">上海国投 2026 上半年新增投决金额</div></div>
+    <div><div class="fv">200 亿元</div><div class="fl">广州 AI 产业投资基金规模，市财政出资比例不高于 35%</div></div>
+    <div><div class="fv">1,600 亿元+</div><div class="fl">广州全市近 200 只基金投向 AI 的规模</div></div>
+    <div><div class="fv">最高 70%</div><div class="fl">江苏政府投资基金新政，出资比例上限</div></div>
+  </div>
+
+  <p>最标志性的一件事是<b>国家大基金下场 DeepSeek</b>——DeepSeek 此前从未接受外部融资，首次融资即由国家队入场。月之暗面 5 月的 20 亿美元轮里，出现了中国移动与 CPE（中信产业基金）。</p>
+
+  <p>另一个可用的地理信号：<b>全国近半数 AI 独角兽在上海</b>，上海国资最为活跃。而北京海淀/中关村仍是 Neo Lab 密度最高的地方——超衍智能、无涯智远均注册在北京，且都有中关村科学城出资。</p>
+
+  <div class="callout warnb">
+    <div class="ct">未能获取</div>
+    <p><b>2026 年国资在 AI 融资中的整体出资比例没有公开的精确统计。</b>可确认的只有上述个案与政策信号。任何声称「国资占 XX%」的说法，都需要先问清数据源与统计口径。</p>
+  </div>
+
+  <h3>产业资本：两层不同的逻辑</h3>
+
+  <p>产业资本的入场方式，在不同层级表现出完全不同的动机：</p>
+
+  <div class="stack">
+    <div class="band">
+      <div class="bl">算力层的国资 · 重仓</div>
+      <div class="bn">投的是产能与供应链安全</div>
+      <p class="bd">硅基流动 IPO 前「国家级基金、央地国资密集入场」；潞晨科技「北京国资重仓」；无问芯穹背后有国资机构与杭州资本。四小龙集中登陆科创板，背后是上海、北京的属地支持。</p>
+    </div>
+    <div class="band mid">
+      <div class="bl">应用层的产业资本 · 卡位</div>
+      <div class="bn">投的是入口与生态绑定</div>
+      <p class="bd">爱诗科技由阿里领投；Manus 有腾讯跟投；可灵 AI 集齐腾讯、阿里、百度。产业资本在这里买的不是产能，是模型能力的下游出口。</p>
+    </div>
+    <div class="band">
+      <div class="bl">基础模型层的产业资本 · 协同</div>
+      <div class="bn">投的是垂直领域的优先技术协同权</div>
+      <p class="bd">DeepSeek 第二轮新进方包括中芯聚源、吉利汽车、宁德时代（追加至约 100 亿元）。宁德时代对应电池管理与储能调度，吉利对应座舱智能化，中芯聚源对应国产半导体算力生态。</p>
+    </div>
+  </div>
+
+  <p>三种逻辑的共同点是：<b>它们对回报周期的容忍度都远高于 VC。</b>这解释了为什么在估值已经很高、公司还在巨额亏损的情况下，钱依然能在一周内迅速集结完毕。</p>
+</section>
+
+<section id="valuation">
+  <span class="snum">06 / 估值分析</span>
+  <h2 class="sec">估值倍数：中国公司比美国同行贵 10–60 倍</h2>
+
+  <p class="lede">这是本次调研中最刺眼的一组数字，也是最容易被误读的一组。直觉上人们认为中国 AI 公司估值「更理性」，数据给出的答案正好相反。</p>
+
+  <div class="tw">
+  <table>
+    <caption>中美头部大模型公司估值倍数对比。中国公司营收规模小几个数量级，估值倍数却高出 10–60 倍。智谱市值口径随时间变化极大，此处为峰值口径。</caption>
+    <thead>
+      <tr><th>公司</th><th class="n">市值 / 估值</th><th class="n">营收口径</th><th class="n">P/S</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">智谱</td><td class="n">约 1,370 亿美元（峰值）</td><td class="n">FY2025 约 1.07 亿美元</td><td class="n"><b>≈1,280 倍</b></td></tr>
+      <tr><td class="k">MiniMax</td><td class="n">约 230 亿美元</td><td class="n">—</td><td class="n"><b>≈290 倍</b></td></tr>
+      <tr><td class="k">OpenAI</td><td class="n">约 8,520 亿美元</td><td class="n">—</td><td class="n">约 34 倍</td></tr>
+      <tr><td class="k">Anthropic</td><td class="n">约 9,650 亿美元</td><td class="n">—</td><td class="n">约 21 倍</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><b>智谱的 P/S 是 OpenAI 的约 37 倍、Anthropic 的约 61 倍。</b></p>
+
+  <p>一个更能说明问题的横向对比：<b>智谱 2025 年全年营收不足 8 亿元、尚在亏损；同期科大讯飞年营收 271 亿元、净利润 8.39 亿元，市值约 1,187 亿元。</b>也就是说，亏损中的智谱，市值一度是盈利的科大讯飞的近 4 倍。</p>
+
+  <div class="callout riskb">
+    <div class="ct">这个差距怎么解释</div>
+    <p>有一种解释值得记录（<b>属于分析观点，非事实</b>）：海外用户因数据隐私顾虑，不愿把数据发给中国模型，导致中国 AI 企业的巨量需求无法转化为实际 API 收入，利润流向了 OpenRouter 等海外第三方推理平台。</p>
+    <p>如果这个解释成立，那么中国大模型公司的高估值建立在一个<b>尚未打通的需求—收入转化路径</b>上。这也解释了两件看起来无关的事：智谱为什么主动砍掉高毛利的私有化部署换 API，月之暗面为什么要去和微软、亚马逊、谷歌谈收益分成——<b>它们都在试图把「被海外平台截走的那段收入」拿回来。</b></p>
+  </div>
+
+  <h3>二级市场已经开始校准</h3>
+
+  <p>2026 年 5 月 13 日是这一轮估值的顶点：智谱单日涨 36.9% 至 1,150 港元，市值首破 5,000 亿港元；<b>从 1 月以 116.2 港元上市，不到 5 个月涨近 10 倍。</b>同日 MiniMax 涨 18.46%。</p>
+
+  <p>然后就是第 2.1 节描述的回调：智谱从峰值万亿港元回落到不足 5,000 亿港元，MiniMax 从 4,100 亿跌到 754 亿港元。<b>校准发生在解禁窗口，触发因素是收入质量、毛利率、客户集中度、现金消耗这四项指标。</b></p>
+
+  <p>一级市场的时间压力同样在显现。有从业者的表述很直白：<b>「如果不趁着现在的窗口完成定价，一旦市场审美疲劳导致回调，你的一级市场估值将被瞬间击碎。」</b>——这解释了为什么月之暗面要超额认购 3 倍还提前关闭、阶跃星辰半年跑完 4 轮。</p>
+</section>
+
+<section id="signals">
+  <span class="snum">07 / 降温信号</span>
+  <h2 class="sec">降温信号：不是预测，是已经发生的事</h2>
+
+  <p class="lede">前六节讲的都是热度。这一节讲另一面——而且这些不是分析推演，是已经落地的案例。</p>
+
+  <h3>已经发生的四个案例</h3>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">S1</span>
+      <span class="risk-t">百川智能放弃通用大模型</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>已发生</em></span>
+    </div>
+    <p>最后一轮融资停在 2024 年 7 月（50 亿元 A 轮，估值 200 亿元）。2025 年 4 月王小川宣布放弃通用赛道、全力转型 AI 医疗，<b>全部联合创始人已离职</b>。2026 年 1 月他称账上仍有 30 亿元，计划 2027 年启动 IPO。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">S2</span>
+      <span class="risk-t">零一万物解散预训练团队</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>已发生</em></span>
+    </div>
+    <p>2024 年底裁撤整个预训练团队并入阿里通义，转向垂直场景与企业服务。年运营成本降至 2 亿多元；2025 年经审计收入 2.5 亿元、锁定订单 5 亿元。<b>反而比很多仍在烧钱的头部更接近盈亏平衡。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">S3</span>
+      <span class="risk-t">创始人套现与老股东仲裁</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span>
+    </div>
+    <p>月之暗面创始人杨植麟在完成 10 亿美元融资后，<b>通过出售个人持股套现数千万美元</b>；朱啸虎以老股东身份在香港提起仲裁。此外有报道称老股市场出现「虚构的百亿份额」骗局。<b>老股折价交易是估值见顶的典型前兆</b>——一级市场买不到的量，开始在老股市场打折出。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">S4</span>
+      <span class="risk-t">赛道层面：大模型融资占比急坠</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span>
+    </div>
+    <p>2025 年 AI 模型层公司全年仅完成 <b>22 笔投资、合计 94 亿元，同比下降 52.9%</b>；<b>大模型融资占 AI 总投资的比重从 2024 年的 51% 急坠至 14%</b>。2026 年上半年的 1,598 亿元主要是被少数几笔百亿级融资拉起来的——去掉 DeepSeek、阶跃、Kimi 三家，赛道规模会小一个量级。</p>
+  </div>
+
+  <p>行业层面的淘汰数据：有报道称 2026 年约 <b>30 家 AI 独角兽倒下</b>，行业淘汰率超 90%（媒体口径，未经独立验证）。</p>
+
+  <div class="callout warnb">
+    <div class="ct">把热度和降温放在一起读</div>
+    <p>第 01–06 节讲的是「钱很多」：半年 3,000 亿、单笔百亿频现、估值 11 个月涨 11 倍。这一节讲的是「钱很集中」：<b>三家公司拿走 30%，早期 TOP10 里没有一家纯大模型公司，赛道融资占比从 51% 掉到 14%。</b></p>
+    <p>这两件事不矛盾——<b>它们描述的是同一个现象：资本正在从「赛道」收缩到「标的」。</b>钱没有变少，是可选的公司变少了。对头部是利好，对腰部和新增玩家是关门。</p>
+  </div>
+
+  <h3>全球锚点</h3>
+
+  <p>这个结构不是中国独有。2026 年前三季度全球 VC 达 <span class="num">6,983 亿美元</span>创历史新高，AI 占 <span class="num">71%</span>；但<b>交易数量下降 23%，创多年新低</b>。全球同构的「钱多、案子少、金额大」。</p>
+</section>
+
+<section id="caveats">
+  <span class="snum">08 / 事实分层</span>
+  <h2 class="sec">哪些是事实，哪些还需要打问号</h2>
+
+  <h3>口径冲突（务必并列引用）</h3>
+  <ul class="plain">
+    <li><b>2026 上半年 AI 融资总额</b>：IT 桔子口径 <b>3,076 亿元</b>；CNNIC 口径 <b>2,501.4 亿元 / 1,255 起</b>。两家对「AI」的定义宽窄不同，<b>不可直接互换</b>。</li>
+    <li><b>大模型赛道融资额</b>：IT 桔子口径 <b>1,598.53 亿元</b>；投中嘉川口径 <b>1,318.7 亿元</b>。两家都认为占 AI 总融资过半。</li>
+    <li><b>智谱市值</b>：至少四个口径——峰值约 1 万亿港元（2026-06）、5,127 亿港元（2026-05-13 收盘）、约 3,135 亿港元（2026-10-08）、不足 5,000 亿港元（2026-10）。<b>引用必须带日期。</b></li>
+    <li><b>DeepSeek 第二轮融资额</b>：早期报道为约 500 亿元，2026-10-13 的最新报道为约 1,000 亿元（翻倍）。本报告采用最新口径并注明。</li>
+    <li><b>无问芯穹估值</b>：胡润 2026-06 榜约 80 亿元，另有报道称 Pre-IPO 约 143 亿元，两个口径差近一倍。</li>
+  </ul>
+
+  <h3>未核实 / 存疑</h3>
+  <ul class="plain">
+    <li><b>DeepSeek 的全部融资数据</b>——500 亿元首轮、3,500 亿元投前估值、1,000 亿元二轮、大基金领投、梁文锋个人出资 200 亿元——<b>全部来自媒体报道与传闻，DeepSeek 从未官方确认任何融资</b>。本报告按「未核实」处理。</li>
+    <li><b>月之暗面与阶跃星辰的估值</b>——均为媒体/投资人口径，非公司披露。阶跃星辰 2025 年营收不足 5 亿元，投资方莲花控股在公告中提示其仍处「大额亏损状态」。</li>
+    <li><b>超衍智能估值 26–40 亿元</b>——媒体按 10–15% 稀释比例<b>推算</b>，非披露。</li>
+    <li><b>元环智能、无涯智远的金额与估值</b>——均未披露或未获交叉验证。</li>
+    <li><b>硅基流动的若干负面信息</b>——「招股书数据与官方推文严重不符」「11 项发明专利」「增长负责人 IPO 前夕离职」——均为新浪科技单源，未获其他来源佐证。</li>
+    <li><b>可灵 AI 超 190 亿元融资</b>——金额显著高于同层其他案例，仅单一来源，建议后续交叉验证。</li>
+    <li><b>「约 30 家 AI 独角兽倒下」「行业淘汰率超 90%」</b>——媒体口径，未找到原始统计方法与样本范围。</li>
+  </ul>
+
+  <h3>未能获取</h3>
+  <ul class="plain">
+    <li><b>国资在 AI 融资中的整体出资比例</b>——障碍：无公开的精确统计，只有个案与政策文件。</li>
+    <li><b>国内中间层（向量数据库、数据标注、Agent 框架）的独立融资案例</b>——障碍：这一层多被算力平台公司吸收，或规模不足以进入公开报道。这是「未能获取」，不是「没有」。</li>
+    <li><b>精确到城市的 2026 年融资分布</b>——障碍：IT 桔子的城市图谱更新至 2025 年，2026 年只有上半年部分数据。</li>
+    <li><b>多数未上市公司的投前/投后估值</b>——障碍：均未披露。</li>
+    <li><b>2026 年下半年的完整数据</b>——障碍：本报告数据截止 2026-10-13，下半年尚未走完。</li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">本次调研的方法限制</div>
+    <p>本报告在 2026-10-13 完成。三项限制影响了核实深度：其一，<b>WebFetch 工具被本机网络策略全局拦截</b>，所有网页正文改由命令行直连抓取；其二，<b>本会话检索配额（200 次，所有并行调研共享）</b>在多轮并行调研中被大量消耗；其三，<b>融资数据本身高度依赖媒体报道</b>，而中国未上市公司普遍不官方确认融资，因此本报告中相当比例的金额与估值属于「媒体口径」而非「公司披露」。<b>引用时请连同来源与日期一起引用。</b></p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="snum">09 / 信息源</span>
+  <h2 class="sec">主要公开信息源</h2>
+
+  <ol class="src">
+    <li><a href="https://eu.36kr.com/zh/p/3879665206407427">上半年，VC 们的钱一半投向了 AI，光这 30 家公司就融了超 1700 亿元</a> · IT 桔子 / 36氪，2026-07-03。2026H1 融资总量、细分赛道、城市分布、阶段结构、早期 TOP10。</li>
+    <li><a href="https://www.guandian.hk/article/20260929/10013569.html">CNNIC《生成式人工智能应用发展报告（2026）》</a>。2026H1 AI 融资 2,501.4 亿元 / 1,255 起；金额达 2025 全年 182%、事件数 78%。</li>
+    <li><a href="http://www.jjckb.cn/20260728/71bff1c88f234863a2517999fefe3a64/c.html">投中嘉川：2026 上半年大模型融资数据</a> · 经济参考报。大模型融资 1,318.7 亿元口径。</li>
+    <li><a href="https://businesstimescn.com/articles/629315.html">DeepSeek 融资翻倍至千亿：五千亿估值下的算力豪赌</a> · BT 财经，2026-10-13。两轮融资明细、投资方结构、IPO 进度、V4.1-Flash 架构。</li>
+    <li><a href="https://jnzstatic.cs.com.cn/zzb/htmlInfo/dae4e17e8c134b0d9185fd555cb94d97.html">AI「卖水人」狂揽 7 亿元、月之暗面投后估值超 200 亿美元</a> · 中国证券报，2026-05-07。月之暗面融资节奏、无问芯穹业务数据。</li>
+    <li><a href="https://eu.36kr.com/zh/p/3807808383344384">智谱首破 5000 亿！六小虎与 DeepSeek 千亿估值竞赛</a> · 36氪。估值竞赛全景。</li>
+    <li><a href="https://www.tmtpost.com/8089525.html">无人再议 AI 六小龙</a> · 钛媒体。六小虎分化与收缩案例。</li>
+    <li><a href="https://wap.stockstar.com/detail/IG2026071700039707">MiniMax 从 4100 亿到 754 亿</a> · 证券之星。市值回调轨迹。</li>
+    <li><a href="https://zhidx.com/p/599642.html">累计 43 亿！国内最大 AI Infra 融资诞生，无问芯穹 C 轮拿下 23 亿</a> · 智东西，2026-10-12。</li>
+    <li><a href="https://m.caixin.com/m/2026-09-20/102486870.html">模型服务商硅基流动完成近 9 亿元新融资</a> · 财新，2026-09-20。</li>
+    <li><a href="https://www.tmtpost.com/8163998.html">边跌边配售，「吞金兽」壁仞科技准备再搞 40 亿</a> · 钛媒体，2026-10-11。壁仞累计募资与配售条款。</li>
+    <li><a href="https://finance.eastmoney.com/a/202609113871727372.html">燧原科技登陆科创板，「国产 GPU 四小龙」齐聚资本市场</a> · 东方财富。</li>
+    <li><a href="https://www.readaitime.com/news/2026-09-15/nhquzn67">国产 GPU 四小龙齐聚资本市场，合计市值 6132 亿元</a> · 智源社区。</li>
+    <li><a href="https://finance.sina.com.cn/jjxw/2026-10-08/doc-iniuphnx7568675.shtml">博裕、IDG 领投，Manus 母公司完成超 5 亿美元融资</a> · 新浪财经，2026-10-08。</li>
+    <li><a href="https://api3.cls.cn/share/article/2426300">爱诗科技 C 轮融近 30 亿：阿里领投，王慧文家族办公室现身</a> · 财联社，2026-07。</li>
+    <li><a href="https://wap.zhengguannews.cn/html/zgh/412718.html">AI 视频白刃战：爱诗再融 30 亿，四家吸金超 330 亿，BAT 全员入场</a> · 正观新闻。</li>
+    <li><a href="https://lieyunpro.com/archives/500749">AI 基建服务商潞晨科技完成数亿元 B 轮融资</a> · 猎云网，2026-03-18。</li>
+    <li><a href="https://www.chaincatcher.com/article/2272766">中国 AI 企业 P/S 超美国同行数十倍</a> · ChainCatcher。估值倍数对比。</li>
+    <li><a href="https://www.itiger.com/hans/news/2636436260">科创板日报：大模型五强格局成型</a> · 老虎证券转载。</li>
+    <li><a href="https://www.jiemian.com/article/14393095.html">老股暗流</a> · 界面新闻。创始人套现与老股折价交易。</li>
+    <li><a href="https://news.marsbit.co/20260510100413613329.html">大模型清场前夜</a> · 火星财经。淘汰率与行业收缩数据。</li>
+    <li><a href="https://www.shobserver.com/wx/detail.do?id=1151198">上海国投 2026 上半年投决数据</a> · 上观新闻。</li>
+    <li><a href="http://www.chinadevelopment.com.cn/news/zj/2026/04/1991946.shtml">广州设立 200 亿元 AI 产业投资基金</a> · 中国发展网。</li>
+    <li><a href="https://www.bebeez.eu/2026/10/12/global-venture-capital-firms-pour-698-billion-us-dollars-in-startups-at-the-end-of-3q26-cb-insights/">Global VC pours $698B into startups at end of 3Q26</a> · CB Insights。全球锚点数据。</li>
+    <li><a href="https://stcn.com/article/detail/4072661.html">面壁智能启动 A 股 IPO 辅导</a> · 证券时报。</li>
+    <li><a href="https://www.sohu.com/a/1072551201_122014422">元环智能完成天使轮融资</a> · 搜狐财经。</li>
+  </ol>
+</section>
+
+
+
+<footer>
+  <p><b>2026 年中国大模型融资全景</b> · v1 · 数据截止 2026-10-13</p>
+  <p>本报告为独立研究，不构成投资建议。所有融资金额与估值均来自公开报道或工商信息，未披露的标注为「未披露」，不做推算填充。估值口径（投前/投后）已逐条标注。</p>
+</footer>
+
+</div>
+</body>
+</html>
