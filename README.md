@@ -8,6 +8,7 @@ AI 公司与行业的深度研究报告合集。**在线阅读：<https://xi789-
 
 | 日期 | 类型 | 报告 |
 |---|---|---|
+| 2026-10-13 | 行业研究 | [大模型怎么赚钱 · 商业化路径全景](reports/llm-monetization.html) |
 | 2026-10-10 | 三方对比 | [字节 × 阿里 × 腾讯：大模型战略三方对比](reports/bigtech-llm.html) |
 | 2026-10-09 | 行业研究 | [智能驾驶行业 · 深度研究](reports/adas-industry.html) |
 | 2026-10-09 | 公司深度研究 | [阶跃星辰](reports/stepfun.html) |

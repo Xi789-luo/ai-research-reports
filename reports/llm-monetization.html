@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>大模型商业化路径</title>
+<meta name="description" content="11 家大模型公司的商业化路径全景研究：六种收钱方式、价值链分配、单位经济性，以及为什么收入在涨而利润还没出现。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+<style>
+
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">大模型商业化 · 全景</span>
+    <div class="links">
+      <a href="#modes">六种收钱方式</a>
+      <a href="#valuechain">价值链</a>
+      <a href="#labs">前沿实验室</a>
+      <a href="#cloud">云厂商</a>
+      <a href="#bigtech">中国大厂</a>
+      <a href="#challengers">中国挑战者</a>
+      <a href="#compare">横向对比</a>
+      <a href="#debates">五个分歧</a>
+      <a href="#outlook">走向与风险</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">行业研究 · 大模型商业化 · 2026</p>
+  <h1>大模型怎么赚钱</h1>
+  <p class="standfirst">11 家公司、六种收钱方式、一条被反复误读的价值链。这份报告不比较谁的模型更强，只回答一个问题：<b>每一家的钱，具体是从谁的口袋、以什么名义、按什么单位收上来的</b>——以及为什么收入在涨，利润却还没有出现。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-13</dd></div>
+    <div><dt>版本</dt><dd>v1 · 十部分 + 信息源</dd></div>
+    <div><dt>覆盖</dt><dd>11 家公司 · 中美两地</dd></div>
+    <div><dt>信息源</dt><dd>公开来源 + 券商测算</dd></div>
+  </dl>
+</header>
+
+<section class="thesis" id="thesis" style="border-top-width:2px">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>这 11 家在卖六种不同的东西，计价单位都不一样，混在一起排名次比的是会计口径，不是竞争力。</b>席位、Token、算力、项目、生态、内部提效——同一家公司往往同时用几种。按收入规模排 OpenAI 和云厂商在前，按毛利率排卖 Token 的在前，按现金流排反而是「不单卖」的腾讯最从容。</li>
+    <li><b>价值链的分配比模型能力更能解释这个行业：模型公司每赚 100 美元，35–40 美元以推理算力费的形式流向云厂商。</b>巴克莱 2026-08 的拆解显示，云厂商从这部分收入里拿到 10–20 美元营业利润，对应 35%–45% 的营业利润率。<em>模型公司在替云厂商打工，而且是自己投资的那几家云厂商</em>。</li>
+    <li><b>最反直觉的一组数字：API 的推理利润率超过 80%，高于订阅的约 70%。</b>订阅是包月定价，重度用户会吃掉利润；API 按量计费，成本可以完整转嫁。这直接推翻了「订阅更稳更值钱」的常识，也解释了下面第 5 条。</li>
+    <li><b>毛利率才是真正的分水岭，而排名出人意料。</b>DeepSeek 的 API 毛利率 <span class="num">82.9%</span>，高于 OpenAI 的整体毛利率（2026 Q1 约 <span class="num">39%</span>）、智谱（2026H1 <span class="num">26.4%</span>）、MiniMax（2026H1 <span class="num">17.9%</span>）。<em>定价最低的那家，单位经济性最好</em>——差距不在定价，在推理成本。</li>
+    <li><b>前沿实验室里，做纯 B2B API 的 Anthropic 比做 C 端订阅的 OpenAI 先摸到盈亏平衡。</b>Anthropic 毛利率从 2024 年的 <span class="num">−94%</span> 修复到 2026 年的约 <span class="num">60%</span>，Q2 录得首笔营业利润约 <span class="num">5.59 亿美元</span>，Q3 预计 GAAP EBIT 超 <span class="num">10 亿美元</span>。而 OpenAI 2026 年预计经营亏损 <span class="num">140 亿美元</span>，<em>每赚 1 美元亏 1.22 美元</em>，预计 2030 年才盈利。差别不在技术，在收入结构——以及 9 亿免费用户的成本。</li>
+    <li><b>云厂商的「AI 收入暴涨」里，有相当大一块是循环交易，不是终端需求。</b>机制是：云厂商投资实验室 → 实验室拿钱承诺采购该云厂商算力 → 云厂商把采购承诺计入积压订单。谷歌云 <span class="num">5,140 亿美元</span>积压订单里，Anthropic 一家占 <span class="num">2,000 亿美元</span>（40%+），而谷歌同时是 Anthropic 14% 的股东、承诺投资至多 400 亿美元、芯片还指定为自家 TPU。</li>
+    <li><b>唯一「账算得过来」的一类，是把 AI 藏进已有业务、不要求它独立盈利的。</b>腾讯把 AI 塞进游戏（单季 659 亿元）和广告（435.7 亿元），Google 塞进搜索与广告。它们不需要回答「AI 业务什么时候盈利」，因为 AI 的作用是让主业更快。<em>这可能是这个行业里最被低估的一种优势</em>。</li>
+    <li><b>中国有一条别人没有的路径，也正在主动放弃它。</b>智谱 FY2025 有 <span class="num">73.7%</span> 收入来自私有化部署（毛利率 48.8%）；2026H1 它把这条线砍到只剩 7%，换来了 API 收入 <span class="num">+2,735.7%</span>——代价是整体毛利率从 50.0% 腰斩到 <span class="num">26.4%</span>。用低毛利换高增长不是升级，是换轨。</li>
+  </ol>
+</section>
+
+<section id="modes">
+  <span class="snum">01 / 收钱方式</span>
+  <h2 class="sec">六种收钱方式，和它们各自的计价单位</h2>
+
+  <p class="lede">把「大模型公司」当成一个行业来比高低，是最常见的读法错误。拆开收入结构就会发现，这 11 家其实在卖六种不同的东西——计价单位都不一样，硬放在一张表里排名次，比出来的是会计口径，不是竞争力。</p>
+
+  <div class="tw">
+  <table>
+    <caption>六种收钱方式。同一家公司往往同时用多种，下表的「代表公司」指其主力方式。</caption>
+    <thead>
+      <tr><th>方式</th><th>卖的是什么</th><th>计价单位</th><th>代表公司</th><th>经济性特征</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">① 卖席位</td><td>使用权（订阅）</td><td>元 / 月 / 人</td><td>OpenAI、Anthropic、Google</td><td>毛利高但推理利润率最低（约 70%）；收入可预测，靠规模摊薄获客成本</td></tr>
+      <tr><td class="k">② 卖 Token</td><td>消耗量（API / MaaS）</td><td>元 / 百万 Token</td><td>字节、Anthropic、Kimi、DeepSeek</td><td>推理利润率最高（超 80%），但价格战最惨烈；用量弹性极大</td></tr>
+      <tr><td class="k">③ 卖算力</td><td>承载模型的机器</td><td>元 / GPU 小时</td><td>Amazon、Google、阿里、字节</td><td>重资产，回报周期 3–5 年；营业利润率约 35–45%，但 capex 吃掉自由现金流</td></tr>
+      <tr><td class="k">④ 卖项目</td><td>交付结果（私有化部署）</td><td>元 / 单项目合同</td><td>智谱、MiniMax（部分）</td><td>中国特有。现金流确定但毛利低、人力密集、回款周期长</td></tr>
+      <tr><td class="k">⑤ 卖生态</td><td>免费送模型，赚下游</td><td>间接（云消费 / 分成）</td><td>阿里、Meta、DeepSeek</td><td>模型本身不赚钱；靠下载量换云消费与开发者绑定</td></tr>
+      <tr><td class="k">⑥ 不单卖</td><td>给已有业务提效</td><td>无独立计价</td><td>腾讯、Google（搜索/广告）</td><td>唯一「账算得过来」的一类——不需要证明 AI 能独立盈利</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">为什么这个分类重要</div>
+    <p>因为「谁更成功」的答案完全取决于你问的是哪一种。<b>按收入规模排，OpenAI 和云厂商在前；按毛利率排，卖 Token 的在前；按现金流排，反而是那个「不单卖」的腾讯最从容。</b>把六种方式混在一起谈「大模型赚不赚钱」，永远得不出结论。</p>
+  </div>
+
+  <h3>一个被忽略的第七种：Agent 抽成</h3>
+
+  <p>还有一类正在成形、但截至数据截止日还没有人跑通的方式：<b>按任务或按席位对 Agent 的工作流收费</b>。它的计价单位既不是 Token 也不是席位，而是「完成的任务」。中金在单位经济模型里指出，Agent 相比传统 Chatbot，输入 Token 占比显著更大、总消耗量是 Chatbot 的几十甚至上百倍——这意味着 Agent 即使单价更低，总账也更大。</p>
+
+  <p>但这门生意的收入归属还没定：目前 Agent 消耗的算力账单算在云厂商头上，Agent 产品本身收不到这笔钱。这正是大厂做 AI 办公产品的真实动机（见第 05 节）。</p>
+</section>
+
+<section id="valuechain">
+  <span class="snum">02 / 价值链</span>
+  <h2 class="sec">钱在谁手里：一条被误读的分配链</h2>
+
+  <p class="lede">这一节回答一个具体问题：大模型公司收上来的每一百块钱，最后有多少真的留在了自己手里。两家投行的拆解给出了接近的答案，但口径并不一致——这个不一致本身，就是理解这个行业的关键。</p>
+
+  <h3>巴克莱：每 100 美元收入，35–40 美元流向云厂商</h3>
+
+  <p>巴克莱 2026-08-28 发布的 AI 行业单位经济模型研究给出了目前最清晰的分配拆解：</p>
+
+  <div class="facts">
+    <div><div class="fv">35–40 美元</div><div class="fl">模型公司每 100 美元收入中，以推理算力费形式流向 AWS / Azure / GCP 的部分</div></div>
+    <div><div class="fv">10–20 美元</div><div class="fl">云厂商从中获得的营业利润，对应约 35%–45% 营业利润率</div></div>
+    <div><div class="fv">50%–65%</div><div class="fl">AI 实验室付费推理业务利润率（2026），2025 年还是低双位数</div></div>
+    <div><div class="fv">&gt;80%</div><div class="fl">API 业务的推理利润率，高于订阅模式的约 70%</div></div>
+  </div>
+
+  <p>这条拆解里最值得记住的是最后两个数字的反差：<b>订阅的推理利润率（约 70%）低于 API（超 80%）</b>。这和大多数人的直觉相反——通常认为订阅收入更稳、更值钱。原因是订阅是包月定价，重度用户的推理成本会吃掉利润；而 API 按量计费，用多少付多少，成本可以完整转嫁。</p>
+
+  <p>巴克莱还构建了两个假设实验室来说明结构差异：</p>
+
+  <div class="tw">
+  <table>
+    <caption>巴克莱的两个假设前沿实验室模型。调整后毛利率差距 17 个百分点，全部来自收入结构而非技术能力。</caption>
+    <thead>
+      <tr><th>实验室</th><th class="n">API 占比</th><th class="n">订阅占比</th><th class="n">调整后毛利率</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">实验室 A</td><td class="n">70%</td><td class="n">30%</td><td class="n">约 55%</td></tr>
+      <tr><td class="k">实验室 B</td><td class="n">20%</td><td class="n">80%</td><td class="n">约 38%</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>换句话说：<b>在同样的技术能力下，收入结构是 API 还是订阅，能造成 17 个百分点的毛利率差距。</b>这是理解 OpenAI 和 Anthropic 财务差异的第一把钥匙。</p>
+
+  <h3>中金：Token 工厂的理论毛利率与真实毛利率</h3>
+
+  <p>中金《Token 启示录（二）：单位经济模型探讨》（2026-05-12）从成本端倒推，给出了一组更底层的数字。它以 NVL72 机柜（72 颗 GB200）为推理基座，推理 GPT-5 / Claude-4.5 级别的万亿参数模型，输出效率假设 1,000 Tokens/s：</p>
+
+  <div class="tw">
+  <table>
+    <caption>中金的 Token 单位成本与利润率测算。NVL72 单机柜 Capex 约 650 万美元，年折旧约 100 万美元。</caption>
+    <thead>
+      <tr><th>情景</th><th class="n">成本 / 利润率</th><th>说明</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">推理成本 · 算力自建</td><td class="n">约 2 美元 / 百万 Token</td><td>含折旧、电费、运维</td></tr>
+      <tr><td class="k">推理成本 · 算力租赁</td><td class="n">约 2.6 美元 / 百万 Token</td><td>参考 CoreWeave 等平台，取 10 美元/GPU 小时</td></tr>
+      <tr><td class="k">机柜全部用于出租</td><td class="n">经营利润率约 20%</td><td>纯卖算力的天花板</td></tr>
+      <tr><td class="k">机柜全部用于 Token 生产（租算力）</td><td class="n">经营利润率约 40%</td><td>即「模型溢价」</td></tr>
+      <tr><td class="k">机柜全部用于 Token 生产（自建）</td><td class="n">经营利润率超 60%</td><td>均价 4 美元 / 百万 Token 的假设下</td></tr>
+      <tr><td class="k">Token 工厂理论毛利率</td><td class="n">约 60%</td><td>自建算力情景</td></tr>
+      <tr><td class="k">海外头部实际毛利率</td><td class="n">40%–50%</td><td>The Information 报道口径</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">口径冲突 · 请勿混用</div>
+    <p>巴克莱说推理利润率 <b>50%–65%</b>，中金说实际毛利率 <b>40%–50%</b>。两个数字不矛盾，但衡量的是不同的东西：巴克莱算的是<b>推理业务本身的利润率</b>（不含训练成本分摊、不含总部费用）；中金算的是<b>含训练摊销的毛利率</b>。中金自己给的理论上限 60% 也高于实际值 40%–50%——差额就是训练成本与工程损耗。</p>
+    <p><b>引用时必须连口径一起引用。</b>单独说「大模型毛利率 60%」是不成立的。</p>
+  </div>
+
+  <h3>两个成本侧的结论</h3>
+
+  <p><b>第一，自建比租赁省不了太多。</b>自建 2 美元 vs 租赁 2.6 美元每百万 Token，差距约 23%。这意味着自建算力的意义不在单位成本，而在<b>供给确定性</b>——能拿到卡比省下的钱重要得多。这也解释了为什么各家即使亏损也要自建数据中心。</p>
+
+  <p><b>第二，推理效率才是真正的杠杆。</b>中金明确指出「推理端的 Tokens 输出效率是决定综合成本的核心因素」，并给了一个参照：英伟达 B200 在 gpt-oss（120B 小模型）上可达 60,000 Tokens/s，而万亿参数模型在同样硬件上只有 1,000 Tokens/s。<b>参数规模小、专注推理优化的国产厂商，在同等算力卡上有更优的推理效率</b>——这是国产模型敢打价格战的底层原因，而不只是「烧钱补贴」。</p>
+
+  <h3>中国模型的价格折价：5%–30%</h3>
+
+  <p>中金给出了一组对理解中国大模型商业化至关重要的数字：<b>国产模型 API 定价整体在对标海外模型的 5%–30% 不等</b>。虽然国产模型推理成本也低，但降本幅度追不上降价幅度，所以「国产模型毛利水平整体还是低于海外模型」。</p>
+
+  <p>中金同时认为国内头部与海外头部模型的能力动态差距在 <b>6–9 个月</b>，随能力追赶和 Agentic AI 渗透带来的需求上升，<b>国产价格有望提升至海外的 30%–50%</b>。这是中国大模型公司未来最确定的收入增长来源之一——不是卖得更多，是卖得更贵。</p>
+</section>
+
+<section id="labs">
+  <span class="snum">03 / 前沿实验室</span>
+  <h2 class="sec">OpenAI 与 Anthropic：同样的技术，相反的财务曲线</h2>
+
+  <p class="lede">这是全世界最贵的两家 AI 公司，也是商业结构差别最大的两家。一家把订阅卖给 9 亿人，一家把 API 卖给企业——结果先摸到盈亏平衡的是后者。</p>
+
+  <h3>OpenAI：C 端订阅规模全球第一，亏损也全球第一</h3>
+
+  <p>OpenAI 的收入曲线本身就是这个行业最陡的一条：2026 年 2 月年化约 <span class="num">250 亿美元</span>，8 月突破 <span class="num">400 亿美元</span>，9 月底向投资者私下披露年化接近 <span class="num">500 亿美元</span>，年底目标 700 亿美元。</p>
+
+  <div class="callout warnb">
+    <div class="ct">口径冲突 · 40% 的差距</div>
+    <p>同一时点（2026 年 9 月底）存在两个数字：OpenAI 私下披露的接近 <b>500 亿美元</b>，与同期媒体仍广泛引用的逼近 <b>700 亿美元</b>。相差 40%。可能源于统计范围、收入确认方式，或<b>关联方收入</b>（算力信用额度计入营收）的处理差异。<em>两个数字都来自私下披露、均未经审计</em>，而这条直接决定其估值基础。本报告并列呈现，不作取舍。</p>
+  </div>
+
+  <p>收入结构上，OpenAI 是<b>订阅主导</b>：超过 65% 来自 C 端订阅，个人订阅约占 40%。但 CFO 向股东披露的一个转折值得注意——<b>企业收入已经超过 ChatGPT</b>。也就是说，它正在悄悄向 Anthropic 的结构靠拢。</p>
+
+  <p>成本侧才是问题所在。2026 年预计经营亏损 <span class="num">140 亿美元</span>，现金消耗约 170 亿美元，其中<b>推理成本单项就有 141 亿美元</b>。折算下来：<b>每赚 1 美元，亏 1.22 美元</b>，预计 2030 年才盈利。</p>
+
+  <p>拖累毛利率的结构性因素是免费用户。OpenAI 有 9 亿以上免费用户，<b>每人每月成本约 0.70 美元，合计拖累毛利率 20–30 个百分点</b>。这是「C 端规模第一」的代价——规模在这里不是优势，是负债。</p>
+
+  <p>算力侧的承诺规模同样惊人：合计超过 <span class="num">1.4 万亿美元</span>——Oracle 超 3,000 亿、Azure 2,500 亿（至 2032）、AWS 约 1,380 亿、Stargate 5,000 亿。2026 年 5 月 22 日它保密递交了 S-1，原目标 9 月上市、估值 8,520 亿至 1 万亿美元，<b>后推迟至 2027</b>。与微软的独家授权协议正在重新谈判，Stargate 也从「自建」转向「转租」。</p>
+
+  <h3>Anthropic：纯 B2B API，反而先转正</h3>
+
+  <p>Anthropic 的收入曲线更陡：2025 年底约 <span class="num">90 亿美元</span> → 2026 年 5 月 470 亿 → 2026 年 7 月底突破 <span class="num">650 亿美元</span>。2026 Q2 单季营收超 115 亿美元。<b>不到一年增长逾 7 倍。</b></p>
+
+  <p>它的结构与 OpenAI 正好相反：<b>75%–85% 来自企业级 API 调用，订阅只占 15%，个人订阅仅 5%</b>。增长的核心变量是 Claude Code——它把调用从「单次对话」变成了「持续消耗 Token 的工作流」。这正是第 02 节里 API 利润率高于订阅的那个机制在真实业务上的体现。</p>
+
+  <div class="tw">
+  <table>
+    <caption>两家的单位经济性对照。Anthropic 毛利率为媒体/券商测算口径，OpenAI 毛利率来自 The Information 报道。</caption>
+    <thead>
+      <tr><th>指标</th><th>OpenAI</th><th>Anthropic</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">收入结构</td><td>C 端订阅 &gt;65%</td><td>企业 API 75–85%</td></tr>
+      <tr><td class="k">最新年化收入</td><td>约 500 亿美元（私下披露）<br>媒体另有 700 亿口径</td><td>&gt;650 亿美元（2026-07）</td></tr>
+      <tr><td class="k">毛利率</td><td>约 39%（2026 Q1）</td><td>约 60%（2026），2024 年为 −94%</td></tr>
+      <tr><td class="k">盈利状态</td><td>预计 2026 经营亏损 140 亿美元<br>每赚 1 美元亏 1.22 美元</td><td>Q2 首笔营业利润约 5.59 亿美元<br>Q3 预计 GAAP EBIT 超 10 亿美元</td></tr>
+      <tr><td class="k">盈利时间表</td><td>预计 2030 年</td><td>已在盈亏平衡附近</td></tr>
+      <tr><td class="k">算力成本结构</td><td>承诺超 1.4 万亿美元</td><td>向 SpaceX 月付 12.5 亿美元至 2029-05<br>与谷歌签五年 2,000 亿美元协议</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>更值得注意的是企业市场的份额已经反转：<b>34.4% 的美国企业为 Anthropic 付费，OpenAI 为 32.3%；企业 LLM 市场份额 Anthropic 32%、OpenAI 25%</b>。Anthropic 借道 AWS Bedrock 和 Azure Foundry 分发需要支付约 20% 的收入分成，但换来了更低的获客成本——这是一笔算得过来的交易。</p>
+
+  <p>它的效率指标也在改善：<b>每兆瓦算力产生的 ARR 从 1,600 万美元提升到预计 6,000 万美元</b>。市场给出的定价是：预计 10 月以约 <span class="num">2 万亿美元</span>估值上市，PS 约 30.8 倍。</p>
+
+  <div class="callout">
+    <div class="ct">这一节的核心</div>
+    <p>两家公司的技术能力处于同一梯队，但财务曲线完全相反。<b>差别不在模型，在卖给谁、按什么单位收钱。</b>OpenAI 卖订阅给 9 亿人，其中绝大多数不付费却产生成本；Anthropic 卖 API 给企业，用多少付多少，成本完整转嫁。巴克莱测算的「API 推理利润率 80% vs 订阅 70%」这个 10 个百分点的差距，在规模上被放大成了「一个还在年亏 140 亿，一个已经季度盈利」。</p>
+  </div>
+</section>
+
+<section id="cloud" class="wide">
+  <span class="snum">04 / 云厂商</span>
+  <h2 class="sec">Amazon 与 Google：这条价值链上唯一稳定赚钱的一环</h2>
+
+  <p class="lede">如果第 02 节的结论是「模型公司在替云厂商打工」，那这一节要看的就是：这个「雇主」到底赚了多少，以及它的收入里有多少是真的。</p>
+
+  <h3>Google：云增速 82%，但四成积压订单来自一家自己投资的公司</h3>
+
+  <p>Alphabet 2026 Q2 总营收 <span class="num">1,198 亿美元</span>（+24.23%），营业利润 407.7 亿美元，利润率 34%。其中 <b>Google Cloud 营收 247.68 亿美元，同比 +82%，营业利润同比 +212%，利润率 35.6%</b>。云占总营收比重从去年同期的 14% 升到 20% 以上。</p>
+
+  <p>最刺眼的数字是<b>云积压订单首次突破 5,000 亿，达 5,140 亿美元</b>。但拆开看：<b>Anthropic 一家承诺五年内向谷歌云支付约 2,000 亿美元、采购 5GW 的 TPU 算力，占这笔积压订单的 40% 以上。</b>而谷歌同时是 Anthropic 14% 的股东，承诺投资至多 400 亿美元，芯片还指定为自家 TPU。</p>
+
+  <p>成本侧：Q2 资本支出 <span class="num">449.24 亿美元</span>（同比翻倍），2026 全年指引从 1,800–1,900 亿上调至 <b>1,950–2,050 亿美元</b>，2027 年还将「显著增加」。Q2 自由现金流为 <b>−58.55 亿美元</b>。融资动作包括增发 496 亿美元、发行 203 亿美元高级无担保债券、筹备 400 亿美元 ATM。</p>
+
+  <p>模型侧的进展是 Gemini App 月活 <b>9.5 亿</b>，每分钟处理 <b>220 亿 API Token</b>，近 90% 的财富 100 强采用 Gemini Enterprise。云市场份额从 12% 提升到 14%。</p>
+
+  <h3>Amazon：唯一给出 AI 单独口径的云厂商</h3>
+
+  <p>AWS 2026 Q2 营收 <span class="num">422.3 亿美元</span>（+36.7%），是 2021 年以来 18 个季度里最快的增速，连续五季加速；年化运行率 1,690 亿美元。<b>营业利润率 39.4%，是三大云里最高的。</b>AWS 占 Amazon 营收约 21%，却贡献了 60% 以上的营业利润。</p>
+
+  <p>关键的一点：<b>Amazon 是三家里唯一给出 AI 单独口径的——AI 业务与自研芯片业务的年化运行率各突破 250 亿美元，均三位数增长。</b>这让它成为唯一可以真正横比的样本。谷歌只披露云总营收，微软口径更杂，直接横比会失真。</p>
+
+  <p>自研芯片在这里是财务事件而非技术事件：<b>Trainium2 性价比优于同类 GPU 约 30%，已基本售罄</b>；Trainium3 再提升 30–40%，产能几乎订满。Jassy 称大规模部署 Trainium 每年可省下数百亿美元 capex，并带来数百个基点的营业利润率优势。2026 年资本开支指引从 2,000 亿上调至 <span class="num">2,200 亿美元</span>，且他明确表示「即使到这个水平，2026 年仍产能不足，2027 年同样」。</p>
+
+  <p>绑定关系上，Anthropic 追加投资至多 250 亿美元、使用 100 万颗以上 Trainium2、锁定 5GW；<b>OpenAI 也承诺消耗约 2GW 的 Trainium</b>——即在微软之外，OpenAI 同样向亚马逊买算力。Bedrock 走的是另一条路：不做自研模型垄断，做多云托管市场，积压订单 4,960 亿美元创新高，且<b>尚未计入 Anthropic 那笔 1,000 亿美元以上的协议</b>。</p>
+
+  <div class="callout riskb">
+    <div class="ct">最重要的一条：循环交易</div>
+    <p>云厂商的「AI 收入暴涨」里，有相当大一块不是终端需求，而是<b>循环交易</b>。机制是：云厂商投资实验室 → 实验室拿这笔钱承诺采购该云厂商的算力 → 云厂商把采购承诺计入积压订单。</p>
+    <p>谷歌云 5,140 亿积压订单里 Anthropic 占 2,000 亿（40%+），而谷歌同时是 Anthropic 的股东、投资人、芯片供应商——四个角色叠在一起。亚马逊的 4,960 亿积压订单里，Anthropic 与 OpenAI 的承诺同样是主要构成。</p>
+    <p><b>所以看到「AI 收入暴涨」，必须问三个问题：</b>① 这钱是不是来自自己投资的公司？② 记的是「已确认收入」还是「积压订单」？③ 是「云总营收」还是「其中 AI 部分」？三个问题里任何一个不澄清，这个数字就不能用来做判断。</p>
+  </div>
+</section>
+
+<section id="bigtech">
+  <span class="snum">05 / 中国大厂</span>
+  <h2 class="sec">阿里、字节、腾讯：三种活法，和三种透明度</h2>
+
+  <p class="lede">这三家都在做 AI，但「AI 收入」这个词在它们财报里的含义完全不同——一家写进财报，一家只在内部定目标，一家混进游戏和广告。</p>
+
+  <h3>阿里：三家里唯一被财报直接验证的路径</h3>
+
+  <p>阿里走的是「开源引流、云变现」，2026 年的数据第一次让这条路被验证：</p>
+
+  <div class="facts">
+    <div><div class="fv">30%+</div><div class="fl">AI 相关收入占阿里云外部商业化收入比重，首次突破</div></div>
+    <div><div class="fv">+45%</div><div class="fl">2026 年 6 月季度云收入同比，AI 云与算力服务同增 45%</div></div>
+    <div><div class="fv">22 季新高</div><div class="fl">阿里云外部收入 +40%，增速创 22 个季度新高</div></div>
+    <div><div class="fv">3 个月翻倍</div><div class="fl">中信证券口径：MaaS ARR 三个月翻倍</div></div>
+  </div>
+
+  <p>把第 01 节里阿里那条「卖生态」的路径拿出来对照：Qwen 在 Hugging Face 的下载量全球第一，换来了开发者的默认选择，再换来云消费——<b>这个飞轮现在有了财报数字支撑</b>。大和预计其次财季云收入同比增逾 50%。</p>
+
+  <p>成本侧同样是重投入：AI 相关产品 ARR 358 亿元，单季资本开支 676.78 亿元（+75%），三年 3,800 亿计划，自由现金流 −173 亿元。自研芯片方面，平头哥真武 V900 发布，算力达前代 3 倍，<b>2027 年春季量产</b>。</p>
+
+  <h3>字节：从「把 Token 做成独立生意」降格为「基础业务」</h3>
+
+  <p>这是本报告里最值得注意的一次叙事转向。字节 2026 年的 MaaS 目标是 <span class="num">150 亿元</span>（2025 年底定的还是 100 亿，且几乎每月上调）——而 <b>2025 年全年 MaaS 收入只有约 15 亿元，也就是说 2026 年的目标是一年前的 10 倍</b>。增长几乎全部来自 Seedance 2.0，单月营收超 10 亿元；Token 日均消耗量保持月度近 40% 的增速。</p>
+
+  <p>但 2026 年 6 月 23 日，梁汝波罕见现身 FORCE 大会，说了一句很关键的话：<b>「火山 MaaS 业务正在变成字节的基础业务，我们的投入将长期且坚定。」</b>同时宣布三年价格战收官，叙事从「低价破局」转向「生产质变点、产业价值、全栈能力」。</p>
+
+  <div class="callout warnb">
+    <div class="ct">为什么「独立生意 → 基础业务」是实质性后退</div>
+    <p>「独立生意」意味着这门业务要自己承担盈亏、证明单位经济性；「基础业务」意味着它是基础设施，可以长期投入、不必短期算账。<b>措辞的变化，把 MaaS 从「要交卷的业务」重新定位成了「要长期补贴的底座」。</b>结合字节净利率从 2023 年的 26%、2024 年的 21% 降到 2026 年的约 16.7%，这个转向是可以理解的。</p>
+  </div>
+
+  <p>字节同时在自研芯片上加码：SeedChip 与三星洽谈代工，计划 2026 年前产出 10 万颗自研 AI 推理芯片。</p>
+
+  <h3>腾讯：三家里商业化最不透明的一家</h3>
+
+  <p>腾讯是唯一不把大模型单独立成收入项的公司，它把 AI 塞进微信、游戏、广告这些已经跑通的现金流业务。2026 年它第一次把账单部分摊开：<b>Q1 为 AI「补交」88 亿元，单季 AI 投入约 370 亿元</b>。</p>
+
+  <p>但透明度问题依然存在，有三个具体表现：</p>
+
+  <ul class="plain">
+    <li><b>收入只能倒推。</b>至今不单列 AI 收入，只能通过「剔除新 AI 产品影响后的经营利润」反推——2026 Q2 剔除 AI 影响后 Non-IFRS 经营利润增速从 9% 提升到 19%，这是<b>倒推口径，不是披露口径</b>。</li>
+    <li><b>表述自相矛盾。</b>关于算力出租，业绩会出现过「不准备出租算力」与「算力出租是安全垫」两种相反说法，均无一手原文可核。</li>
+    <li><b>AI 收入被混入游戏与广告。</b>AI 提效计入既有业务，无法剥离出 AI 本身的单位经济性。</li>
+  </ul>
+
+  <p>不过有一条新信息值得记下：<b>腾讯云收入增速从 Q1 的同比高十几加速到 Q2 的低二十几</b>，官方归因于 AI 相关需求、国际扩张及通用云使用量与定价提升。这说明腾讯也在赚「卖云」的钱，只是不在财报里单独说。业绩会口径还提到 WorkBuddy 付费用户毛利率「相当不错」。</p>
+
+  <p>高盛给腾讯的重新定价理由很能说明问题：<b>「模型之外，14 亿用户才是更深的护城河。」</b>——这正是第 01 节「不单卖」那一类的价值所在。</p>
+
+  <div class="tw">
+  <table>
+    <caption>三家中国大厂 AI 商业化的对照。字节数据来自 36 氪「独家」单源，未获交叉验证。</caption>
+    <thead>
+      <tr><th>维度</th><th>阿里</th><th>字节</th><th>腾讯</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">主力收钱方式</td><td>卖生态 + 卖云</td><td>卖 Token</td><td>不单卖（内部提效）</td></tr>
+      <tr><td class="k">AI 收入是否进财报</td><td><span class="chip ok">是</span> 占比首破 30%</td><td><span class="chip no">否</span> 仅有内部目标</td><td><span class="chip no">否</span> 混入游戏与广告</td></tr>
+      <tr><td class="k">最新规模信号</td><td>云收入 +45%，MaaS ARR 三月翻倍</td><td>MaaS 目标 150 亿元（去年实收 15 亿）</td><td>单季 AI 投入约 370 亿元</td></tr>
+      <tr><td class="k">单季资本开支</td><td class="n">676.78 亿元（+75%）</td><td class="n">未披露</td><td class="n">527.84 亿元（+176%）</td></tr>
+      <tr><td class="k">自由现金流</td><td class="n">−173 亿元</td><td class="n">未披露</td><td class="n">−138 亿元</td></tr>
+      <tr><td class="k">透明度</td><td><span class="chip ok">最高</span></td><td><span class="chip mid">中</span></td><td><span class="chip no">最低</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section id="challengers">
+  <span class="snum">06 / 中国挑战者</span>
+  <h2 class="sec">Kimi、DeepSeek、MiniMax、智谱：四家都在卖 Token，毛利差 4 倍</h2>
+
+  <p class="lede">这四家常被放在一起比较，但它们的毛利率差距大到不像同一个行业。而差距的来源不是定价，是推理成本。</p>
+
+  <h3>DeepSeek：毛利率全行业最高，定价却全行业最低</h3>
+
+  <p>这是本报告里最反直觉的一组数字。2026 年 1–7 月，DeepSeek 营收 <span class="num">4.75 亿元</span>（约为 2025 年全年的 10 倍），净亏 7.15 亿元。但它的 <b>整体毛利率 44.6%，API 业务毛利率高达 82.9%</b>。</p>
+
+  <p>对照一下：<b>82.9% 的 API 毛利率，高于 OpenAI 的整体毛利率（约 39%），是智谱 API 分部（24.6%）的 3.4 倍。</b>而 DeepSeek 的定价是全行业最低的——V4-Pro 输出 Token 在引入峰谷计费后为高峰 3.96 美元、非高峰 1.98 美元每百万 Token，对照 Kimi K3 的 15 美元、Claude Opus 5 的 25 美元。</p>
+
+  <p><b>这意味着它的成本结构可能是中国唯一能撑住价格战的。</b>高毛利来自推理基础设施优化——用更少的芯片跑同样的模型。这也印证了中金第 02 节的那个判断：参数规模小、专注推理优化的厂商在同等算力卡上有更优的推理效率。</p>
+
+  <p>风险在支出侧：<b>AI 基建支出从 2025 年的 12 亿元暴增到 2026 年前 7 个月的 110 亿元，接近 10 倍。</b>6 月完成首轮融资 500 亿元，二轮再募 500 亿元、投前估值 5,000 亿元，科创板 IPO 目标 2027 年挂牌。<em>那个 82.9% 的毛利率能不能在 110 亿基建砸下去之后守住，是接下来最该盯的数。</em></p>
+
+  <h3>智谱：用毛利率腰斩换来的「API 转型成功」</h3>
+
+  <p>智谱是中国大模型公司里唯一把两条路线都完整走过一遍的样本，也因此最能说明换轨的代价。</p>
+
+  <div class="tw">
+  <table>
+    <caption>智谱的换轨过程。FY2025 为私有化部署主导，2026H1 已切换为 API 主导。</caption>
+    <thead>
+      <tr><th>指标</th><th class="n">FY2025</th><th class="n">2026H1</th><th>变化</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">营收</td><td class="n">7.24 亿元</td><td class="n">9.54 亿元</td><td>+131.9% → +399.7%</td></tr>
+      <tr><td class="k">API 收入占比</td><td class="n">15.2%</td><td class="n">86.5%</td><td>API 收入 +2,735.7%</td></tr>
+      <tr><td class="k">私有化部署占比</td><td class="n">73.7%</td><td class="n">7%</td><td>本地化部署收入 −54.6%</td></tr>
+      <tr><td class="k">整体毛利率</td><td class="n">41.0%</td><td class="n">26.4%</td><td><b>腰斩</b></td></tr>
+      <tr><td class="k">API 分部毛利率</td><td class="n">−0.4%</td><td class="n">24.6%</td><td>转正</td></tr>
+      <tr><td class="k">净亏损</td><td class="n">—</td><td class="n">20.72 亿元</td><td>研发 21.31 亿元，是收入的 2.2 倍</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>读这张表的正确方式不是「API 转型成功」。<b>86.5% 的 API 占比，是靠主动砍掉毛利率 48.8% 的私有化业务换来的——那条线的毛利率是 API 的两倍。</b>整体毛利率因此从 50.0% 腰斩到 26.4%。这不是升级，是换轨。</p>
+
+  <p>运营侧有一组很有意思的数字：Token 调用量较年初 <b>+40 倍</b>，单位推理成本较年初 <b>−80%</b>，但 <b>API 均价反而 +101%</b>——低价 Flash 放量、Coding 订阅与大客户拉高了均价。智谱自述的路径是「卖模型 → 卖调用 → 卖订阅 → 卖端到端任务结果」。</p>
+
+  <p>资金上，2026 年 7 月按 1,588 港元/股配售募资约 314 亿港元。但销售费用增速远超收入——销售成本 +635.4%，说明获客成本正在吃掉规模效应。市值峰值时 P/S 曾超 500 倍。</p>
+
+  <h3>MiniMax：B 端占比一年翻倍，但毛利率四家里最低</h3>
+
+  <p>MiniMax 的底色是海外 C 端产品，但 2026 年上半年发生了一次结构性翻转：</p>
+
+  <ul class="plain">
+    <li>FY2025 营收 7,900 万美元（+158.9%），<b>73.0% 来自中国大陆以外</b>，AI 原生应用占 67.2%，销售费用反而 −40.3%（典型产品驱动）</li>
+    <li>2026H1 收入 1.1657 亿美元（+283.1%，已超 2025 全年），<b>B 端占比从 30.3% 翻转到 63.4%</b>（+703.1%），C 端仅 +100.9%</li>
+    <li><b>B:C 从 3:7 翻转为 7:3</b></li>
+  </ul>
+
+  <p>但毛利率是四家里最低的：<b>整体毛利率 17.9%</b>（较上年 +5.7 个百分点），研发 2.97 亿美元（+138.8%），经调整净亏损 2.93 亿美元、同比扩大 111.2%。另有一项外部风险：迪士尼、环球、华纳起诉 Hailuo AI，索赔金额可能达 7,500 万美元。</p>
+
+  <h3>月之暗面：估值涨最快，商业模式最新</h3>
+
+  <p>Kimi 的 Pre-IPO 融资已完成，估值约 <span class="num">500 亿美元</span>，计划 2027 年 Q1 赴港 IPO，目标年销售额 20 亿美元。</p>
+
+  <p>但真正值得记的是一个新信号：<b>它正在与微软、亚马逊、谷歌洽谈 Kimi K3 的收益分成协议</b>——也就是把开源权重变成向云厂商收成的通道。这是「开源商业化」的第二个样本（第一个是阿里的 Qwen 分成计划）。<em>如果这条路走通，开源模型第一次有了独立于云的收入来源。</em></p>
+</section>
+
+<section id="compare" class="wide">
+  <span class="snum">07 / 横向对比</span>
+  <h2 class="sec">毛利率才是分水岭，而排名和直觉相反</h2>
+
+  <p class="lede">把所有公司的毛利率放在一张表里，这个行业的真实结构才会显形。收入规模排名和毛利率排名几乎完全相反。</p>
+
+  <div class="tw">
+  <table>
+    <caption>各家毛利率对照。口径不一：DeepSeek 与 OpenAI 为非公开/媒体口径，智谱与 MiniMax 为港股财报实收。横比时请注意期间差异。</caption>
+    <thead>
+      <tr><th>公司</th><th>期间</th><th class="n">整体毛利率</th><th class="n">API / 平台分部</th><th>口径可信度</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="k">Anthropic</td><td>2026 Q2</td><td class="n">约 63%</td><td class="n">推理毛利 70–85%</td><td><span class="chip mid">测算</span></td></tr>
+      <tr><td class="k">DeepSeek</td><td>2026 1–7 月</td><td class="n">44.6%</td><td class="n">82.9%</td><td><span class="chip no">非公开数据</span></td></tr>
+      <tr><td class="k">OpenAI</td><td>2026 Q1</td><td class="n">约 39%</td><td class="n">—</td><td><span class="chip mid">媒体报道</span></td></tr>
+      <tr><td class="k">智谱</td><td>2026H1</td><td class="n">26.4%</td><td class="n">24.6%</td><td><span class="chip ok">财报实收</span></td></tr>
+      <tr><td class="k">MiniMax</td><td>2026H1</td><td class="n">17.9%</td><td class="n">—</td><td><span class="chip ok">财报实收</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl">Anthropic</div><div class="bar-track"><div class="bar-fill" style="width:63%"></div></div><div class="bar-val">约 63%</div></div>
+    <div class="bar-row"><div class="bar-lbl">DeepSeek</div><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div><div class="bar-val">44.6%</div></div>
+    <div class="bar-row"><div class="bar-lbl">OpenAI</div><div class="bar-track"><div class="bar-fill" style="width:39%"></div></div><div class="bar-val">约 39%</div></div>
+    <div class="bar-row"><div class="bar-lbl">智谱</div><div class="bar-track"><div class="bar-fill warnf" style="width:26%"></div></div><div class="bar-val">26.4%</div></div>
+    <div class="bar-row"><div class="bar-lbl">MiniMax</div><div class="bar-track"><div class="bar-fill warnf" style="width:18%"></div></div><div class="bar-val">17.9%</div></div>
+  </div>
+  <p class="scale-note">整体毛利率对照。注意 DeepSeek 的 API 分部毛利率 82.9% 远高于其整体值——差额来自其非 API 业务与基建摊销。</p>
+
+  <h3>三条从这张表里读出来的结论</h3>
+
+  <p><b>第一，毛利率与收入规模无关，与「卖什么」有关。</b>OpenAI 年化收入约 500 亿美元，是 DeepSeek 的百倍量级，但毛利率低 5 个百分点以上。<b>规模没有带来单位经济性的改善</b>——因为它的规模建立在 9 亿免费用户之上。</p>
+
+  <p><b>第二，中国公司之间 4 倍的毛利差距，来自推理效率而非定价。</b>DeepSeek 定价最低、毛利最高（82.9%）；智谱和 MiniMax 定价更高、毛利更低。<b>这直接反驳了「中国模型公司只能靠低价内卷」的判断</b>——真正拉开差距的是单位推理成本，也就是工程能力。</p>
+
+  <p><b>第三，订阅和私有化部署都是「看起来稳、其实拉低毛利」的收入。</b>OpenAI 的订阅结构拉低毛利率（免费用户成本 + 重度用户消耗）；智谱的私有化部署毛利率 48.8%，看起来不错，但相对 API 的理想值仍是拖累，且人力密集、回款周期长（应收账款曾占营收 47%）。</p>
+
+  <div class="callout">
+    <div class="ct">一个统一的解释</div>
+    <p>把第 02 节和第 07 节合起来看，这个行业的毛利率排序其实由一件事决定：<b>收入是否与成本同比例增长</b>。API 按量计费，用多少付多少，成本完整转嫁——所以毛利最高。订阅是固定价格面对变动成本，重度用户吃掉利润。私有化部署是固定价格面对固定人力成本，规模不经济。免费用户是纯成本、零收入。</p>
+    <p><b>凡是「定价与消耗脱钩」的模式，毛利都会被侵蚀。</b>这是这份报告里最可迁移的一条结论。</p>
+  </div>
+</section>
+
+<section id="debates">
+  <span class="snum">08 / 五个分歧</span>
+  <h2 class="sec">这个行业真正在争的五件事</h2>
+
+  <h3>分歧一：订阅和 API，哪个更值钱？</h3>
+
+  <p><b>证据站在 API 一边，但市场定价站在订阅一边。</b>巴克莱的测算是 API 推理利润率超 80%、订阅约 70%；Anthropic 靠纯 API 结构先转正，OpenAI 靠订阅结构年亏 140 亿。但 OpenAI 的估值目标（1 万亿美元）一度高于 Anthropic（2 万亿）——不过 2026 年这个关系已经反转。</p>
+
+  <p>这个分歧的实质是：<b>订阅买的是「用户关系」，API 买的是「成本转嫁」。</b>前者在获客成本高企时更贵，后者在价格战时更脆。目前还没有定论。</p>
+
+  <h3>分歧二：开源到底怎么赚钱？</h3>
+
+  <p>三个样本，三条不同的路，都还没跑完：</p>
+
+  <ul class="plain">
+    <li><b>阿里</b>：开源引流 → 卖云。目前唯一被财报验证的（AI 收入占比破 30%，云 +45%）</li>
+    <li><b>月之暗面</b>：把开源权重变成向云厂商收成的通道——正与微软、亚马逊、谷歌洽谈 Kimi K3 收益分成</li>
+    <li><b>DeepSeek</b>：开源 + 极低定价，靠推理效率撑住 82.9% 的 API 毛利</li>
+  </ul>
+
+  <p>共同点是：<b>没有一家靠「卖模型权重」赚钱。</b>开源的变现全部发生在模型之外——云、分成、或者效率优势带来的成本领先。</p>
+
+  <h3>分歧三：卖模型还是卖云？</h3>
+
+  <p>第 02 节的数字给了倾向性答案：<b>模型公司每 100 美元收入，35–40 美元流向云厂商。</b>如果这个分配比例稳定，那么「卖云」在结构上优于「卖模型」。</p>
+
+  <p>但有一个反例：<b>DeepSeek 的 API 毛利率 82.9%，意味着它的推理成本被压到极低，它在很大程度上绕开了这个分配。</b>方式是自建基建（110 亿元投入）加上推理优化。这条路很重，但如果成立，它就是唯一能跳出「替云厂商打工」的模型公司。</p>
+
+  <h3>分歧四：AI 一定要独立盈利吗？</h3>
+
+  <p>腾讯和 Google 给出的答案是不需要。腾讯把 AI 塞进游戏（单季 659 亿元）和广告（435.7 亿元）；Google 塞进搜索与广告，整体营业利润率 34%。<b>它们不需要回答「AI 业务什么时候盈利」，因为 AI 的作用是让主业更快。</b></p>
+
+  <p>这可能是这个行业里最被低估的一种优势：<b>当竞争对手还在为 AI 的独立单位经济性挣扎时，这一类公司已经在用 AI 改善现金流了。</b>高盛给腾讯的重新定价理由就是这句话——「模型之外，14 亿用户才是更深的护城河」。</p>
+
+  <h3>分歧五：云厂商的 AI 收入，有多少是真的？</h3>
+
+  <p>这是最需要警惕的一条。<b>循环交易让「AI 收入」这个数字部分失真。</b>谷歌云 5,140 亿积压订单里 40% 以上来自 Anthropic，而谷歌同时是 Anthropic 的股东、投资人和芯片供应商。</p>
+
+  <p>判断方法在第 04 节已经给出：问三个问题——钱是否来自自己投资的公司、记的是已确认收入还是积压订单、是云总营收还是其中 AI 部分。<b>亚马逊是唯一能完整回答这三家的（AI 与芯片业务各 250 亿美元以上年化），谷歌只披露云总营收，腾讯完全不披露。</b></p>
+</section>
+
+<section id="outlook">
+  <span class="snum">09 / 走向与风险</span>
+  <h2 class="sec">接下来该盯什么</h2>
+
+  <h3>三个可能的方向</h3>
+
+  <p><b>价格战从「降价」转向「提价」。</b>中金认为国产模型定价有望从对标海外的 5%–30% 提升到 30%–50%；字节 2026 年 6 月宣布三年价格战收官；智谱的 API 均价在成本下降 80% 的同时反而上涨 101%。<b>三个独立信号指向同一件事：靠降价换份额的阶段正在结束。</b>如果这个转向成立，中国大模型公司的收入增长会从「量」切换到「价」。</p>
+
+  <p><b>「卖 Token」的赢家会向推理效率集中。</b>既然毛利差距来自推理成本而非定价，那么竞争会从模型能力转向工程效率。自研芯片（Trainium 性价比优 30%、真武 V900、SeedChip）和推理优化（量化、推测解码）的财务价值会超过模型榜单上的名次。</p>
+
+  <p><b>循环交易会被重新定价。</b>当云厂商的积压订单越来越依赖自己投资的公司，市场迟早会开始区分「真实终端需求」和「关联方承诺」。这个区分一旦发生，部分 AI 收入的估值倍数会重构。</p>
+
+  <h3>主要风险</h3>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R1</span>
+      <span class="risk-t">推理利润率回落</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span>
+    </div>
+    <p>巴克莱明确提示，当前 50%–65% 的推理利润率「未来某个阶段仍会出现一定程度的回落」，原因是前沿模型竞争加剧与算力供给增加。整个行业的盈利改善建立在这个利润率能守住的前提上。</p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R2</span>
+      <span class="risk-t">资本开支与回报周期错配</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>最高</em></span>
+    </div>
+    <p>阿里单季资本开支 676.78 亿元、Google 2026 指引 1,950–2,050 亿美元、Amazon 2,200 亿美元、OpenAI 算力承诺超 1.4 万亿美元——而吴泳铭说的「AI 算力资本开支三年回本」尚未被验证。三家的自由现金流已同时转负（阿里 −173 亿、腾讯 −138 亿、Google −58.55 亿美元）。<b>如果回报周期长于融资窗口，这个行业会出现系统性的再融资压力。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R3</span>
+      <span class="risk-t">收入口径不可比</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span>
+    </div>
+    <p>OpenAI 同一时点有 500 亿与 700 亿两个年化数字；巴克莱指出收入确认方式（总额法 vs 净额法）的差异会让财务报表可比性越来越低，并类比为 Uber 与 Lyft 的差异。<b>这意味着「谁增长更快」这个判断本身可能建立在不可比的数据上。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R4</span>
+      <span class="risk-t">版权与合规成本显性化</span>
+      <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span>
+    </div>
+    <p>MiniMax 的 Hailuo AI 面临迪士尼、环球、华纳的诉讼，索赔可能达 7,500 万美元——接近其半年收入的三分之二。对毛利率本就很低（17.9%）的公司，这类成本可能是决定性的。</p>
+  </div>
+</section>
+
+<section id="caveats">
+  <span class="snum">10 / 事实分层</span>
+  <h2 class="sec">哪些是事实，哪些还需要打问号</h2>
+
+  <h3>已核实（附一手来源）</h3>
+  <ul class="plain">
+    <li>巴克莱 AI 行业单位经济模型研究（2026-08-28）：模型公司每 100 美元收入中 35–40 美元流向三大云；云厂商获得 10–20 美元营业利润（35%–45% 营业利润率）；推理利润率 50%–65%；API 推理利润率超 80%、订阅约 70%；两个假设实验室毛利率差 17 个百分点——<a href="https://www.chinastarmarket.cn/detail/2468651">财联社报道</a></li>
+    <li>中金《Token 启示录（二）：单位经济模型探讨》（2026-05-12）：NVL72 单机柜 Capex 约 650 万美元；推理成本自建约 2 美元、租赁约 2.6 美元每百万 Token；Token 工厂理论毛利率约 60%；海外头部实际毛利率 40%–50%；国产模型定价为海外对标的 5%–30%；国内外能力差距 6–9 个月——<a href="https://finance.sina.com.cn/stock/stockzmt/2026-05-12/doc-inhxqvav0027415.shtml">中金研究</a></li>
+    <li>Alphabet 2026 Q2：总营收 1,198 亿美元（+24.23%）、营业利润 407.7 亿美元；Google Cloud 247.68 亿美元（+82%）、利润率 35.6%；云积压订单 5,140 亿美元；Q2 资本支出 449.24 亿美元；2026 全年指引上调至 1,950–2,050 亿美元；自由现金流 −58.55 亿美元</li>
+    <li>Amazon 2026 Q2：总营收首破 2,000 亿美元；AWS 422.3 亿美元（+36.7%）、年化 1,690 亿美元、营业利润率 39.4%；AI 与自研芯片业务年化各突破 250 亿美元；2026 资本开支指引上调至 2,200 亿美元</li>
+    <li>Anthropic 收入年化突破 650 亿美元（2026-07 底）——<a href="https://www.bloomberg.com/news/articles/2026-08-17/anthropic-revenue-run-rate-surpasses-65-billion-ahead-of-ipo">Bloomberg 2026-08-17</a></li>
+    <li>智谱 2026H1 财报：营收 9.54 亿元（+399.7%）、API 收入 8.25 亿元（+2,735.7%）、整体毛利率 26.4%、净亏 20.72 亿元——港股财报实收</li>
+    <li>MiniMax 2026H1 财报：收入 1.1657 亿美元（+283.1%）、B 端占比 63.4%、毛利率 17.9%——港股财报实收</li>
+    <li>阿里 FY2026 首次披露 AI 相关产品年化收入 358 亿元；2026 年 6 月季度云收入 +45%；外部收入 +40% 创 22 季新高</li>
+    <li>腾讯 2026 Q2 资本开支 527.84 亿元（+176%）、自由现金流 −138 亿元、Non-IFRS 经营利润 756.4 亿元（剔除 AI 影响为 861 亿元）</li>
+    <li>火山引擎 2026 年 4 月将 MaaS 营收目标上调至 150 亿元；2025 年全年 MaaS 收入约 15 亿元；梁汝波 2026-06-23 FORCE 大会发言——<a href="https://eu.36kr.com/zh/p/3836973710423429">36 氪独家</a></li>
+  </ul>
+
+  <h3>未核实 / 存疑</h3>
+  <ul class="plain">
+    <li><b>OpenAI 的年化收入</b>——同一时点（2026-09 底）存在 500 亿与 700 亿美元两个数字，相差 40%，均来自私下披露、未经审计。可能源于统计范围、收入确认方式或关联方收入处理。<b>证伪方式：</b>S-1 公开文件。</li>
+    <li><b>DeepSeek 的 4.75 亿元营收与 82.9% API 毛利率</b>——来自 The Information 的非公开数据，非公司披露，未获交叉验证。这条数字如果成立，是本报告最重要的发现之一，但可信度等级低于港股财报。</li>
+    <li><b>字节的 MaaS 目标与实收</b>——150 亿目标与 15 亿实收均来自 36 氪「独家」单源，未能交叉验证。字节未上市，无审计口径。</li>
+    <li><b>腾讯「算力出租」的官方立场</b>——业绩会出现过「不准备出租算力」与「算力出租是安全垫」两种相反表述，未能获取一手原文，引用需谨慎。</li>
+    <li><b>Anthropic 的 63% 毛利率与 Q3 EBIT 超 10 亿美元</b>——为媒体/券商测算与预告口径，非已披露财报。</li>
+    <li><b>月之暗面与微软/亚马逊/谷歌的收益分成洽谈</b>——「正在洽谈」阶段，无签约证据，且开源分成模式尚无先例跑通。</li>
+    <li><b>智谱市值的时点差异</b>——2026 年 9 月口径约 5,200 亿港元，2026-10-08 口径约 3,135 亿港元，引用须带日期。</li>
+  </ul>
+
+  <h3>未能获取</h3>
+  <ul class="plain">
+    <li><b>Google Cloud 中 AI 部分的单独收入</b>——障碍：谷歌只披露云总营收，不拆分 AI 贡献。因此本报告无法将 Google 与 Amazon 的 AI 收入直接横比。</li>
+    <li><b>OpenAI 的绝对毛利率与订阅收入金额</b>——障碍：仅有「免费用户拖累毛利率 20–30 个百分点」的相对表述，无绝对值。</li>
+    <li><b>腾讯 AI 收入的具体拆分</b>——障碍：官方不单列，且 AI 提效被混入游戏与广告收入，无法剥离。</li>
+    <li><b>火山引擎总营收规模</b>——障碍：仅有 MaaS 子项目标，无整体口径。</li>
+    <li><b>三家中国大厂自研芯片的单位成本对比</b>——障碍：属供应链商业机密，无公开一手数据。</li>
+    <li><b>微软 Azure 的 AI 收入口径</b>——障碍：本报告聚焦用户指定的 11 家，微软作为 OpenAI 的算力与分发方仅在第 03、04 节作为关系方提及，未做独立调研。</li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">本次调研的方法限制</div>
+    <p>本报告在 2026-10-13 完成。两项环境限制影响了核实深度：其一，<b>WebFetch 工具被本机网络策略全局拦截</b>，所有网页正文改由命令行直连抓取；其二，<b>本会话检索配额（200 次，所有并行调研共享）</b>在四组并行调研中被大量消耗，部分条目因此未能交叉验证。因此「未能获取」清单中的部分条目，障碍是工具限制而非信息本身不存在，建议后续补查。</p>
+    <p>另需注意：本报告大量引用券商测算（巴克莱、中金、中信证券、大和、高盛、花旗）。<b>这些测算的假设与方法未经独立验证</b>，引用时应连同机构与日期一起引用。</p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="snum">11 / 信息源</span>
+  <h2 class="sec">主要公开信息源</h2>
+
+  <ol class="src">
+    <li><a href="https://www.chinastarmarket.cn/detail/2468651">巴克莱拆解 AI 经济账：模型公司每赚 100 美元，云厂商拿走近 40 美元</a> · 财联社，2026-08-30。价值链分配、推理利润率、两个假设实验室模型、收入确认方式差异。</li>
+    <li><a href="https://finance.sina.com.cn/stock/stockzmt/2026-05-12/doc-inhxqvav0027415.shtml">中金 | Token 启示录（二）：单位经济模型探讨</a> · 中金研究，2026-05-12。Token 单位成本、单机柜经济模型、国产定价折价。</li>
+    <li><a href="https://www.bloomberg.com/news/articles/2026-08-17/anthropic-revenue-run-rate-surpasses-65-billion-ahead-of-ipo">Anthropic Revenue Run Rate Surpasses $65 Billion Ahead of IPO</a> · Bloomberg，2026-08-17。</li>
+    <li><a href="https://qz.com/openai-revenue-run-rate-70-billion-enterprise-sales-092926">OpenAI revenue run rate</a> · Quartz，2026-09-29。700 亿美元口径。</li>
+    <li><a href="https://finance.eastmoney.com/a/202607233818200072.html">Alphabet 2026 Q2 财报速览</a> · 东方财富。云营收、积压订单、资本开支、自由现金流。</li>
+    <li><a href="https://stcn.com/article/detail/4052030.html">Amazon 2026 Q2 业绩</a> · 证券时报。AWS 营收、营业利润率、AI 与芯片业务年化。</li>
+    <li><a href="https://www.tmtpost.com/7940812.html">智谱与 MiniMax 财报拆解</a> · 钛媒体。毛利率、收入结构、私有化部署占比、诉讼风险。</li>
+    <li><a href="https://businesstimescn.com/articles/624834.html">智谱 2026H1 财报分析</a> · BT 财经。API 收入增速、毛利率变化。</li>
+    <li><a href="https://finance.eastmoney.com/a/202608263854756996.html">MiniMax 2026H1 业绩</a> · 21 世纪经济报道。B 端占比翻转、毛利率。</li>
+    <li><a href="https://www.bianews.com/news/details?id=244352">DeepSeek 财务数据</a> · The Information 转载。营收、毛利率、基建支出。</li>
+    <li><a href="https://eu.36kr.com/zh/p/3836973710423429">火山引擎 MaaS 营收目标上调</a> · 36 氪独家，2026-06-03。</li>
+    <li><a href="https://finance.eastmoney.com/a/202606243781808355.html">梁汝波 FORCE 大会发言</a> · 东方财富，2026-06-24。</li>
+    <li><a href="https://www.cnstock.com/commonDetail/714249">阿里 AI 收入占比首破 30%</a> · 上海证券报，2026-05。</li>
+    <li><a href="https://www.stcn.com/article/detail/3910101.html">腾讯首次摊开 AI 账单</a> · 证券时报。</li>
+    <li><a href="https://hk.stockstar.com/IG2026081300019609.shtml">腾讯 2026 Q2 业绩会实录</a> · 证券之星。</li>
+    <li><a href="https://www.c114.net.cn/industry/97912.html">SemiAnalysis Tokenomics：每兆瓦算力 ARR</a> · c114 转载。</li>
+    <li><a href="https://www.geekwire.com/2026/amazon-doubles-down-on-anthropic-with-25b-investment-mirroring-its-openai-cloud-deal/">Amazon doubles down on Anthropic with $25B investment</a> · GeekWire。绑定关系与 Trainium 采购。</li>
+    <li><a href="https://www.tmtpost.com/7978008.html">Anthropic 与谷歌云 2,000 亿美元协议</a> · 钛媒体。</li>
+    <li><a href="https://tech.cnr.cn/gstj/20260618/t20260618_527666178.shtml">大模型 API 降价释放了三重信号</a> · 央广网，2026-06-18。</li>
+    <li><a href="https://www.stcn.com/article/detail/3924587.html">DeepSeek 为何敢于逆市降价</a> · 证券时报。</li>
+    <li><a href="https://www.36kr.com/p/3913592805758342">智谱爆火后，一线投资人的钱投向哪里</a> · 36 氪。中国 NeoLab 估值与融资节奏。</li>
+    <li><a href="https://www.c114.net.cn/industry/119566.html">智谱与 MiniMax 专家纪要：ARR 爆发式增长</a> · c114。</li>
+  </ol>
+</section>
+
+
+
+<footer>
+  <p><b>大模型商业化路径 · 全景研究</b> · v1 · 数据截止 2026-10-13</p>
+  <p>本报告为独立研究，不构成投资建议。所有 ARR 均为年化运行率口径、非审计收入；所有市场份额均注明机构与年份。券商测算部分标注了来源机构，其假设与方法未经独立验证。</p>
+</footer>
+
+</div>
+</body>
+</html>
