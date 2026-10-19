@@ -8,6 +8,7 @@ AI 公司与行业的深度研究报告合集。**在线阅读：<https://xi789-
 
 | 日期 | 类型 | 报告 |
 |---|---|---|
+| 2026-10-19 | 组织与激励 | [从一张纸到一笔钱 · 大模型公司期权体系](reports/llm-equity-system.html) |
 | 2026-10-13 | 融资盘点 | [2026 年中国大模型融资全景](reports/cn-llm-funding.html) |
 | 2026-10-13 | 行业研究 | [大模型怎么赚钱 · 商业化路径全景](reports/llm-monetization.html) |
 | 2026-10-10 | 三方对比 | [字节 × 阿里 × 腾讯：大模型战略三方对比](reports/bigtech-llm.html) |

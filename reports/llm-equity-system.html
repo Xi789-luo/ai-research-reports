@@ -1,0 +1,1784 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>从一张纸到一笔钱 · 大模型公司期权体系</title>
+<meta name="description" content="大模型公司从创立到上市，期权/股权体系如何搭建与迭代：五个阶段的设计要点、机制设计、架构与税务、与业务人才组织的耦合、司法判例、失败案例与行动清单">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+</style>
+<style>
+.tw tr.grp td{background:var(--surface-2);border-top:1px solid var(--rule);font-size:13.5px;letter-spacing:.02em}
+.tw tr.sum td{background:var(--surface-2);border-top:1px solid var(--rule)}
+.tw tr.sum td.k{font-weight:700}
+.tw td .chip{vertical-align:middle}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="inner">
+    <span class="brand">期权体系 · 从创立到上市</span>
+    <div class="links">
+      <a href="#thesis">结论先行</a>
+      <a href="#problem">三个问题</a>
+      <a href="#bench">参照系</a>
+      <a href="#stages">五个阶段</a>
+      <a href="#mechanics">机制设计</a>
+      <a href="#legal">架构与税务</a>
+      <a href="#coupling">与业务人才组织</a>
+      <a href="#lessons">兑现≠到手</a>
+      <a href="#disputes">纠纷与司法</a>
+      <a href="#checklist">行动清单</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">组织与激励研究 · 大模型赛道 · 2026</p>
+  <h1>从一张纸到一笔钱</h1>
+  <p class="standfirst">大模型公司从创立走到上市，期权体系该怎么搭、什么时候改、改的时候对老员工怎么交代——用八家公司的真实条款回答。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-19</dd></div>
+    <div><dt>版本</dt><dd>v1 · 12 节（结论 + 9 节分析 + 信息源）</dd></div>
+    <div><dt>核心结论</dt><dd>期权方案的核心产出物不是「给多少」，而是一套让员工能自己算出来的规则</dd></div>
+    <div><dt>样本公司</dt><dd>字节跳动 · 智谱 · MiniMax · Momenta · 月之暗面 · 阶跃星辰 · DeepSeek（+ OpenAI / Anthropic 对照）</dd></div>
+  </dl>
+</header>
+
+<section id="thesis">
+  <span class="snum">00</span>
+  <h2 class="sec">结论先行</h2>
+
+  <div class="thesis">
+    <ol>
+      <li>
+        <b>期权方案的核心产出物不是「给多少」，而是一套让员工能自己算出来的规则。</b>
+        员工不会按「估值 × 比例」给期权定价，他按「我什么时候能拿到钱、能拿到多少」定价。<em>估值锚点、行权价、归属表、回购价、回购期限——这五项里缺任何一项，员工就会在心里把期权记为零，然后退回现金口径跟你谈判。</em>而在这个市场里，现金谈判你必输：Meta 用过 1 亿美元的签字奖金挖人，字节 2026 年的 AI 资本开支超过 2,000 亿元人民币。两条对照最鲜明：DeepSeek 在零外部融资时期现金给到高于市场 30%–50%，期权却因无估值、无流通而持续失血；智谱与 MiniMax 上市后期权价值膨胀接近 10 倍，留人压力骤降。
+      </li>
+      <li>
+        <b>中国公司实际走出了三条路，选择哪一条决定了 HR 的全部工作重点。</b>
+        <b>第一条是「制度化回购」</b>——字节把非上市公司做成了准二级市场：每年 4 月与 10 月两轮回购、公司自有现金流出资、在职与离职双轨价，2026 年 10 月的在职回购价为 241.35 美元/股，七年间几乎不间断上涨。<b>第二条是「上市兑现」</b>——智谱、MiniMax、Momenta 在 2026 年相继上市，期权从纸面变成市价。<b>第三条是「长期无锚」</b>——DeepSeek 坚持零融资，期权无估值、无流通渠道，直到 2026 年首轮融资才专门增发 5% 的 ESOP（约 175 亿元）给期权第一次定价。<em>三条路的成本结构完全不同：第一条烧公司的现金流，第二条烧时间和上市确定性，第三条烧人。</em>
+      </li>
+      <li>
+        <b>阶段决定该定什么——四个阶段各有一件必须做对的事，做早了是浪费，做晚了是事故。</b>
+        <b>创立期（0–20 人）</b>定的是<em>池子</em>：行业经验值 10%–15%（完全稀释后），科创板 138 家样本的员工持股均值是 9.32%；<b>成长期（A/B 轮）</b>定的是<em>归属与税务形式</em>：4 年 + 1 年 cliff 是硅谷惯例，但更关键的是「走持股平台还是直接持股」——这个选择决定了员工能不能享受递延纳税；<b>扩张期（C/D 轮）</b>定的是<em>回购与流动性</em>：每轮补池 2%–5%，同时开始为离职员工设计退出路径；<b>Pre-IPO</b> 定的是<em>架构与清理</em>：穿透后股东人数必须低于 200 人，且要处理「上市前授予、上市后行权」不能享受上市公司优惠计税的问题。
+      </li>
+      <li>
+        <b>中国期权方案最大的隐藏成本在架构与税务上，而不在授予数量上——这一条几乎所有人都会算错。</b>
+        两个硬事实：<b>①</b> 员工通过持股平台持股属于间接持股，<em>不适用财税〔2016〕101 号的递延纳税政策</em>（国家税务总局福州市税务局 2025-04-24 明确答复），意味着行权价差要按「工资、薪金所得」并入综合所得，<b>最高边际税率 45%，而不是 20%</b>；<b>②</b> 上市前授予、上市后行权的期权，按国税函〔2009〕461 号第七条第（二）款，<em>不适用上市公司的单独计税优惠</em>。这两个规则叠加的结果是：<b>同样一笔期权，方案设计不同，员工到手可能差 20 多个百分点</b>。本报告给出一个算例：10 万股、行权价 1 元、公允价 10 元、最终以 30 元转让，递延情形下税负 58 万元（20%），不递延情形下高薪员工约 80.5 万元——差的 22.5 万元全部来自那笔从未变现的行权价差被按 45% 计税。
+      </li>
+      <li>
+        <b>「兑现」和「到手」之间隔着三样东西：锁定期、行权成本、股价。</b>
+        MiniMax 是最典型的样本：发行价 165 港元，3 月最高 1,330 港元（市值超 4,100 亿），<b>7 月 14 日收 230 港元，较高点跌去 83%</b>，而员工股份仍锁至 2027 年 1 月——自媒体口径称人均纸面财富从峰值约 4,200 万元回落至约 1,200 万元。<em>「暴富」是纸面的，回撤是实时的。</em>另一层成本更隐蔽：行业通行的期权协议是<b>离职后 90 天行权窗口、过期作废，且行权要自掏现金</b>，在估值飙升而上市时点不确定的窗口期，多数人跨不过这道坎。融中财经的判断值得引用：「期权作为留人工具被广泛发放，但变现通道的设计，始终由公司单方面掌握。」
+      </li>
+      <li>
+        <b>期权体系必须和组织形态匹配，否则会出现「无级可定」的技术难题。</b>
+        月之暗面约 300 人、无部门无职级无 OKR，期权无法「按级别定档」。它的解法是<b>用「提前授予」替代「按级定档」</b>——校招「穿越计划」面向 2027 届毕业生，实习 3–6 个月考察后<b>直接授予期权股数，即使本人尚未毕业</b>，且几乎不设专业、学历、经验限制（首批 16 人）。<em>这是一个在无职级组织里被逼出来的设计，但它恰好也解决了另一个问题：在期权单价快速攀升的阶段，提前一年授予的激励效果远大于一年后加钱。</em>反过来，字节在 2025 年 12 月把总包类期权从「一次发 4 年」改为「一次发 3 年」、同时提高现金占比，则说明即便是最成熟的公司，也会在某个阶段主动把激励从股权往现金回调。
+      </li>
+    </ol>
+  </div>
+</section>
+<section class="wide" id="problem">
+  <span class="snum">01</span>
+  <h2 class="sec">期权体系要解决的三个问题</h2>
+
+  <p class="lede">期权方案看起来是一套法律文本，实际上是在回答三个互相冲突的问题。<em>任何一套期权体系的成败，都可以还原成它在这三件事上的取舍是否自洽。</em>先想清楚这三个问题，再去看具体条款，才不会抄错。</p>
+
+  <h3 class="sub"><span class="subn">01.1</span>问题一：现金永远拼不过，需要非线性回报</h3>
+
+  <p>在大模型这个赛道，用现金对拼是一条必输的路。三条证据：</p>
+
+  <ul class="plain">
+    <li><b>对手的出价没有上限。</b>Meta 曾以 1 亿美元的签字奖金挖 OpenAI 的人（Sam Altman 公开确认过这个数字）；字节 2026 年 AI 基础设施资本开支上调至超 2,000 亿元人民币。</li>
+    <li><b>市场价本身在通胀。</b>2026 年一线算法研究员的基准线已经是年薪 200 万以上，「去年还是 100 万+」；塔尖的上亿年包每家公司只有几个人，超千万的每家 10–20 人。</li>
+    <li><b>现金是线性成本。</b>给一个人加 50% 现金，等于把这个成本永久写进固定支出；而公司在大模型赛道上的现金流本身就不确定。</li>
+  </ul>
+
+  <p>所以期权（或任何形式的股权激励）在这类公司里不是「薪酬的一个组成部分」，而是<em>唯一能提供非线性回报的工具</em>。这是它存在的根本理由——也是它必须被认真设计的原因。<b>一个不能被定价、不能被兑现的期权方案，等于没有给；而一个设计粗糙的方案，比不给更伤</b>——因为它消耗了员工的信任额度，却什么也没换来。</p>
+
+  <h3 class="sub"><span class="subn">01.2</span>问题二：非上市股权在员工眼里可能等于零</h3>
+
+  <p>这是本文最重要的一条，也是中国大模型公司最容易踩的坑。<b>员工不会按「估值 × 比例」给手里的期权定价，他会按「我什么时候能拿到钱、能拿到多少」来定价。</b>如果这两个问题答不上来，他在心里给期权记的价就是零——然后他会用现金口径跟你谈判，而在现金上你必输。</p>
+
+  <p>两条对照鲜明的证据：</p>
+
+  <div class="tw">
+    <table>
+      <caption>同一个问题的两种结局：股权的「确定性」决定它值多少</caption>
+      <thead><tr><th>公司</th><th>股权状态</th><th>员工的实际感知</th><th>结果</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>DeepSeek</b></td>
+          <td>坚持零外部融资；期权无外部估值、无法流通、归属期长</td>
+          <td>手里那张纸无法计算价值，也无法变成钱</td>
+          <td>即便现金给到高于市场 30%–50%、内推奖金 20 万，仍持续失血——V4 技术报告近 300 名作者中有 10 人标注「已离职」，覆盖基座、推理、OCR、多模态四条主线</td>
+        </tr>
+        <tr>
+          <td class="k"><b>智谱 / MiniMax</b></td>
+          <td>完成港股上市；有公开市价与明确锁定期</td>
+          <td>可以每天看到自己手里值多少钱，也知道什么时候能卖</td>
+          <td>上市后期权价值膨胀接近 10 倍，留人压力骤降</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>由此得到本报告的第一条设计原则：期权方案的核心产出物不是「给多少」，而是「一套让员工能自己算出来的规则」。</b>估值锚点、行权价、归属表、回购价与回购期限——这五项里缺任何一项，员工就会退回现金口径。</p>
+
+  <div class="callout warnb">
+    <div class="ct">一个必须警惕的反面样本</div>
+    <p>字节在 2022 年经历过一次教科书级的信任危机：当年<b>期权授予价 195 美元、回购价 155 美元，回购价与授予价倒挂</b>，离职员工回购价再打七五折，倒挂更严重；叠加「上市无期」，员工在内部论坛上公开讨论「要不要赎回、上市后价格会不会腰斩」。<em>这说明即便是一家把回购做成制度性福利的公司，一旦价格倒挂，期权立刻从激励变成负债。</em>价格的连续性本身就是承诺的一部分。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">01.3</span>问题三：普惠与集中之间的取舍</h3>
+
+  <p>第三个问题没有正确答案，只有取舍。<b>期权池是有限的，而「给谁」这件事会同时影响留人效果和组织公平感。</b></p>
+
+  <p>两种做法在现实中都有成功案例，但代价不同：</p>
+
+  <ul class="plain">
+    <li><b>普惠路线（覆盖多数员工）：</b>好处是全员绑定、文化一致；代价是人均额度小，对最关键的少数人不够有说服力。字节 2019 年的「年终奖换期权」覆盖绩效 M 及以上（约 60%+ 员工），属于这一类。</li>
+    <li><b>集中路线（重投关键少数）：</b>好处是把资源压在真正决定胜负的人身上；代价是内部的横向不公平感。字节 2025 年 9 月为 Seed 部门单独发放期权津贴（按绩效职级每人每月价值 9 万 / 11 万 / 13.5 万元，按月归属、首批连续 18 个月），直接引发了内部争议——<em>员工的原话是「干同样的活，群里一半 A 部门、一半 Seed，Seed 多 100 万」，「眼睁睁看着 Seed 的 2-1 秒杀自己这边的 3-2」</em>。</li>
+  </ul>
+
+  <p><b>这里的关键判断是：集中投放本身没错，错在没有配套的解释机制。</b>当一家公司用「同一个职级体系」管理所有人，却对不同部门给出差异巨大的股权时，员工会用「公平」而不是「业务重要性」来理解这件事。可用的解法有两个：把差异<em>写进业务叙事</em>（Seed 是独立定价、独立风险的事业，因此单独给股），或者<em>把差异放进职级体系</em>（用职级而不是部门来承载差异）。字节后来的做法是两者都做——2026 年 1 月启用新职级体系 L1–L10，同时为 AI 业务单开「豆包股」。</p>
+
+  <div class="facts">
+    <div><div class="fv">0.02 美元</div><div class="fl">字节 2019 年那轮换购的行权价。低到这个程度，期权本质上等同于 RSU——<em>行权价不是激励强度的来源，定价与回购机制才是</em></div></div>
+    <div><div class="fv">半年一次</div><div class="fl">字节自 2021 年起固化的回购频率（每年 4 月 / 10 月）。把非上市公司做成了一个准二级市场，这是中国最独特的制度创新</div></div>
+    <div><div class="fv">9–10 年</div><div class="fl">字节期权持有者全部变现所需的时间，远长于上市公司的 4 年周期。这是「制度性流动性」的另一面</div></div>
+    <div><div class="fv">1%</div><div class="fl">字节 2022 年 9 月从全部股份中增发用于扩大员工期权池的比例，同期把激励计划延长 10 年</div></div>
+  </div>
+</section>
+<section class="wide" id="bench">
+  <span class="snum">02</span>
+  <h2 class="sec">参照系：八家公司的期权体系对照</h2>
+
+  <p class="lede">这一节把八家公司放在同一张表上——七家中国公司加两家美国实验室。选择它们的理由是：<em>它们分别处在这条路径的不同位置上，而且恰好构成一条完整的序列</em>——从「零融资、期权无估值」的 DeepSeek，到「已上市、条款全披露」的 Momenta，中间是各种过渡形态。</p>
+
+  <h3 class="sub"><span class="subn">02.1</span>总览对照</h3>
+
+  <div class="tw">
+    <table>
+      <caption>八家公司期权体系对照（数据均连口径与日期；未披露项明确标注为「未披露」而非留空）</caption>
+      <thead>
+        <tr>
+          <th>公司</th><th>阶段</th><th>期权池</th><th>行权价</th><th>归属</th><th>回购 / 流动性</th><th>员工覆盖面</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>字节跳动</b><br><span class="muted">长期不上市</span></td>
+          <td>成熟期，无上市时间表</td>
+          <td>2022-09 增发全部股份的 <b>1%</b> 扩大期权池；总量未披露</td>
+          <td>极低（2019 年那轮 <b>0.02 美元</b>）——<b>本质等同 RSU</b></td>
+          <td>早期 4 年（15/25/25/35）；总包类 2025 年前为 4 年（20/25/25/30），2025-12 起改为 <b>3 年（30/30/40）</b></td>
+          <td><b>制度化回购</b>：每年 4 月 / 10 月两轮，公司自有现金流；2026-10 在职价 <b>241.35 美元/股</b></td>
+          <td>2019 年「年终奖换期权」覆盖绩效 M 及以上（约 60%+）；2025-09 起 Seed 部门另有专项津贴</td>
+        </tr>
+        <tr>
+          <td class="k"><b>智谱</b><br><span class="muted">02513.HK</span></td>
+          <td>已上市（2026-01-08）</td>
+          <td>员工持股平台合计 <b>15.15%</b>（发行后）；452 人持股 = 883 名员工的 <b>51.2%</b></td>
+          <td>期权 <b>RMB 1.00–2.00</b>；限制性股份 RMB 0.10–2.00</td>
+          <td>服务条件 + 业绩条件（未逐条披露）；2025-06 股改后全部期权替换为限制性股份，保留原节奏</td>
+          <td><b>离职可保留已归属</b>；未归属由平台 GP（刘德兵）或其指定主体<b>按原始认购价回购</b>；上市后 12 个月锁定</td>
+          <td>452 人（含前员工）；智登平台另有 16 名「顾问」实为全职实习生</td>
+        </tr>
+        <tr>
+          <td class="k"><b>MiniMax</b><br><span class="muted">00100.HK</span></td>
+          <td>已上市（2026-01-09）</td>
+          <td>MiniMax Gene 持 <b>6.84%</b>（发行后）；<b>392 名承授人</b>（含实习生与前员工）→ 接近全员持股</td>
+          <td>面值至 <b>US$0.8</b>；两位最早核心成员为 <b>US$0.002</b></td>
+          <td>授出日至 6 年；上市后新计划行使价 ≥ 授出日收盘价与 5 日均价孰高</td>
+          <td>Pre-IPO 计划上市后不再授出；2026-06-23 首次上市后授予 116.88 万股，<b>购买价为零、不设 KPI</b>、归属 13 个月至 6 年</td>
+          <td>392 人 / 385 名全职员工，几乎全员</td>
+        </tr>
+        <tr>
+          <td class="k"><b>Momenta</b><br><span class="muted">6880.HK</span></td>
+          <td>已上市（2026-07-08）</td>
+          <td>2016 计划上限 3,103 万股 + 2025 计划上限 1,721 万股；<b>全额行权稀释约 16.85%</b></td>
+          <td><b>US$1.93–13.16</b>；早期部分为 <b>Nil（零）</b>；2025-12-31 未行权加权均价 US$2.8738</td>
+          <td>三种模式：24 个月等额月度 / 满 1 年 25% + 36 个月 / 满 2 年 50% + 24 个月</td>
+          <td>招股书<b>未见公司回购权条款</b>；上市后进入二级市场</td>
+          <td>1–49,999 股区间有 <b>1,578 人</b>——长尾极厚</td>
+        </tr>
+        <tr>
+          <td class="k"><b>月之暗面</b><br><span class="muted">上市途中</span></td>
+          <td>股改完成，目标 2027 Q1 港股</td>
+          <td><b>未披露</b></td>
+          <td><b>未披露</b></td>
+          <td><b>未披露</b></td>
+          <td><b>有回购机制</b>，且 2025-12-31 内部信承诺「计划大幅上调期权回购额度」；具体价格未披露</td>
+          <td>2025 年激励覆盖 <b>324 人</b>；「穿越计划」给 2027 届毕业生授期权，首批 16 人</td>
+        </tr>
+        <tr>
+          <td class="k"><b>阶跃星辰</b><br><span class="muted">上市途中</span></td>
+          <td>股改完成，是否递表未坐实</td>
+          <td><b>未披露</b></td>
+          <td><b>未披露</b></td>
+          <td><b>未披露</b></td>
+          <td><b>未披露</b></td>
+          <td><b>未披露</b>（公司总人数亦未披露，仅知硬件团队超 500 人）</td>
+        </tr>
+        <tr>
+          <td class="k"><b>DeepSeek</b><br><span class="muted">长期零融资</span></td>
+          <td>2026 年才完成首轮外部融资</td>
+          <td>首轮融资<b>专门增发 5% ESOP（约 175 亿元）</b>——这是其期权第一次获得市场化定价</td>
+          <td><b>未披露</b></td>
+          <td><b>未披露</b></td>
+          <td>首轮融资前<b>无估值、无流通渠道</b>；融资后投资人股份锁定 5 年（国资基金直投除外）</td>
+          <td><b>未披露</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>OpenAI / Anthropic</b><br><span class="muted">对照</span></td>
+          <td>均未上市，接近 IPO</td>
+          <td>—</td>
+          <td>OpenAI 的 PPU 员工<b>只知道美元价值、不知道持有单位数</b></td>
+          <td>OpenAI 4 年（2025-08 取消 6 个月 cliff）；Anthropic pre-IPO RSU，4 年 + 1 年 cliff 后按月</td>
+          <td><b>事件驱动 tender offer</b>：OpenAI 约 70 亿美元 @8,520 亿估值，600+ 人单日套现 66 亿；Anthropic 3,500 亿估值 tender，<b>员工惜售</b></td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">怎么读这张表</div>
+    <p>表里最重要的信息不是那些填了数字的格子，而是<b>七个「未披露」</b>。月之暗面、阶跃星辰、DeepSeek 三家的期权池、行权价、归属期<em>全部没有公开信息</em>——这不是调研疏漏，而是这个行业的常态：<b>只有走到上市的公司，才会被迫把期权条款写进公开文件。</b>因此本报告在涉及这三家时，只陈述有据可查的部分（例如「有回购机制」「增发 5% ESOP」），<em>不对未披露的数字做任何推测填充</em>。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.2</span>字节跳动：把「准二级市场」做成制度</h3>
+
+  <p>字节是中国最长、最完整的非上市股权激励样本。它的核心创新不在期权本身——<b>它的期权行权价低到 0.02 美元/股，本质等同 RSU</b>，与上市公司的限制性股票无异——而在于<b>用公司自有现金流，把一家非上市公司做成了一个准二级市场</b>。</p>
+
+  <p>制度要点：<b>每年 4 月和 10 月两轮回购</b>（对应绩效考评周期），在职与离职员工走双轨价。这条时间序列本身是报告里最有说服力的一张图——它记录了七年间一条几乎不间断的上涨曲线：</p>
+
+  <div class="tw">
+    <table>
+      <caption>字节历年员工期权回购价（美元/股，税前）</caption>
+      <thead><tr><th>时间</th><th class="n">在职回购价</th><th class="n">离职回购价</th><th>对应估值 / 备注</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2019-04</td><td class="n">32.86</td><td class="n">26.29</td><td>44 美元/股 ≈ 660 亿美元估值</td></tr>
+        <tr><td class="k">2021-04</td><td class="n">126</td><td class="n">—</td><td>—</td></tr>
+        <tr><td class="k">2021-10</td><td class="n">132</td><td class="n">—</td><td>起点价（九派口径）</td></tr>
+        <tr><td class="k">2022-04</td><td class="n">142</td><td class="n">—</td><td>+7.04%</td></tr>
+        <tr><td class="k">2022-10</td><td class="n">155</td><td class="n">116</td><td>+9.15%；<b>同期授予价 195 美元，回购价与授予价倒挂</b></td></tr>
+        <tr><td class="k">2023-04</td><td class="n">160</td><td class="n">—</td><td>+3.23%</td></tr>
+        <tr><td class="k">2024-04</td><td class="n">170.81</td><td class="n">—</td><td>+6.25%</td></tr>
+        <tr><td class="k">2024-10</td><td class="n">180.7</td><td class="n">—</td><td>+0.48% / +5.79% 两说</td></tr>
+        <tr><td class="k">2025-04</td><td class="n">189.90</td><td class="n">161.42</td><td>折合人民币 1,363.14 元</td></tr>
+        <tr><td class="k">2025-10</td><td class="n">200.41</td><td class="n">180.37</td><td>折合 1,424.01 元 / 1,281.62 元</td></tr>
+        <tr><td class="k">2026-01</td><td class="n">226.07</td><td class="n">—</td><td><span class="chip mid">存疑</span> 单一来源，员工称未收到正式通知</td></tr>
+        <tr><td class="k">2026-04</td><td class="n">229.5</td><td class="n">201.96</td><td>折合 1,588 元 / 1,397.44 元；≈ 4,000–4,500 亿美元估值</td></tr>
+        <tr><td class="k">2026-10</td><td class="n">241.35</td><td class="n">业务调整离职者不打折</td><td>全员信口径</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>三个值得单独指出的细节：</b></p>
+
+  <ul class="plain">
+    <li><b>双轨价在持续收窄，这是一条清晰的「人才声誉修复」曲线。</b>离职价历史上是在职价的 <b>75%–80%</b>（2022 年），2025 年 10 月起收窄到约 <b>9 折</b>，2026 年 10 月起对「因业务调整离职」者<b>不打折</b>。<em>打折的本质是惩罚离职；把折扣一路收到零，等于承认「离职是正常事件」</em>——这对一个要在几百人的人才池里反复打交道的人来说，比多给几个点更有价值。</li>
+    <li><b>两条估值线并行，且公开市场明显更高。</b>公司回购员工期权对应的估值（2026-04 约 4,000–4,500 亿美元）低于老股转让估值（同期 <b>5,500–6,000 亿美元</b>）。这个价差是「内部价」与「外部价」的差额，也是员工感知中「公司占了多少」的来源。</li>
+    <li><b>回购规则在 2026 年 10 月被细化到「每笔授予分别计算」。</b>总包类每批次归属后可回购 50%，之后每满 1 年 +10%；绩效类在 2026-01-01 及之后授予的，归属后 55%，之后每满 1 年 +15%。<em>这种颗粒度的规则，是「回购从福利变成制度」的标志</em>——它意味着公司预期这套机制要长期运行。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">02.3</span>豆包股：为大模型业务单开一套虚拟股</h3>
+
+  <p>2025 年第四季度，字节在集团期权之外，为 AI 业务试点了一套独立的「豆包股」——<b>本质是内部虚拟股，不涉及真实股权与表决权</b>，首先在 Seed 部门试点，覆盖 Seed 大模型团队（约 2,000 人）与 Flow 业务线下的豆包主 App 团队。</p>
+
+  <div class="tw">
+    <table>
+      <caption>豆包股价格序列（授予价 10 美元起）</caption>
+      <thead><tr><th>时间</th><th class="n">豆包股价（美元/股）</th><th>变动 / 备注</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2025-Q4 试点授予</td><td class="n">约 10</td><td>对应 AI 业务估值约 <b>50 亿美元</b></td></tr>
+        <tr><td class="k">2026-04-15 首次回购</td><td class="n">13.08</td><td>较授予价 +30%；折合人民币 90.51 元</td></tr>
+        <tr><td class="k">2026-06</td><td class="n">14.85</td><td>—</td></tr>
+        <tr><td class="k">2026-08-31</td><td class="n">17.02</td><td>较 6 月 +14.6%，较 4 月 +30.1%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>三个设计细节，每一个都值得学：</b></p>
+
+  <ul class="plain">
+    <li><b>它不是「认购」，是年终奖兑换。</b>Seed 员工可以选择把年终奖以豆包股形式发放；2026 年 8 月起进一步允许把总包中的部分现金薪酬折换成豆包股（部分 L2/L3 满配 20%，部分 L3/L4 满配 25%–30%）。<em>这个设计的精妙之处在于：它用员工已经赚到的钱做杠杆，筛出真正相信这块业务的人，而不增加公司的现金支出。</em></li>
+    <li><b>它把「业务增长」直接变成了员工的账面收益。</b>定价主要锚定豆包大模型调用量、月活、ToB 收入与基座迭代进度。效果对比很直观：<b>2026 年 4–6 月集团整体期权只涨约 2.6%，同期豆包股涨 13.5%</b>——豆包股显著跑赢集团期权。对一个已经身处 4,000 亿美元估值大盘里的人来说，这是唯一还能产生「早期公司感」的东西。</li>
+    <li><b>它解决了「大公司里做前沿业务」的估值困境。</b>集团估值已超 4,000 亿美元、增长趋平，把 AI 业务独立定价，等于让核心团队摆脱集团大盘的束缚。界面/氪研社的定性很准确：<b>「字节既摆桌，也坐庄」，「让一群已经身处互联网巨头的人，重新拥有一次押早期公司的感觉」</b>。</li>
+  </ul>
+
+  <div class="callout">
+    <div class="ct">豆包股真正的创新：给「部门」估值</div>
+    <p>传统期权只能给「公司」估值，所以在大公司内部做新业务的人，永远拿不到与其业务增速匹配的回报。豆包股把定价单位从「公司」下沉到「业务单元」——<em>这是一个可以直接迁移到任何多业务线大模型公司的机制</em>。对一家同时做基座模型、Agent 应用、出海产品的公司来说，如果只有一套集团期权，那么增长最快的业务线一定是人才最容易被挖走的地方。豆包股给出了解法：<b>为增速显著高于集团均值的业务单独定价、单独回购。</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.4</span>智谱与 MiniMax：上市把「纸面」变成「市价」</h3>
+
+  <p>两家在 2026 年 1 月相隔一天上市，是研究「上市如何改变期权价值」的最佳对照。它们的招股书提供了本报告最硬的一批条款级事实。</p>
+
+  <p><b>智谱的持股平台结构（可直接作为境内架构的模板）：</b></p>
+  <ul class="plain">
+    <li>两个平台——<b>慧惠</b>与<b>智登</b>，均为<b>中国境内有限合伙</b>，均于 2021-06-23 设立。</li>
+    <li><b>刘德兵为两个平台的唯一 GP</b>（分别持约 30.33% 与 39.01% 合伙权益）；<em>管理权与投票权全部归唯一 GP，合格参与者仅享有经济利益</em>——这是有限合伙持股平台最核心的控制权设计。</li>
+    <li>LP 人数：慧惠 426 名、智登 25 名。合计持股<b>发行后约 15.15%</b>。</li>
+    <li><b>离职规则（本报告最值得引用的一条）：</b>受让人退出集团时，<b>可继续持有已归属的限制性奖励</b>；<b>未归属部分由平台 GP（刘德兵）或其指定主体，按「原始认购价格」回购</b>。</li>
+  </ul>
+
+  <p><b>MiniMax 的期权条款则展示了另一种取向：</b>员工持股平台 MiniMax Gene 持发行后 6.84%，<b>392 名承授人</b>（含实习生与前员工）覆盖 385 名全职员工——接近全员持股。行使价从面值到 US$0.8，其中两位最早的核心成员（云女士、周雨聪）为 <b>US$0.002/股</b>。上市后首次授予（2026-06-23）更直接：116.88 万股、<b>购买价为零、不设任何 KPI</b>、归属期 13 个月至 6 年，按当日收盘价计总市值接近 6 亿港元。</p>
+
+  <div class="callout warnb">
+    <div class="ct">两家上市后的分化，说明「上市」不等于「到手」</div>
+    <p>智谱发行价 116.20 港元，2026-06-22 盘中最高 2,980 港元（约 <b>20 倍</b>），市值一度 1.07 万亿港元；7-14 收 1,600 港元，<b>仍较发行价约 13.8 倍</b>。<br>MiniMax 发行价 165 港元，首日 +109%，3 月最高 1,330 港元（市值 &gt;4,100 亿）；<b>7-14 收 230 港元，较高点 −83%</b>，7-9 首个大规模解禁日（约占总股本 48.9%）单日 −17.98%。<br>自媒体口径称 MiniMax 员工人均纸面财富从峰值约 4,200 万元回落至约 1,200 万元，<b>而股份仍锁至 2027 年 1 月</b>——「暴富」是纸面的，回撤是实时的。<span class="chip mid">该人均数字为自媒体测算，存疑</span></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.5</span>Momenta：唯一在招股书里写全期权条款的样本</h3>
+
+  <p>Momenta（6880.HK，2026-07-08 上市）不是大模型公司，但它是本报告里<b>期权条款披露最完整的一家</b>，因此值得单独拆开——它给出了「一家公司从 2016 年走到上市，期权体系长什么样」的完整快照。</p>
+
+  <div class="tw">
+    <table>
+      <caption>Momenta 的两个 Pre-IPO 股权激励计划（招股书一手）</caption>
+      <thead><tr><th>计划</th><th>采纳日期</th><th class="n">授权上限（股）</th><th class="n">已授出</th><th>资格</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2016 Equity Incentive Plan</td><td>2016-12-19</td><td class="n">31,033,587</td><td class="n">30,509,410（≈ 上市后股本 <b>12.95%</b>）</td><td>员工、董事、顾问</td></tr>
+        <tr><td class="k">2025 Equity Incentive Plan</td><td>2026-01-07</td><td class="n">17,207,372</td><td class="n">—</td><td><b>仅核心管理层</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>几个可迁移的结论：</p>
+
+  <ul class="plain">
+    <li><b>十年积累的期权池总量约稀释 16.85%。</b>2016 计划单看稀释约 11.47%。这是一个「长跑型公司」的合理量级——<em>可以拿它来校准：一家做了十年的公司，期权池最终落在 12%–17% 是正常的</em>。</li>
+    <li><b>行权价跨度极大：US$1.93–13.16，早期部分为零。</b>条款明确允许行权价低于公允市值。2025-12-31 未行权期权的加权平均行权价仅 <b>US$2.8738</b>，而 2025 年授予日普通股公允价值为 <b>US$19.46–21.68</b>——<em>行权价与公允价之间的这个差距，就是员工的实际收益空间。</em></li>
+    <li><b>归属期有三种模式并存</b>（24 个月等额月度 / 满 1 年 25% + 36 个月 / 满 2 年 50% + 24 个月），而非一刀切的「4 年 1 年 cliff」。<em>说明成熟公司的做法是按岗位和授予时点分别设定，而不是全公司一套模板。</em></li>
+    <li><b>长尾极厚：1–49,999 股区间有 1,578 人</b>，合计持 13,722,622 股（占上市后总股本 5.83%）。<em>这是「普惠型期权池」的量化证据</em>——大部分期权分散在大量基层员工手里，而不是集中在少数高管。</li>
+    <li><b>招股书里没有「公司回购权」条款。</b>这与智谱形成鲜明对比（智谱明确写了 GP 按原始认购价回购未归属部分）。<em>两种做法都合法，但员工感知完全不同</em>：有回购条款意味着离职时有一条明确的退出路径；没有则意味着只能等上市。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">02.6</span>三家未披露的公司：能从「空白」里读出什么</h3>
+
+  <p>月之暗面、阶跃星辰、DeepSeek 三家的期权条款全部未公开。但<b>未披露这件事本身，加上零星的一手信息，已经足以判断它们各自处在什么位置</b>。</p>
+
+  <div class="tw">
+    <table>
+      <caption>三家未披露公司的期权成熟度判断（仅基于有据可查的信息）</caption>
+      <thead><tr><th>公司</th><th>有据可查的部分</th><th>判断</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>月之暗面</b></td>
+          <td>2025 年激励覆盖 324 人；2026 年平均激励预计为 2025 年的 <b>200%</b>；内部信明确「计划大幅上调期权回购额度」；「穿越计划」给 2027 届毕业生直接授期权（首批 16 人，几乎无专业/学历/经验限制）</td>
+          <td><b>最接近兑现的一家。</b>存在回购机制、IPO 在即（目标 2027 Q1 港股）。「穿越计划」是一个独特设计——<em>在无职级体系下，它用「提前授予」替代了「按级别定档」</em>。但期权池、行权价、归属期全部未披露，员工无法自行计算价值</td>
+        </tr>
+        <tr>
+          <td class="k"><b>阶跃星辰</b></td>
+          <td>融资节奏快（2025-07 传超 5 亿美元 → 2026-01 B+ 轮超 50 亿元 → 2026-05 Pre-IPO 近 25 亿美元）；2026-04 完成股改拆红筹；Pre-IPO 分两拨交割，投前估值 40 亿 → 50–60 亿美元，<b>同一笔融资前后两拨买家成本相差近 50%</b></td>
+          <td><b>期权安排完全空白。</b>唯一可用的间接信息是 Pre-IPO 定价的混乱——<em>同一轮融资内部价差 50%，说明公司的定价锚本身不稳定，这对期权行权价与回购价的设计是隐患</em>。上市进程也未坐实（公开渠道未见正式递表文件）</td>
+        </tr>
+        <tr>
+          <td class="k"><b>DeepSeek</b></td>
+          <td>首轮融资前「零外部融资」，期权无估值、无流通渠道；首轮融资<b>专门增发 5% ESOP（约 175 亿元）</b>，用途之一即「使员工期权得到市场化验证，以留住人才」；融资后除国资基金外，投资人股份<b>锁定 5 年</b></td>
+          <td><b>最特殊的一家：期权长期是纸面数字，2026 年才第一次获得定价。</b>这条路径的代价写在明面上——V4 技术报告近 300 名作者中 10 人标注「已离职」，覆盖基座、推理、OCR、多模态四条主线</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">一处必须并列呈现的口径冲突</div>
+    <p>关于 DeepSeek 的人才流失，两组口径存在张力：《每日经济新闻》（2026-04-29）称「至少 5 名核心研发成员确认离职」并指出「员工手中的期权缺乏明确估值或许是核心人才被挖走的诱因之一」；而《财经》（2026-06-18）同文亦称「截至 V4 模型发布，DeepSeek 核心研究团队并没有遭遇人才流失的问题」。<b>本报告并列呈现两种口径，不单取一方。</b>可以确定的是：技术报告中的 10 个「已离职」标注是客观事实，而它是否构成「流失问题」取决于用什么基数比较。</p>
+  </div>
+</section>
+<section class="wide" id="stages">
+  <span class="snum">03</span>
+  <h2 class="sec">五个阶段：每一阶段只有一件必须做对的事</h2>
+
+  <p class="lede">期权体系不是一次设计到位的，它会随公司阶段演进。<em>但每个阶段真正需要做对的只有一件事</em>——做早了是浪费（没人关心），做晚了是事故（改不动了）。这一节按阶段拆开，每个阶段给出「该定什么、不该定什么、以及什么时候该翻页」。</p>
+
+  <h3 class="sub"><span class="subn">03.1</span>总览：阶段 × 机制</h3>
+
+  <div class="tw">
+    <table>
+      <caption>五个阶段的核心任务对照</caption>
+      <thead>
+        <tr><th>阶段</th><th>公司状态</th><th>这一阶段唯一必须做对的事</th><th>主要工具</th><th>翻页信号</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>① 创立期</b><br><span class="muted">0–20 人</span></td>
+          <td>没有产品、没有收入、没有估值</td>
+          <td><b>定池子</b>——把期权池的比例和载体一次性规划够，并留下扩容空间</td>
+          <td>期权（非限制性股票）；有限合伙持股平台；象征性行权价</td>
+          <td>第一轮机构融资进入</td>
+        </tr>
+        <tr>
+          <td class="k"><b>② 成长期</b><br><span class="muted">A / B 轮，20–200 人</span></td>
+          <td>有产品与初步收入，估值开始快速上涨</td>
+          <td><b>定归属与税务形式</b>——4 年 + 1 年 cliff；并在「控制权便利」与「税务优惠」之间做出选择</td>
+          <td>期权 + 限制性股份；一致行动协议；递延纳税备案（若走直接持股）</td>
+          <td>出现第一批完成全部归属的人</td>
+        </tr>
+        <tr>
+          <td class="k"><b>③ 扩张期</b><br><span class="muted">C / D 轮，200–800 人</span></td>
+          <td>多产品线，估值倍数高，老员工开始有变现诉求</td>
+          <td><b>定回购与流动性</b>——给老员工和离职员工一条明确的退出路径</td>
+          <td>定期回购 / 老股转让；refresh grant；平行持股平台</td>
+          <td>启动上市筹备、确定上市地</td>
+        </tr>
+        <tr>
+          <td class="k"><b>④ Pre-IPO</b></td>
+          <td>股改、拆架构、递表</td>
+          <td><b>定架构与清理</b>——穿透后股东人数 &lt; 200；并算清「带期权上市」的税务代价</td>
+          <td>股改；期权替换为限制性股份；闭环原则 / 基金业协会备案</td>
+          <td>挂牌</td>
+        </tr>
+        <tr>
+          <td class="k"><b>⑤ 上市后</b></td>
+          <td>有公开市价与锁定期</td>
+          <td><b>定流动性与新计划</b>——老计划收口，新计划符合上市地规则</td>
+          <td>上市后股份激励计划（港股 17 章）；零对价奖励；锁定期管理</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.2</span>阶段一 · 创立期：把池子定够，其他都从简</h3>
+
+  <p><b>这一阶段的核心任务是「预留」，不是「分配」。</b>AI 公司有一个共同特征：成立早期就推动股权激励计划。原因有两个——<em>一是这类公司的成败与科研能力高度相关，早期必须稳住核心技术团队；二是这类公司极度烧钱、融资频繁，早设池才能保留自己对激励资源的自主权，避免后期被投资人压缩。</em></p>
+
+  <div class="tw">
+    <table>
+      <caption>创立期该定与不该定</caption>
+      <thead><tr><th>项目</th><th>建议</th><th>依据</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>期权池比例</b></td>
+          <td><b>10%–15%（完全稀释后口径）</b></td>
+          <td>德勤《2019–2020 中国 A 股科创板长期激励调研报告》：138 家上市前实施员工持股计划的样本企业中，<b>63% 的持股计划持有不低于总股本的 5%，持股份额均值 9.32%</b>。10%–15% 是给后续几轮稀释留出余量的口径。美国市场的分阶段基准可作对照：<b>种子轮 10%–15%、A/B 轮 15%–20%、C 轮之后 10%–15%</b><span class="chip mid">该美国口径为行业惯例汇总，非权威统计</span></td>
+        </tr>
+        <tr>
+          <td class="k"><b>工具</b></td>
+          <td><b>期权为主</b>，不用限制性股票</td>
+          <td>期权可延迟到行权日再出资，缓解员工出资压力；同时避免公司在不稳定的创业期因人员变动频繁做工商变更</td>
+        </tr>
+        <tr>
+          <td class="k"><b>载体</b></td>
+          <td><b>有限合伙持股平台</b>，创始人任 GP；若预期人数会超过 50，从一开始就规划<b>平行平台</b></td>
+          <td>《合伙企业法》第六十一条：有限合伙企业合伙人上限 50 人。实务做法是设平台 A、B、C……每个平台 LP 控制在 49 人以内，由实际控制人或其控制的全资公司分别担任 GP</td>
+        </tr>
+        <tr>
+          <td class="k"><b>行权价</b></td>
+          <td>定在<b>注册资本/票面价或象征性价格</b>（常见 1 元/出资额）</td>
+          <td>税务上「公平市场价格」按上年末净资产确定（国家税务总局公告 2016 年第 62 号）。这也是为什么国内早期期权的行权价普遍极低——<b>智谱的期权行权价区间是 RMB 1.00–2.00，Momenta 早期部分授予的行权价直接是零</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>不该做的三件事：</b></p>
+  <ul class="plain">
+    <li><b>不要把池子定得太小。</b>后续每轮融资都会稀释，且投资人通常要求投前股东承担扩池稀释（即 pool shuffle）。<em>早期省下的 3% 池子，后期要用创始人的股份去补。</em></li>
+    <li><b>不要用有限责任公司做持股平台。</b>有限公司平台需要先缴 25% 企业所得税、分红时员工再缴 20%，存在双重征税；有限合伙是税收透明体，平台层面不缴所得税。</li>
+    <li><b>不要在早期设计复杂的加速条款。</b>此时没有并购风险，条款纯属冗余——它的作用是应对「控制权变更」这类事件，而这类事件在创立期不存在。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">03.3</span>阶段二 · 成长期：归属是表象，税务形式才是实质</h3>
+
+  <p>这一阶段表面上要定的是归属期（4 年 + 1 年 cliff 是硅谷惯例），但<b>真正决定员工长期到手金额的，是一个几乎没人注意的选择：走持股平台，还是让员工直接持股。</b></p>
+
+  <div class="callout riskb">
+    <div class="ct">本报告最重要的一条操作结论</div>
+    <p><b>员工通过持股平台持股属于间接持股，持股者是持股平台，不符合条件，不适用股权激励个人所得税递延纳税政策。</b>——这是国家税务总局福州市税务局对市人大代表建议的答复原文（2025-04-24），也是目前最明确的官方口径。</p>
+    <p>含义是：<em>你为了控制权便利而搭的持股平台，会让员工失去递延纳税资格。</em>失去之后，行权时的价差要按「工资、薪金所得」并入当年综合所得，<b>最高边际税率 45%</b>；而如果符合递延条件，转让时按「财产转让所得」<b>20%</b>。<b>同一个方案，两个税目，差 25 个百分点。</b></p>
+    <p>实务中存在地方口径差异：北京、重庆、内蒙古、福建等地明确不适用；<b>广东、上海等地对员工间接持股允许个案备案</b>。国有科技型企业另有例外（《国有科技型企业股权和分红激励暂行办法》问题解答认可间接持股适用递延）。<em>这意味着方案必须在「控制权集中」和「税务优惠」之间做一次显式取舍，而不是默认选平台。</em></p>
+  </div>
+
+  <p><b>享受递延纳税必须同时满足的七个条件</b>（财税〔2016〕101 号第一条第（二）款），其中三条最容易踩线：</p>
+
+  <div class="tw">
+    <table>
+      <caption>递延纳税的三个高危条件</caption>
+      <thead><tr><th>条件</th><th>具体要求</th><th>为什么容易踩线</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>人数 ≤ 30%</b></td>
+          <td>激励对象应为技术骨干和高级管理人员，<b>人数累计不得超过本公司最近 6 个月在职职工平均人数的 30%</b></td>
+          <td>成长期最容易踩线。若测算逼近 30% 临界点，应当<em>做减法</em>——优先保障核心管理层与研发骨干。注意：MiniMax 那种「392 人 / 385 名全职员工」的全员持股，在递延纳税口径下是不可能的</td>
+        </tr>
+        <tr>
+          <td class="k"><b>「3 年 + 1 年」≠ 4 年</b></td>
+          <td>期权：自授予日起<b>持有满 3 年</b>，<b>且</b>自行权日起<b>持有满 1 年</b>。两个条件是<b>并行起算、取较晚者</b></td>
+          <td>举例：2022-01-01 获授、2024-06-01 行权 → 条件一 2025-01-01 满足，条件二 2025-06-01 满足，<b>最早可转让日是 2025-06-01</b>。若员工 2025-03 转让，条件二未到期，<b>不能享受递延</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>必须备案</b></td>
+          <td>应于期权行权之<b>次月 15 日内</b>向主管税务机关报送备案表、股权激励计划、董事会或股东大会决议、激励对象任职或从事技术工作情况说明等；<b>未办理备案手续的，不得享受递延纳税优惠</b></td>
+          <td>有一个可引用的真实教训：某拟上市公司办了董事会决议但<b>未完成正式备案</b>，员工离职回购时被税务机关要求按「工资薪金所得」补税，<b>产生数百万元税款差异</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>这一阶段还应当完成的一件事：签一致行动协议。</b>智谱的做法值得照抄——北京链湃、刘德兵、唐杰等创始人<b>以及两个员工持股平台「慧惠」「智登」</b>签署一致行动人协议，共同控制公司约 30.22% 的股份（紧随全球发售完成后），最终决定权归刘德兵。<em>把员工持股平台纳入一致行动人范围，是防止「员工平台在关键表决上成为变量」的常规做法。</em></p>
+
+  <h3 class="sub"><span class="subn">03.4</span>阶段三 · 扩张期：老员工开始问「什么时候能拿到钱」</h3>
+
+  <p>这一阶段的标志性事件是：<b>第一批人完成了全部归属，手上再无未归属股权，而公司还没有上市。</b>此时如果没有任何流动性安排，这批人就是离职成本最低的一批人——他们已经拿到了全部归属，留下来只有下行风险。</p>
+
+  <div class="tw">
+    <table>
+      <caption>扩张期的四个动作</caption>
+      <thead><tr><th>动作</th><th>怎么做</th><th>参照</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>补池</b></td>
+          <td>每轮融资后重新测算，通常每轮补 <b>2%–5%</b>；并<b>在融资谈判中明确「扩池稀释由谁承担」</b></td>
+          <td>字节 2022-09 一次性增发全部股份的 1% 扩大期权池，同时把激励计划延长 10 年</td>
+        </tr>
+        <tr>
+          <td class="k"><b>建立流动性机制</b></td>
+          <td>两条路：<b>定期回购</b>（公司出资，频率高、金额小）或<b>老股转让</b>（引入外部买方，金额大、频率低）</td>
+          <td>字节是前者（每年两轮、自有现金流）；OpenAI/Anthropic 是后者（事件驱动 tender offer）</td>
+        </tr>
+        <tr>
+          <td class="k"><b>refresh grant</b></td>
+          <td>对已归属完毕的核心员工做年度追加授予</td>
+          <td>否则会出现「第 4 年裸奔」——全部归属完成、手上无未归属部分，正是离职成本最低的时刻</td>
+        </tr>
+        <tr>
+          <td class="k"><b>税务体检</b></td>
+          <td>核查持股平台是否受 2021 年第 41 号公告影响、递延纳税备案是否完备</td>
+          <td>财政部 税务总局公告 2021 年第 41 号（2022-01-01 施行）：持有股权、股票、合伙企业财产份额等权益性投资的个人独资企业、合伙企业<b>一律适用查账征收</b>。<em>此前持股平台在部分地区可争取核定征收（综合税负可低至个位数），41 号公告后这一优势被大幅削弱</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>不要等到 Pre-IPO 才第一次做穿透测算。</b>《证券法》第九条规定，向特定对象发行证券累计超过 <b>200 人</b>即构成公开发行，必须依法报经证监会或国务院授权部门注册。IPO 尽调中对员工持股平台<b>一律适用穿透核查</b>，穿透至最终自然人计算股东人数。<em>如果到申报前才发现穿透后超过 200 人，清理成本会非常高。</em></p>
+
+  <h3 class="sub"><span class="subn">03.5</span>阶段四 · Pre-IPO：架构清理与一笔必须算清的税</h3>
+
+  <p>这一阶段有两件事必须做，而且都会实质影响员工到手金额。</p>
+
+  <p><b>第一件：算清「带期权上市」的税务代价。</b>国税函〔2009〕461 号第七条第（二）款明确：以下情形<b>不适用</b>上市公司的优惠计税方法，直接计入个人当期所得——</p>
+  <ul class="plain">
+    <li>集团公司、<b>非上市公司</b>员工取得的股权激励所得；</li>
+    <li><b>公司上市之前设立股权激励计划、待公司上市后取得的股权激励所得</b>；</li>
+    <li>上市公司未按规定向主管税务机关报备的。</li>
+  </ul>
+  <p><em>也就是说：上市前授予、上市后行权的那部分期权，不能套用上市公司的单独计税优惠。</em>这是「带期权上市」最容易被忽略的一笔成本，方案设计时必须提前算。</p>
+
+  <p><b>第二件：选择上市地，并据此重构激励安排。</b>三个市场的硬约束差异很大：</p>
+
+  <div class="tw">
+    <table>
+      <caption>三个上市地对期权/股权激励的硬约束</caption>
+      <thead><tr><th>维度</th><th>港股（第 17 章 / 18C）</th><th>A 股（科创板 / 创业板）</th><th>美股</th></tr></thead>
+      <tbody>
+        <tr><td class="k">主要工具</td><td>股份期权 + 股份奖励（含零对价）</td><td>限制性股票（第一类/第二类）、股票期权、员工持股计划</td><td>ISO / NSO / RSU / ESPP</td></tr>
+        <tr><td class="k">行权价 / 授予价</td><td><b>期权行使价 ≥ 授出日市价</b>；<b>股份奖励新股授出价无下限</b>（零对价合法）</td><td>期权行权价一般 ≥ 市价；<b>第二类限制性股票可低于市价（可至 5 折）</b>，且归属时才出资</td><td>ISO 行权价 ≥ 授予日公允市价（按 409A 估值）；NSO 可折价但价差按普通所得征税</td></tr>
+        <tr><td class="k">计划上限</td><td><b>10%</b>（上市日已发行有关类别股份；每三年可更新，已取消原 30% 累计上限）</td><td>一般 ≤ 股本 <b>10%</b>；Pre-IPO 在有效期内的期权对应股票数占上市前总股本<b>原则上不超过 15%</b></td><td>无统一法定上限，由股东批准的股份储备决定（常见 10%–20%）</td></tr>
+        <tr><td class="k">个人上限</td><td><b>1%</b>/12 个月（超限需独立股东批准）；董事及高管 <b>0.1%</b></td><td>有单个激励对象上限（一般 ≤1%），须披露</td><td>无统一法定上限</td></tr>
+        <tr><td class="k">最短归属期</td><td><b>≥ 12 个月</b></td><td>一般 ≥12 个月，分期归属</td><td>无强制，常见 4 年 + 1 年 cliff</td></tr>
+        <tr><td class="k">锁定期</td><td>控股股东 12 个月（<b>未商业化 18C 公司 24 个月</b>）；基石 ≥6 个月</td><td>激励对象获授股份有法定/计划锁定期，分期解锁；上市后行权认购的股票须承诺<b>自行权日起 3 年内不减持</b></td><td>无法定锁定期，仅 IPO 承销锁定期（常见 180 天）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>一个值得单独学的 Pre-IPO 动作：把期权换成限制性股份。</b>智谱在 <b>2025 年 6 月股改后 3 个月内，将全部已授予期权（约 201.6 万单位）统一替换为「限制性股份」</b>，同时保留原归属节奏与业绩考核。招股书对此的说明指向「科学规划税务」并保持激励效应。<em>这类「上市前统一换工具」的动作，本质是在申报窗口期之前把税务与形式要件一次性理顺——它是 Pre-IPO 阶段最典型的专业操作。</em></p>
+
+  <h3 class="sub"><span class="subn">03.6</span>阶段五 · 上市后：老计划收口，新计划合规</h3>
+
+  <p>上市改变的不只是流动性，还有一整套规则。三件事需要重新设计：</p>
+
+  <ul class="plain">
+    <li><b>老计划必须收口。</b>MiniMax 的 Pre-IPO 计划明确规定<b>上市后不再根据该计划授予</b>——这是标准做法。智谱的两个平台则因为「上市后不再授出新权益、不发新股」，明确<b>不受《上市规则》第 17 章约束</b>（不产生上市后摊薄）。<em>两种处理都合规，区别在于是否需要在上市后继续发新股。</em></li>
+    <li><b>新计划要符合上市地规则。</b>港股要求计划授权限额 ≤ 上市日已发行有关类别股份的 10%、购股权归属期不少于 12 个月、行使价不低于授出日收盘价与 5 日均价孰高。MiniMax 2026-06-23 的首次上市后授予就落在这套规则下：116.88 万股、购买价为零、不设任何 KPI、归属期 13 个月至 6 年，按当日收盘价计总市值接近 6 亿港元。</li>
+    <li><b>税负规则变了，要重新算。</b>境内上市公司股权激励<b>不并入当年综合所得，全额单独适用综合所得税率表</b>（财政部 税务总局公告 2023 年第 25 号，执行至 2027-12-31）；经备案可在<b>不超过 36 个月</b>内缴纳（财政部 税务总局公告 2024 年第 2 号，2024-01-01 至 2027-12-31）。<b>但注意：纳税人在此期间内离职的，应在离职前缴清全部税款。</b></li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">上市后最容易被低估的一件事：锁定期管理</div>
+    <p>上市不等于到手。智谱控股股东及关键人士锁 12 个月，君联、美团等资深独立投资者锁 6 个月，<b>2027-01-08 整体解禁约 40%，而解禁前自由流通股比例仅 3.9%</b>。MiniMax 因按「未商业化」18C 公司上市，关键人士锁 <b>24 个月</b>，且 7 月 9 日首个大规模解禁（约占总股本 48.9%）当日即 <b>−17.98%</b>。<em>HR 在上市后需要主动管理员工的预期：把「解禁时间表」当成一份和期权说明书同等重要的文件发出去，而不是让员工自己从公告里推算。</em></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.7</span>三个不可逆的决策</h3>
+
+  <p>期权体系里绝大多数条款都可以改，但有三件事一旦定下就极难回头。它们应当被当作创始人和 HR 一号位必须共同签字确认的决策：</p>
+
+  <div class="tw">
+    <table>
+      <caption>三个不可逆决策及其代价</caption>
+      <thead><tr><th>决策</th><th>为什么不可逆</th><th>定错的代价</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>① 持股平台 vs 直接持股</b></td>
+          <td>它决定了员工是否具备递延纳税的形式要件；后期把平台拆成直接持股，涉及全部员工的工商变更与税务重算</td>
+          <td>员工税负从 20% 变成最高 45%。<em>这是本报告算出的最大单项差异</em></td>
+        </tr>
+        <tr>
+          <td class="k"><b>② 期权池的初始比例与扩容机制</b></td>
+          <td>池子是从全体股东（主要是创始人）身上切出来的；早期切少了，后期要么由创始人补，要么在融资谈判中被投资人要求「投前股东承担」</td>
+          <td>创始团队股份被持续稀释，且失去对激励资源的自主权</td>
+        </tr>
+        <tr>
+          <td class="k"><b>③ 离职回购的价格规则</b></td>
+          <td>它是员工在签字那一刻就在读的条款；一旦按某个规则执行过一次，后续所有人都按这个先例</td>
+          <td>「按原始认购价回购未归属部分」是行业通行做法，但对已归属部分也按原价回购，等于把增值全部留给公司——<em>这会摧毁方案的激励意义</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+<section class="wide" id="mechanics">
+  <span class="snum">04</span>
+  <h2 class="sec">机制设计：三个价格、归属、回购与变现</h2>
+
+  <p class="lede">这一节把期权拆成五个可设计的部件。<em>其中最关键的一个认知是：同一份期权存在三个完全不同的价格，而员工只关心最后一个。</em>把三者混为一谈，是候选人产生「被忽悠」感受的根本来源。</p>
+
+  <h3 class="sub"><span class="subn">04.1</span>三个价格必须分开讲</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三个价格：分别是什么、谁定、员工该问什么</caption>
+      <thead><tr><th>价格</th><th>是什么</th><th>怎么产生</th><th>真实样本</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>① 融资估值</b><br><span class="muted">post-money</span></td>
+          <td>最近一轮融资对应的公司整体估值</td>
+          <td>由融资谈判决定；媒体报道里出现的那个数字</td>
+          <td>月之暗面 G 轮投前 500 亿美元；DeepSeek 首轮投后 3,508.77 亿元</td>
+        </tr>
+        <tr>
+          <td class="k"><b>② 行权价</b><br><span class="muted">strike price</span></td>
+          <td>员工买下这股权要付的钱</td>
+          <td>非上市公司参照注册资本、净资产或最近一轮估值折扣确定；中国早期普遍定在象征性价格</td>
+          <td>智谱期权 <b>RMB 1.00–2.00</b>；MiniMax <b>US$0.002–0.8</b>；Momenta <b>US$1.93–13.16</b>（早期部分为零）；字节 2019 年那轮 <b>US$0.02</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>③ 回购 / 转让价</b></td>
+          <td>公司或受让方把股权买回去的价格</td>
+          <td>由期权协议或持股平台的回购条款约定</td>
+          <td>字节 2026-10 在职价 <b>241.35 美元/股</b>；智谱离职未归属部分按<b>原始认购价</b>回购</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>员工真正能拿到手的是「回购价 − 行权价」，不是「估值 × 比例」。</b>这三个价格之间的落差可以非常大：以 Momenta 为例，2025 年 12 月 31 日未行权期权的加权平均行权价是 <b>US$2.8738</b>，而 2025 年授予日普通股的公允价值是 <b>US$19.46–21.68</b>——<em>行权价与公允价之间这个约 6–7 倍的差距，才是员工的实际收益空间。</em></p>
+
+  <div class="callout">
+    <div class="ct">讲清楚三个价格的最低要求：给一个算术例子</div>
+    <p>不要只给条款文字。写清楚：「假设按最近一轮估值的 X 折算回购，你的 N 股大约对应 Y 万元，减去行权成本 Z 万元，你实际到手约 W 万元。」<em>候选人对具体数字的信任度，远高于对条款文本的信任度。</em>判断一份期权说明书是否合格的标准很简单：<b>把它交给一个不懂金融的候选人，他读完能否自己算出「如果我三年后离职，大概能拿到多少钱」。</b>能算出来，说明写清楚了。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.2</span>行权价：中国公司的定价锚在哪里</h3>
+
+  <p>中国非上市公司的行权价普遍低到接近零，这不是慷慨，而是<em>由税务认定规则和早期估值环境共同决定的</em>。国家税务总局公告 2016 年第 62 号规定：非上市公司股票的公平市场价格，<b>依次按照净资产法、类比法和其他合理方法确定</b>；净资产法按照取得股票的上年末净资产确定。</p>
+
+  <p>这意味着在早期（净资产很小、没有外部估值）时，行权价天然可以定得极低。但随着融资轮次推进，估值上升，行权价与公允价之间的差距会迅速扩大——<b>这个差距既是员工的收益，也是税务上的「价差」，是后面所有税务问题的起点。</b></p>
+
+  <div class="tw">
+    <table>
+      <caption>四家公司的行权价对照</caption>
+      <thead><tr><th>公司</th><th>行权价</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="k">字节跳动</td><td>0.02 美元/股（2019 年那轮）</td><td>低到本质等同 RSU；「44 美元」是当期公允价/兑换价，<b>不是行权价</b></td></tr>
+        <tr><td class="k">智谱</td><td>期权 RMB 1.00–2.00；限制性股份 RMB 0.10–2.00</td><td>2022–2025 各年授予价 1.20 / 2.04 / 1.97 / 1.92；股改前为授予目的每单位<b>任意定价 RMB 1 元</b></td></tr>
+        <tr><td class="k">MiniMax</td><td>面值至 US$0.8；两位最早核心成员 US$0.002</td><td>行使期自归属期届满至授出日后 10 年</td></tr>
+        <tr><td class="k">Momenta</td><td>US$1.93–13.16；早期部分为 Nil（零）</td><td>条款明确允许行权价低于公允市值；2025-12-31 未行权加权均价 US$2.8738</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.3</span>归属：4 年 + 1 年 cliff 是起点，不是终点</h3>
+
+  <p>4 年归属 + 1 年 cliff 是硅谷惯例，也是国内最常见的结构。但<b>成熟公司的实际做法是按岗位和授予时点分别设定，而不是全公司一套模板</b>。Momenta 招股书里同时存在三种归属模式，这是最直接的证据：</p>
+
+  <div class="tw">
+    <table>
+      <caption>归属模式对照（Momenta 招股书三种模式 + 字节的演进）</caption>
+      <thead><tr><th>模式</th><th>结构</th><th>适用场景</th></tr></thead>
+      <tbody>
+        <tr><td class="k">模式 A</td><td>自授予日起 <b>24 个月等额月度归属</b></td><td>短期绑定、或授予时已接近上市</td></tr>
+        <tr><td class="k">模式 B</td><td><b>满 1 年归属 25%，余下 36 个月等额月度归属</b>（即 4 年 + 1 年 cliff）</td><td>标准结构，适用于多数岗位</td></tr>
+        <tr><td class="k">模式 C</td><td><b>满 2 年归属 50%，余下 24 个月等额月度归属</b></td><td>对留存要求更高的核心岗位</td></tr>
+        <tr><td class="k">字节（总包类）</td><td>2025 年前：4 年（20/25/25/30）；<b>2025-12 起改为 3 年（30/30/40）</b></td><td>缩短归属周期、提高前期归属比例，是对抗挖人的直接手段</td></tr>
+        <tr><td class="k">字节（绩效类）</td><td>2 年内归属；2026-10 全员信口径为约 <b>3–4 年</b>完成 100% 归属</td><td>绩效授予的归属快于总包授予</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>两个值得单独设计的条款：</b></p>
+  <ul class="plain">
+    <li><b>取消 cliff 作为对抗挖人的工具。</b>OpenAI 在 2025 年 8 月取消了 6 个月的股权 vesting cliff，让新员工立即获得股票——这是对 Meta 挖人的直接反应。<em>cliff 的作用是防止「入职即离职」，但它的副作用是让新人在第一年没有任何沉没成本。</em>当外部挖角极其猛烈时，cliff 反而成为弱点。</li>
+    <li><b>按月归属（而非按年）。</b>字节 2025 年 9 月给 Seed 部门的期权津贴采用<b>按月归属</b>，首批连续发放 18 个月。月度归属的留人效果显著强于年度归属——<em>它把「再等一年」变成了「再等一个月」，离职的心理成本从 12 个月压缩到 1 个月。</em></li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">04.4</span>回购：七个必须在协议里写清的问题</h3>
+
+  <p>回购条款是期权协议里最关键、也最常被写成一两句话带过的部分。<b>创始人倾向于认为「回购是以后的事」，而候选人把这一条当作出价的核心。</b>以下七个问题必须各有明确答案——任何一个答不上来，整套方案的可信度都会打折。</p>
+
+  <div class="tw">
+    <table>
+      <caption>回购条款的七个必答问题与真实做法</caption>
+      <thead><tr><th>#</th><th>问题</th><th>常见选项</th><th>真实样本</th></tr></thead>
+      <tbody>
+        <tr><td class="k">1</td><td><b>谁来回购</b></td><td>公司本身 / 创始人个人 / 员工持股平台 / 指定老股受让方</td><td>智谱：由平台 GP（刘德兵）或其指定主体回购</td></tr>
+        <tr><td class="k">2</td><td><b>什么触发回购</b></td><td>仅离职触发 / 定期窗口 / 两者都有</td><td><b>只有离职触发是最弱的设计</b>——在职员工永远无法变现。字节是定期窗口（每年 4 月/10 月）</td></tr>
+        <tr><td class="k">3</td><td><b>按什么价格</b></td><td>原认购价 / 最近一轮估值折扣 / 第三方评估价</td><td>智谱：未归属部分按<b>原始认购价格</b>回购。<em>对已归属部分也按原价回购，等于把增值全部留给公司</em></td></tr>
+        <tr><td class="k">4</td><td><b>多久内完成</b></td><td>离职后 6 / 12 / 24 个月内</td><td>行业通行是<b>离职后 90 天行权窗口</b>，过期作废——这个期限的紧迫性本身就在压低员工的期权感知价值</td></tr>
+        <tr><td class="k">5</td><td><b>钱从哪来</b></td><td>融资时预留的回购池 / 新一轮投资人受让老股 / 公司利润</td><td><b>最常被忽略的一条。</b>字节用的是公司自有现金流；OpenAI/Anthropic 用的是外部投资人认购老股</td></tr>
+        <tr><td class="k">6</td><td><b>一次性还是分期</b></td><td>一次性付清 / 分 2–3 年支付</td><td>分期对公司现金流友好，但显著降低员工感知价值；若采用，建议约定未付部分继续享有增值</td></tr>
+        <tr><td class="k">7</td><td><b>什么情况下不回购</b></td><td>违纪、违反竞业或保密义务、未满最短服务期</td><td>必须有，但<b>范围要窄且明确</b>。字节 2025-07 的「期权扣罚」争议即是此条款的现实版本——公司称该前员工违反廉洁制度、触发授予协议中的扣罚条款</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">一个反直觉的发现：越成熟的公司越不写回购条款</div>
+    <p>Momenta 的招股书里<b>没有针对员工期权的公司回购权条款</b>（仅约定「可转让性由委员会全权限制」）；而智谱明确写了 GP 按原始认购价回购未归属部分。<em>两种做法都合规，但员工感知完全不同</em>——有回购条款意味着离职时有一条明确路径；没有则意味着只能等上市。<b>对尚未上市的公司而言，「有没有回购条款」比「回购价是多少」更早被候选人问到。</b></p>
+    <p><b>但回购条款写得越「省事」，诉讼风险越高。</b>寒武纪案中，员工实缴出资 5.26 万元、对应离职时约 7.6 亿元的权益价值，而协议约定的回购价是「实缴成本 + 年化 5% 利息」——法院认定该条款有效。<em>条款写得出，就执行得了。</em>详见 <a href="#disputes">第 08 节</a>。</p>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">两条来自《公司法》（2023 修订）的硬约束</div>
+    <p><b>第一百六十二条</b>列举了公司回购本公司股份的六项例外情形，其中与员工激励相关的是「将股份用于员工持股计划或者股权激励」。但这项例外附带两个硬约束：<b>①</b> 公司合计持有的本公司股份<b>不得超过已发行股份的 10%</b>；<b>②</b> 这些股份应当<b>在三年内转让或者注销</b>。</p>
+    <p><em>含义：回购不是一个可以无限期挂账的动作。用公司自有资金回购员工股权，在会计与法律上都有一个「三年内必须处置掉」的时钟。</em>对采用字节式「定期回购」方案的公司，这是必须提前纳入规划的一条约束。</p>
+    <p><b>第一百六十三条</b>则限制公司<b>为他人取得本公司股份提供借款、担保或其他财务资助</b>——员工持股计划属于例外情形之一，但累计金额同样受<b>不超过已发行股本 10%</b> 的限制。<em>这条约束的是「公司借钱给员工去买自己的股份」这类安排</em>——它在实践中并不罕见（尤其是行权需要员工自掏大笔现金时），但额度有法定上限。</p>
+    <p>另可参照<b>第八十九条</b>（异议股东回购请求权）——它规范的是股东对特定公司决议投反对票时的退出权，与员工激励回购不是同一件事，但在设计回购条款时容易被混淆。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.5</span>变现路径：四条，按现实概率排序</h3>
+
+  <div class="tw">
+    <table>
+      <caption>四条变现路径与各自的现实性</caption>
+      <thead><tr><th>路径</th><th>触发条件</th><th>时间预期</th><th>现实性</th><th>样本</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>① 定期回购 / tender offer</b></td>
+          <td>公司有现金流，或估值上升后有投资人愿意接老股</td>
+          <td>每 6–12 个月一次</td>
+          <td><span class="chip ok">上市前最现实的路径</span></td>
+          <td>字节每年两轮；OpenAI 约 70 亿美元 tender @8,520 亿估值，600+ 人单日套现 66 亿；Anthropic 3,500 亿估值 tender，<b>员工惜售</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>② IPO</b></td>
+          <td>达到上市标准并完成发行</td>
+          <td>数年，不确定</td>
+          <td><span class="chip mid">回报最高、概率最低</span></td>
+          <td>2026 年密集落地：智谱 01-08、MiniMax 01-09、Momenta 07-08 相继上市；月之暗面目标 2027 Q1 港股</td>
+        </tr>
+        <tr>
+          <td class="k"><b>③ 公司 / 平台回购</b></td>
+          <td>协议约定的回购条件成立</td>
+          <td>离职后 6–24 个月</td>
+          <td><span class="chip ok">最确定、金额最低</span></td>
+          <td>智谱：离职可保留已归属，未归属由 GP 按原认购价回购</td>
+        </tr>
+        <tr>
+          <td class="k"><b>④ 并购</b></td>
+          <td>公司被收购</td>
+          <td>不可预期</td>
+          <td><span class="chip no">对员工通常最不利</span></td>
+          <td>对价常以留任奖金替代部分股权价值，原有期权可能被大幅折价或直接作废</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>中国市场的结构性短板：没有老股的公开二级市场。</b>美国有 Forge Global、CartaX 这类平台提供老股报价与撮合；中国大模型公司的老股交易<b>私下撮合，无公开报价、无定价标准、无流动性基础设施</b>。这带来两个后果：一是员工无法像美国同行那样在上市前多次小额变现；二是<em>定价完全由公司单方面掌握</em>。</p>
+
+  <p>一个反映定价混乱程度的截面样本：<b>阶跃星辰的 Pre-IPO 轮分两拨交割，第一拨投前估值约 40 亿美元，第二拨已涨至 50–60 亿美元——同一笔融资前后两拨买家成本相差近 50%。</b></p>
+</section>
+
+<section class="wide" id="legal">
+  <span class="snum">05</span>
+  <h2 class="sec">架构与税务：中国方案里最大的隐藏成本</h2>
+
+  <p class="lede">如果这一份报告只能保留一条给中国公司的建议，应当是这一节：<em>期权方案里金额最大的变量不是授予数量，而是「走不走持股平台」这个架构选择——它决定了员工的税负是 20% 还是最高 45%。</em></p>
+
+  <h3 class="sub"><span class="subn">05.1</span>三种持股形式的对比</h3>
+
+  <div class="tw">
+    <table>
+      <caption>直接持股 / 有限责任公司平台 / 有限合伙平台</caption>
+      <thead><tr><th>维度</th><th>直接持股</th><th>有限责任公司平台</th><th>有限合伙平台</th></tr></thead>
+      <tbody>
+        <tr><td class="k">员工法律身份</td><td>公司股东</td><td>平台公司股东</td><td>平台 LP（有限合伙人）</td></tr>
+        <tr><td class="k">人数上限</td><td>有限责任公司股东 <b>1–50 人</b>（《公司法》2023 修订第四十二条）；股份有限公司发起人 <b>1–200 人</b>（第九十二条）</td><td>同上，≤ 50 人</td><td><b>2–50 人</b>（《合伙企业法》第六十一条）</td></tr>
+        <tr><td class="k">创始人控制权</td><td>最分散，员工直接持有表决权</td><td>按股权比例表决</td><td><b>GP 执行合伙事务，员工 LP 不参与经营——控制权最集中</b></td></tr>
+        <tr><td class="k">平台层面所得税</td><td>不适用</td><td><b>需缴 25% 企业所得税，分红再缴 20%，双重征税</b></td><td><b>税收透明体，平台层面不缴所得税</b>，直接「先分后税」到合伙人</td></tr>
+        <tr><td class="k">员工税目</td><td><b>财产转让所得 20%</b>（符合 101 号可递延）</td><td>双重征税</td><td>争议：<b>20% 或「经营所得」5%–35%</b></td></tr>
+        <tr><td class="k">递延纳税资格</td><td><b>符合形式要件</b></td><td>不符合</td><td><b>不符合</b>（官方明确口径）</td></tr>
+        <tr><td class="k">变动便利性</td><td>每次变动都要工商变更</td><td>同上，且需股东会决议</td><td><b>只需变更合伙协议</b>，最便利</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>为什么绝大多数公司仍然选有限合伙？</b>三个压倒性理由：<em>控制权</em>（GP 独占执行事务合伙人权限，创始人可用 1% 甚至 0.1% 的出资控制 100% 的表决权）、<em>税务穿透</em>（避免有限公司平台的双重征税）、<em>变动成本低</em>（员工进出只需改合伙协议）。</p>
+
+  <p><b>代价是明确的：员工失去了递延纳税资格。</b>这是一个被普遍低估的取舍——多数公司在搭架构时只考虑了控制权，没有把税务成本算进 offer 里。</p>
+
+  <h3 class="sub"><span class="subn">05.2</span>递延纳税：20% 与 45% 之间</h3>
+
+  <p>财税〔2016〕101 号《关于完善股权激励和技术入股有关所得税政策的通知》给非上市公司开了一个口子：符合条件的股权激励，<b>员工在取得股权激励时可暂不纳税，递延至转让该股权时纳税；转让时按「财产转让所得」，适用 20% 税率</b>。</p>
+
+  <p>不符合条件时，默认规则完全不同：按财税〔2016〕101 号第四条第（一）款，个人从任职受雇企业以<b>低于公平市场价格</b>取得股票的，应在<b>获得股票时</b>，对实际出资额低于公平市场价格的差额，按<b>「工资、薪金所得」</b>计税。而 2019 年起（财税〔2018〕164 号废止了原 12 个月分摊计税公式），这笔所得要<b>并入当年综合所得，适用 3%–45% 超额累进税率</b>。</p>
+
+  <div class="tw">
+    <table>
+      <caption>算例：同一份期权，两种方案下的到手差异（10 万股、行权价 1 元、公允价 10 元、最终以 30 元转让）</caption>
+      <thead><tr><th>环节</th><th>情形 A：符合递延并已备案</th><th>情形 B：不符合递延（走平台 / 漏备案）</th></tr></thead>
+      <tbody>
+        <tr><td class="k">行权时</td><td><b>应纳税额 = 0</b>（暂不纳税）</td><td>行权价差 =（10−1）× 100,000 = <b>90 万元</b>，按「工资、薪金所得」并入当年综合所得</td></tr>
+        <tr><td class="k">行权时的税</td><td>—</td><td>无其它所得者：约 <b>20.8 万元</b>；<b>已有百万年薪者（边际税率 45%）：约 40.5 万元</b></td></tr>
+        <tr><td class="k">转让时</td><td>应纳税所得额 =（30−1）× 100,000 = 290 万元，按 20% → <b>税 58 万元</b></td><td>成本按行权日公允价 10 元：（30−10）× 100,000 = 200 万元，按 20% → <b>税 40 万元</b></td></tr>
+        <tr class="sum"><td class="k"><b>合计税负</b></td><td><b>58 万元（实际税负率 20%）</b></td><td><b>60.8 万元（无其它所得）～ 80.5 万元（高薪）</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>差额约 22.5 万元，全部来自那笔 90 万元的行权价差被按 45% 而非 20% 计税。</b>但比税负更痛的是现金流：<em>情形 B 下行权时股权一分钱没卖，员工却要先掏最高 40.5 万元现金交税</em>——这就是业内常说的「纸面富贵、真金白银交税」。</p>
+
+  <div class="callout warnb">
+    <div class="ct">两个必须同时记住的规则</div>
+    <p><b>① 员工通过持股平台持股属于间接持股，不适用递延纳税。</b>——国家税务总局福州市税务局 2025-04-24 答复原文。<em>这是目前最明确的官方口径</em>，但地方执行存在差异：北京、重庆、内蒙古、福建等地明确不适用；广东、上海等地对员工间接持股允许个案备案；国有科技型企业另有例外。</p>
+    <p><b>② 上市前授予、上市后行权的期权，不适用上市公司的优惠计税方法。</b>——国税函〔2009〕461 号第七条第（二）款，直接计入个人当期所得。<em>这是「带期权上市」的重大税务代价，Pre-IPO 阶段必须提前算清。</em></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.3</span>持股平台在上市时必须完成的三件事</h3>
+
+  <ul class="plain">
+    <li><b>穿透核查（200 人红线）。</b>《证券法》第九条：向特定对象发行证券累计超过 200 人即构成公开发行。IPO 尽调中对员工持股平台<b>一律穿透至最终自然人</b>计算股东人数。<em>若穿透汇总超过 200 人，直接构成非法公开发行的实质性法律障碍。</em></li>
+    <li><b>「闭环运行」豁免（证监会公告〔2018〕17 号）。</b>符合下列之一的员工持股计划，计算股东数量时<b>按一名股东计算（不穿透）</b>：<em>①</em> 遵循闭环原则——不在 IPO 时转让股份、承诺<b>自上市之日起至少 36 个月锁定期</b>、锁定期内退出只能向计划内员工或其他符合条件的员工转让；<em>②</em> 或已在基金业协会依法备案。<b>注意：「闭环原则」不是合规判断标准，只是「是否穿透计算股东人数」的判断标准。</b></li>
+    <li><b>处理「三类股东」问题（口径已更新）。</b>若持股平台采用契约型基金、资产管理计划、信托计划等形式，须按现行审核要求核查。<b>注意：「三类股东」这个提法已经废弃</b>——现行依据是《监管规则适用指引——发行类第 4 号》（2023-02-17）4-4 条，<em>改为按产品的法律形式分别界定，但实质核查要求未变</em>（要求已纳入金融监管部门有效监管，如资管计划应在基金业协会备案）。</li>
+    <li><b>注意 A 股对预留权益的禁止。</b>《首发业务若干问题解答》明确：A 股 Pre-IPO 期权对应股票数占上市前总股本<b>原则上不超过 15%</b>，且<b>不得设置预留权益</b>；同时员工持股计划在计算股东人数时<b>可按一名股东计算</b>，申报前 6 个月内增资的股份锁定 3 年。<em>「不得设置预留权益」是一条容易被忽略的硬约束——它意味着 A 股路径下，你不能在申报时留一个未授予的池子等着上市后用。</em></li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">05.4</span>境内架构 vs 红筹架构：两条真实路径</h3>
+
+  <div class="tw">
+    <table>
+      <caption>两条路径的实例对照</caption>
+      <thead><tr><th>维度</th><th>路径 A：境内架构 + H 股（智谱）</th><th>路径 B：开曼红筹（MiniMax）</th></tr></thead>
+      <tbody>
+        <tr><td class="k">主体</td><td>北京智谱华章（境内股份公司）</td><td>MiniMax Group Inc.（开曼）</td></tr>
+        <tr><td class="k">控制权设计</td><td>创始人持股平台（北京链湃，有限合伙）+ 一致行动人协议</td><td><b>AB 股架构：每 1 股 B 类股对应 10 票投票权</b>，B 类股限定由创始人及核心团队持有</td></tr>
+        <tr><td class="k">员工载体</td><td>境内有限合伙平台「慧惠」「智登」，刘德兵为唯一 GP</td><td>持股平台 MiniMax Gene，背后搭建<b>股权激励信托</b></td></tr>
+        <tr><td class="k">期权处理</td><td><b>2025 年股改后 3 个月，将已授予期权统一替换为限制性股份</b>，保留归属节奏</td><td><b>期权行权价统一在上市后行权</b></td></tr>
+        <tr><td class="k">外汇问题</td><td>员工是境内公司间接股东，<b>无需外汇出境</b></td><td>境内员工行权境外期权属「境内居民向特殊目的公司出资」，<b>须办理外汇登记</b></td></tr>
+        <tr><td class="k">税目</td><td>股权转让按「财产转让所得」20%（若形式要件满足可递延）</td><td>转让境外公司股份，涉及境外所得与税收抵免</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>红筹架构下最容易被忽略的一环是外汇登记。</b>汇发〔2014〕37 号《关于境内居民通过特殊目的公司境外投融资及返程投资外汇管理有关问题的通知》第六条专门针对员工激励：非上市特殊目的公司以本企业股权或期权等为标的，对其直接或间接控制的境内企业的董事、监事、高级管理人员及其他与公司具有雇佣或劳动关系的员工进行权益激励的，相关境内居民个人<b>在行权前</b>可提交材料到外汇局申请办理特殊目的公司外汇登记手续。</p>
+
+  <p>需要提交的材料包括：书面申请与《境内居民个人境外投资外汇登记表》、已登记的特殊目的公司境外投资外汇业务登记凭证、<b>相关境内企业出具的个人与其雇佣或劳动关系证明材料</b>、特殊目的公司或其实际控制人出具的能够证明所涉权益激励<b>真实性</b>的证明材料。</p>
+
+  <p><em>「行权前登记」这个时点要求，意味着红筹架构下的员工期权存在一个容易被忽略的合规动作——很多员工直到要行权时才知道需要办这个手续。</em>MiniMax 的「授予定价按融资估值确定、既要求高管提前出资、又不需要完成股份登记」被解读为对这一限制的应对。<span class="chip mid">该解读为二手来源，存疑</span></p>
+
+  <p><b>上市前后适用的是两套外汇规则：</b>非上市特殊目的公司的员工期权走<b>汇发〔2014〕37 号</b>（行权前登记）；<b>上市后</b>则改走<b>汇发〔2012〕7 号</b>，由境内代理机构统一登记。登记手续已由<b>汇发〔2015〕13 号</b>下放给银行办理。未按规定登记的处罚额度是<b>企业 30 万元、个人 5 万元</b>。</p>
+
+  <p><b>2025 年的新规只覆盖了 H 股直接上市：</b>银发〔2025〕252 号（2026-04-01 施行）规范的是境内企业境外直接上市，其第二十四条明确<b>红筹/VIE 间接上市「另行规定」</b>。<em>这意味着智谱（H 股）与 MiniMax（开曼红筹）虽然同在港股上市，适用的外汇与备案规则并不相同。</em></p>
+
+  <h3 class="sub"><span class="subn">05.5</span>为什么 AI 公司绕不开 VIE</h3>
+
+  <p>架构选择不完全是自由选择——对一部分 AI 公司来说，VIE 是<b>被外资准入负面清单逼出来的</b>。</p>
+
+  <p><b>《外商投资准入特别管理措施（负面清单）》（2024 年版）第 12 项</b>规定：<b>增值电信业务外资股比不超过 50%</b>。含义是：一家 AI 公司如果持有 ICP 证、面向 C 端提供互联网信息服务（这是绝大多数做 C 端产品的 AI 公司的必备资质），<em>它就无法直接以红筹主体持股境内运营实体</em>——必须通过 VIE 协议控制。而纯技术研发业务不在该清单内，因此一家只做基座模型、不做 C 端产品的公司，架构选择的自由度要大得多。</p>
+
+  <p>值得注意的是政策正在松动：工信部通信函〔2024〕107 号已在四个地区试点放开相关限制。<span class="chip mid">试点范围与细则建议另行核实</span></p>
+
+  <p><b>这条规则与 08 节的判例连起来读，会得到一个重要结论：</b>VIE 是为了满足外资准入而搭的，但它在劳动法层面<em>不构成防火墙</em>——小红书案已经确立了「VIE 架构下的境外期权可被认定为境内劳动报酬」。</p>
+
+  <h3 class="sub"><span class="subn">05.6</span>2022 年之后：持股平台的税务优势被削弱</h3>
+
+  <p><b>财政部 税务总局公告 2021 年第 41 号</b>（2021-12-30 发布，2022-01-01 施行）规定：持有股权、股票、合伙企业财产份额等权益性投资的个人独资企业、合伙企业，<b>一律适用查账征收方式</b>计征个人所得税；此前已核定征收的，税务机关调整其征收方式为查账征收。</p>
+
+  <p>这条公告的分量在于：此前持股平台在部分地区可以争取<b>核定征收</b>，综合税负可低至个位数；41 号公告之后，合伙人从平台分得的股权转让所得面临<b>按「经营所得」5%–35% 累进</b>的现实风险，而非 20%。<em>这是 2022 年后持股平台税务优势被大幅削弱的分水岭，也是为什么现在做架构设计时必须把税务成本显式算出来。</em></p>
+
+  <p>需要指出的是，<b>退出环节的税目至今仍是持股平台最核心的争议</b>。争议的两端是：自然人合伙人从合伙企业分得的<b>股权转让</b>所得，应按「<b>经营所得</b>」5%–35% 累进（依据财税〔2000〕91 号），还是按「<b>财产转让所得</b>」20%？——<em>国税函〔2001〕84 号只明确了股息红利按 20%，并未覆盖股权转让</em>。</p>
+
+  <p>官方媒体口径倾向于前者。国家税务总局江西省税务局官网转发的《中国税务报》文章（2018-09-28）即持此立场。差异的量级可以直接算出来：</p>
+
+  <div class="tw">
+    <table>
+      <caption>持股平台退出环节的税负差异（以 1,000 万元股权转让所得为例）</caption>
+      <thead><tr><th>适用税目</th><th class="n">税率</th><th class="n">应纳税额</th><th>依据</th></tr></thead>
+      <tbody>
+        <tr><td class="k">财产转让所得</td><td class="n">20%</td><td class="n">200 万元</td><td>财税〔2016〕101 号（若符合递延条件）</td></tr>
+        <tr><td class="k">经营所得</td><td class="n">5%–35% 累进</td><td class="n">349.325 万元</td><td>财税〔2000〕91 号</td></tr>
+        <tr class="sum"><td class="k"><b>差额</b></td><td class="n">—</td><td class="n"><b>近 150 万元</b></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>另需澄清一个常见误解：<b>财税〔2019〕8 号给出的 20% 优惠只适用于备案的创业投资基金，不适用于员工持股平台。</b><em>这条常被误引，方案设计时不要把它当作依据。</em></p>
+
+  <p><b>实务状态</b>：公开的 IPO 披露案例中，<b>没有一家明确回答过这个税目问题</b>。因此本报告的建议是：<em>把「退出环节适用哪个税目」当作一个必须在方案设计阶段就与主管税务机关确认的问题，而不是留到员工真要退出时再面对。</em><span class="chip mid">地方口径存在差异，以主管税务机关意见为准</span></p>
+</section>
+<section class="wide" id="coupling">
+  <span class="snum">06</span>
+  <h2 class="sec">期权与业务、人才、组织的耦合</h2>
+
+  <p class="lede">前面几节把期权当成一套独立机制来讲。但真实的期权体系从不独立存在——<em>它同时是融资谈判的一个变量、职级体系的一个映射、招聘竞争的一个工具，以及组织公平感的一个来源。</em>这一节讲这四个耦合关系。</p>
+
+  <h3 class="sub"><span class="subn">06.1</span>与融资的耦合：每一轮都要重新谈一次</h3>
+
+  <p>期权池不是一个静态数字，它在每一轮融资里都会被重新定价、重新分配稀释责任。核心概念是 <b>pool shuffle</b>：<em>投资人通常要求期权池的扩容由投前股东（主要是创始团队）承担，而不是由新资金承担。</em>这意味着创始人每一次「补池」，都是在稀释自己。</p>
+
+  <div class="tw">
+    <table>
+      <caption>期权池随融资轮的演进</caption>
+      <thead><tr><th>阶段</th><th>池子动作</th><th>参照与依据</th></tr></thead>
+      <tbody>
+        <tr><td class="k">创立期</td><td>一次性预留 <b>10%–15%</b>（完全稀释后）</td><td>科创板 138 家样本：63% 的员工持股计划 ≥5% 总股本，均值 <b>9.32%</b>（德勤 2019–2020）</td></tr>
+        <tr><td class="k">每一轮融资</td><td>重新测算，通常补 <b>2%–5%</b>；<b>在 term sheet 阶段就明确扩池稀释由谁承担</b></td><td>字节 2022-09 一次性增发全部股份的 <b>1%</b> 扩大期权池，同时把激励计划延长 10 年</td></tr>
+        <tr><td class="k">Pre-IPO</td><td>确认池子余量足以覆盖上市前后的授予需求</td><td>港股上市后新计划授权限额 ≤ 上市日已发行有关类别股份的 <b>10%</b>；A 股 Pre-IPO 在有效期内的期权对应股票数占上市前总股本<b>原则上不超过 15%</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>一个值得单独学的做法：为特定业务单独定价，而不是反复扩集团池。</b>字节 2025 年第四季度为大模型业务单开「豆包股」，本质上是绕开了「集团池扩容 → 全体股东稀释」这条路径——<b>它不动集团股权结构，而是给一块业务单独设一套虚拟股</b>。对一家集团估值已经很高、但某块新业务增长极快的公司来说，这是一个比扩池更精准的工具。</p>
+
+  <h3 class="sub"><span class="subn">06.2</span>与职级的耦合：没有职级时怎么办</h3>
+
+  <p>期权授予量通常挂在职级上，因为职级是「一个人值多少」的现成标尺。<b>但如果公司没有职级，这把尺子就没有了。</b>大模型公司里恰好有走两个极端的样本。</p>
+
+  <div class="tw">
+    <table>
+      <caption>两种职级-期权关系</caption>
+      <thead><tr><th>公司</th><th>职级体系</th><th>期权如何定档</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>字节跳动</b></td>
+          <td>原本 5 级 10 档（1-1 至 5-2），<b>2026-01-01 启用新体系 L1–L10</b></td>
+          <td>明确挂档：<b>职级越高，薪酬包中期权比例越高</b>——2 级基层员工的期权主要来自年终奖兑换；3 级中层薪资含部分期权；<b>4 级高层薪资大部分是股票期权激励</b>。挖人时也用职级标价：Top Seed 计划面向应届博士可给 <b>3-1 职级</b>（一般应届最多 2-2）</td>
+        </tr>
+        <tr>
+          <td class="k"><b>月之暗面</b></td>
+          <td><b>无部门、无职级、无 Title、无 OKR、无 KPI</b>；约 300 人，5 位联创各直接对接 40–50 人</td>
+          <td><b>无法「按级别定档」，只能按「人」定价。</b>可观察到的做法是用<b>提前授予</b>替代<b>按级定档</b>：校招「穿越计划」面向 2027 届毕业生，实习 3–6 个月考察后<b>直接授予期权股数，即使本人尚未毕业</b>，且几乎不设专业、学历、经验限制（首批 16 人）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">「穿越计划」为什么值得注意</div>
+    <p>它表面上是一个激进的校招策略，实际上解决了一个结构性问题：<b>在没有职级体系的公司里，期权授予无法用「级别」这个中介来传递公平感</b>——因为没有级别，任何数量差异都会被读成「公司更看重谁」。而提前授予把争议点从「谁多谁少」转移到了「谁更早被看见」，<em>这在一个人数极少、彼此都认识的组织里，是一种更可接受的分配逻辑。</em></p>
+    <p>它的另一个效果是时点套利：月之暗面的估值在 2024-11 约 40 亿美元、2026 年初到 180 亿美元，<b>三个月内期权单价提升超 4 倍</b>。在单价快速攀升的阶段，<b>提前一年授予的激励效果远大于一年后加钱</b>——这是「穿越计划」被称为「提前 1 年授予」的真实含义。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.3</span>与招聘的耦合：期权是出价工具，也是分层工具</h3>
+
+  <p>在大模型人才战里，期权被当作三种不同的工具使用。区分它们很重要，因为用错场景会直接引发组织问题。</p>
+
+  <div class="tw">
+    <table>
+      <caption>期权在招聘中的三种用法</caption>
+      <thead><tr><th>用法</th><th>目的</th><th>样本</th><th>副作用</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>① 抢人</b></td>
+          <td>用非线性回报对冲大厂的现金优势</td>
+          <td>MiniMax 2025-09「百万美元期权激励」，按贡献给几十万至几百万美元，覆盖技术/产品/职能全岗位，<b>实习生亦有获数十万美元的案例</b>；字节 Top Seed 给应届博士 3-1 职级</td>
+          <td>推高市场预期，形成「不给我就不来」的谈判惯性</td>
+        </tr>
+        <tr>
+          <td class="k"><b>② 留人</b></td>
+          <td>给已在职的核心人追加授予，对抗挖角</td>
+          <td>字节 2025-09 为 Seed 部门发放期权津贴（按绩效职级每月价值 9 万 / 11 万 / 13.5 万元，<b>按月归属</b>，首批连续 18 个月）；月之暗面 2026 年平均激励为 2025 年的 <b>200%</b></td>
+          <td><b>横向不公平感</b>——见 06.4</td>
+        </tr>
+        <tr>
+          <td class="k"><b>③ 分层</b></td>
+          <td>用期权结构区分「谁是长期主义者」</td>
+          <td>豆包股<b>不是认购，而是用年终奖/总包现金兑换</b>；每人满配比例按职级（部分 L2/L3 满配 20%，部分 L3/L4 满配 25%–30%）</td>
+          <td>需要员工先拿出已到手的现金，对现金流紧张的人不友好</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.4</span>与组织公平的耦合：集中投放必须配解释机制</h3>
+
+  <p>这是本报告里唯一一个「机制设计正确、执行结果失败」的案例，值得完整记录。</p>
+
+  <p>2025 年 9 月，字节为 Seed 部门单独发放期权津贴，按综合绩效与职级每月发放价值 9 万 / 11 万 / 13.5 万元的字节期权，首批连续 18 个月，<b>首批总值约 170 万–256 万元</b>。从业务逻辑看，这个决策完全合理：AI 人才战最激烈，Seed 承受的挖角压力最大，用专项资源保住最关键的人是理性的。</p>
+
+  <p>但内部反应是：</p>
+
+  <blockquote>
+    <p>「干同样的活，群里一半 A 部门、一半 Seed，Seed 多 100 万。」</p>
+    <p>「眼睁睁看着 Seed 的 2-1 秒杀自己这边的 3-2。」</p>
+    <cite>字节内部员工反馈，经 36氪 / 凤凰网科技报道，2025-09-08</cite>
+  </blockquote>
+
+  <p><b>问题出在哪里？出在「同一个职级体系」与「差异化的股权待遇」之间的冲突。</b>当一家公司用统一的职级体系管理所有人，员工会用<em>公平</em>而不是<em>业务重要性</em>来理解差异。一个 2-1 的人比 3-2 的人拿得多，在一套职级逻辑里是说不通的。</p>
+
+  <p><b>可用的两种解法，字节后来两个都做了：</b></p>
+  <ul class="plain">
+    <li><b>把差异写进业务叙事。</b>豆包股的设计逻辑是「Seed 是独立定价、独立风险的事业，因此单独给股」——用<em>独立估值主体</em>来承载差异，而不是用部门标签。员工能接受「我所在的主体估值逻辑不同」，比接受「同样是 3-2，他比我多 100 万」容易得多。</li>
+    <li><b>把差异放进职级体系。</b>2026 年 1 月启用新职级体系 L1–L10，同时明确<b>算法/技术体系职级含金量普遍高半级到一级</b>。这等于承认「不同序列之间本来就不可直接比较」，从制度上化解了跨序列比较。</li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">给 HR 一号位的直接建议</div>
+    <p>如果你打算对某个业务线做专项股权激励（这在 AI 公司里几乎是必然的），<b>请在方案公布的同时准备好「为什么是他们」的解释</b>。缺了这个解释，员工的默认解读不是「业务重要」，而是「公司偏心」或「那个部门的领导更会争取」。<em>而这个解读一旦形成，专项激励的留人效果会被它对其他部门的离心效果抵消掉一部分。</em></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.5</span>与业务阶段的耦合：字节的四个阶段</h3>
+
+  <p>字节是唯一一家能提供完整「业务阶段 → 股权激励设计」映射的公司。这条映射值得整体看一遍，因为它展示了激励工具如何随公司处境切换：</p>
+
+  <div class="tw">
+    <table>
+      <caption>字节：业务阶段与股权激励的对应</caption>
+      <thead><tr><th>业务阶段</th><th>股权激励特征</th><th>要解决的问题</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><b>2012–2016 初创</b></td><td>低行权价期权（0.02 美元），期权池占比高</td><td>补足现金薪酬的不足</td></tr>
+        <tr><td class="k"><b>2016–2020 高速扩张</b></td><td>2019-04 大范围「年终奖换期权」（44 美元/股）；同期启动员工期权回购</td><td>降低一次性现金支出，同时给期权一个出口</td></tr>
+        <tr><td class="k"><b>2020–2023 监管与收缩</b></td><td>2022-08 <b>下调授予价 195 → 155 美元</b>并对已持有高授予价的 3 万+员工做<b>特殊增发补偿</b>；2022-09 首次股东回购（≤30 亿美元、估值 ≤3,000 亿美元）、计划延长 10 年、期权池扩大 1%</td><td>修复「回购价与授予价倒挂」造成的信任危机</td></tr>
+        <tr><td class="k"><b>2023–至今 AI 投入期</b></td><td>2025-09 Seed 期权津贴；2025-Q4 豆包股；2025-12 提高现金占比、缩短归属；2026 高回购价（229.5 → 241.35 美元）</td><td>对抗 AI 人才战，同时把激励从「股权重」往「现金 + 短归属」回调</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>最后一行值得单独强调：即便是最成熟的公司，也会在某个阶段主动把激励从股权往现金回调。</b>字节 2025-12-19 全员邮件同时做了四件事：奖金投入 +35%、调薪投入 +1.5 倍、提高所有职级薪酬总包区间上下限，<b>以及明确「提高现金占比、减少期权/RSU 占比」</b>。总包类期权从「一次发 4 年」改为「一次发 3 年」，新授予的绩效期权 55% 可在归属后立即参与回购。</p>
+
+  <p><em>这个转向说明：当股权本身的价值增长趋缓（集团估值已达 4,000 亿美元以上）、而外部现金竞争加剧时，把激励权重从股权移回现金是理性的。</em>期权不是越多越好——它的边际激励效果会随估值基数的抬升而递减。</p>
+</section>
+
+<section class="wide" id="lessons">
+  <span class="snum">07</span>
+  <h2 class="sec">兑现 ≠ 到手：三个折损与四个教训</h2>
+
+  <p class="lede">从「期权授予」到「钱进银行卡」之间，隔着三道折损。<em>把这三道折损讲清楚，比把授予数量讲大更有留人效果</em>——因为候选人在别的公司听到的都是没有折损的数字，而你如果主动讲了，可信度反而更高。</p>
+
+  <h3 class="sub"><span class="subn">07.1</span>三道折损</h3>
+
+  <div class="tw">
+    <table>
+      <caption>从授予到到手的三个折损环节</caption>
+      <thead><tr><th>折损</th><th>机制</th><th>量级</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>① 行权成本与税</b></td>
+          <td>行权要自掏现金按行权价买入；不符合递延条件时，行权价差在<b>股权一分钱没卖</b>的情况下就要按工资薪金交税</td>
+          <td>算例中高薪员工在行权环节就要先掏 <b>约 40.5 万元</b>现金</td>
+        </tr>
+        <tr>
+          <td class="k"><b>② 90 天行权窗口</b></td>
+          <td>行业通行的期权协议约定：员工离职后通常只有 <b>90 天</b>行权窗口，过期作废；且行权须自掏现金买入老股，再等上市解锁</td>
+          <td>在估值飙升而上市时点不确定的窗口期，<b>多数人跨不过这道坎</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>③ 锁定期与股价</b></td>
+          <td>上市后有法定/承诺锁定期；锁定期内股价可能大幅回撤，而员工无法卖出</td>
+          <td>MiniMax 关键人士锁 <b>24 个月</b>；7-14 股价较 3 月高点 <b>−83%</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>融中财经对这个结构性问题的概括值得完整引用：</p>
+
+  <blockquote>
+    <p>期权作为留人工具被广泛发放，但变现通道的设计，始终由公司单方面掌握。对于那些在公司高速成长期离开的人来说，他们参与了创造，但可能永远无缘分享。</p>
+    <cite>融中财经《老股暗流：谁在从中国大模型公司悄悄套现？》，2026-05-07</cite>
+  </blockquote>
+
+  <h3 class="sub"><span class="subn">07.2</span>四个教训</h3>
+
+  <p><b>教训一：上市是起点，不是终点。</b>智谱与 MiniMax 在同一天前后上市，此后的命运分化极大。智谱发行价 116.20 港元，6 月 22 日盘中最高 2,980 港元（约 20 倍），7 月 14 日收 1,600 港元，<b>仍较发行价约 13.8 倍</b>。MiniMax 发行价 165 港元，首日 +109%、3 月最高 1,330 港元，<b>7 月 14 日收 230 港元，较高点跌去 83%</b>。</p>
+
+  <p>MiniMax 的解禁节奏说明了锁定期的作用：<b>7 月 9 日首个大规模解禁，约 1.53 亿股、占总股本 48.9%，当日 −17.98%</b>；8 月下旬至 10 月初另有约 12% 陆续解禁；<b>2027 年 1 月高层及核心内部人士禁售期才到期</b>。自媒体口径称员工人均纸面财富从峰值约 4,200 万元回落至约 1,200 万元，且股份仍在锁定期内。<span class="chip mid">该人均数字为自媒体测算，存疑</span></p>
+
+  <p><b>教训二：解禁前的自由流通盘越小，解禁时的波动越大。</b>智谱解禁前自由流通股比例仅 <b>3.9%</b>，2027-01-08 整体解禁约 <b>40%</b>——这意味着一个极小的流通盘要承接一次规模极大的解禁。同一现象在 MiniMax 更极端（单日解禁 48.9%）。<em>HR 在上市后必须把解禁时间表主动发给员工，并解释「解禁日 ≠ 卖出的好时机」——否则员工会在解禁日集中抛售，既压股价，也把长期收益变成短期损失。</em></p>
+
+  <p><b>教训三：不要用「未来估值」的乐观数字招人。</b>阶跃星辰的 Pre-IPO 是一个反面样本：同一笔融资分两拨交割，<b>第一拨投前估值约 40 亿美元，第二拨已涨至 50–60 亿美元，前后两拨买家成本相差近 50%</b>。<em>当公司自己的定价锚在几个月内波动 50% 时，任何以「下一轮会到 X」为基础的期权承诺都不可靠。</em></p>
+
+  <p><b>教训四：回购价与授予价倒挂会摧毁信任。</b>字节 2022 年经历过一次教科书级的信任危机：当年<b>期权授予价 195 美元、回购价 155 美元</b>，回购价与授予价倒挂；离职员工回购价再打七五折，倒挂更严重；叠加「上市无期」，员工在内部论坛上公开讨论「要不要赎回、上市后价格会不会腰斩」。公司的应对是三件事同时做：下调授予价 195→155 并对已持有高授予价的 3 万+员工做<b>特殊增发补偿</b>、启动首次股东回购、扩大期权池 1%。<em>这个组合的每一环都是成本，但它是必要的——价格倒挂一旦持续，期权就从激励变成了负债。</em></p>
+
+  <div class="callout riskb">
+    <div class="ct">一个必须说清的行业事实</div>
+    <p>行业里确实存在比上述所有案例都更糟的情形。有报道称百川智能曾以 <b>1 折强制回购员工期权</b>（36氪，2024-12）；另有社区帖称某上海大模型公司「暴力压价回购期权、前员工集体维权」，<b>但公司名未被点名</b>。<span class="chip mid">前者为媒体转述，后者为社区帖且无法核实，均不作为一手证据引用</span></p>
+    <p>本报告记录这两条，不是为了指认任何一家公司，而是为了说明一件事：<b>期权条款的每一个模糊表述，在退出时都会被解释成对公司有利的那一版。</b>把回购价、回购主体、回购期限、回购资金来源写清楚，本质上是在保护员工——也是在保护公司的雇主品牌。</p>
+  </div>
+</section>
+<section class="wide" id="disputes">
+  <span class="snum">08</span>
+  <h2 class="sec">纠纷与司法：期权争议会怎么判</h2>
+
+  <p class="lede">期权协议里每一句模糊的表述，在退出时都会被解释成对公司有利的那一版。<em>这一节用三个已经判决的案例说明：模糊的代价是什么，以及法院站在哪一边。</em></p>
+
+  <h3 class="sub"><span class="subn">08.1</span>三个必须知道的判例</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三个判例：回购条款、VIE 架构、破产归零</caption>
+      <thead><tr><th>案例</th><th>事实</th><th>结果</th><th>对 HR 的含义</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>寒武纪案</b><br><span class="muted">回购条款的极端版本</span></td>
+          <td>前 CTO 梁军持有两个员工持股平台份额，<b>实缴出资 5.26 万元</b>。《持股计划 B》约定：限售期内离职，按「<b>实缴成本 + 年化 5% 利息</b>」回购（约 6 万余元）——而对应权益价值在离职时约 <b>7.6 亿元</b></td>
+          <td><b>6 起案件全部梁军败诉</b>（协议条款被认定有效）；但另案索赔已上调至 <b>278.32 亿元</b>，为 A 股之最</td>
+          <td><b>「按实缴成本 + 利息回购」是合法条款</b>——法院会执行它。这意味着员工签字时的那个百分比，可能决定了他未来拿 6 万还是 7.6 亿。<em>条款写得出，就执行得了</em></td>
+        </tr>
+        <tr>
+          <td class="k"><b>小红书案</b><br><span class="muted">广州中院</span></td>
+          <td>员工在<b>行权前夕被辞退</b>；公司以「期权授予主体是境外公司」作为抗辩</td>
+          <td><b>国内首例在 VIE 架构下认定境外期权属境内劳动报酬</b>，判赔 <b>85 万元</b>（19 万违法解除 + 66 万期权损失）。企业的「主体独立」抗辩被「实质重于形式」击穿</td>
+          <td><b>VIE/红筹架构不是防火墙。</b>把期权授予主体放在开曼，并不能让境内公司免于承担期权损失赔偿。<em>举报人称仅小红书一家就有近 50 名离职员工遭遇「行权前夕被辞退」</em><span class="chip mid">该数字为举报人陈述</span></td>
+        </tr>
+        <tr>
+          <td class="k"><b>柔宇科技</b><br><span class="muted">期权归零的完整链条</span></td>
+          <td>IPO 撤回 → 欠薪 → <b>以期权抵薪</b> → 员工以期权结算纠纷申请破产</td>
+          <td><b>2024-11-18 宣告破产，期权彻底归零</b></td>
+          <td>这是「未上市 + 无回购能力」这条路的终点。<em>当公司既不能上市、又没有现金流回购时，期权不是「暂时无法变现」，而是「永远不会变现」</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">寒武纪案为什么值得放在最前面</div>
+    <p>它把本报告第 04.4 节讲的「回购七问」变成了一个具体金额：<b>5.26 万元的实缴出资，对应离职时约 7.6 亿元的权益价值，而回购价是「实缴成本 + 年化 5% 利息」。</b>这不是某家公司的特殊情况——「限售期内离职按原价（或成本加利息）回购」是行业里非常常见的条款写法，它在激励设计上有其正当性（防止拿了股权立刻走人）。</p>
+    <p><b>但把这条规则用在「已归属」部分上，就会产生这个案例里的落差。</b>给 HR 一号位的建议很直接：<em>如果协议里要写「离职回购」，请把「已归属」和「未归属」分开写</em>——未归属部分按原价回购是行业惯例（智谱就是这么写的），已归属部分按原价回购则等于把增值全部留给公司，它会在离职那一刻变成一场必输的诉讼或一次口碑灾难。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">08.2</span>司法口径：三类离职对应三种结果</h3>
+
+  <p>公开判例已经形成了一条相对清晰的线，按<em>离职原因</em>区分处理结果：</p>
+
+  <div class="tw">
+    <table>
+      <caption>三类离职情形的司法处理口径</caption>
+      <thead><tr><th>离职情形</th><th>司法口径</th><th>依据</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>主动离职</b></td>
+          <td>按协议「人走股留」——章程或协议中的回购条款通常被认定有效</td>
+          <td>最高人民法院指导案例 96 号认可公司章程相关条款的效力</td>
+        </tr>
+        <tr>
+          <td class="k"><b>因过错被解除</b><br><span class="muted">《劳动合同法》第 39 条</span></td>
+          <td><b>期权作废的约定有效</b>——公司可以按协议收回</td>
+          <td>司法实践一致</td>
+        </tr>
+        <tr>
+          <td class="k"><b>违法解除</b></td>
+          <td><b>日益主流地「视为行权条件已成就」，判折价赔偿</b></td>
+          <td>（2025）京 02 民终 675 号</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>另外两条程序性结论同样重要</b>（北京市第一中级人民法院 2023-05-05 发布的 8 个典型案例）：<em>①</em> 期权纠纷<b>可以作为劳动争议</b>处理（对员工更有利，因为举证责任与仲裁程序不同）；<em>②</em> 涉外期权中的<b>约定管辖条款无效</b>，适用中国法；<em>但</em> <em>③</em> 当<b>授予主体是境外公司时，境内用人单位不是适格被告</b>——这一条与小红书案的「实质重于形式」形成张力，说明这类案件的走向仍取决于具体事实（是否存在境内实际用工与管理）。</p>
+
+  <div class="callout warnb">
+    <div class="ct">一条容易被忽略的连带风险</div>
+    <p>「违法解除」会导致期权被「视为行权条件已成就」并判折价赔偿——<b>这意味着一次处理不当的裁员，成本不只是 2N 的经济补偿，还包含被裁员工全部未归属期权的折价。</b><em>对持有大额期权的核心员工，这个数字可能是经济补偿的几十倍。</em>这条规则把「期权」和「劳动关系管理」这两件通常分开做的事，绑在了同一个风险敞口上：HR 在做裁员方案时，必须把期权敞口一并算进去。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">08.3</span>给 HR 一号位的三条操作建议</h3>
+
+  <ul class="plain">
+    <li><b>把「已归属」与「未归属」的回购规则分开写。</b>未归属按原价回购（智谱的做法）是行业惯例、司法上站得住；已归属也按原价回购，是把增值全部留给公司——它可以合法，但会在离职时制造对立，并且在这个人才池只有几百人的行业里被完整传播。</li>
+    <li><b>不要在行权窗口期做人事决定。</b>小红书案的触发点是「行权前夕被辞退」。<em>无论真实原因是什么，时间点的巧合本身就会成为诉讼中的不利事实</em>，也会在候选人圈子里被解读为「公司故意卡行权」。若确实需要在该窗口期解除劳动关系，应当留下充分的绩效与合规记录。</li>
+    <li><b>算裁员成本时把期权敞口加进去。</b>违法解除可能导致未归属期权被折价赔偿。对核心岗位，这笔金额可能远超法定经济补偿——<em>它应当出现在裁员方案的预算表里，而不是在仲裁时才被发现</em>。</li>
+  </ul>
+</section>
+<section class="wide" id="checklist">
+  <span class="snum">09</span>
+  <h2 class="sec">行动清单</h2>
+
+  <p class="lede">把前面七节压成一张可勾选的清单。<b>每一项后面标了「为什么现在做」——没有理由的项目，就是这一阶段不该做的。</b></p>
+
+  <h3 class="sub"><span class="subn">09.1</span>创立期（0–20 人）</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>动作</th><th>为什么现在做</th><th>交付物</th></tr></thead>
+      <tbody>
+        <tr><td class="k">设立期权池（10%–15%，完全稀释后）</td><td>后期每轮都会被稀释，且扩池稀释通常由投前股东承担</td><td>股东会决议 + 池子测算表</td></tr>
+        <tr><td class="k">搭一个有限合伙持股平台，创始人任 GP</td><td>控制权集中、税务穿透、变动成本低；若预期 &gt;50 人，同步规划平行平台</td><td>合伙协议 + 工商登记</td></tr>
+        <tr><td class="k">用期权，不用限制性股票</td><td>期权可延迟到行权日出出资，缓解员工出资压力</td><td>期权授予协议模板</td></tr>
+        <tr><td class="k">行权价定在象征性价格</td><td>早期净资产小，税务上「公平市场价格」天然低</td><td>—</td></tr>
+        <tr><td class="k">写一页纸的期权说明，把三个价格讲清楚</td><td>员工无法自己计算的期权，等于零</td><td>一页纸说明书</td></tr>
+        <tr><td class="k"><b>不要做</b>：复杂加速条款、有限公司平台、把池子定得很小</td><td>此时没有并购风险；双重征税；后期要用创始人股份补</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.2</span>成长期（A / B 轮，20–200 人）</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>动作</th><th>为什么现在做</th><th>交付物</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><b>做出「持股平台 vs 直接持股」的显式取舍</b></td><td>这决定了员工能否递延纳税（20% vs 最高 45%）；后期改造涉及全员工商变更与税务重算</td><td>架构决策备忘（含税务测算）</td></tr>
+        <tr><td class="k">确定归属方案（4 年 + 1 年 cliff 为基准）</td><td>按岗位分层，不要全公司一套模板</td><td>归属条款</td></tr>
+        <tr><td class="k">自查 30% 人数红线</td><td>101 号要求激励对象 ≤ 最近 6 个月在职职工平均人数的 30%；成长期最容易踩线</td><td>人数测算表</td></tr>
+        <tr><td class="k">若走直接持股：完成递延纳税备案</td><td>未备案不得享受递延；已有公司因此产生数百万元税款差异</td><td>备案表 + 董事会决议 + 计划文本</td></tr>
+        <tr><td class="k">签一致行动协议（把员工持股平台纳入）</td><td>防止员工平台在关键表决上成为变量</td><td>一致行动协议</td></tr>
+        <tr><td class="k"><b>不要做</b>：在 A 轮用完池子；盲目全员持股</td><td>全员持股在递延纳税口径下不可行，且稀释失控</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.3</span>扩张期（C / D 轮，200–800 人）</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>动作</th><th>为什么现在做</th><th>交付物</th></tr></thead>
+      <tbody>
+        <tr><td class="k">补池（每轮 2%–5%）并谈清稀释归属</td><td>出现第一批归属完毕的人，需要新激励接续</td><td>term sheet 条款 + 池子测算</td></tr>
+        <tr><td class="k"><b>建立流动性机制</b>（定期回购 或 老股转让）</td><td>第一批完成全部归属的人，此时离职成本最低</td><td>回购管理办法 / 老股转让规则</td></tr>
+        <tr><td class="k">引入 refresh grant</td><td>否则出现「第 4 年裸奔」</td><td>年度追加授予机制</td></tr>
+        <tr><td class="k">税务体检（41 号公告影响、备案完备性）</td><td>2022-01-01 起持股平台一律查账征收，旧方案的税务优势可能已失效</td><td>税务体检报告</td></tr>
+        <tr><td class="k">做第一次穿透测算</td><td>《证券法》200 人红线；不要等到 Pre-IPO 才发现超线</td><td>穿透后股东名册</td></tr>
+        <tr><td class="k"><b>不要做</b>：把「离职回购按原认购价」留到这一阶段</td><td>对已归属部分也按原价回购，是纠纷高发点</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.4</span>Pre-IPO</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>动作</th><th>为什么现在做</th><th>交付物</th></tr></thead>
+      <tbody>
+        <tr><td class="k">确定上市地，据此重构激励安排</td><td>港股 10% 上限 + 12 个月最短归属期；A 股 Pre-IPO 期权 ≤ 15% 总股本；红筹须办 37 号文外汇登记</td><td>上市地方案对照表</td></tr>
+        <tr><td class="k"><b>算清「带期权上市」的税务代价</b></td><td>上市前授予、上市后行权的期权<b>不适用</b>上市公司优惠计税（国税函〔2009〕461 号）</td><td>税务测算</td></tr>
+        <tr><td class="k">考虑把期权替换为限制性股份</td><td>智谱在股改后 3 个月内统一替换 201.6 万单位，理由是科学规划税务并保留激励效应</td><td>工具替换方案</td></tr>
+        <tr><td class="k">持股平台清理（闭环原则 / 基金业协会备案 / 三类股东）</td><td>闭环原则需承诺 36 个月锁定；否则穿透后必须 &lt;200 人</td><td>股东人数测算 + 承诺函</td></tr>
+        <tr><td class="k"><b>不要做</b>：在申报窗口期新增激励计划；留下未完成的递延纳税备案</td><td>在审期间通常不得新增、激励对象不得行权；未备案 = 不能递延</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.5</span>上市后</h3>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>动作</th><th>为什么现在做</th><th>交付物</th></tr></thead>
+      <tbody>
+        <tr><td class="k">老计划收口（上市后不再授出）</td><td>MiniMax 的 Pre-IPO 计划即明确上市后不再授予</td><td>计划终止/修订决议</td></tr>
+        <tr><td class="k">新计划符合上市地规则</td><td>港股：10% 授权上限、12 个月最短归属期、行使价 ≥ 授出日收盘价与 5 日均价孰高</td><td>新股份激励计划</td></tr>
+        <tr><td class="k">重新计算税负规则</td><td>境内上市公司股权激励不并入综合所得、单独计税（执行至 2027-12-31），可备案分 36 个月缴纳，<b>但离职须缴清</b></td><td>税务指引</td></tr>
+        <tr><td class="k"><b>主动发放解禁时间表并做预期管理</b></td><td>解禁前自由流通盘越小，解禁日波动越大（MiniMax 单日 −17.98%）；员工需要知道「解禁日 ≠ 卖出好时机」</td><td>解禁日历 + 沟通材料</td></tr>
+        <tr><td class="k"><b>不要做</b>：忽视锁定期、把「账面财富」当成「已到手」</td><td>智谱解禁前 10 个交易日 −33.20%；MiniMax 高点 −83%</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">如果只能记住一句话</div>
+    <p><b>期权体系的全部工作，可以归结为一件事：让员工能自己算出「如果我三年后离职，大概能拿到多少钱」。</b>算得出来，期权就是激励；算不出来，它就是一张纸。而这张纸的成本——无论是现金、稀释还是管理精力——一分都不会少。</p>
+  </div>
+</section>
+
+<section id="caveats">
+  <span class="snum">10</span>
+  <h2 class="sec">信息源与核实状态</h2>
+
+  <h3>已核实（附一手来源）</h3>
+  <ul class="plain">
+    <li><b>财税〔2016〕101 号</b>《关于完善股权激励和技术入股有关所得税政策的通知》——递延纳税机制、7 个条件、20% 税目、30% 人数红线、「3 年 + 1 年」并行起算。<a href="https://szs.mof.gov.cn/zhengcefabu/201609/t20160922_2424700.htm">财政部税政司</a></li>
+    <li><b>国家税务总局公告 2016 年第 62 号</b>——备案时限（行权次月 15 日内）、公平市场价格按净资产法确定。<a href="https://www.chinatax.gov.cn/chinatax/n810341/n810765/n1990035/201609/c2457865/content.html">国家税务总局</a></li>
+    <li><b>国税函〔2009〕461 号</b>第七条第（二）款——上市前设立、上市后取得的股权激励所得不适用上市公司优惠计税方法</li>
+    <li><b>财政部 税务总局公告 2024 年第 2 号</b>——上市公司股权激励可分期 36 个月缴纳，2024-01-01 至 2027-12-31。<a href="https://www.gov.cn/zhengce/zhengceku/202404/content_6947937.htm">中国政府网</a></li>
+    <li><b>财政部 税务总局公告 2023 年第 25 号</b>——上市公司股权激励单独计税，执行至 2027-12-31。<a href="http://m.mof.gov.cn/zcfb/202308/t20230822_3903474.htm">财政部</a></li>
+    <li><b>财政部 税务总局公告 2021 年第 41 号</b>——持有权益性投资的合伙企业一律适用查账征收，2022-01-01 施行。<a href="https://www.gov.cn/zhengce/zhengceku/2021-12/31/content_5665849.htm">中国政府网</a></li>
+    <li><b>员工持股平台不适用递延纳税</b>——国家税务总局福州市税务局对市十六届人大四次会议第 1115 号建议的答复，2025-04-24</li>
+    <li><b>汇发〔2014〕37 号</b>第六条——非上市特殊目的公司员工期权须在行权前办理外汇登记。<a href="https://www.safe.gov.cn/hubei/2014/0714/52.html">国家外汇管理局</a></li>
+    <li><b>证监会公告〔2018〕17 号</b>——员工持股计划「闭环原则」36 个月锁定可按 1 名股东计算；A 股 Pre-IPO 期权 ≤15% 总股本</li>
+    <li><b>《合伙企业法》第六十一条</b>（有限合伙 2–50 人）、《证券法》第九条（200 人公开发行红线）</li>
+    <li><b>《香港上市规则》第 17 章</b>（2023-01-01 生效）——10% 计划授权上限、1% 个人上限、12 个月最短归属期、期权行使价 ≥ 授出日市价、股份奖励新股授出价无下限。<a href="https://cn-rules.hkex.com.hk/entiresection/12602">港交所规则手册</a></li>
+    <li><b>港交所第 18C 章</b>（特专科技公司）——已商业化门槛年收入 2.5 亿港元；最低市值 40 亿 / 未商业化 80 亿港元；未商业化关键人士锁定 24 个月。<a href="https://www.hkexgroup.com/media-centre/insight/insight/2026/hkex-insight/18c-explained?sc_lang=zh-HK">港交所</a></li>
+    <li><b>智谱招股书</b>（2025-12-30 刊发）——慧惠 / 智登两个境内有限合伙平台、刘德兵为唯一 GP、合计发行后 15.15%、离职可保留已归属且未归属按原始认购价由 GP 回购、上市后 12 个月锁定、三期计划与 2025 年股改后期权统一替换为限制性股份</li>
+    <li><b>MiniMax 招股书</b>（2025-12-31 刊发）——MiniMax Gene 持发行后 6.84%、392 名承授人、行使价面值至 US$0.8（云女士与周雨聪为 US$0.002）、Pre-IPO 计划上市后不再授予</li>
+    <li><b>Momenta 招股书</b>——2016 计划上限 3,103 万股（已授 3,050 万股）、2025 计划上限 1,721 万股、全额行权稀释约 16.85%、行权价 US$1.93–13.16（早期部分为零）、三种归属模式、1–49,999 股区间 1,578 人。<a href="https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900057.pdf">港交所披露易</a></li>
+    <li><b>德勤《2019–2020 中国 A 股科创板长期激励调研报告》</b>——138 家样本中 63% 的员工持股计划 ≥5% 总股本，均值 9.32%</li>
+    <li><b>字节回购价时间序列与机制</b>——2019-04 起至 2026-10 的在职/离职双轨价、每年 4 月与 10 月两轮、公司自有现金流出资、2026-10 每笔授予分别计算回购额度。<a href="https://www.iheima.com/article-396261.html">i黑马 2026-04-16</a>、<a href="https://api2.bitpush.news/articles/7689958">比推 2026-10</a>、<a href="https://www.jinantimes.com.cn/news-240-5201761.html">新黄河 2026-01-13</a></li>
+    <li><b>豆包股</b>——2025-Q4 试点、授予价约 10 美元对应 AI 业务估值约 50 亿美元、2026-08-31 回购价 17.02 美元、本质为不涉真实股权与表决权的内部虚拟股、以年终奖/总包现金兑换而非认购。<a href="https://www.cls.cn/detail/2189890">财联社 2025-11-03</a>、<a href="https://wallstreetcn.com/articles/3773065">华尔街见闻 2026-05-27</a>、<a href="https://www.bianews.com/news/details?id=238729">bianews 2026-05-27</a></li>
+    <li><b>字节 2025-12-19 全员邮件</b>——奖金 +35%、调薪 +1.5 倍、提高现金占比减少期权/RSU、总包类期权改为 3 年（30/30/40）、新授予绩效期权 55% 归属后可立即回购、启用 L1–L10 职级。<a href="https://www.donews.com/news/detail/1/6317714.html">DoNews 全文 2025-12-19</a></li>
+    <li><b>字节 Seed 期权津贴</b>——2025-09，按绩效职级每月价值 9 万 / 11 万 / 13.5 万元、按月归属、首批 18 个月；内部横向不公平争议。<a href="https://stcn.com/article/detail/3321572.html">证券时报 2025-09-04</a>、<a href="https://www.36kr.com/p/3457880338160000">36氪 2025-09-08</a></li>
+    <li><b>DeepSeek 首轮融资</b>——2026-05 底签约、规模超 500 亿元、梁文锋个人出资 200 亿元、投前约 3,500 亿元、<b>增发 5% ESOP 后实际投前约 3,675 亿元</b>；财新独立印证投后估值 3,508.77 亿元。<a href="https://news.caijingmobile.com/article/detail/570440">《财经》2026-06-18</a>、<a href="https://companies.caixin.com/m/2026-07-17/102465132.html">财新 2026-07-17</a></li>
+    <li><b>DeepSeek 期权困境</b>——「员工手中的期权缺乏明确估值或许是核心人才被挖走的诱因之一」；V4 技术报告近 300 名作者中 10 人标注「已离职」。<a href="https://stcn.com/article/detail/3869302.html">每日经济新闻 2026-04-29</a></li>
+    <li><b>月之暗面</b>——估值序列（2025-12 C 轮投后 43 亿美元 → 2026-08 G 轮投前 500 亿美元）；「穿越计划」给 2027 届毕业生授期权首批 16 人；2025 年激励覆盖 324 人、2026 年平均激励为 2025 年的 200%、计划大幅上调回购额度。<a href="https://www.latepost.com/news/dj_detail?id=3492">晚点 LatePost 2026-04-03</a>、<a href="https://www.jiemian.com/article/14851967.html">界面新闻 2026-07-30</a>、<a href="https://www.infoq.cn/article/mwQekyl5ZQXcvv8vEsr9">InfoQ 2025-12-31</a></li>
+    <li><b>智谱与 MiniMax 上市数据</b>——发行价 116.20 / 165 港元、上市后股价路径、锁定期与解禁安排。<a href="https://www.bianews.com/news/details?id=236398">智谱 2025 年报（鞭牛士 2026-04-20）</a>、<a href="https://static.cdsb.com/micropub/Articles/202607/9d8f2ee74d399e478a9a1c40fb405db8.html">红星资本局 2026-07-14</a></li>
+    <li><b>MiniMax 上市后首次授予</b>——2026-06-23 授出 116.88 万股、购买价为零、不设 KPI、归属 13 个月至 6 年。<a href="https://finance.eastmoney.com/a/202606243781553169.html">东方财富/红星资本局 2026-06-24</a></li>
+    <li><b>阶跃星辰 Pre-IPO 分两拨交割</b>——第一拨投前约 40 亿美元、第二拨 50–60 亿美元，前后两拨买家成本相差近 50%。<a href="https://news.marsbit.co/20260507120511295873.html">融中财经 2026-05-07</a></li>
+    <li><b>老股市场结构与 90 天行权窗口</b>——中国大模型公司老股无公开市场；行业通行离职后 90 天行权窗口、过期作废、须自掏现金。<a href="https://www.36kr.com/p/3798664146017281">融中财经/36氪 2026-05-07</a></li>
+    <li><b>OpenAI / Anthropic 对照</b>——OpenAI 约 70 亿美元 tender @8,520 亿估值、600+ 人单日套现 66 亿；Anthropic 3,500 亿估值 tender 员工惜售；两家员工五年合计套现约 140 亿美元</li>
+    <li><b>字节 2022 年期权倒挂与应对</b>——授予价 195 美元 / 回购价 155 美元倒挂；下调授予价并对 3 万+员工特殊增发补偿；首次股东回购 ≤30 亿美元、估值 ≤3,000 亿美元；期权池扩大 1%、计划延长 10 年。<a href="https://www.tmtpost.com/6282736.html">钛媒体 2022-10-16</a>、<a href="https://www.tmtpost.com/6256515.html">钛媒体 2022-09-16</a></li>
+    <li><b>寒武纪股权激励回购纠纷案</b>——前 CTO 梁军实缴出资 5.26 万元、对应权益价值约 7.6 亿元，协议约定按「实缴成本 + 年化 5% 利息」回购；6 起案件全部败诉，另案索赔上调至 278.32 亿元</li>
+    <li><b>小红书期权案</b>（广州中院）——国内首例在 VIE 架构下认定境外期权属境内劳动报酬，判赔 85 万元（19 万违法解除 + 66 万期权损失）</li>
+    <li><b>北京市第一中级人民法院 8 个典型案例</b>（2023-05-05）——期权纠纷可作劳动争议处理；涉外期权约定管辖条款无效；授予主体为境外公司时境内用人单位不是适格被告</li>
+    <li><b>柔宇科技破产</b>——IPO 撤回 → 欠薪 → 以期权抵薪 → 员工以期权结算纠纷申请破产 → 2024-11-18 宣告破产，期权归零</li>
+    <li><b>司法处理口径</b>——主动离职按协议「人走股留」（指导案例 96 号）；因过错被解除时期权作废约定有效；违法解除日益主流地「视为行权条件已成就」判折价赔偿（（2025）京 02 民终 675 号）。来源：兰台律所汇总，2026-05-08</li>
+    <li><b>外资准入负面清单（2024 年版）第 12 项</b>——增值电信业务外资股比不超过 50%，是 AI 公司持 ICP 证做 C 端业务必须走 VIE 的原因；工信部通信函〔2024〕107 号已在四地试点放开</li>
+    <li><b>外汇规则</b>——非上市 SPV 员工期权走汇发〔2014〕37 号（行权前登记）；上市后走汇发〔2012〕7 号（境内代理机构统一登记）；登记由汇发〔2015〕13 号下放银行；未登记处罚企业 30 万元、个人 5 万元</li>
+    <li><b>银发〔2025〕252 号</b>（2026-04-01 施行）——规范境内企业境外直接上市，第二十四条明确红筹/VIE 间接上市「另行规定」</li>
+    <li><b>《公司法》（2023 修订）相关条文</b>——第四十二条（有限责任公司股东 1–50 人）、第九十二条（股份有限公司发起人 1–200 人）、<b>第一百六十二条</b>（公司回购本公司股份的六项例外；用于员工持股计划或股权激励时合计持有不超过已发行股份 10%、须在三年内转让或注销）、<b>第一百六十三条</b>（不得为他人取得本公司股份提供借款/担保等财务资助，员工持股计划除外且累计不超过已发行股本 10%）、第八十九条（异议股东回购请求权）</li>
+    <li><b>《合伙企业法》</b>——第三条（国有企业、上市公司不得担任 GP）、第六条（合伙企业所得「先分后税」）、第六十一条（有限合伙 2–50 人）、第六十七/六十八/七十二/七十三条（合伙事务执行与份额转让）</li>
+    <li><b>持股平台退出环节的税目争议</b>——自然人合伙人股权转让所得按「经营所得」5%–35%（财税〔2000〕91 号）还是「财产转让所得」20%（国税函〔2001〕84 号仅覆盖股息红利）。官方媒体口径见国家税务总局江西省税务局官网转发《中国税务报》文章，2018-09-28；1,000 万元转让所得下两者相差近 150 万元。财税〔2019〕8 号的 20% 仅适用于备案创投基金，不适用员工持股平台</li>
+    <li><b>《监管规则适用指引——发行类第 4 号》</b>（2023-02-17）4-4 条——现行员工持股计划与股东人数核查依据，「三类股东」提法已废弃，改按产品法律形式界定</li>
+    <li><b>《首发业务若干问题解答》</b>问题 24 / 25——员工持股计划可按一名股东计算；A 股 Pre-IPO 期权对应股票数占上市前总股本原则上不超过 15% 且<b>不得设置预留权益</b>；申报前 6 个月内增资锁定 3 年</li>
+    <li><b>IRS Topic 427</b>——美国 ISO / NSO 的定义与 AMT 处理，用于中美对照</li>
+    <li><b>富临精工 2026-09-29 公告</b>——一手公司样本：设 5 个有限合伙持股平台、注册资本各 5 万元、GP 任执行事务合伙人、员工为 LP，并专门声明无公司借款以回应《公司法》第 163 条的财务资助限制</li>
+  </ul>
+
+  <h3>未核实 / 存疑</h3>
+  <ul class="plain">
+    <li><b>字节回购起点</b>：一说 2017 年开始每年两轮，一说 2019 年 4 月为起点，两说冲突。本报告表述为「2017–2019 年间建立，2019 年 4 月已是较大规模的一轮」。</li>
+    <li><b>字节 2026-01 回购价 226.07 美元</b>：仅新黄河单一来源，且员工称未收到正式通知。</li>
+    <li><b>「离职后待满 3 个月」的脱敏/竞业安排</b>：本轮调研<b>未找到一手来源</b>，本报告不予采用。</li>
+    <li><b>DeepSeek 人才流失口径冲突</b>：每经称「至少 5 名核心研发确认离职」，《财经》同文亦称「截至 V4 发布核心团队并未遭遇人才流失问题」。本报告并列呈现，不单取一方。</li>
+    <li><b>月之暗面与阶跃星辰是否已正式递表</b>：月之暗面 2026-08 明确否认递表传闻；阶跃星辰公开渠道未见可确认的正式递交文件。两家均按「未坐实」处理。</li>
+    <li><b>智谱 2025 年高管离职与股权兑现的因果</b>：公开信息不支持「因股权兑现而离职」的判断（时间点均在 IPO 之前，更像上市前收缩与聚焦）。本报告不做此归因。</li>
+    <li><b>阶跃星辰高管流失与股权激励的关系</b>：原报道未把两者挂钩，归因是战略转向。<b>无一手证据支持</b>。</li>
+    <li><b>MiniMax 员工人均持股价值</b>（峰值约 4,200 万元 → 约 1,200 万元）：自媒体测算口径，本报告已标注存疑。</li>
+    <li><b>「2025 年 10 月起递延纳税备案出现新口径」</b>：该说法未见于任何官方文件，属咨询机构观点，本报告不予采用；但其中「3 年 + 1 年并行起算、取较晚者」的技术要点与 101 号原文一致，已采用。</li>
+    <li><b>持股平台退出环节的税目</b>（20% 还是「经营所得」5%–35%）：官方媒体口径倾向「经营所得」，但<b>公开的 IPO 披露案例中无一家明确回答过</b>，地方执行存在差异，仍属实务悬案。本报告给出两种口径的算例，不代替专业意见。</li>
+    <li><b>媒体转述的持股比例</b>（智谱 15.15%、MiniMax 6.84%、AB 股 10 票）：本轮部分来自媒体对招股书的转述而非招股书原文逐字核对，已标注。</li>
+    <li><b>「上海某大模型公司暴力压价回购期权」与「百川智能 1 折强制回购」</b>：前者社区帖且公司名未点名，后者为媒体转述。<b>均不作为一手证据引用</b>。</li>
+  </ul>
+
+  <h3>未能获取</h3>
+  <ul class="plain">
+    <li><b>月之暗面、阶跃星辰、DeepSeek 三家的期权池比例、行权价、归属期、回购价格</b>。障碍：三家均未上市（或刚完成融资），无公开披露义务。本报告在涉及这三家时只陈述有据可查的部分，<b>不对未披露数字做推测填充</b>。</li>
+    <li><b>DeepSeek 首轮融资中员工期权的定价基准</b>（按 3,500 亿还是 3,675 亿投前折算）。障碍：未披露。</li>
+    <li><b>Momenta 的公司主动回购权条款与上市前面向员工的老股转让安排</b>。障碍：招股书中未见。</li>
+    <li><b>智谱 / MiniMax 员工老股转让、S 基金接盘的公开案例与折扣比例</b>。障碍：中国老股交易私下撮合，无公开记录。</li>
+    <li><b>两家公司员工的实际税负与行权成本案例数字</b>。障碍：无公开披露；本报告的税务算例是基于法规的自行测算，非实际案例。</li>
+    <li><b>智谱与 MiniMax 的竞业约束条款</b>。障碍：招股书 ESOP 条款中未披露。</li>
+    <li><b>Blind / 脉脉的一手员工原帖</b>。障碍：需登录且为 JS 渲染，本机无法抓取。本报告中所有社区口径信息均已标注为「转述」。</li>
+  </ul>
+</section>
+
+<section id="sources">
+  <span class="snum">11</span>
+  <h2 class="sec">主要公开信息源</h2>
+  <ol class="src">
+    <li>财税〔2016〕101 号《关于完善股权激励和技术入股有关所得税政策的通知》，2016-09-01 施行。<a href="https://szs.mof.gov.cn/zhengcefabu/201609/t20160922_2424700.htm">szs.mof.gov.cn</a></li>
+    <li>国家税务总局公告 2016 年第 62 号《关于股权激励和技术入股所得税征管问题的公告》。<a href="https://www.chinatax.gov.cn/chinatax/n810341/n810765/n1990035/201609/c2457865/content.html">chinatax.gov.cn</a></li>
+    <li>财政部 税务总局公告 2021 年第 41 号《关于权益性投资经营所得个人所得税征收管理的公告》。<a href="https://www.gov.cn/zhengce/zhengceku/2021-12/31/content_5665849.htm">gov.cn</a></li>
+    <li>财政部 税务总局公告 2023 年第 25 号《关于延续实施上市公司股权激励有关个人所得税政策的公告》。<a href="http://m.mof.gov.cn/zcfb/202308/t20230822_3903474.htm">mof.gov.cn</a></li>
+    <li>财政部 税务总局公告 2024 年第 2 号《关于上市公司股权激励有关个人所得税政策的公告》。<a href="https://www.gov.cn/zhengce/zhengceku/202404/content_6947937.htm">gov.cn</a></li>
+    <li>汇发〔2014〕37 号《关于境内居民通过特殊目的公司境外投融资及返程投资外汇管理有关问题的通知》。<a href="https://www.safe.gov.cn/hubei/2014/0714/52.html">safe.gov.cn</a></li>
+    <li>《香港上市规则》第 17 章（股份激励计划）。<a href="https://cn-rules.hkex.com.hk/entiresection/12602">cn-rules.hkex.com.hk</a></li>
+    <li>港交所《解读特专科技上市章节》（18C），2026-05-04。<a href="https://www.hkexgroup.com/media-centre/insight/insight/2026/hkex-insight/18c-explained?sc_lang=zh-HK">hkexgroup.com</a></li>
+    <li>智谱招股书（2025-12-30 刊发，18C 章）——附录六 D 员工激励计划。<a href="https://saranormous.github.io/filing-websites/zhipu/">全文英译镜像</a></li>
+    <li>MiniMax 招股书（2025-12-31 刊发，18C 章）——附录四 D 股份激励计划。<a href="https://saranormous.github.io/filing-websites/minimax/">全文英译镜像</a></li>
+    <li>Momenta 招股书（2026-06-29）——Appendix IV-D 与 Appendix I Note 31。<a href="https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0629/2026062900057.pdf">hkexnews.hk</a></li>
+    <li>德勤中国《2019–2020 中国 A 股科创板长期激励调研报告》，2020-05-07。<a href="https://www2.deloitte.com/content/dam/Deloitte/cn/Documents/human-capital/deloitte-cn-hc-2019-2020-china-a-share-sci-tech-innovation-board-long-term-incentive-investigation-report-zh-200507.pdf">deloitte.com</a></li>
+    <li>君合《浅析联交所有关上市公司股份激励计划的新规定》，2022-09-14。<a href="https://www.junhe.com/legal-updates/1926">junhe.com</a></li>
+    <li>大成律所：员工持股平台与 200 人穿透核查实务，2026-03-30。<a href="https://www.icourt.cc/prac-document/159974.html">icourt.cc</a></li>
+    <li>锦天城：员工持股计划「闭环原则」解读，2018-06-11。<a href="https://www.allbrightlaw.com/CN/10475/21a133a7ca4c5e7.aspx">allbrightlaw.com</a></li>
+    <li>i黑马《字节跳动开启新一轮期权回购》，2026-04-16。<a href="https://www.iheima.com/article-396261.html">iheima.com</a></li>
+    <li>比推《字节跳动开启新一轮期权回购，每股 241.35 美元》，2026-10。<a href="https://api2.bitpush.news/articles/7689958">bitpush.news</a></li>
+    <li>新黄河《字节跳动期权回购价上调》，2026-01-13。<a href="https://www.jinantimes.com.cn/news-240-5201761.html">jinantimes.com.cn</a></li>
+    <li>钛媒体《字节期权大讨论》，2022-10-16。<a href="https://www.tmtpost.com/6282736.html">tmtpost.com</a></li>
+    <li>钛媒体《字节跳动启动股东回购》，2022-09-16。<a href="https://www.tmtpost.com/6256515.html">tmtpost.com</a></li>
+    <li>36氪《上市前的「现金流攻防战」：字节跳动开启大范围期权换购》，2019-04-11。<a href="https://finance.china.com/tech/13001906/20190411/35637237_all.html">finance.china.com</a></li>
+    <li>财联社《字节跳动试点「豆包长期激励计划」》，2025-11-03。<a href="https://www.cls.cn/detail/2189890">cls.cn</a></li>
+    <li>华尔街见闻《李亮披露 Seed 团队激励架构》，2026-05-27。<a href="https://wallstreetcn.com/articles/3773065">wallstreetcn.com</a></li>
+    <li>bianews《字节豆包股无「认购」一说》，2026-05-27。<a href="https://www.bianews.com/news/details?id=238729">bianews.com</a></li>
+    <li>DoNews《字节跳动 2025-12-19 全员邮件》全文，2025-12-19。<a href="https://www.donews.com/news/detail/1/6317714.html">donews.com</a></li>
+    <li>证券时报《字节跳动为 Seed 部门发放期权津贴》，2025-09-04。<a href="https://stcn.com/article/detail/3321572.html">stcn.com</a></li>
+    <li>36氪/凤凰网科技《Seed 期权津贴引发内部讨论》，2025-09-08。<a href="https://www.36kr.com/p/3457880338160000">36kr.com</a></li>
+    <li>《财经》杂志《掮客、份额与百亿资金：DeepSeek 融资实录》，2026-06-18。<a href="https://news.caijingmobile.com/article/detail/570440">caijingmobile.com</a></li>
+    <li>财新《DeepSeek 首轮融资后估值升至 3508 亿元》，2026-07-17。<a href="https://companies.caixin.com/m/2026-07-17/102465132.html">caixin.com</a></li>
+    <li>证券时报《DeepSeek 增资！梁文锋持股比例由 1% 飙至 34%》，2026-04-28。<a href="https://stcn.com/article/detail/3843940.html">stcn.com</a></li>
+    <li>每日经济新闻《DeepSeek 致谢近 300 名研发者 10 名已离职大将在列》，2026-04-29。<a href="https://stcn.com/article/detail/3869302.html">stcn.com</a></li>
+    <li>晚点 LatePost《Kimi 计划提前 1 年授予 27 届顶尖人才期权》，2026-04-03。<a href="https://www.latepost.com/news/dj_detail?id=3492">latepost.com</a></li>
+    <li>界面新闻《股改完成，「估值」500 亿美元，月之暗面 IPO 倒计时》，2026-07-30。<a href="https://www.jiemian.com/article/14851967.html">jiemian.com</a></li>
+    <li>InfoQ《杨植麟自曝家底：明年 Kimi 员工激励翻倍》，2025-12-31。<a href="https://www.infoq.cn/article/mwQekyl5ZQXcvv8vEsr9">infoq.cn</a></li>
+    <li>鞭牛士《智谱 2025 年报细节：董事长年薪 1.57 亿元》，2026-04-20。<a href="https://www.bianews.com/news/details?id=236398">bianews.com</a></li>
+    <li>东方财富/红星资本局《MiniMax 发 6 亿港元股权激励，不设 KPI》，2026-06-24。<a href="https://finance.eastmoney.com/a/202606243781553169.html">eastmoney.com</a></li>
+    <li>界面/市象《MiniMax 增发百万美金期权，大模型人才战进入白热化》，2025-09-08。<a href="https://www.jiemian.com/article/13316198.html">jiemian.com</a></li>
+    <li>红星资本局《AI「双子星」跌落神坛，谁在减持智谱和 MiniMax？》，2026-07-14。<a href="https://static.cdsb.com/micropub/Articles/202607/9d8f2ee74d399e478a9a1c40fb405db8.html">cdsb.com</a></li>
+    <li>融中财经《老股暗流：谁在从中国大模型公司悄悄套现？》，2026-05-07。<a href="https://www.36kr.com/p/3798664146017281">36kr.com</a></li>
+    <li>钛媒体《香港政府唯一押注的大模型公司，一把融了 170 亿》（阶跃星辰），2026-05-11。<a href="https://m.tmtpost.com/7983691.html">tmtpost.com</a></li>
+    <li>财联社《Momenta 抢跑港股 IPO》，2026-06-23。<a href="https://www.cls.cn/detail/2406484">cls.cn</a></li>
+    <li>证券时报/人民财讯《抖音黑板报回应「期权被随意取消」》，2025-07-28。<a href="https://www.stcn.com/article/detail/2772388.html">stcn.com</a></li>
+    <li>兰台律所《股权激励纠纷的司法处理口径汇总》，2026-05-08（含寒武纪案、小红书案、北京一中院典型案例）</li>
+    <li>《外商投资准入特别管理措施（负面清单）》（2024 年版）第 12 项——增值电信业务外资股比限制</li>
+    <li>汇发〔2012〕7 号《关于境内个人参与境外上市公司股权激励计划外汇管理有关问题的通知》</li>
+    <li>汇发〔2015〕13 号《关于进一步简化和改进直接投资外汇管理政策的通知》——外汇登记下放银行办理</li>
+    <li>银发〔2025〕252 号，2026-04-01 施行（第二十四条：红筹/VIE 间接上市另行规定）</li>
+  </ol>
+</section>
+
+<footer>
+  <p>本报告基于公开信息整理，数据截止 2026-10-19。所有期权条款均连来源与口径引用；未上市公司未披露的期权池比例、行权价、归属期、回购价格一律标注为「未披露」，未作推测填充。第 05 节的税务算例是基于现行法规的自行测算，非实际案例，具体适用请以主管税务机关口径与专业顾问意见为准。本报告不构成投资建议、税务意见或人事决策依据。</p>
+</footer>
+
+</div>
+</body>
+</html>
