@@ -1,0 +1,1418 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>大模型算力全景 · 芯片 · 集群 · 获取</title>
+<meta name="description" content="CPU 与 GPU 的分工、英伟达与国产卡的产品线、性能与价格、集群建设与 TCO、出口管制与获取难度、以及不同体量公司的算力选择">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@500;600;700&display=swap">
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+</style>
+<style>
+.tw tr.grp td{background:var(--surface-2);border-top:1px solid var(--rule);font-size:13.5px;letter-spacing:.02em}
+.tw tr.sum td{background:var(--surface-2);border-top:1px solid var(--rule)}
+.tw tr.sum td.k{font-weight:700}
+.tw td .chip{vertical-align:middle}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="inner">
+    <span class="brand">大模型算力全景</span>
+    <div class="links">
+      <a href="#thesis">结论先行</a>
+      <a href="#cpu-gpu">CPU 与 GPU</a>
+      <a href="#nvidia">英伟达</a>
+      <a href="#domestic">国产卡</a>
+      <a href="#cluster">集群怎么建</a>
+      <a href="#access">获取难度</a>
+      <a href="#economics">三条路的经济性</a>
+      <a href="#choices">不同公司怎么选</a>
+      <a href="#risks">风险与判断</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">算力研究 · 芯片 · 集群 · 获取 · 2026</p>
+  <h1>大模型算力全景</h1>
+  <p class="standfirst">从 CPU 与 GPU 的分工，到英伟达与国产卡的真实差距，再到集群怎么建、卡怎么拿到、不同体量的公司该怎么选——一份用规格表、价格带和一手财报说话的算力地图。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-20</dd></div>
+    <div><dt>版本</dt><dd>v1 · 11 节（结论 + 9 节分析 + 信息源）</dd></div>
+    <div><dt>核心结论</dt><dd>瓶颈已经不在「买不买得到」，而在「造不造得出」与「用不用得好」——利用率与生态适配，比卡的数量更能决定有效算力</dd></div>
+    <div><dt>一手来源</dt><dd>NVIDIA 官网规格页与 FY2026 10-K · 各厂商年报与公告 · 港交所/上交所披露 · Llama 3 技术报告 · MLPerf · Epoch AI</dd></div>
+  </dl>
+</header>
+
+<section id="thesis">
+  <span class="snum">00</span>
+  <h2 class="sec">结论先行</h2>
+
+  <div class="thesis">
+    <ol>
+      <li>
+        <b>算力的瓶颈已经换了一次位置：从「买不买得到」变成了「造不造得出」。</b>
+        2025–2026 年国产 AI 芯片公司业绩集体爆发（寒武纪 2025 年营收 64.97 亿元、同比增长 453%，上市以来首次年度盈利；壁仞 2026 上半年收入同比增长逾 18 倍），说明设计能力已不是主要矛盾。<em>真正的约束在中芯国际的 N+2 产线——它是全国唯一能规模量产 AI 芯片的先进制程。</em>按公开测算，2026 年国产 AI 芯片需求约 420 万颗、供给约 260 万颗，<b>缺口约 40%</b>；无 EUV、靠 DUV 多重曝光，同一片晶圆的生产时间是台积电的 2–3 倍，单片成本贵 40%–50%。华为轮值董事长徐直军的表述最直白：<b>「现在制约昇腾进一步放量的主要问题已经不是市场需求，而是供货能力。」</b>
+      </li>
+      <li>
+        <b>在英伟达那一侧，中国市场已经实质关闭——这是英伟达自己在 10-K 里写的。</b>
+        FY2026 年报原文：<em>「在当前规则与地缘政治格局下，我们无法为中国数据中心市场创造并交付一款同时获得美国政府与中国政府批准的有竞争力的产品。截至 FY2026 末，我们实际上已被排除在中国数据中心计算市场之外，而这一排除帮助我们的竞争对手建立了更庞大的开发者与客户生态。」</em>数字印证了这句话：中国（含香港）营收从 FY2024 的 123.3 亿美元（占 20.2%）降至 FY2026 的 196.8 亿美元（占 <b>9.1%</b>），且连续两个季度在业绩指引中明确<b>「不假设任何来自中国的数据中心计算营收」</b>。H20 在 2026 年初停产，H200 虽于 2025 年 12 月获准对华出口，但截至财年结束<b>零营收</b>。
+      </li>
+      <li>
+        <b>国产卡与英伟达的差距，主要不在峰值算力，而在显存带宽与软件生态——这两项才是决定「能不能训」的东西。</b>
+        最硬的一组公开数字来自科大讯飞业绩会：昇腾 910B 显存 <b>64GB vs H200 141GB</b>，显存带宽 <b>1.6 TB/s vs 4.8 TB/s</b>；国际主流算法发布后，英伟达卡上可以直接做，<b>国产卡需要额外 3–6 个月适配周期</b>；智能体强化学习训练阶段的采样推理效率，因通信机制差异，<b>甚至相差 5 倍</b>。由此得到本报告最需要记住的一句话：<em><b>「能推」不等于「能训」</b>——DeepSeek-V4 的训练仍然基于英伟达卡，只把推理适配了昇腾。</em>所谓「Day 0 适配」通常只指模型层面的推理适配。
+      </li>
+      <li>
+        <b>「买卡」只是算力成本的一部分，而且是较小的一部分。</b>
+        Bernstein 对 1GW 级 GB200 数据中心的测算显示，约 350 亿美元总投入中：<b>GPU 占 38.8%、电力与机械设施占 31.9%、网络占 12.6%</b>，IT 与物理设施大致是 6:4。同时 IT 硬件的折旧年限只有 <b>4–6 年</b>，而建筑是 25–40 年。<em>这意味着只盯着单卡价格做预算的公司，会系统性低估真实成本约 60%。</em>更关键的是：算力不是一次采购，是一个持续 4–6 年、每年都要付电费和运维的资产。
+      </li>
+      <li>
+        <b>利用率是最大的隐藏变量，而它的口径极容易被混淆。</b>
+        三个完全不同的概念必须分开：<em>训练 MFU</em>（Uptime Institute 口径为 35%–45%，&gt;50% 是天花板；字节 MegaScale 12,288 卡达 55.2% MFU；xAI 被指仅 11%）、<em>运行时间占比</em>（训练服务器约 80% 时间在跑）、<em>云上资源利用率</em>（Cast AI 称企业平均仅 5%）。跨度从 5% 到 55%。<b>同一个「用了多少算力」的问题，用不同口径回答会得到十倍以上的差异。</b>提升利用率往往比多买卡更划算——公开案例中，补足 CPU 核即可让首 token 延迟降低 1.47–7.11 倍，不需要增加 GPU。
+      </li>
+      <li>
+        <b>不同体量公司的算力策略是四套完全不同的逻辑，选错方向的代价远大于买贵。</b>
+        <b>&gt;10 万卡</b>：自建 GW 级数据中心 + 自研芯片 + 长协锁产能；<b>1–10 万卡</b>：混合（自建 + 云 + 租赁），靠云业务变现反哺；<b>千卡–万卡创业公司</b>：以租为主、轻资产，训练算力占支出 50% 以上；<b>&lt;100 卡的应用层</b>：<em>关键临界点是持续利用率——超过 40%–50% 才值得自建或长租，低于这个数用 API 更划算。</em>另外要纠正一个常被误传的数字：「算力开支是人力成本的 2.3 倍」出自 Epoch AI 对 <b>Anthropic</b> 的测算（2.34x），中国独立模型公司反而更高（智谱 2.67x、MiniMax 3.75x），而算力加推理通常占总成本的 54%–62%、人力不足 25%。
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="wide" id="cpu-gpu">
+  <span class="snum">01</span>
+  <h2 class="sec">CPU 与 GPU：各干什么，谁在什么时候成为瓶颈</h2>
+
+  <p class="lede">一个常见的误解是把 CPU 和 GPU 看成「快」与「更快」的关系。<em>实际上它们是两种不同的机器</em>：CPU 擅长串行逻辑与调度，GPU 擅长海量同构并行计算。大模型训练几乎全部发生在 GPU（或专用加速器）上，但 CPU 从来不是可有可无的配角——它在特定环节会直接决定整条流水线的吞吐。</p>
+
+  <h3 class="sub"><span class="subn">01.1</span>训练侧：CPU 不参与张量计算，但会饿死 GPU</h3>
+
+  <p>CPU 在训练集群里承担四件事：<b>数据加载与预处理</b>（dataloader）、<b>检查点读写</b>、<b>通信协调</b>、<b>故障诊断</b>。它不做矩阵乘。</p>
+
+  <div class="tw">
+    <table>
+      <caption>CPU : 加速器的配比经验值</caption>
+      <thead><tr><th>形态</th><th>配比</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="k">主流 8 卡服务器（HGX / DGX）</td><td><b>8 卡 : 2 路 CPU</b></td><td>DGX B200 = 2×Xeon 8570（共 112 核）: 8×Blackwell，约合 <b>14 核/卡</b></td></tr>
+        <tr><td class="k">整机柜超节点</td><td><b>1 CPU : 2 加速器</b></td><td>GB200 NVL72 = 36×Grace : 72×Blackwell；华为 CloudMatrix 384 = 192×鲲鹏 : 384×昇腾</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>关键判断：CPU 是「吞吐瓶颈」而不是「可靠性瓶颈」。</b>Llama 3 405B 训练记录的 419 次非计划中断中，<b>CPU 相关仅 2 次（0.5%）</b>——它几乎不导致训练崩溃。但它会拖慢吞吐：IISWC 2026 的一篇论文量化了「CPU 饥饿」问题，<em>补足 CPU 核数可让首 token 延迟（TTFT）降低 1.47–7.11 倍，且完全不需要增加 GPU</em>。<span class="chip mid">该论文编号为预印本口径，建议引用时注明</span></p>
+
+  <div class="callout">
+    <div class="ct">一个反直觉的优化方向</div>
+    <p>当集群利用率偏低时，团队的默认反应是「卡不够」。但公开数据显示，<b>相当一部分损失来自 host 侧配置不足</b>——CPU 核数、内存带宽、存储 IO 跟不上 GPU 的消费速度，导致昂贵的加速器在等数据。<em>先做一轮 host 侧体检，可能比再买一批卡更有效。</em>这也解释了为什么大厂自研 CPU（如 Grace、鲲鹏）会成为超节点标配：不是为了让 CPU 算得更快，而是为了让它与 GPU 的互联带宽不成为短板。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">01.2</span>推理侧：CPU 管调度，纯 CPU 推理只在特定场景成立</h3>
+
+  <p>推理场景下 CPU 的角色更多：请求调度、tokenize、<b>KV cache 卸载</b>、以及在 P/D 分离（Prefill/Decode 分离）架构中充当编排者。纯 CPU 推理只在三种情况下成立：<b>小模型</b>、<b>低并发</b>、<b>边缘或强隐私场景</b>。</p>
+
+  <p>框架侧的现状：llama.cpp 同时支持纯 CPU 与 CPU+GPU 混合（含 ZenDNN / OpenVINO 后端）；vLLM 有独立的 CPU 后端与 KV offload 能力。<em>这意味着「没有 GPU 也能跑大模型」在技术上成立，但它是一个吞吐与成本问题，不是能力问题。</em></p>
+
+  <p><b>一个正在成为主流的过渡架构值得单独指出：国产卡 + 英伟达卡的异构推理。</b>天数智芯的天垓 150 与英伟达 H20 组成的异构集群被用于 DeepSeek 大规模推理——<em>国产卡作 Prefill（P）节点，H20 作 Decode（D）节点</em>。原因很实际：Prefill 阶段单请求计算量大、对显存带宽要求相对低，国产卡在这里性价比更高；Decode 阶段需要大显存与高带宽，仍依赖 H20。<b>这类「各取所长」的异构方案，是当下最务实的过渡路径。</b></p>
+
+  <h3 class="sub"><span class="subn">01.3</span>国产 CPU 在 AI 集群里的真实位置</h3>
+
+  <p>需要澄清一个容易误读的数字：<b>国产 CPU 在 AI 集群里是 host 与信创底座，不承担 AI 计算本身。</b>中国电信 2026–2027 年集采 4 万台服务器实现 100% 国产化，其中鲲鹏生态中标约 <b>70.7%</b>（81.61 亿元），其余为海光 C86；2024–2025 年集采中国产占 67.5%（ARM 架构 45% + C86 8.7%）。</p>
+
+  <p><em>这里的「70.7%」是<u>服务器采购份额</u>，不是 AI 算力份额。</em>把它当作「国产 CPU 已占据 AI 算力七成」来引用，会得出完全错误的结论。政策侧的驱动力是国资委 79 号文件要求的「2027 年央企国企 100% 信创」，属于合规要求而非算力性能选择。</p>
+</section>
+
+<section class="wide" id="nvidia">
+  <span class="snum">02</span>
+  <h2 class="sec">英伟达产品线：规格、价格与那条被关上的门</h2>
+
+  <p class="lede">这一节的所有规格都来自 NVIDIA 官网规格页，所有监管事实都来自 NVIDIA 自己的 10-K 财报。<em>价格是唯一的例外——英伟达从不公布官方 MSRP，所有价格都是渠道报价或投行估算，本报告逐条标注了来源性质。</em></p>
+
+  <div class="callout warnb">
+    <div class="ct">读规格表前必须知道的一个口径陷阱</div>
+    <p>NVIDIA 官网的 Tensor Core 规格<b>默认标注「含稀疏（with sparsity）」</b>，<b>稠密值 = 稀疏值 ÷ 2</b>。行业讨论中大量流传的「B200 是 20 PFLOPS FP4」用的是稀疏口径，稠密值只有 10 PFLOPS——<em>两者相差一倍，足以让任何算力对比得出相反结论。</em></p>
+    <p>更麻烦的是官网自身存在一处矛盾：GB200 NVL72 页面列 FP4「1,440 | 720 PFLOPS」（稀疏:稠密 = 2:1），而 GB300 NVL72 页面列「1,440 | 1,080」（仅 1.33:1）。若 B300 稠密确为 1,080 PFLOPS（72 卡 × 15 PFLOPS，与官方「1.5× 稠密 FP4」的表述吻合），稀疏应为 2,160，官网的 1,440 疑似沿用了上一代数值。<b>本报告统一采用稠密值作为锚点</b>（B200 单卡 10 PFLOPS、B300 单卡 15 PFLOPS），稀疏值标注存疑。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.1</span>单卡规格（均为官方稠密值）</h3>
+
+  <div class="tw">
+    <table>
+      <caption>数据中心加速卡规格对比（来源：NVIDIA 官网规格页）</caption>
+      <thead>
+        <tr><th>型号</th><th>制程</th><th class="n">FP16 稠密</th><th class="n">FP8 稠密</th><th class="n">FP4 稠密</th><th class="n">HBM 容量</th><th class="n">HBM 带宽</th><th class="n">NVLink</th><th class="n">TDP</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">A100 SXM 80GB</td><td>TSMC 7nm</td><td class="n">156 TF</td><td class="n">—</td><td class="n">—</td><td class="n">80GB HBM2e</td><td class="n">2.0 TB/s</td><td class="n">600 GB/s</td><td class="n">400W</td></tr>
+        <tr><td class="k"><b>H100 SXM5</b></td><td>TSMC 4N</td><td class="n"><b>989 TF</b></td><td class="n"><b>1,979 TF</b></td><td class="n">—</td><td class="n">80GB HBM3</td><td class="n">3.35 TB/s</td><td class="n">900 GB/s</td><td class="n">最高 700W</td></tr>
+        <tr><td class="k">H200 SXM</td><td>TSMC 4N</td><td class="n">989 TF</td><td class="n">1,979 TF</td><td class="n">—</td><td class="n"><b>141GB HBM3e</b></td><td class="n"><b>4.8 TB/s</b></td><td class="n">900 GB/s</td><td class="n">最高 700W</td></tr>
+        <tr><td class="k"><b>B200 SXM</b></td><td>TSMC 4NP</td><td class="n">~2.5 PF</td><td class="n">~5 PF</td><td class="n"><b>10 PF</b></td><td class="n">192GB HBM3e</td><td class="n">8 TB/s</td><td class="n">1.8 TB/s</td><td class="n">1000–1200W</td></tr>
+        <tr><td class="k"><b>B300</b>（Blackwell Ultra）</td><td>TSMC 4NP</td><td class="n">~2.5 PF</td><td class="n">~5 PF</td><td class="n"><b>15 PF</b></td><td class="n"><b>288GB HBM3e</b></td><td class="n">8 TB/s</td><td class="n">1.8 TB/s</td><td class="n">~1400W</td></tr>
+        <tr><td class="k">Rubin (R100)</td><td>TSMC 3nm(?)</td><td class="n">未公开</td><td class="n">未公开</td><td class="n">未公开</td><td class="n">288GB HBM4</td><td class="n">~19.4 TB/s（推算）</td><td class="n">3.6 TB/s</td><td class="n">未公开</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>看这张表要注意三件事：</b></p>
+  <ul class="plain">
+    <li><b>H200 相对 H100 算力完全没变。</b>FP16/FP8 数字一模一样，唯一的升级是显存从 80GB 到 141GB、带宽从 3.35 到 4.8 TB/s。<em>它的价值全在「能装下更大的模型」和「decode 更快」，不在算得更快。</em>这一点在采购决策里经常被误解。</li>
+    <li><b>FP4 是 Blackwell 才有的新精度档位。</b>Hopper 全系没有 FP4，所以 B200 的 10 PFLOPS FP4 不能与 H100 的 1,979 TFLOPS FP8 直接比较——<em>跨精度比算力是算力对比中最常见的错误。</em></li>
+    <li><b>真正的代际跃升体现在整机柜，而不是单卡。</b>B200 相对 H100 的 FP16 只有约 2.5 倍，但 GB200 NVL72 相对 H100 的官方推理倍数宣称是 <b>30 倍</b>。<span class="chip mid">官方口径均为 projected 营销数据</span></li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">02.2</span>整机柜：超节点才是这一代的竞争单位</h3>
+
+  <div class="tw">
+    <table>
+      <caption>整机柜（Rack-scale）规格对比（来源：NVIDIA 官网）</caption>
+      <thead><tr><th>系统</th><th>配置</th><th class="n">GPU 显存</th><th class="n">NVLink 域带宽</th><th class="n">FP4 稠密</th><th class="n">功耗</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><b>GB200 NVL72</b></td><td>72×B200 + 36×Grace</td><td class="n">13.4 TB HBM3e</td><td class="n"><b>130 TB/s</b></td><td class="n"><b>720 PFLOPS</b></td><td class="n">~120 kW（液冷）</td><td>已量产</td></tr>
+        <tr><td class="k"><b>GB300 NVL72</b></td><td>72×B300 + 36×Grace</td><td class="n"><b>20 TB HBM3e</b></td><td class="n">130 TB/s</td><td class="n"><b>1,080 PFLOPS</b></td><td class="n">~130–140 kW（液冷）</td><td>已量产</td></tr>
+        <tr><td class="k">Vera Rubin NVL72</td><td>72×Rubin + 36×Vera</td><td class="n"><b>20.7 TB HBM4</b></td><td class="n">NVLink 6</td><td class="n">—</td><td class="n">未公开</td><td>2026 量产爬坡</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>为什么竞争单位从「卡」变成了「机柜」：</b>MoE 架构与长上下文把瓶颈从「算」搬到了「通信」。一个万亿参数 MoE 模型每次前向只激活一部分专家，但专家分布在不同的卡上，<em>卡间通信量反而比稠密模型更大</em>。这就是 NVLink 域从单机 8 卡扩展到整柜 72 卡的直接原因——<b>把通信留在高带宽域内，比把计算做快更重要。</b></p>
+
+  <h3 class="sub"><span class="subn">02.3</span>价格：唯一确定的两个数字，和一堆估算</h3>
+
+  <p><b>英伟达从不公布官方 MSRP。</b>下表按来源可靠性分级——这是本节最重要的信息，因为算力预算做错，通常错在这里。</p>
+
+  <div class="tw">
+    <table>
+      <caption>价格与来源可靠性（★ = 可靠性等级）</caption>
+      <thead><tr><th>产品</th><th class="n">价格</th><th>来源性质</th><th>可靠性</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><b>B200（192GB）</b></td><td class="n"><b>$30,000–40,000</b></td><td><b>黄仁勋亲口披露</b></td><td><span class="chip ok">公司高管口径</span></td></tr>
+        <tr><td class="k"><b>H100（80GB）</b></td><td class="n"><b>$25,000–30,000</b></td><td>投行估算（Raymond James，2024 年初）</td><td><span class="chip ok">投行估算</span></td></tr>
+        <tr><td class="k">A100 80GB</td><td class="n">$15,000–17,000</td><td>渠道报价汇总</td><td><span class="chip mid">市场区间</span></td></tr>
+        <tr><td class="k">H200 141GB</td><td class="n">$25,000–35,000</td><td>渠道报价汇总</td><td><span class="chip mid">市场区间</span></td></tr>
+        <tr><td class="k">DGX H100（8 卡整机）</td><td class="n">~$290,000</td><td>渠道报价</td><td><span class="chip mid">市场区间</span></td></tr>
+        <tr><td class="k">DGX B200（8 卡整机）</td><td class="n">~$515,000</td><td>渠道报价</td><td><span class="chip mid">市场区间</span></td></tr>
+        <tr><td class="k"><b>GB200 NVL72（整机柜）</b></td><td class="n"><b>~$3,000,000</b></td><td>媒体估算（中文媒体口径约 2,000 万人民币）</td><td><span class="chip mid">市场区间</span></td></tr>
+        <tr><td class="k">GB200 超芯片（2 GPU+1 Grace）</td><td class="n">最高 $70,000</td><td>媒体估算</td><td><span class="chip no">估算</span></td></tr>
+        <tr><td class="k">H20</td><td class="n">约 $10,000–12,000</td><td>业内常见口径（官方页面已下线）</td><td><span class="chip no">口径存疑</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>两条可用的经济性锚点：</b>H100 云租赁按需约 <b>$2–8/GPU/小时</b>，竞价实例低至 <b>$1.43/GPU/小时</b>；单位算力成本（每 FP16 TFLOP）H100 约 $16–20、B200 约 $8–12。<span class="chip mid">均为第三方汇总口径</span></p>
+
+  <div class="callout">
+    <div class="ct">一个关于「卖卡利润」的数字</div>
+    <p>Morgan Stanley 的测算称，GB200 NVL72 机柜的毛利率约 <b>77.6%</b>，而 AMD MI355X 为 <b>−64%</b>，两者的 TCO 却"几乎相同"。<span class="chip mid">投行测算，存疑</span><em>这个对比如果成立，说明英伟达的定价能力不来自硬件成本优势，而来自生态与整柜方案的不可替代性——这也解释了为什么整机柜的溢价远高于单卡。</em></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.4</span>中国市场：那条被关上的门，以及它的完整时间线</h3>
+
+  <p>这是本节最需要完整呈现的部分，因为它决定了很多中国公司的算力策略前提。</p>
+
+  <div class="tw">
+    <table>
+      <caption>英伟达对华供应的监管时间线（核心事实来自 NVIDIA FY2026 10-K）</caption>
+      <thead><tr><th>时间</th><th>事件</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2022-10</td><td>美国禁止 A100 / H100 对华出口</td></tr>
+        <tr><td class="k">2022-11 起</td><td>英伟达推出 <b>A800 / H800</b>——<b>降互联带宽版</b>（H800 的 NVLink 从 900 GB/s 砍到 400 GB/s，算力基本保留）</td></tr>
+        <tr><td class="k">2023-10</td><td>A800 / H800 亦被禁 → 英伟达推出 <b>H20 / L20 / L2</b>。H20 是<b>降算力版</b>（多方估算仅为 H100 的 15%–33%），但保留了高显存带宽</td></tr>
+        <tr><td class="k">2024</td><td>H20 在中国市场大卖，一度断货</td></tr>
+        <tr><td class="k">2025-04</td><td><b>美方要求 H20 出口需许可</b>（含港澳）→ 英伟达计提 <b>45 亿美元</b>库存与采购义务损失</td></tr>
+        <tr><td class="k">2025-08</td><td><b>美方发放许可</b>，允许向特定中国客户出货部分 H20，美方要求收取许可销售额 15% 以上。<b>但英伟达在该许可下仅产生约 6,000 万美元营收</b></td></tr>
+        <tr><td class="k">2025-11-07</td><td>美方阻止英伟达对华出售减配版芯片 B30A</td></tr>
+        <tr><td class="k"><b>2025-12-09</b></td><td><b>特朗普允许 H200 对华出口</b>，附加 25% 收入抽成</td></tr>
+        <tr><td class="k">2026-02</td><td>美方发放许可，允许向特定中国客户出货<b>少量 H200</b>（须在美接受检查后出货）。<b>截至 FY2026 结束，该许可下零营收</b></td></tr>
+        <tr><td class="k">2026 年初</td><td>英伟达停止 H20 生产</td></tr>
+        <tr><td class="k">FY2026 10-K</td><td><b>「我们实际上已被排除在中国数据中心计算市场之外」</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">10-K 原文（本报告最重要的一段引用）</div>
+    <blockquote>
+      <p>Under the current rules and geopolitical landscape, we are unable to create and deliver a competitive product for China's data center market that receives approval from both the USG and the Chinese government. As of the end of fiscal year 2026, we were effectively foreclosed from competing in China's data center computing/compute market, and our effective foreclosure from the China market helped our competitors build larger developer and customer ecosystems to challenge us.</p>
+      <cite>NVIDIA FY2026 Form 10-K，2026-02-25 提交</cite>
+    </blockquote>
+    <p><em>这段话值得反复读：一家公司在美国证券监管文件里，承认自己因本国政策而被排除在一个市场之外，并且承认这帮助了竞争对手建立起更庞大的生态来挑战自己。</em>对本报告的意义是：<b>中国公司拿不到英伟达最新卡，已经从「阶段性困难」变成了「结构性事实」——所有的算力规划都必须以这个前提为起点。</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.5</span>性能锚点与生态护城河</h3>
+
+  <p><b>以 H100 SXM 的 FP16 稠密算力（989 TFLOPS）为 1.00x：</b>A100 ≈ 0.16x；H200 = 1.00x（算力不变，仅带宽 1.43x）；B200 ≈ 2.5x（FP16），且 FP4 是 Hopper 不具备的新精度；B300 的 FP16 与 B200 相同，但 FP4 再提升 50%；H20 ≈ 0.15x。</p>
+
+  <p><b>MLPerf Training v6.0 的结果值得单独引用</b>（2026-06）：英伟达横扫全部基准，且是唯一在所有测试项提交结果的平台。DeepSeek-V3 671B 在 GB300 NVL72 上用 8,192 卡训练仅需 <b>2.02 分钟</b>；Llama 3.1 405B 在 GB200 NVL72 上 8,192 卡 <b>7.07 分钟</b>。</p>
+
+  <p>但比绝对成绩更能说明护城河的是另一个数字：<b>GB300 在 DeepSeek-V3 上的单卡效率从 1,298 TFLOPS/GPU 提升到 1,648 TFLOPS/GPU——三个月内提升 1.3 倍，全部来自纯软件优化。</b><em>这才是竞品最难复制的东西：不需要换硬件，光靠 cuDNN、Transformer Engine、Megatron Core、CuTe DSL 的协同调优就能再挤出 30% 的性能。</em></p>
+
+  <div class="tw">
+    <table>
+      <caption>CUDA 生态的可量化指标</caption>
+      <thead><tr><th>指标</th><th class="n">数值</th><th>来源与时点</th></tr></thead>
+      <tbody>
+        <tr><td class="k">CUDA 开发者数量</td><td class="n"><b>超过 400 万</b></td><td>NVIDIA GTC 2026 官方材料，2026-03</td></tr>
+        <tr><td class="k">CUDA 优化应用</td><td class="n"><b>3,000+</b></td><td>同上</td></tr>
+        <tr><td class="k">CUDA-X 领域专用库 / SDK</td><td class="n">「数百个」</td><td>NVIDIA FY2026 10-K</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>锁定效应分布在五个层面：</b>算子库（cuDNN / cuBLAS / TensorRT / Transformer Engine / Megatron Core / CuTe DSL）、编译器（NVCC，CUDA 13.4 已支持 Rubin 架构）、框架一等公民适配（PyTorch / TensorFlow / JAX）、开发者规模（400 万+）、以及全栈协同。<em>国产厂商要突破的不是某一层，而是这五层同时。</em></p>
+
+  <p><b>英伟达的应对策略在 2025–2026 年发生了一次转向：从「封闭」转向「收编」。</b>NVLink Fusion 允许超大规模厂商把自研 XPU 与 CPU 接入英伟达的机柜级基础设施（基于 MGX 架构），并新增定制高带宽内存 NVHBM——亚马逊 Annapurna Labs 为首家合作方。<em>这等于把「自研芯片」这个最大威胁，从对手变成了生态成员。</em></p>
+
+  <h3 class="sub"><span class="subn">02.6</span>推理专用化：双轨，其中一条是收购来的</h3>
+
+  <p>英伟达的推理路线是双轨的：</p>
+  <ul class="plain">
+    <li><b>通用 GPU 路线</b>：B300 / Rubin 通过 FP4 精度、Dynamo 推理框架与分离式（disaggregated）推理持续压低单位 token 成本。官方称 Vera Rubin NVL72 的推理每百万 token 成本可降至 GB200 的 <b>1/10</b>。<span class="chip mid">官方 projected 数据</span></li>
+    <li><b>ASIC 路线（收购而来）</b>：<b>2025-12-24，英伟达以约 200 亿美元与 Groq 达成非独家授权协议</b>，授权其 AI 推理技术并招募创始人 Jonathan Ross 等高管——这是英伟达历史上金额最大的一笔此类交易。Groq 仍独立运营。</li>
+  </ul>
+
+  <p><b>产品已经落地：</b>NVIDIA Vera Rubin NVL72 的官方页面明确写有搭配 <b>「NVIDIA Groq 3 LPX」</b>机柜可服务万亿参数模型与百万 token 上下文。<em>即英伟达把 Groq 的 LPU 技术产品化成了一条推理机柜产品线，与 Vera Rubin 打包销售。</em></p>
+
+  <p>Groq 的技术路线值得记一笔：功能切片（functionally sliced）微架构、单核确定性执行、编译器全权控制、<b>无分支预测与缓存</b>。<em>这是一条与 GPU 完全相反的思路——放弃通用性，换取确定性与低延迟。</em>英伟达把它收进来，说明它判断未来的推理市场会分成「吞吐优先」与「延迟优先」两块，而 GPU 只擅长前者。</p>
+</section>
+<section class="wide" id="domestic">
+  <span class="snum">03</span>
+  <h2 class="sec">国产卡全景：从「能不能用」到「能不能造出来」</h2>
+
+  <p class="lede">2025–2026 年国产 AI 芯片公司集体上市、业绩爆发，看起来是一个行业成熟的信号。<em>但把财务数据和产能数据放在一起看，会发现故事的另一面：设计已经不是瓶颈，制造才是。</em></p>
+
+  <h3 class="sub"><span class="subn">03.1</span>先看一组对比：业绩爆发 vs 产能缺口</h3>
+
+  <div class="tw">
+    <table>
+      <caption>国产 AI 芯片公司 2025–2026 年财务表现（均为公司公告/年报口径）</caption>
+      <thead><tr><th>公司</th><th class="n">2025 年营收</th><th class="n">同比</th><th class="n">2026 上半年营收</th><th>上市与资本市场</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><b>寒武纪</b></td><td class="n">64.97 亿</td><td class="n"><b>+453%</b></td><td class="n">59.96 亿（+108%）</td><td>2025 年归母净利 20.59 亿，<b>上市以来首次年度盈利</b></td></tr>
+        <tr><td class="k"><b>海光信息</b></td><td class="n">143.77 亿</td><td class="n">+56.9%</td><td class="n">—</td><td>体量最大（含大量 CPU 收入）</td></tr>
+        <tr><td class="k">沐曦</td><td class="n">约 16 亿</td><td class="n">+121%</td><td class="n">—</td><td>2025-12-17 科创板上市，首日涨 568.83%</td></tr>
+        <tr><td class="k">摩尔线程</td><td class="n">15.06 亿</td><td class="n">+243%</td><td class="n">17.36 亿（+147%）</td><td>2025-12-05 科创板上市，首日涨 <b>425.46%</b></td></tr>
+        <tr><td class="k">壁仞科技</td><td class="n">10.35 亿</td><td class="n">+207%</td><td class="n">11.5–13 亿（+1852%~2107%）</td><td>2026-01-02 港股上市，公开认购<b>超额 2347 倍</b></td></tr>
+        <tr><td class="k">天数智芯</td><td class="n">10.34 亿</td><td class="n">—</td><td class="n">9.46 亿（+192%）</td><td>港股上市（09903.HK）</td></tr>
+        <tr><td class="k">燧原科技</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>2026-09-11 科创板上市，开盘涨超 188%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>但把这些数字与产能放在一起，图景就变了：</p>
+
+  <div class="facts">
+    <div><div class="fv">7 万片/月</div><div class="fl">中芯国际 N+2（等效 7nm）2026 年底的目标月产能——这是全国唯一能规模量产 AI 芯片的先进制程产线</div></div>
+    <div><div class="fv">~40%</div><div class="fl">2026 年国产 AI 芯片的供需缺口：需求约 420 万颗、供给约 260 万颗</div></div>
+    <div><div class="fv">2–3 倍</div><div class="fl">同样一片晶圆的生产时间，是台积电的 2–3 倍（无 EUV，靠 DUV 多重曝光）；单片制造成本贵 40%–50%</div></div>
+    <div><div class="fv">>50%</div><div class="fl">2025 年刚爬过的良率盈亏线（台积电 3nm 稳定在 78% 以上）</div></div>
+  </div>
+
+  <p><b>华为轮值董事长徐直军的表述最直接</b>（2026 年 HC 大会）：「现在制约昇腾进一步放量的主要问题<b>已经不是市场需求，而是供货能力</b>」；「昇腾满足国内市场需求还远远不足，所以没有全面拓展海外市场的计划」。</p>
+
+  <p>中芯国际联合 CEO 赵海军在 2026 年一季度业绩说明会上用「<b>虹吸效应</b>」形容 AI 需求吸走了中芯所有的优质产能，并称这「才刚刚开始」。<em>这两句话合起来，解释了为什么国产芯片公司业绩暴涨、市场却依然缺卡：钱和需求都在，产能不在。</em></p>
+
+  <h3 class="sub"><span class="subn">03.2</span>华为昇腾：最完整的一条线</h3>
+
+  <p>昇腾是国产阵营里唯一给出完整公开路线图的厂商，且自 950 起改用<b>自研 HBM</b>——这一点在 HBM 全球紧缺的背景下意义重大。</p>
+
+  <div class="tw">
+    <table>
+      <caption>昇腾路线图（来源：华为全联接大会 2025，徐直军主题演讲）</caption>
+      <thead><tr><th>型号</th><th class="n">算力</th><th class="n">HBM / 带宽</th><th class="n">互联</th><th>时间</th></tr></thead>
+      <tbody>
+        <tr><td class="k">910B</td><td class="n">—</td><td class="n">64GB / 1.6 TB/s</td><td class="n">—</td><td>现役主力</td></tr>
+        <tr><td class="k">910C</td><td class="n">800 TFLOPS (FP16)</td><td class="n">128GB / 3.2 TB/s</td><td class="n">784 GB/s</td><td>2025 Q1</td></tr>
+        <tr><td class="k">950PR</td><td class="n">1 PFLOPS (FP8) / 2 PFLOPS (FP4)</td><td class="n">自研 HBM HiBL 1.0；144GB / 4 TB/s</td><td class="n">2 TB/s</td><td>2026 Q1</td></tr>
+        <tr><td class="k">950DT</td><td class="n">1 PFLOPS (FP8) / 2 PFLOPS (FP4)</td><td class="n">自研 HBM HiZQ 2.0<span class="chip mid">容量口径两源矛盾</span></td><td class="n">2 TB/s</td><td>2026 Q4（训练为主）</td></tr>
+        <tr><td class="k">960</td><td class="n">2 PFLOPS (FP8) / 4 PFLOPS (FP4)</td><td class="n">288GB / 9.6 TB/s</td><td class="n">2.2 TB/s</td><td>2027 Q4</td></tr>
+        <tr><td class="k">970</td><td class="n">4 PFLOPS (FP8) / 8 PFLOPS (FP4)</td><td class="n">288GB / 14.4 TB/s</td><td class="n">4 TB/s</td><td>2028 Q4</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>与英伟达的代差要放在同一精度下比较：</b>GB300 是 15 PFLOPS FP4、288GB HBM3e、8 TB/s。<em>也就是说，2026 年 Q4 的昇腾 950DT（2 PFLOPS FP4）单卡算力约为 GB300 的 1/7。</em>华为的应对策略不是把单卡做强，而是<b>用超节点把规模做大</b>——徐直军的原话：「我们单颗芯片的算力相比英伟达是有差距的。但是华为有三十多年联人、联机器的积累……使得我们能够做到万卡级的超节点。」</p>
+
+  <div class="tw">
+    <table>
+      <caption>华为超节点产品线</caption>
+      <thead><tr><th>产品</th><th class="n">规模</th><th class="n">算力</th><th>时间</th></tr></thead>
+      <tbody>
+        <tr><td class="k">Atlas 900 A3 SuperPoD（CloudMatrix 384）</td><td class="n">384 NPU + 192 鲲鹏</td><td class="n">—</td><td>截至 2025-09 累计部署 <b>300+ 套、服务 20+ 客户</b></td></tr>
+        <tr><td class="k">Atlas 950 SuperPoD</td><td class="n">8,192 卡</td><td class="n">8 EFLOPS FP8</td><td>2026 Q4</td></tr>
+        <tr><td class="k">Atlas 960 SuperPoD</td><td class="n">15,488 卡</td><td class="n">30 EFLOPS FP8</td><td>2027 Q4</td></tr>
+        <tr><td class="k">Atlas 950 SuperCluster</td><td class="n">&gt; 50 万卡</td><td class="n">—</td><td>—</td></tr>
+        <tr><td class="k">Atlas 960 SuperCluster</td><td class="n">百万卡</td><td class="n">—</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>配套的 <b>Peerium 计算架构 + 灵衢（UnifiedBus）总线</b>于 2026 年 HC 大会发布，目标是「让百万颗处理器像一台计算机」——基于嵌套并行、统一内存寻址、平等互联。海思首席科学家廖恒称 25.6 万卡规模的集群「已在部署和测试中」。</p>
+
+  <p><b>生态方面，昇腾是唯一「全栈自研且不兼容 CUDA」的路线</b>（达芬奇架构 → CANN 异构计算平台 → MindSpore 框架）。2025 年 8 月华为宣布全面开源 CANN，被视为对 CUDA 生态的直接挑战。<em>2026 年 10 月，DeepSeek 开源了面向昇腾的全套基础设施组件（六款软件模块，与英伟达侧一一对应）——这是国产生态建设的一个标志性事件：从「厂商自己补生态」变成「用户帮着补生态」。</em></p>
+
+  <h3 class="sub"><span class="subn">03.3</span>其余七家：路线分化与各自的位置</h3>
+
+  <div class="tw">
+    <table>
+      <caption>国产 AI 芯片厂商一览（规格为市场/券商口径，公司多未逐项披露）</caption>
+      <thead><tr><th>厂商</th><th>路线</th><th>主力型号</th><th>关键信息</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>寒武纪</b></td>
+          <td>ASIC/DSA（中科院血统）</td>
+          <td>思元 590 / 690</td>
+          <td>思元 590 对标 A100 的 80–90%、690 对标 H100 的 80–85%（<b>公司从未逐项披露，且专门公告警示市场传闻</b>）；2022-12 被列入实体清单，代工转向中芯；<b>客户集中度极高</b>——2025 年前五大客户占 88.66%</td>
+        </tr>
+        <tr>
+          <td class="k"><b>海光信息</b></td>
+          <td>GPGPU，AMD 授权路线</td>
+          <td>深算三号 / DCU Z100</td>
+          <td><b>「类 CUDA / 兼容 ROCm」，迁移成本最低</b>；深算三号算子覆盖度超 99%；唯一实现 x86 CPU + DCU 双芯规模化量产的企业</td>
+        </tr>
+        <tr>
+          <td class="k"><b>摩尔线程</b></td>
+          <td>全功能 GPU（英伟达系创业）</td>
+          <td>MTT S5000</td>
+          <td>创始人张建中为前英伟达全球副总裁/中国区总经理；S5000 单卡 FP8 最高 1,000 TFLOPS，原生适配 PyTorch / Megatron-LM / vLLM / SGLang；智源研究院基于其千卡集群完成 RoboBrain 2.5 端到端训练，<b>与 H100 集群的 loss 差异仅 0.62%</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>壁仞科技</b></td>
+          <td>GPGPU</td>
+          <td>BR166</td>
+          <td>2023-10 被列入实体清单并加挂「脚注 4」，台积电代工通道关闭；已交付 2,048 卡光互连超节点，千卡集群线性加速比 95%；2024 年在智能计算芯片市场份额 0.16%</td>
+        </tr>
+        <tr>
+          <td class="k"><b>沐曦</b></td>
+          <td>GPGPU（AMD 系创业）</td>
+          <td>曦云 C500 / C600</td>
+          <td>创始人陈维良为前 AMD 全球 GPU SoC 设计总负责人；C600 搭载 HBM3e 144GB，宣称国产供应链全流程自主可控；2025 年训推一体板卡销量 3.3 万片</td>
+        </tr>
+        <tr>
+          <td class="k"><b>天数智芯</b></td>
+          <td>通用 GPU</td>
+          <td>天垓 150</td>
+          <td><b>与英伟达 H20 组成异构集群用于 DeepSeek 大规模推理</b>（天垓 150 作 Prefill 节点、H20 作 Decode 节点）——异构过渡方案的典型样本</td>
+        </tr>
+        <tr>
+          <td class="k"><b>燧原科技</b></td>
+          <td>DSA（领域专用）</td>
+          <td>—</td>
+          <td>腾讯为最大股东、也是最大客户；三年累计亏损超 40 亿</td>
+        </tr>
+        <tr>
+          <td class="k"><b>昆仑芯</b>（百度）</td>
+          <td>XPU 自研架构</td>
+          <td>P800 / M100</td>
+          <td>已承载百度绝大多数 AI 推理任务并用于万卡训练；2026-07 展出面向推理的 M100，主打「全国产，对标 H20」；2026-05 启动科创板 IPO 辅导</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>格局判断：</b>2024 年英伟达 + 华为合计占智能计算芯片市场 <b>94.4%</b>，其余所有国产厂商分食不到 6%。这个数字说明国产替代的真实结构是<b>「华为 + 一群长尾」</b>，而不是「百花齐放」。<em>2025 年出货量的对比更能说明问题：华为海思 81.2 万张，壁仞 + 摩尔线程 + 天数智芯 + 沐曦四家合计 25.8 万张——华为是四家之和的 3 倍多。</em><span class="chip mid">该出货量数字为自媒体口径</span></p>
+
+  <h3 class="sub"><span class="subn">03.4</span>生态差距：本报告最硬的一组数字</h3>
+
+  <p>国产卡与英伟达的差距，用「算力差几倍」来描述是不准确的。真正决定可用性的是下面这组来自科大讯飞业绩会（2026-04-29）的公开表述——<b>这是目前能找到的最诚实的国产卡实测口径</b>：</p>
+
+  <div class="tw">
+    <table>
+      <caption>科大讯飞公开披露的国产卡实测差距</caption>
+      <thead><tr><th>维度</th><th>昇腾 910B</th><th>英伟达 H200</th><th>差距</th></tr></thead>
+      <tbody>
+        <tr><td class="k">显存容量</td><td class="n">64 GB</td><td class="n">141 GB</td><td class="n">约 1 : 2.2</td></tr>
+        <tr><td class="k"><b>显存带宽</b></td><td class="n"><b>1.6 TB/s</b></td><td class="n"><b>4.8 TB/s</b></td><td class="n"><b>约 1 : 3</b></td></tr>
+        <tr><td class="k">算法适配周期</td><td class="n" colspan="2">国际主流算法发布后，英伟达卡上可直接做；<b>国产卡需额外 3–6 个月</b>适配（算子库效率优化等）</td><td class="n">+3–6 个月</td></tr>
+        <tr><td class="k">智能体 RL 采样推理效率</td><td class="n" colspan="2">因国产通信机制设计差异，<b>显著低于 H200，甚至相差 5 倍</b></td><td class="n">最多 1 : 5</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>但也必须给出另一半事实：国产卡的训练效率在快速改善。</b>同一场业绩会披露：昇腾 910B 集群上，长思维链强化学习训练效率从「开箱状态（相对同规模 A800 集群）的 <b>30%</b>」提升至 <b>84%</b>；首个昇腾原生 MoE 模型的全链条训练效率提升至 <b>93%</b>；与华为联合优化关键算子后，<b>算子效率提升超 50%</b>。</p>
+
+  <div class="callout riskb">
+    <div class="ct">「能推」不等于「能训」——这句话要刻在采购决策上</div>
+    <p>行业里大量流传的「Day 0 适配」通常只指<b>模型层面的推理适配</b>，不等于训练可用。科大讯飞的明确表述是：<b>DeepSeek-V4 的训练仍然基于英伟达卡，仅把推理适配到了昇腾。</b></p>
+    <p>原因在于训练要求的是<b>全链路打通</b>：数据管线、模型架构、并行策略、通信机制、算子库、容错机制到最终收敛，任何一个环节出问题，效率都会断崖式下滑。<em>推理是「把已有的权重跑起来」，训练是「让一堆卡在几个月里协同不出错」——后者的工程复杂度高一个量级。</em></p>
+    <p><b>对采购决策的直接含义</b>：如果你的需求是推理（包括微调），国产卡今天已经可用且有性价比；如果你的需求是<b>大规模前沿预训练</b>，那么在当前时点，国产卡还不是一个等价选项。</p>
+  </div>
+
+  <p><b>软件栈的分散是另一个被低估的成本。</b>各家自建栈：华为 CANN + MindSpore（不兼容 CUDA）、寒武纪 NeuWare（兼容最新 PyTorch 与 Triton）、海光 ROCm 兼容（迁移成本最低）、摩尔线程 MUSA + TorchAda（宣称一行代码零改动迁移）、沐曦 MXMACA、壁仞 BIRENSUPA。<em>对一家要同时用两三种国产卡的公司来说，这意味着要维护两三套适配——这部分人力成本很少被算进「国产卡更便宜」的账里。</em></p>
+
+  <h3 class="sub"><span class="subn">03.5</span>涨价：HBM 是主因</h3>
+
+  <p>2026 年下半年国产卡出现了一轮明显涨价，幅度不小：昇腾 950PR 从年初约 6 万元升至 8 万元以上；910C 板卡从约 9 万元升至 11 万元以上；<b>950DT 意向报价已提高至 25 万元以上</b>（较两个月前涨 20%–50%）。寒武纪思元 690 意向报价也上涨约 20%–30%——<em>但公司专门回应「并未发布涨价相关消息，请勿轻信市场传闻」</em>。</p>
+
+  <p><b>涨价的主因是 HBM 供应紧张。</b>美光 CEO 在 2026-06-24 财报会上表示，AI 推动的存储需求增长，而新增供给依赖耗时较长的晶圆厂项目，<b>供需紧张状态将延续至 2027 年之后</b>。这也是华为从昇腾 950 起导入自研 HBM（HiBL 1.0 / HiZQ 2.0）的直接动因。</p>
+
+  <p><b>一个必须注意的对比：国产卡标价并不便宜。</b>昇腾 910C 约 11 万元/卡，与同档英伟达卡相比并不占价格优势。<em>国产卡的性价比体现在<u>租价</u>而不是<u>售价</u></em>——昇腾 910B 的租价约为同档英伟达卡的 40%–50%（约为 H100 的 1/6–1/5）。这个区别在下面的经济性一节还会展开。</p>
+</section>
+
+<section class="wide" id="cluster">
+  <span class="snum">04</span>
+  <h2 class="sec">集群怎么建：超节点、网络、电力与真实的 TCO</h2>
+
+  <p class="lede">买卡只是第一步。<em>决定一个集群实际产出多少有效算力的，是另外三件事：互联、电力、以及利用率。</em>这一节把它们拆开算。</p>
+
+  <h3 class="sub"><span class="subn">04.1</span>超节点：为什么 2024 年后竞争单位从「卡」变成「柜」</h3>
+
+  <p>超节点（superpod）是把几十到上万张加速器放进一个<b>高带宽互联域</b>的架构。它的出现有明确的技术动因：<b>MoE 架构与长上下文把瓶颈从「算」搬到了「通信」。</b></p>
+
+  <p>一个万亿参数 MoE 模型每次前向只激活一部分专家，但专家分散在不同卡上，卡间通信量反而比稠密模型更大。<em>此时把通信留在高带宽域内，比把单卡算力做快更有效。</em>这就是 NVLink 域从单机 8 卡扩展到整柜 72 卡（130 TB/s）的直接原因。</p>
+
+  <div class="tw">
+    <table>
+      <caption>三条技术路线的取舍</caption>
+      <thead><tr><th>路线</th><th>代表</th><th>优势</th><th>代价</th></tr></thead>
+      <tbody>
+        <tr><td class="k"><b>Scale-up</b>（纵向扩展）</td><td>NVL72、CloudMatrix 384、Atlas 950 SuperPoD</td><td>带宽与延迟最优；通信不成为瓶颈</td><td>成本高；故障域大（一台交换出问题影响整域）</td></tr>
+        <tr><td class="k"><b>Scale-out</b>（横向扩展）</td><td>传统 IB / RoCE 集群</td><td>成本低、可渐进扩容、故障域小</td><td>跨节点带宽受限，MoE 场景下通信易成瓶颈</td></tr>
+        <tr><td class="k"><b>光交换第三条路</b></td><td>Google 的 ICI + OCS</td><td>OCS 占系统成本 <b>&lt;5%</b>、功耗 <b>&lt;3%</b>；拓扑可动态重构</td><td>需要自研全套（TPU + ICI + OCS），外部无法复制</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.2</span>网络：占总投入约 12.6%，且调优空间巨大</h3>
+
+  <p>网络方案分三派：<b>InfiniBand</b>（HDR 200 / NDR 400 / XDR 800 Gb/s）、<b>RoCE</b>（以太网承载 RDMA）、<b>自研</b>（华为灵衢 UnifiedBus、Google ICI+OCS、xAI 的 Spectrum-X）。</p>
+
+  <p>Meta 的做法最能说明取舍：它同时建了 RoCE 与 IB 两套 24,576 卡集群，Llama 3 405B 跑在 RoCE 上，两者均为 400 Gbps。<em>选择自建 RoCE 而不是买 IB，本质是成本与供应链自主的取舍。</em></p>
+
+  <div class="callout warnb">
+    <div class="ct">两个关于网络的事实，其中一个会推翻常见说法</div>
+    <p><b>① 网络调优的空间极大。</b>Meta 披露：<em>未调优的大集群 AllGather 利用率低至 10%，调优后可回到 90% 以上</em>。这意味着网络配置对实际吞吐的影响，可能超过硬件选型。</p>
+    <p><b>②「网络故障是训练中断的首要原因」这个常见说法不成立。</b>Llama 3 405B 训练记录的 419 次非计划中断中，<b>GPU（含 HBM）占 58.7%，而网络交换机与线缆仅占 8.4%</b>。<em>真正的头号故障源是 GPU 与显存本身。</em></p>
+    <p><span class="chip mid">引用提醒</span> Llama 3 技术报告该表的百分比列存在内部不自洽（隐含分母不一致），<b>建议引用计数与正文口径，不要直接引用表格的百分比列</b>。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.3</span>电力与机房：真正的物理瓶颈</h3>
+
+  <p>机柜功率密度在过去两年发生了数量级变化：<b>从 10–15 kW 升到 80–132 kW，下一代产品指向 240 kW。</b>这个变化直接淘汰了传统风冷。</p>
+
+  <ul class="plain">
+    <li><b>液冷成为新建默认。</b>以冷板式为主，建设溢价仅 <b>7%–10%</b>——<em>这个溢价水平意味着「要不要上液冷」已经不再是一个成本问题，而是一个技术必需问题。</em></li>
+    <li><b>PUE 的标杆是 Google</b>，其全球机队年均 PUE 为 <b>1.09</b>。</li>
+    <li><b>电力已成为最大的物理瓶颈。</b>xAI 为绕开电网接入排队，自建了 35 台燃气轮机（420 MW）配合 Tesla Megapack；反例是 Nscale 因电力交付延迟而丢掉了微软的订单。<em>在美国，拿到电比拿到卡更难。</em></li>
+    <li><b>中国的「东数西算」对训练成立、对推理不成立。</b>训练可以接受高延迟、批量作业，适合放在西部电力便宜的地区；推理要求低延迟，必须靠近用户。行业因此转向「<b>训练西移、推理东沉</b>」的布局。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">04.4</span>TCO 拆解：GPU 只占 38.8%</h3>
+
+  <p>这是本节最应该被记住的一张表。<b>Bernstein 对 1 GW 级 GB200 数据中心的测算显示，总投资约 350 亿美元，其中 GPU 不到四成。</b></p>
+
+  <div class="tw">
+    <table>
+      <caption>1 GW 级 GB200 数据中心的成本构成（Bernstein 测算，约 350 亿美元）</caption>
+      <thead><tr><th>构成</th><th class="n">占比</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="k">GPU</td><td class="n"><b>38.8%</b></td><td>单项最大，但远不到一半</td></tr>
+        <tr><td class="k">电力与机械设施</td><td class="n"><b>31.9%</b></td><td>含建筑 10.7%；供电、冷却、配电</td></tr>
+        <tr><td class="k">网络</td><td class="n"><b>12.6%</b></td><td>交换机、光模块、线缆</td></tr>
+        <tr><td class="k">其他 IT 与配套</td><td class="n">约 16.7%</td><td>CPU、存储、机柜等</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Epoch AI 的独立测算方向一致：约 379 亿美元/GW，其中设施占 30.2%；一个 100 MW 项目约建筑 11 亿美元、全园区约 38 亿美元。</p>
+
+  <p><b>比占比更容易被忽略的是折旧年限的错配：</b>IT 硬件（GPU 等）折旧仅 <b>4–6 年</b>，而建筑是 25–40 年。<em>这意味着算力资产的价值衰减极快——一张 2026 年买的卡，到 2031 年账面价值归零，而那时它的性能可能只相当于当时新卡的几分之一。</em>按 4 年折旧计算，一个 350 亿美元的集群每年要摊销约 87 亿美元，还没算电费和运维。</p>
+
+  <p>另一个值得引用的数字：<b>NVIDIA 的毛利约占总 capex 的 29.1%</b>——也就是说，建一个算力集群，接近三成的钱最终变成了英伟达的毛利。</p>
+
+  <h3 class="sub"><span class="subn">04.5</span>利用率：5% 到 55% 之间，口径决定结论</h3>
+
+  <p>「GPU 利用率」是本报告里口径最混乱的一个指标。必须先把三个不同的东西分开：</p>
+
+  <div class="tw">
+    <table>
+      <caption>三个不同的「利用率」概念</caption>
+      <thead><tr><th>口径</th><th>定义</th><th>公开数据</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>① 训练 MFU</b><br><span class="muted">Model FLOPs Utilization</span></td>
+          <td>实际达到的浮点算力 ÷ 理论峰值</td>
+          <td>Uptime Institute：通常 <b>35%–45%</b>，<b>&gt;50% 是天花板</b>；字节 MegaScale 12,288 卡达 <b>55.2% MFU</b>；Meta 约 43%、Google 约 46%、<b>xAI 被指仅 11%</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>② 运行时间占比</b></td>
+          <td>机器有多少时间在跑任务</td>
+          <td>Uptime Institute：训练服务器约 <b>80%</b> 时间在运行</td>
+        </tr>
+        <tr>
+          <td class="k"><b>③ 云上资源利用率</b></td>
+          <td>租来的卡有多少被真正使用</td>
+          <td>Cast AI：云上企业平均仅 <b>5%</b>；VentureBeat 调研称 <b>86% 的企业 GPU 只跑在半容量以下</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>把①②相乘，就得到「有效算力」的量级：80% × 35%–45% ≈ 28%–36%。</b><em>这与业内常引用的「平均利用率 25%–27%」量级吻合——但那个数字本身缺少可追溯的一手出处，本报告建议改用「训练 MFU 35%–45%」加「运行时间占比约 80%」的表述，并注明口径。</em></p>
+
+  <p><b>利用率为什么值得单独关注：它是唯一「不花钱就能提升算力」的杠杆。</b>同一批卡，MFU 从 30% 提到 45%，等于凭空多出 50% 的有效算力——比再买一批卡便宜得多。而公开数据显示这个空间真实存在：xAI 的 11% 与字节的 55.2% 之间，差了 5 倍。</p>
+</section>
+<section class="wide" id="access">
+  <span class="snum">05</span>
+  <h2 class="sec">获取难度：规则、灰色地带，与一个被低估的变量</h2>
+
+  <p class="lede">这一节回答「卡怎么拿到」。<em>但答案比多数人以为的复杂：2026 年的真实约束已经不是单向的——美国在限制出口，中国也在限制进口。</em>两边同时收紧，构成了当前算力获取的基本格局。</p>
+
+  <h3 class="sub"><span class="subn">05.1</span>七条规则：从算力阈值到国家分级</h3>
+
+  <div class="tw">
+    <table>
+      <caption>美国出口管制规则演进（Federal Register 一手来源）</caption>
+      <thead><tr><th>规则</th><th>FR 文号</th><th class="n">生效日期</th><th>核心变化</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>2022-10-07 规则</b></td><td>87 FR 62186</td><td class="n">2022-10-07</td>
+          <td>首次设限。新增 ECCN <b>3A090</b>（芯片）/ <b>4A090</b>（整机）；阈值 <b>TPP ≥ 4,800</b>，或 TPP ≥ 1,600 且性能密度 ≥ 5.92；同时设<b>互连带宽 ≥ 600 GB/s</b> 门槛。新增 U.S. person 限制</td>
+        </tr>
+        <tr>
+          <td class="k"><b>2023-10-17 规则</b></td><td>2023-23055</td><td class="n">2023-11-17</td>
+          <td><b>删除互连带宽标准</b>（A800/H800 正是围绕该标准设计的，因此失效）；引入<b>性能密度</b>指标堵住「拼凑小芯片规避」；收紧对「总部位于 D:5 国家实体」的许可要求，<b>即使其位于第三国</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>2024-12-02 规则</b></td><td>2024-28270</td><td class="n">2024-12-02</td>
+          <td>新增 <b>HBM 管制</b>（3A090.c）——直击封装瓶颈；新增 24 类半导体设备管制；扩展外国直接产品规则（FDP）；配套实体清单<b>一次性新增 140 家</b></td>
+        </tr>
+        <tr>
+          <td class="k">AI 扩散规则</td><td>2025-00636</td><td class="n">2025-01-13<br><span class="chip no">2025-05-13 撤销</span></td>
+          <td>全球划分为三级国家，对 Tier 2 设<b>算力配额</b>；首次把<b>闭源模型权重</b>纳入管制。规则从未真正执行即被撤销</td>
+        </tr>
+        <tr>
+          <td class="k">尽职调查 IFR</td><td>2025-00711</td><td class="n">2025-01-16</td>
+          <td>强化代工厂与封测厂的尽职调查义务，要求核查「芯片是否最终流向中国」</td>
+        </tr>
+        <tr>
+          <td class="k"><b>2026-01-15 规则</b><br><span class="muted">重大转向</span></td><td>91 FR 1684</td><td class="n">2026-01-15</td>
+          <td>把对华出口许可审查从「<b>推定拒绝</b>」改为「<b>逐案审查</b>」。覆盖 <b>TPP &lt; 21,000 且 DRAM 带宽 &lt; 6,500 GB/s</b> 的芯片（如 H200、AMD MI325X）。附加条件包括：对华出口量不超过该产品对美出货量的 <b>50%</b>；每批货须经<b>美国境内第三方实验室核验性能参数</b></td>
+        </tr>
+        <tr>
+          <td class="k">2026-07-10 阿联酋规则</td><td>2026-14132</td><td class="n">2026-07-10</td>
+          <td>把阿联酋从 D:3/D:4 移除、升入最高信任档 <b>A:5</b>；G42、Core42 等<b>免许可</b>获取 Blackwell 等先进产品</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>规则的演进逻辑很清楚：每次管制都会催生一个规避方案，下一次规则就专门堵它。</b>2022 年设互连带宽门槛 → 英伟达推出砍带宽的 A800/H800 → 2023 年删掉该标准，A800/H800 失效 → 英伟达推出砍算力的 H20 → 2024 年管制 HBM（堵住封装路径）→ 2025-2026 年转向逐案审查与第三国封堵。<em>这是一场持续四年的猫鼠游戏，而 2026 年的状态是：双方都累了，但谁也没停手。</em></p>
+
+  <h3 class="sub"><span class="subn">05.2</span>H20 与 H200 的完整弧线</h3>
+
+  <div class="tw">
+    <table>
+      <caption>两个特供型号的完整生命周期</caption>
+      <thead><tr><th>型号</th><th>完整弧线</th><th>结局</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>H20</b></td>
+          <td>2023-11 为绕开 2023 规则而设计 → 2024 年中国市场大卖、一度断货 → <b>2025-04 被禁</b>（英伟达计提 45 亿美元）→ 2025-07/08 短暂恢复，<b>但须将对华收入 15% 上缴美国政府</b> → 2025-08 起中国当局劝阻政府与安全领域使用 → 2025-09 北京要求不采购 RTX Pro 6000D → <b>2026 年初停产</b></td>
+          <td><span class="chip no">归零</span> 该许可下累计仅产生约 6,000 万美元营收</td>
+        </tr>
+        <tr>
+          <td class="k"><b>H200</b></td>
+          <td><b>2025-12-08 特朗普允许对华销售</b>（美方抽成 25%）→ 2026-01-13 BIS 改为逐案审查 → <b>2026-01-14/15 中国海关通知 H200 不得入境</b> → 2026-03 黄仁勋称已获许可、重启生产 → 2026-05 美方批准向约 10 家中国公司出售 → 2026-08 英伟达就 H200 库存计提 4 亿美元，称北京限制已许可销售</td>
+          <td><span class="chip no">实际出货极小</span> 美方批准、中方不配合</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">本报告最需要强调的一个结构性变化：中国也在限制进口</div>
+    <p>讨论算力获取时，多数分析只讲美国出口管制。但 2025–2026 年的实际格局是<b>双向收紧</b>：</p>
+    <ul class="plain">
+      <li><b>2025-09-15</b> 中国市场监管总局初步认定英伟达违反《反垄断法》</li>
+      <li><b>2025-09-17</b> 北京要求阿里、字节等不要采购英伟达 RTX Pro 6000D</li>
+      <li><b>2025-11-05</b> 要求国家出资的数据中心使用国产 AI 芯片</li>
+      <li><b>2026-01-14/15</b> 中国海关通知 H200 不得入境</li>
+      <li><b>2026-05-22</b> 禁止英伟达高端显卡（RTX 5090D V2）以扶植国产</li>
+    </ul>
+    <p><em>这意味着「美方放行」不等于「中国公司能买到」。</em>H200 是最典型的例子：美方 2026 年 1 月改成逐案审查、5 月批准向 10 家公司出售，但中国海关从 1 月起就封堵入境，最终实际出货极小。<b>做算力规划时如果只盯着美国的规则变化，会误判可获得的算力。</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.3</span>实体清单：哪些 AI 公司被列入了</h3>
+
+  <p>被列入实体清单的后果是实质性的：适用「所有受 EAR 管制物项」的许可要求且政策为<b>推定拒绝</b>，同时切断美国原产软件、EDA、设备、芯片的获取渠道，并触发外国直接产品规则（FDP）——<em>即使产品在海外生产，只要使用美国技术或软件生产，也需要许可。</em></p>
+
+  <div class="tw">
+    <table>
+      <caption>与中国 AI 算力直接相关的实体清单动作</caption>
+      <thead><tr><th>时间</th><th>动作</th><th>涉及</th></tr></thead>
+      <tbody>
+        <tr><td class="k">2022-10</td><td>新增 28 家中国实体</td><td>配套 2022 规则</td></tr>
+        <tr><td class="k">2024-12-02</td><td><b>一次性新增 140 家</b></td><td>中国、日本、韩国、新加坡；另修改 14 个中国条目</td></tr>
+        <tr><td class="k">2025-01-16</td><td>新增 16 家</td><td><b>算能科技（Sophgo）</b>系列实体</td></tr>
+        <tr><td class="k">2025-01-16</td><td>新增 11 家</td><td><b>智谱（Zhipu AI）系列</b>：北京智谱华章、聆心智能、元因智能等 10 家关联公司 + 北京科益虹源光电</td></tr>
+        <tr><td class="k">2025-03-25/28</td><td>两批共新增 82 家</td><td>BIS 新闻稿标题为「进一步限制中国的超级智能与先进计算能力」</td></tr>
+        <tr><td class="k">2025-09-12</td><td>新增 32 家、修订 27 个条目</td><td>中国、印度、伊朗、新加坡、台湾、土耳其、阿联酋</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.4</span>灰色路径：只陈述已公开报道的事实</h3>
+
+  <p>这一节只列已进入司法程序或被权威媒体报道的事件，不讨论操作方法。<em>列出它们的目的是说明：这条路径的风险已经不是理论上的，而是正在被密集执法。</em></p>
+
+  <ul class="plain">
+    <li><b>Super Micro 联合创始人廖益贤案</b>：2026-03 被起诉，涉 <b>25 亿美元</b>英伟达 AI 服务器走私中国；其随后退出董事会；刑事审判定于 2027 年。</li>
+    <li><b>2026-09-06</b>：纽约时报报道浪潮（Inspur）美国子公司 Aivres 向东南亚转运 <b>56 亿美元</b>技术，含 Blackwell 服务器。</li>
+    <li><b>2026-10-01</b>：加州一名 CEO 被控走私 <b>3 亿美元</b> GPU 服务器（含 RTX 4090/5090）至中国。</li>
+    <li><b>2026-06-26</b>：马来西亚海关查获 1,300 万美元 AI 芯片走私企图；2026-07 新加坡就英伟达芯片欺诈案追加指控，一名中国籍商人被追加洗钱罪、13 亿资产被冻结。</li>
+    <li><b>执法罚款</b>：Applied Materials 被罚 <b>2.52 亿美元</b>（2026-02-12，BIS 史上第二高）；Robert Bosch 3,600 万美元（涉华为）。</li>
+    <li><b>堵漏动作</b>：2026-05/06 美国采取措施阻止中国企业的<b>海外子公司</b>获取英伟达芯片；2026-07-14 英伟达把亚洲买家白名单<b>砍掉一半以上</b>，要求实地合规审查、证明母公司无中国总部。</li>
+  </ul>
+
+  <p><b>另一条正在成型的新路径值得单独指出：向海外云厂商租赁。</b>2026-09-30，FT 报道<b>腾讯向 Oracle 租赁 10 万颗 AI 芯片、5 年 70 亿美元</b>，据报经由东南亚。<em>这是在美国收紧「海外子公司」漏洞之后出现的一种变通——不买卡，而是租用位于境外的算力。</em>它的法律边界正在收紧，但在当前时点是公开报道中规模最大的一条合规路径。</p>
+
+  <h3 class="sub"><span class="subn">05.5</span>租赁市场：一个「雪崩」与一次「涨价」同时发生</h3>
+
+  <p>2026 年的算力租赁市场出现了两组方向相反的信号，理解它们的并存关系很重要。</p>
+
+  <div class="tw">
+    <table>
+      <caption>国内算力租赁挂牌价（2026 年，元/卡）</caption>
+      <thead><tr><th>型号</th><th class="n">容器时租（元/卡·时）</th><th class="n">裸金属月租（元/卡·月）</th><th>趋势</th></tr></thead>
+      <tbody>
+        <tr><td class="k">H200 141G</td><td class="n">13.94</td><td class="n">10,036</td><td>坚挺</td></tr>
+        <tr><td class="k">H100 80G</td><td class="n">5.5–6.8</td><td class="n">12,000–15,000</td><td>微涨</td></tr>
+        <tr><td class="k">H20 96G</td><td class="n">6.20</td><td class="n">约 3,571–4,464</td><td>平稳</td></tr>
+        <tr><td class="k">A100 80G</td><td class="n">2.8–3.5</td><td class="n">6,000–9,000</td><td>略降</td></tr>
+        <tr><td class="k"><b>昇腾 910B 64G</b></td><td class="n"><b>3.58</b>（包月 2.97）</td><td class="n"><b>2,139–2,577</b></td><td>下行</td></tr>
+        <tr><td class="k">RTX 4090 24G</td><td class="n">1.57–1.96</td><td class="n">1,073–1,500</td><td>明显下行</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="scale-note">数据来源：极智算平台行业报价（2026-07 与 2026-09 两期）。整机口径：H200 整机包月约 11.3 万–12.9 万元/台·月；H100 80G 整机 7.3 万–9 万元；昇腾 910B 8 卡集群 15,600 元/月。2026-10-16 SMM 综合指数 17.194 元/卡·时（折 8 卡整机约 9.90 万元/台·月），较 10-14 高点回落 6.8%。</p>
+
+  <p><b>海外价格（美元/GPU·小时）</b>：JPMorgan 2026 年 8 月 GPU 租赁指数显示 <b>B200 为 5.63 美元</b>（环比 −1.5%，为该指数发布以来首跌）、<b>H100 为 2.73 美元</b>（环比 +1.2%）。SemiAnalysis 的数据显示，H100 一年期合约价从 2025-10 的 1.70 美元涨至 2026-03 的 2.35 美元（约 +40%），<em>部分急需的按需实例报价高达 14 美元/时</em>。</p>
+
+  <div class="callout warnb">
+    <div class="ct">两组相反信号，其实是同一件事的两面</div>
+    <p><b>信号一：通用算力在「雪崩」。</b>2026-06-26 的报道称，全国通用算力机柜平均出租率<b>不足 40%</b>，三四线城市空置率<b>超 70%</b>；国内 H100 月租由 1.3 万元降至 6,000 元；A800 全年租金下滑超 30%；中小租赁企业毛利率跌破 20%，回本周期由 2 年延至 4–5 年。<span class="chip mid">该「H100 月租 6,000 元」与平台挂牌价 1.2 万–1.5 万元存在口径差异，并列标注</span></p>
+    <p><b>信号二：高端算力在「涨价」。</b>2026-03/04 云厂商集体涨价，终结了云计算二十年的降价史：腾讯云 AI 算力上调 5%，阿里云真武 810E 算力卡涨 5%–34%、CPFS 存储涨 30%，谷歌云、AWS、百度智能云在 10 天内相继调价，<b>核心 AI 算力与存储涨约 30%–50%</b>。</p>
+    <p><b>两面是同一件事：分化。</b>高端卡（H100/H200/B200）供不应求、价格上涨；中低端卡（A800/A100/4090）供给过剩、租金持续下跌。<em>「算力过剩」和「算力紧缺」两个说法同时成立，区别在于你说的是哪一种卡。</em>涨价的三条驱动因素是：AI Agent 导致 Token 消耗激增（比传统问答高 10–100 倍）、HBM 与 CoWoS 产能受限（高端芯片交付周期从 3 个月延长至 6 个月以上）、电力约束。</p>
+  </div>
+</section>
+
+<section class="wide" id="economics">
+  <span class="snum">06</span>
+  <h2 class="sec">三条路的经济性：买、租、还是自建</h2>
+
+  <p class="lede">同一批算力，买卡、租算力、自建集群是三种完全不同的财务结构。<em>选错不是买贵了，而是把固定成本变成了错误的东西。</em>这一节给出判断框架和可用的临界点。</p>
+
+  <h3 class="sub"><span class="subn">06.1</span>三种模式的财务结构差异</h3>
+
+  <div class="tw">
+    <table>
+      <caption>买卡 / 租算力 / 自建集群的对比</caption>
+      <thead><tr><th>维度</th><th>租算力（云 / 智算中心）</th><th>买卡自建（托管机房）</th><th>自建数据中心</th></tr></thead>
+      <tbody>
+        <tr><td class="k">资本支出</td><td>接近零</td><td>中（卡 + 服务器）</td><td>极高（含电力、建筑）</td></tr>
+        <tr><td class="k">现金节奏</td><td>按小时/月付，随用随停</td><td>一次性大额 + 持续电费运维</td><td>多年建设期 + 长周期折旧</td></tr>
+        <tr><td class="k">单位成本</td><td>最高（含对方毛利）</td><td>中</td><td>最低（规模化后）</td></tr>
+        <tr><td class="k">弹性</td><td><b>最好</b>——可随时扩缩</td><td>差——买定离手</td><td>最差</td></tr>
+        <tr><td class="k">技术代际风险</td><td>由供应商承担</td><td><b>自担</b>（4–6 年折旧）</td><td>自担</td></tr>
+        <tr><td class="k">适合谁</td><td>创业公司、需求不确定的团队、短期训练</td><td>算力需求稳定且持续的团队</td><td>超大规模厂商、有电力资源的公司</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>最容易被忽略的是「技术代际风险」这一行。</b>IT 硬件折旧只有 <b>4–6 年</b>，而每一代 GPU 的性能提升在 2–3 倍量级。<em>这意味着自己买卡的团队，在第三年就会面对一个尴尬处境：手里的卡账面还剩一点价值，但性能已被新一代拉开数倍，而租金市场上同款卡的价格可能已经跌了一半。</em>租算力等于把这个风险转移给了供应商——这是它溢价的主要理由。</p>
+
+  <h3 class="sub"><span class="subn">06.2</span>临界点：利用率 40%–50%</h3>
+
+  <p>自建还是租，核心变量是<b>持续利用率</b>。可用的经验判断是：</p>
+
+  <ul class="plain">
+    <li><b>持续利用率低于 40%</b>：租。<em>买卡的固定成本摊不薄，而云上按需付费没有浪费。</em></li>
+    <li><b>持续利用率 40%–50% 之间</b>：临界区，取决于时间跨度。若能确认需求会持续 2 年以上且稳定，长租或自建开始划算。</li>
+    <li><b>持续利用率高于 50%</b>：自建或长租更经济。</li>
+  </ul>
+
+  <p><b>这个临界点有实证支撑。</b>Cast AI 的数据显示云上企业的平均 GPU 利用率仅 <b>5%</b>，VentureBeat 的调研称 <b>86% 的企业 GPU 只跑在半容量以下</b>。<em>绝大多数团队的利用率远低于 40% 这条线——这也是为什么对多数公司来说，「先租」是默认正确答案。</em></p>
+
+  <p><b>另一个可用的锚点来自李开复的公开表述</b>：5,000–10,000 张卡，每年成本约 2–3 亿美元。<span class="chip mid">该表述的口径（含卡折旧还是仅运营）未明确</span></p>
+
+  <h3 class="sub"><span class="subn">06.3</span>训练成本：三个可引用的官方数字</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三个模型的训练成本（口径差异很大，不可直接横向比较）</caption>
+      <thead><tr><th>模型</th><th class="n">成本</th><th>口径</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>DeepSeek-V3</b></td>
+          <td class="n"><b>557.6 万美元</b></td>
+          <td>官方口径：278.8 万 H800 小时 × $2/GPU·hr。<b>不含前期研发与集群 capex</b>——这是最常被误引的一个数字</td>
+        </tr>
+        <tr>
+          <td class="k">Llama 3.1</td>
+          <td class="n">约 10 倍于 DeepSeek-V3</td>
+          <td>16,384 张 H100、2,100 万 GPU 小时</td>
+        </tr>
+        <tr>
+          <td class="k">GPT-4</td>
+          <td class="n">$40M – $100M+</td>
+          <td><b>三个口径不可混用</b>：$78M（云租赁价）、$40M（摊销硬件，Epoch AI 首选）、$100M+（Altman 口头表述）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>推理成本的锚点</b>（中金测算）：自建约 <b>2 美元/百万 token</b>、租赁约 <b>2.6 美元/百万 token</b>。<em>这个对比给出了一个具体的临界判断：只有当你的推理量足够大、且能维持高利用率时，自建才比租用便宜约 23%。</em></p>
+
+  <p><b>训练与推理的成本比例正在变化。</b>OpenAI 在 2025 年的算力已大致均分于训练与推理；SemiAnalysis 称推理成本「数倍于」训练。<em>但 DeepSeek 是一个反例：其算力投入超过 70% 用于训练。</em>这个差异反映的是两种不同的商业模式——做 API 生意的公司推理成本占大头，做模型能力的公司训练成本占大头。</p>
+
+  <h3 class="sub"><span class="subn">06.4</span>算力占融资额的比例</h3>
+
+  <p>这是创业公司最关心的问题，而答案比想象中高：<b>千卡至万卡规模的创业公司，训练算力通常占其支出的 50% 以上。</b></p>
+
+  <p>更完整的成本结构可以这样看（Epoch AI 口径）：<b>算力加推理通常占总成本的 54%–62%，人力不足 25%。</b><em>这与直觉相反——在多数软件公司里人力是最大成本项，而在大模型公司里，算力是第一大成本。</em></p>
+
+  <div class="callout">
+    <div class="ct">一处必须纠正的常见引用</div>
+    <p>「算力开支是人力成本的 2.3 倍」这句话流传很广，但它的出处是 Epoch AI 对 <b>Anthropic</b> 的测算（2.34x），<b>不是行业通用值</b>。中国独立模型公司的比例反而更高：<b>智谱 2.67x、MiniMax 3.75x</b>。<em>引用时应注明具体公司，否则会低估中国公司的算力负担。</em></p>
+  </div>
+</section>
+<section class="wide" id="choices">
+  <span class="snum">07</span>
+  <h2 class="sec">不同体量的公司怎么选</h2>
+
+  <p class="lede">这一节是全篇的落点。<em>算力决策没有「最佳实践」，只有「与你的体量、现金结构和确定性匹配的选择」。</em>下面按五个层级拆开，每层给出可用的判断依据与公开样本。</p>
+
+  <h3 class="sub"><span class="subn">07.1</span>先看五家的算力当量，建立量级感</h3>
+
+  <div class="tw">
+    <table>
+      <caption>主要实验室的算力规模（Epoch AI《AI Chip Users Explorer》，2026-09-09 口径，单位为 H100 当量）</caption>
+      <thead><tr><th>机构</th><th class="n">算力当量（万 H100e）</th><th>补充口径</th></tr></thead>
+      <tbody>
+        <tr><td class="k">OpenAI</td><td class="n"><b>174.3</b></td><td>唯一披露功率：0.2 → 0.6 → 1.9 GW（2023 → 2025 底），两年增长 17 倍；已承诺 2026 年算力支出约 <b>500 亿美元</b></td></tr>
+        <tr><td class="k">Google DeepMind</td><td class="n">158.3</td><td>以自研 TPU 为主；第七代 Ironwood 单芯片 4.6 PFLOPS，9,216 颗组成 superpod 达 42.5 EFLOPS</td></tr>
+        <tr><td class="k">Anthropic</td><td class="n">119.0</td><td>同时是 Google TPU 与 Amazon Trainium 的锚定客户，对 Google 的算力承诺扩大到 2027 年 3.5 GW</td></tr>
+        <tr><td class="k">Meta</td><td class="n">99.6</td><td>自建两套 24,576 卡集群（RoCE 与 IB）</td></tr>
+        <tr><td class="k">xAI</td><td class="n">61.5</td><td>Colossus 1 约 10 万卡（<b>122 天建成</b>）；Colossus 2 已达 44 万 GB300；合计约 1 GW；自建 35 台燃气轮机（420 MW）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>卡数口径的对照：</b>Stargate 德州阿比林园区预计容纳最高 <b>45 万颗 GB200、功率 1.2 GW</b>，项目整体规划 <b>7 GW / 4,000 亿美元</b>；亚马逊为 Anthropic 建的 Project Rainier 部署近 <b>50 万颗 Trainium2</b>，披露成本 110 亿美元。</p>
+
+  <p><b>中国侧的资本开支口径（元）：</b></p>
+  <div class="tw">
+    <table>
+      <caption>中国大厂 AI 资本开支</caption>
+      <thead><tr><th>公司</th><th class="n">规模</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="k">字节跳动</td><td class="n">2025 年超 1,500 亿<br><b>2026 年逾 2,000 亿</b></td><td>2025 年约 900 亿用于买算力；2026 年约一半买卡，<b>且提高国产占比</b>（国产芯片采购预算约 450 亿）<span class="chip mid">另有「最高 700 亿美元」口径并存</span></td></tr>
+        <tr><td class="k">阿里巴巴</td><td class="n">三年 3,800 亿</td><td>已投约 1,900 亿</td></tr>
+        <tr><td class="k">腾讯</td><td class="n">2026 上半年 847 亿</td><td>已超 2025 全年</td></tr>
+        <tr><td class="k">百度</td><td class="n">Q1 58.39 亿</td><td>自研昆仑芯承载其绝大多数推理任务</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="scale-note">海外四大厂 2026 年资本开支指引合计约 7,000–7,500 亿美元：亚马逊 2,000 亿、微软 FY2026 约 1,900 亿、Alphabet 1,800–1,900 亿、Meta 1,250–1,450 亿。</p>
+
+  <h3 class="sub"><span class="subn">07.2</span>五个层级的选择逻辑</h3>
+
+  <div class="tw">
+    <table>
+      <caption>按体量的算力策略（含公开样本与判断依据）</caption>
+      <thead><tr><th>层级</th><th>特征</th><th>策略</th><th>样本与依据</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>超大规模</b><br><span class="muted">&gt; 10 万卡</span></td>
+          <td>算力当量百万级；资本开支以百亿美元计</td>
+          <td><b>自建 GW 级数据中心 + 自研芯片 + 长协锁产能 + 债务融资</b>。新的门槛是「百万卡」</td>
+          <td>OpenAI 1.9 GW、Stargate 规划 7 GW；Google 自研 TPU、亚马逊 Trainium2（Project Rainier 50 万颗、110 亿美元）；xAI 自建电源绕开电网排队</td>
+        </tr>
+        <tr>
+          <td class="k"><b>大厂级</b><br><span class="muted">1–10 万卡</span></td>
+          <td>有稳定现金流与云业务可反哺</td>
+          <td><b>混合</b>：自建 + 云 + 租赁并行；自研或国产芯片降本；用云业务变现摊薄算力成本</td>
+          <td>字节 2026 年逾 2,000 亿、提高国产占比；阿里三年 3,800 亿；腾讯除自建外还向 Oracle 租赁 10 万颗（5 年 70 亿美元）</td>
+        </tr>
+        <tr>
+          <td class="k"><b>创业公司</b><br><span class="muted">千卡–万卡</span></td>
+          <td>算力是最大成本项；现金来自融资</td>
+          <td><b>以租为主、轻资产</b>。训练算力通常占其支出 <b>50% 以上</b>；避免把融资额锁死在会快速折旧的硬件上</td>
+          <td>万卡 B200 约 50 亿元；李开复给出的锚点：5,000–10,000 张卡每年约 2–3 亿美元成本</td>
+        </tr>
+        <tr>
+          <td class="k"><b>应用层</b><br><span class="muted">&lt; 100 卡</span></td>
+          <td>需求波动大、以推理为主</td>
+          <td><b>关键临界点是持续利用率 40%–50%</b>：低于此用 API；高于此才考虑长租或自建</td>
+          <td>Cast AI：云上企业平均 GPU 利用率仅 <b>5%</b>；VentureBeat：<b>86% 的企业 GPU 只跑在半容量以下</b></td>
+        </tr>
+        <tr>
+          <td class="k"><b>科研机构</b></td>
+          <td>预算有限、需求峰值高</td>
+          <td>依托国家级算力平台；善用免费额度</td>
+          <td>中国国家超算互联网：25 万 GPU 卡、十万卡池、<b>200 卡时免费包</b></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.3</span>中国公司的特殊选择：什么时候用国产卡</h3>
+
+  <p>中国公司多了一层决策：国产卡还是英伟达卡。基于前面的数据，可以给出一个相对清晰的边界：</p>
+
+  <div class="tw">
+    <table>
+      <caption>国产卡 vs 英伟达卡的适用边界</caption>
+      <thead><tr><th>场景</th><th>建议</th><th>依据</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k"><b>大规模前沿预训练</b></td>
+          <td><span class="chip no">必须英伟达</span></td>
+          <td>训练要求全链路打通（数据、架构、并行策略、通信、算子库、容错到收敛）；DeepSeek-V4 的训练仍基于英伟达卡，仅推理适配昇腾</td>
+        </tr>
+        <tr>
+          <td class="k"><b>推理与微调</b></td>
+          <td><span class="chip ok">国产卡已可用且有性价比</span></td>
+          <td>国产卡<b>标价不便宜</b>（昇腾 910C 约 11 万元/卡），但<b>租价约为同档英伟达卡的 40%–50%</b>（910B 约 H100 的 1/6–1/5）；且有 20%–30% 的补贴</td>
+        </tr>
+        <tr>
+          <td class="k"><b>信创与国资项目</b></td>
+          <td><span class="chip ok">国产卡为主</span></td>
+          <td>国资委 79 号文件要求 2027 年央企国企 100% 信创；2025-11 起要求国家出资数据中心使用国产 AI 芯片</td>
+        </tr>
+        <tr>
+          <td class="k"><b>异构过渡方案</b></td>
+          <td><span class="chip mid">务实之选</span></td>
+          <td>天数智芯天垓 150 + 英伟达 H20 异构集群用于 DeepSeek 推理：国产卡作 Prefill 节点（单请求计算量大、对带宽要求相对低），H20 作 Decode 节点（需大显存高带宽）</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>国产卡的真实短板在显存带宽，不在算力。</b>昇腾 910B 带宽 1.6 TB/s vs H200 的 4.8 TB/s——<em>约 3 倍差距</em>。而带宽直接决定 Decode 阶段的吞吐。这就是为什么异构方案里国产卡做 Prefill、英伟达卡做 Decode：<b>把国产卡放在它相对不吃亏的环节。</b></p>
+
+  <h3 class="sub"><span class="subn">07.4</span>一个必须注意的反面案例</h3>
+
+  <p>「买不到卡所以做不下去」是一个流行的叙事，但公开事实更微妙。零一万物在 2024 年 5–6 月放弃 Yi-X-Large、2025 年 1 月团队并入阿里云；百川智能在 2024 年停训通用大模型、转向医疗。</p>
+
+  <p><b>但两家的公开表述是「超大模型不经济」，而不是「买不到卡」。</b><em>这个区别很重要：退出前沿预训练的决策，更多是算力成本与融资能力不匹配的结果，而不是单纯的供给问题。</em>换句话说，<b>真正的门槛不是「有没有卡」，而是「能不能持续为卡付钱」</b>——这又回到了现金结构，而不是供应链。</p>
+</section>
+
+<section class="wide" id="risks">
+  <span class="snum">08</span>
+  <h2 class="sec">风险与判断</h2>
+
+  <p class="lede">按「发生概率 × 影响」排序。<em>前两条是行业级风险，后三条是任何做算力规划的公司都会遇到的。</em></p>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R1</span>
+      <span class="risk-t">算力供给增速跟不上需求增速</span>
+      <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+    </div>
+    <p><b>机制：</b>需求端由模型规模、Agent 推理量与主权 AI 计划共同推高，供给端受制于晶圆、HBM、封装与电力四个瓶颈。<b>证据：</b>Epoch AI 判断需求年增约 <b>10 倍</b>而供给年增约 <b>3 倍</b>，「算力紧缩」正在临近；TrendForce 2026-10 把九大 CSP 资本开支上修至 <b>9,570 亿美元</b>（+106%），2027 年预计超 1.5 万亿美元；IDC 称全球需求满足率将在 2027 年触底至 <b>71%</b>；IEA 预测数据中心用电从 2024 年的 460 TWh 增至 2030 年的 <b>&gt;1,000 TWh</b>。<em>美光 CEO 明确表示存储供需紧张将延续至 2027 年之后。</em></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R2</span>
+      <span class="risk-t">算力租赁与 Neocloud 的财务脆弱性</span>
+      <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    </div>
+    <p><b>机制：</b>算力租赁是重资产、高折旧、靠债务扩张的生意，一旦租金下行就会迅速恶化。<b>证据：</b>CoreWeave 2026 Q2 营收 26 亿美元（+112%），但资本开支 94 亿美元（<b>超当季收入 3 倍</b>）、净亏 6.26 亿美元；债务与租赁义务合计约 <b>520 亿美元</b>，市场共识预计 2026–2028 累计负自由现金流可能达 <b>710 亿美元</b>；其 2031 年到期债券二级市场价格已跌至面值 79.9 美分（收益率 15.6%）。Gartner 预测到 2030 年<b>超 80% 的 Neocloud 服务商将被迫终止独立运营</b>。<em>国内同构问题：从业者称 CPU 超算业务利润率约 30%，而 GPU 智算业务利润率仅 5%–10%，「增收不增利」普遍。</em></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R3</span>
+      <span class="risk-t">国产卡的产能缺口与涨价</span>
+      <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+    </div>
+    <p><b>机制：</b>设计能力已具备，但先进制程产能是硬约束。<b>证据：</b>中芯 N+2 2026 年产能对应约 260 万颗 vs 需求约 420 万颗（缺口约 40%）；无 EUV、生产时间是台积电的 2–3 倍、单片成本贵 40%–50%、良率刚过 50%。价格已经反映：昇腾 950DT 意向报价涨至 <b>25 万元以上</b>，910C 板卡从约 9 万涨到 11 万以上。<em>华为自己的表述是「制约放量的主要问题已经不是市场需求，而是供货能力」。</em></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R4</span>
+      <span class="risk-t">政策双向收紧，两边都可能卡住</span>
+      <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    </div>
+    <p><b>机制：</b>美国限制出口、中国限制进口，两边同时收紧使可获得的算力小于任一方的规则所允许的。<b>证据：</b>H200 是最典型的样本——美方 2026-01 改为逐案审查、5 月批准向约 10 家中国公司出售，但中国海关从 1 月起封堵入境，最终实际出货极小（英伟达 2026-08 就 H200 库存计提 4 亿美元）。<em>做算力规划时只盯美方规则变化，会系统性高估可获得的算力。</em></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd">
+      <span class="risk-id">R5</span>
+      <span class="risk-t">折旧与利用率的双重错配</span>
+      <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+    </div>
+    <p><b>机制：</b>IT 硬件折旧仅 4–6 年，而性能代际提升在 2–3 倍量级；同时实际利用率可能远低于规划值。<b>证据：</b>云上企业平均 GPU 利用率仅 <b>5%</b>，86% 的企业 GPU 只跑在半容量以下；而训练 MFU 的天花板是 50% 左右（xAI 被指仅 11%、字节做到 55.2%）。<em>两者叠加的后果是：账面买了 1,000 张卡的有效产出，可能只相当于 50–500 张。这是算力预算中最容易算错的一项。</em></p>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">给算力规划的三条实操建议</div>
+    <p><b>① 先算有效算力，再算卡数。</b>把「训练 MFU × 运行时间占比」乘进去，再决定买多少卡。按 35% MFU、80% 运行时间计，标称算力要打约三折。</p>
+    <p><b>② 优先提升利用率，再考虑扩容。</b>MFU 从 30% 提到 45% 等于凭空多出 50% 有效算力，比买卡便宜得多。公开案例中，补足 CPU 核即可让首 token 延迟降低 1.47–7.11 倍。</p>
+    <p><b>③ 把「买卡」放在完整 TCO 里决策。</b>GPU 只占约 38.8%，电力与机械设施占 31.9%、网络占 12.6%。只按卡价做预算会低估真实成本约 60%。</p>
+  </div>
+</section>
+
+<section id="caveats">
+  <span class="snum">09</span>
+  <h2 class="sec">信息源与核实状态</h2>
+
+  <h3>已核实（附一手来源）</h3>
+  <ul class="plain">
+    <li><b>英伟达产品规格</b>——A100 / H100 / H200 / DGX B200 / GB200 NVL72 / GB300 NVL72 / Vera Rubin NVL72 / L40S 官方规格页。<a href="https://www.nvidia.com/en-us/data-center/h100/">nvidia.com</a>、<a href="https://www.nvidia.com/en-us/data-center/gb300-nvl72/">GB300 NVL72</a>、<a href="https://www.nvidia.com/en-us/data-center/vera-rubin-nvl72/">Vera Rubin NVL72</a></li>
+    <li><b>英伟达中国区营收、监管定性、供应链</b>——NVIDIA FY2026 Form 10-K（2026-02-25 提交）：中国（含香港）营收 FY2026 196.8 亿美元占 9.1%、FY2025 占 19.2%、FY2024 占 20.2%；「实际上已被排除在中国数据中心计算市场之外」原文；CoWoS 封装与供应商。<a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm">SEC EDGAR</a></li>
+    <li><b>英伟达财报</b>——FY2026 全年营收 2,159 亿美元（+65%）、FY2027 Q1 816 亿美元（+85%）；连续两季指引不假设中国数据中心计算营收。<a href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027">nvidianews</a></li>
+    <li><b>CUDA 生态数据</b>——400 万+ 开发者、3,000+ 优化应用（NVIDIA GTC 2026 官方材料，2026-03-16）</li>
+    <li><b>MLPerf Training v6.0</b>——DeepSeek-V3 671B 在 GB300 NVL72 上 8,192 卡训练 2.02 分钟；Llama 3.1 405B 在 GB200 NVL72 上 7.07 分钟；纯软件优化使 GB300 单卡效率从 1,298 提升至 1,648 TFLOPS。<a href="https://developer.nvidia.com/blog/nvidia-blackwell-tops-mlperf-training-6-0-with-industry-leading-scale-and-performance/">developer.nvidia.com</a></li>
+    <li><b>Groq 授权交易</b>——2025-12-24 英伟达以约 200 亿美元非独家授权 Groq 推理技术并招募其创始人等高管；Vera Rubin NVL72 页面明确列有「NVIDIA Groq 3 LPX」机柜</li>
+    <li><b>华为昇腾路线图与超节点</b>——华为全联接大会 2025（徐直军主题演讲）：910C / 950PR / 950DT / 960 / 970 规格与时间表、自研 HBM、CloudMatrix 384 累计部署 300+ 套。<a href="https://www.cls.cn/detail/2148773">科创板日报</a>、<a href="https://m.mydrivers.com/newsview/1075513.html">芯智讯/快科技</a></li>
+    <li><b>徐直军关于供货能力的表述</b>——HC2026（2026-10）：「制约昇腾进一步放量的主要问题已经不是市场需求，而是供货能力」。<a href="https://m.jiemian.com/article/15163143.html">界面新闻</a></li>
+    <li><b>科大讯飞披露的国产卡实测差距</b>——昇腾 910B 显存 64GB vs H200 141GB、带宽 1.6 vs 4.8 TB/s；国产卡需额外 3–6 个月适配；智能体 RL 采样推理效率相差最多 5 倍；训练效率从开箱 30% 提升至 84%–93%；DeepSeek-V4 训练仍基于英伟达卡。<a href="https://www.163.com/dy/article/KRRG3B7F05568W0A.html">观察者网</a></li>
+    <li><b>国产芯片公司财务数据</b>——寒武纪 2025 年营收 64.97 亿（+453%）、首次年度盈利；海光 143.77 亿（+56.9%）；摩尔线程 15.06 亿（+243%）；壁仞 10.35 亿（+207%）；天数智芯 10.34 亿；沐曦约 16 亿。均来自公司年报/公告</li>
+    <li><b>中芯国际产能约束</b>——N+2 2026 年底目标月产能 7 万片、需求 420 万颗 vs 供给 260 万颗；赵海军「虹吸效应」表述</li>
+    <li><b>美国出口管制规则</b>——Federal Register 一手规则原文：2022-10-07 规则（87 FR 62186）、2023-10-17 规则、2024-12-02 规则、AI 扩散规则（2025-01-13，2025-05-13 撤销）、2026-01-15 规则（91 FR 1684）、2026-07-10 阿联酋规则。<a href="https://www.federalregister.gov/documents/2022/10/13/2022-21658/implementation-of-additional-export-controls-certain-advanced-computing-and-semiconductor">2022 规则</a>、<a href="https://www.federalregister.gov/documents/2026/01/15/2026-00789/revision-to-license-review-policy-for-advanced-computing-commodities">2026-01-15 规则</a></li>
+    <li><b>实体清单</b>——2025-01-16 算能科技（Sophgo）系列与智谱（Zhipu）系列被列入。<a href="https://www.federalregister.gov/documents/2025/01/16/2025-00704/addition-of-entities-to-and-revision-of-entry-on-the-entity-list">FR 2025-00704</a></li>
+    <li><b>H20/H200 时间线</b>——2025-04-09 需许可、2025-08-11 对华收入 15% 上缴美国政府、2025-12-08 允许 H200（25% 抽成）、2026-01-13 BIS 逐案审查、2026-01-14 中国海关反向封堵。<a href="https://www.nbcnews.com/tech/tech-news/us-approves-nvidia-h200-chip-exports-china-conditions-rcna203871">NBC News</a>、<a href="https://www.theguardian.com/technology/2026/jan/17/china-blocks-nvidia-h200-ai-chips">The Guardian</a>、<a href="https://www.washingtonpost.com/technology/2025/08/11/nvidia-amd-china-chips-trump/">Washington Post</a></li>
+    <li><b>算力租赁价格</b>——极智算平台行业报价（2026-07、2026-09 两期）；SMM 综合指数 2026-10-16 为 17.194 元/卡·时；JPMorgan 2026 年 8 月 GPU 租赁指数（B200 5.63 美元、H100 2.73 美元）</li>
+    <li><b>Llama 3 训练中断数据</b>——419 次非计划中断中 GPU（含 HBM）占 58.7%、网络交换机与线缆占 8.4%。<a href="https://arxiv.org/abs/2407.21783">arXiv 2407.21783</a></li>
+    <li><b>Meta 集群与网络</b>——两套 24,576 卡集群（RoCE 与 IB）、未调优 AllGather 利用率低至 10% 而调优后 90%+。<a href="https://engineering.fb.com/2024/03/12/data-center-engineering/building-metas-genai-infrastructure/">Meta 工程博客</a></li>
+    <li><b>算力当量与人均</b>——Epoch AI《AI Chip Users Explorer》2026-09-09；算力开支与人力成本比例（Anthropic 2.34x、智谱 2.67x、MiniMax 3.75x）。<a href="https://epoch.ai/data-insights/revenue-per-employee-ai-companies">Epoch AI</a></li>
+    <li><b>TCO 拆解</b>——Bernstein 对 1 GW GB200 数据中心的测算（约 350 亿美元；GPU 38.8%、电力机械 31.9%、网络 12.6%）；Epoch AI 独立测算约 379 亿美元/GW</li>
+    <li><b>利用率口径</b>——Uptime Institute（训练 MFU 35%–45%、&gt;50% 为天花板；训练服务器约 80% 时间在运行）；Cast AI（云上企业平均 5%）；字节 MegaScale 12,288 卡达 55.2% MFU</li>
+    <li><b>CoreWeave 财务</b>——2026 Q1 营收 20.78 亿美元（+112%）、backlog 994 亿美元；2026 Q2 资本开支 94 亿美元、净亏 6.26 亿美元；债务与租赁义务约 520 亿美元。<a href="https://convergedigest.com/the-neocloud-spending-surge/">Converge Digest</a></li>
+    <li><b>腾讯向 Oracle 租赁</b>——2026-09-30 FT 报道：10 万颗芯片、5 年 70 亿美元</li>
+    <li><b>走私案件</b>——Super Micro 联合创始人廖益贤涉 25 亿美元被诉；浪潮美国子公司 Aivres 转运 56 亿美元；2026-10 加州一 CEO 被控走私 3 亿美元 GPU 服务器</li>
+  </ul>
+
+  <h3>未核实 / 存疑</h3>
+  <ul class="plain">
+    <li><b>英伟达所有价格均为估算。</b>英伟达从不公布官方 MSRP。唯一来自公司高管的是黄仁勋披露的 B200 30,000–40,000 美元；H100 的 25,000–30,000 美元为投行估算。其余均为渠道报价汇总。</li>
+    <li><b>B200/B300 的 FP4 稀疏口径矛盾。</b>GB200 NVL72 官网列 FP4「1,440 | 720 PFLOPS」（稀疏:稠密 = 2:1），GB300 列「1,440 | 1,080」（1.33:1）。本报告统一采用稠密值（10 / 15 PFLOPS）。</li>
+    <li><b>H20 精确规格</b>——NVIDIA 官方 H20 页面已下线，96GB HBM3 / 4.0 TB/s / 296 TFLOPS FP8 等为业内通行口径，缺一手来源。「H20 算力为 H100 的 15%–33%」为多方估算。</li>
+    <li><b>国产卡的具体规格多为市场/券商口径。</b>寒武纪从未逐项披露思元 590/690 规格，且<b>专门公告警示市场传闻</b>；昆仑芯 P800、昇腾 950DT 显存容量等亦存在来源矛盾。本报告已逐处标注。</li>
+    <li><b>昇腾 950DT 显存规格</b>：128GB/1.6TB/s 与 144GB/4TB/s 两源矛盾。</li>
+    <li><b>中芯 N+2 产能分配比例</b>（华为约 43%、寒武纪约 9%–11%）：自媒体测算，且原文内部数字自相矛盾，仅作趋势参考。</li>
+    <li><b>国内 H100 月租的两个口径</b>：「由 1.3 万元降至 6,000 元」（媒体）与平台挂牌价 1.2 万–1.5 万元存在差异，可能源于存量卡/区域/长协口径不同，本报告并列呈现。</li>
+    <li><b>「网络是训练中断首要原因」不成立。</b>Llama 3 一手数据显示 GPU/HBM 占 58.7%、网络占 8.4%。另该表百分比列存在内部不自洽，建议引用计数而非百分比。</li>
+    <li><b>「GPU 平均利用率 25%–27%」缺可追溯的一手出处。</b>本报告改用「训练 MFU 35%–45%」+「运行时间占比约 80%」的表述并注明口径。</li>
+    <li><b>「算力开支是人力成本的 2.3 倍」是 Anthropic 专属值</b>（Epoch AI 口径 2.34x），非行业通用值。</li>
+    <li><b>2026-05-31 美国「封堵海外子公司漏洞」的形式存疑</b>：证据指向 BIS 指引/澄清而非 Federal Register 正式规则。</li>
+    <li><b>中国公司在东南亚/中东「自建」算力集群的可核实案例</b>：公开信息多为租赁或合作，自建主体与规模未坐实。</li>
+  </ul>
+
+  <h3>未能获取</h3>
+  <ul class="plain">
+    <li><b>2026 年 CoWoS 月产能与交期的一手数据</b>。障碍：TSMC 法说会与 TrendForce 报告需付费或未公开具体数字。</li>
+    <li><b>各国产厂商的官方售价</b>。障碍：多为项目制、白名单直销，不公开报价；本报告引用的价格均来自路透社等媒体口径。</li>
+    <li><b>长鑫存储 HBM 的具体产能与良率</b>。障碍：公开报道零散，无可核实的一手数字。</li>
+    <li><b>Rubin 单卡的完整规格</b>。障碍：NVIDIA 尚未发布 Rubin 单卡规格表（系统级 NVL72 数字已获取）。</li>
+    <li><b>中国 2025–2026 年智能算力总规模（EFLOPS）与「东数西算」八大枢纽的官方数据</b>。</li>
+    <li><b>Blind / 脉脉类平台的一手员工帖</b>。障碍：需登录且为 JS 渲染。</li>
+  </ul>
+</section>
+
+<section id="sources">
+  <span class="snum">10</span>
+  <h2 class="sec">主要公开信息源</h2>
+  <ol class="src">
+    <li>NVIDIA 官方规格页：H100 / H200 / DGX B200 / GB200 NVL72 / GB300 NVL72 / Vera Rubin NVL72 / L40S / NVLink Fusion。<a href="https://www.nvidia.com/en-us/data-center/">nvidia.com/en-us/data-center</a></li>
+    <li>NVIDIA FY2026 Form 10-K，2026-02-25。<a href="https://www.sec.gov/Archives/edgar/data/1045810/000104581026000021/nvda-20260125.htm">SEC EDGAR</a></li>
+    <li>NVIDIA FY2027 Q1 财报，2026-05。<a href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-first-quarter-fiscal-2027">nvidianews.nvidia.com</a></li>
+    <li>NVIDIA Technical Blog：MLPerf Training v6.0，2026-06。<a href="https://developer.nvidia.com/blog/nvidia-blackwell-tops-mlperf-training-6-0-with-industry-leading-scale-and-performance/">developer.nvidia.com</a></li>
+    <li>美国 BIS 出口管制规则（Federal Register）：2022-10-07 规则。<a href="https://www.federalregister.gov/documents/2022/10/13/2022-21658/implementation-of-additional-export-controls-certain-advanced-computing-and-semiconductor">federalregister.gov</a></li>
+    <li>美国 BIS：2026-01-15 逐案审查规则（91 FR 1684）。<a href="https://www.federalregister.gov/documents/2026/01/15/2026-00789/revision-to-license-review-policy-for-advanced-computing-commodities">federalregister.gov</a></li>
+    <li>美国 BIS：2026-07-10 阿联酋规则。<a href="https://www.federalregister.gov/documents/2026/07/14/2026-14132/enhanced-favorable-treatment-for-the-united-arab-emirates-under-the-export-administration">federalregister.gov</a></li>
+    <li>实体清单：2025-01-16 新增（含智谱系列）。<a href="https://www.federalregister.gov/documents/2025/01/16/2025-00704/addition-of-entities-to-and-revision-of-entry-on-the-entity-list">federalregister.gov</a></li>
+    <li>华为全联接大会 2025：昇腾路线图与超节点。<a href="https://www.cls.cn/detail/2148773">科创板日报</a>｜<a href="https://m.mydrivers.com/newsview/1075513.html">芯智讯/快科技</a></li>
+    <li>界面新闻：华为 HC2026 与徐直军份额表述，2026-10。<a href="https://m.jiemian.com/article/15163143.html">jiemian.com</a></li>
+    <li>观察者网：科大讯飞谈昇腾训练难点与国产卡差距。<a href="https://www.163.com/dy/article/KRRG3B7F05568W0A.html">163.com</a></li>
+    <li>观察者网：国产芯片涨价（转引路透社），2026-09-10。<a href="https://www.guancha.cn/CaiJing/2026_09_10_900130.shtml">guancha.cn</a></li>
+    <li>每日经济新闻/东方财富：寒武纪 2025 年报，2026-03-13。<a href="https://finance.eastmoney.com/a/202603133670668930.html">eastmoney.com</a></li>
+    <li>格隆汇：海光信息 2025 年报解析，2026-04-08。<a href="https://dxpress.gelonghui.com/p/4336970">gelonghui.com</a></li>
+    <li>21 世纪经济报道：壁仞科技 2026 上半年预告，2026-08-18。<a href="https://m.21jingji.com/article/20260818/herald/c45d195957118dfb7f4e7d57f2abc5f3.html">21jingji.com</a></li>
+    <li>快科技：摩尔线程 MTT S5000 规格，2026-02-12。<a href="https://m.mydrivers.com/newsview/1103881.html">mydrivers.com</a></li>
+    <li>东方财富：摩尔线程 2025 业绩，2026-02-27。<a href="https://finance.eastmoney.com/a/202602273656983657.html">eastmoney.com</a></li>
+    <li>东方财富：沐曦 2025 年报，2026-03-26。<a href="https://fund.eastmoney.com/a/202603263685933751.html">eastmoney.com</a></li>
+    <li>21 世纪经济报道：燧原科技上市，2026-09-11。<a href="https://m.21jingji.com/article/20260911/herald/45251865e19a14c3df0a545d02a00c02.html">21jingji.com</a></li>
+    <li>钛媒体：中芯 N+2 产能分配与国产芯片缺口。<a href="https://m.tmtpost.com/8051488.html">tmtpost.com</a></li>
+    <li>钛媒体：国产 GPU 单核性能落后一至两代。<a href="https://www.tmtpost.com/8033720.html">tmtpost.com</a></li>
+    <li>投中网/雷峰网：国产推理芯片与生态现状，2025-11-19。<a href="https://www.chinaventure.com.cn/news/78-20251119-388934.html">chinaventure.com.cn</a></li>
+    <li>极智算：算力租赁行业报价，2026-07-23 与 2026-09-16。<a href="https://www.jygpu.com/article/724.html">jygpu.com</a></li>
+    <li>Meta 工程博客：Building Meta's GenAI Infrastructure，2024-03-12。<a href="https://engineering.fb.com/2024/03/12/data-center-engineering/building-metas-genai-infrastructure/">engineering.fb.com</a></li>
+    <li>The Llama 3 Herd of Models（训练中断统计）。<a href="https://arxiv.org/abs/2407.21783">arXiv 2407.21783</a></li>
+    <li>Epoch AI：AI Chip Users Explorer 与算力相关数据洞察。<a href="https://epoch.ai/data-insights/revenue-per-employee-ai-companies">epoch.ai</a></li>
+    <li>Converge Digest：Neocloud 支出激增与 CoreWeave 财务。<a href="https://convergedigest.com/the-neocloud-spending-surge/">convergedigest.com</a></li>
+    <li>NBC News：美国批准 H200 对华出口附加条件，2026-01-13。<a href="https://www.nbcnews.com/tech/tech-news/us-approves-nvidia-h200-chip-exports-china-conditions-rcna203871">nbcnews.com</a></li>
+    <li>The Guardian：中国封堵 H200 入境，2026-01-17。<a href="https://www.theguardian.com/technology/2026/jan/17/china-blocks-nvidia-h200-ai-chips">theguardian.com</a></li>
+    <li>Washington Post：英伟达与 AMD 同意上缴对华收入 15%，2025-08-11。<a href="https://www.washingtonpost.com/technology/2025/08/11/nvidia-amd-china-chips-trump/">washingtonpost.com</a></li>
+    <li>搜狐：「2026 中国算力租赁七杰」，2026-10-18。<a href="https://www.sohu.com/a/1087920114_122526009">sohu.com</a></li>
+    <li>Google 数据中心效率（PUE 1.09）。<a href="https://www.google.com/about/datacenters/efficiency/">google.com</a></li>
+  </ol>
+</section>
+
+<footer>
+  <p>本报告基于公开信息整理，数据截止 2026-10-20。所有产品规格以厂商官方规格页为一手来源；价格因厂商普遍不公布官方定价，均为渠道报价或投行估算，已逐条标注来源性质。国产芯片的型号规格多来自券商研报与产业链转述，公司多未逐项披露，已标注存疑。出口管制部分以美国 Federal Register 规则原文为一手来源。本报告不构成投资建议、采购建议或合规意见；涉及出口管制的具体判断请以专业法律意见为准。</p>
+</footer>
+
+</div>
+</body>
+</html>
