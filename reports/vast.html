@@ -1,0 +1,1150 @@
+<title>VAST（三启万物）· 公司深度研究</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;family=Noto+Serif+SC:wght@500;600;700&amp;display=swap">
+
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+.muted{color:var(--muted);font-weight:400}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.grid3>div{background:var(--surface);padding:20px 22px}
+.gk{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.gt{font-family:var(--serif);font-weight:600;font-size:17px;line-height:1.45;margin-bottom:8px;color:var(--ink)}
+.gd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.gd b{color:var(--ink)}
+@media (max-width:760px){.grid3{grid-template-columns:1fr}}
+</style>
+
+</head>
+<body>
+<nav class="top">
+  <div class="inner">
+    <span class="brand">VAST · 三启万物</span>
+    <div class="links">
+      <a href="#thesis">结论</a>
+      <a href="#premise">公司脉络</a>
+      <a href="#org-talent">组织人才</a>
+      <a href="#tech">技术路线</a>
+      <a href="#capital">资本结构</a>
+      <a href="#compete">竞争格局</a>
+      <a href="#outlook">发展走向</a>
+      <a href="#caveats">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">公司深度研究 · AI 3D / 通用世界模型 · 2026</p>
+  <h1>VAST（三启万物）</h1>
+  <p class="standfirst">一家用六个月融了约 50 亿元、估值从 10 亿美元冲向 20 亿美元的 AI 3D 公司——它的技术、收入与资本，哪一层跑得最快，哪一层还没跟上？</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-21</dd></div>
+    <div><dt>版本</dt><dd>v1 · 8 节（结论 + 6 节分析 + 信息源）</dd></div>
+    <div><dt>核心结论</dt><dd>融资速度领先，收入验证滞后；3D 生产基础设施是那条缝，世界模型是期权</dd></div>
+    <div><dt>信息源</dt><dd>公开报道 / 公司公告 / 融资库 30 项</dd></div>
+  </dl>
+</header>
+
+<section id="thesis">
+  <span class="snum">00</span>
+  <h2 class="sec">结论先行</h2>
+
+  <div class="thesis">
+    <ol>
+      <li>
+        <b>VAST 是 2026 年 AI 3D 赛道里「融资速度最快、收入验证最慢」的头部样本。</b>
+        2026 年 3 月至 9 月，它完成了 A、A1、A2、A3、B、B+ 六轮融资，合计约 50 亿元人民币；估值从 2026 年 6 月的 10 亿美元（Bloomberg 口径）升到 2026 年 8 月报道中的近 20 亿美元目标（WSJ 口径）。但公司最后一次公开 ARR 是 2025 年 6 月的 <span class="num">700 万美元</span>。<em>需要强调的是：2026 年收入未披露，融资额、估值与收入是三套口径，不能互相替代。</em>
+      </li>
+      <li>
+        <b>它卖的不是「生成一个 3D 模型」，而是「把 3D 资产接进生产管线」。</b>
+        Tripo Studio、Blender / Unity / Unreal / Cocos 插件、企业 API，以及 P2.0 的四边形拓扑与 8K 纹理，指向游戏、3D 打印、XR 的真实工作流。单点生成效果正在被开源拉平，<em>管线集成与交付质量</em>才是更难替代的部分。需要强调的是：管线集成深度只有客户案例能证明，公开信息只能部分验证。
+      </li>
+      <li>
+        <b>世界模型 Project Eden 是第二增长曲线，也是最大的资本开支与叙事风险。</b>
+        EdenLive 的 5B 模型在单张 RTX 5090 上做到 720p 超过 24 FPS，并已开源权重与代码——这说明团队有真实的实时渲染与系统工程能力。但世界模型离可审计收入很远，可能分散 3D 现金牛的注意力。<em>需要强调的是：开源是生态策略，也可能削弱商业化；EdenLive 目前是研究与演示，不是收入。</em>
+      </li>
+      <li>
+        <b>竞争格局是「双雄 + 一个开源基线 + 一群世界模型实验室」。</b>
+        Meshy 以 15 亿美元估值、1 亿美元 ARR 领先商业化；影眸/Rodin 以 B 端收入见长；World Labs 被 AMD 以约 82 亿美元全股票收购（已签协议，待交割），抬高了世界模型的退出锚；Hunyuan3D / TRELLIS 把模型质量拉平。VAST 站在「3D 生产基础设施」这条缝里，缝还在，但正在变窄。<em>需要强调的是：Meshy 的 ARR 是公司口径，VAST 收入未披露，二者不能直接相减。</em>
+      </li>
+      <li>
+        <b>它的资本结构是「产业资本 + 地方国资 + 市场化 VC」的混合体，这既是护城河也是约束。</b>
+        游戏、汽车、电商、3D 打印产业方带来场景与订单；地方国资带来算力、土地与政策；但也会带来区域落地、关联交易与 IPO 审查复杂度。<em>需要强调的是：投资方名单不等于采购合同，战略合作不等于收入。</em>
+      </li>
+      <li>
+        <b>未来 12–18 个月的关键不是再融资，而是把 2000 万用户转成可审计的收入。</b>
+        650 万创作者、4 万名活跃开发者、700 多家企业客户是资产；只有付费率、续费率、API 调用量、海外收入占比能支撑 20 亿美元估值。IPO 是加速器，也是放大镜。<em>需要强调的是：这些用户/客户数字均为公司口径，未经审计。</em>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="wide" id="premise">
+  <span class="snum">01</span>
+  <h2 class="sec">公司脉络：一个 3D UGC 梦想，转身成了 3D 生产工具</h2>
+
+  <p class="lede">VAST 的故事有三层：一个「3D 抖音」的初心、一个 PGC 生产工具的转身、一个世界模型的期权。三层叠在一起，才解释得清它为什么能在半年内融到 50 亿元，也解释得清它为什么还没交出一份可审计的收入表。</p>
+
+  <div class="facts">
+    <div><div class="fv">2023-03</div><div class="fl">成立时间（媒体口径）；境内主体上海瓦嘶特科技注册于 2023-05-12</div></div>
+    <div><div class="fv">9 轮</div><div class="fl">成立至今融资轮次（媒体统计）；其中 2026 年 3–9 月 6 轮</div></div>
+    <div><div class="fv">≈57 亿元</div><div class="fl">累计融资（媒体统计口径）；公司口径为 2026 年上半年约 50 亿元</div></div>
+    <div><div class="fv">2000 万</div><div class="fl">全球用户（公司口径，2026-08）；未经审计</div></div>
+  </div>
+
+  <div class="tw">
+    <table>
+      <caption>四个阶段：从 UGC 梦想到 3D 生产基础设施。估值只有 2026 年有公开节点：10 亿美元已确认，20 亿美元为报道目标；早期轮次均未披露。</caption>
+      <thead><tr><th>阶段</th><th>时间</th><th>关键动作</th><th>融资 / 估值</th></tr></thead>
+      <tbody>
+        <tr><td class="k">萌芽</td><td>2023</td><td>成立；开源 Wonder 3D；组建小几十人团队，早期半年未领薪</td><td>天使轮 3,000 万元（绿洲资本）；估值未披露</td></tr>
+        <tr><td class="k">产品化</td><td>2024</td><td>Tripo 1.0 / 2.0；从 UGC 转向 PGC；TripoSR 开源</td><td>Pre-A 数亿元；估值未披露</td></tr>
+        <tr><td class="k">工作台</td><td>2025</td><td>Tripo Studio；Tripo 3.0（200 亿参数）；ARR 约 700 万美元</td><td>Pre-A+ 数千万美元；估值未披露</td></tr>
+        <tr><td class="k">资本加速</td><td>2026</td><td>A→B+ 六轮；Project Eden；Tripo P2.0；考虑港股 IPO</td><td>约 50 亿元；估值 10 亿美元 → 报道目标近 20 亿美元</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">01.1</span>从「3D 抖音」到「3D 工作台」：一次被数据逼出来的转身</h3>
+
+  <p>VAST 成立于 2023 年 3 月。创始人宋亚宸最初的判断不是「做一家 3D 模型公司」，而是「3D 还缺一个 UGC 内容平台」：文字有 X/知乎、图片有 Instagram/小红书、视频有抖音/TikTok，唯独 3D 没有自己的「抖音」。这个判断在 2023 年并不主流——当时 3D 生成的质量、速度与成本都不足以支撑大众创作。</p>
+
+  <p>团队很快撞上了现实。宋亚宸后来在采访中承认：公司一上来就想做 UGC 交互内容平台，但很快发现 3D 领域的「手机摄像头」还没被发明出来——<em>在一个技术、产品都远未成熟的时期，单凭一家公司的力量，很难让 3D UGC 走到商业闭环</em>。2024 年下半年，VAST 做了创业以来最关键的一次策略调整：从「直接面向 C 端做 3D 生成」转向「面向 PGC 做 AI 原生 3D 工作台」。2025 年 6 月，Tripo Studio 发布，定位是「3D 设计师的 Cursor」：生成一个 80 分的模型，再用 5 分钟把它改到 95 分。</p>
+
+  <blockquote>
+    服务 UGC 用户，是下一步要做的事情。先有了「3D 美图秀秀」，才可能诞生「3D 版抖音」。
+    <cite>宋亚宸，晚点 LatePost / 暗涌 Waves 访谈，2025</cite>
+  </blockquote>
+
+  <p>这次转身解释了 VAST 的产品形态：它不是只卖 API，而是把模型、工作台、插件、企业交付打包成一条「生成—编辑—导出—进入引擎」的管线。也解释了它的客户结构：先服务专业用户（Pro）与专业消费者（Pro-C），再谈大众 UGC。这个顺序与 Meshy 的「先规模、再企业」不同，与影眸/Rodin 的「先 B 端、再全球化」也不同。</p>
+
+  <h3 class="sub"><span class="subn">01.2</span>2026：从 A 轮到 B+，只用了六个月</h3>
+
+  <p>2026 年是 VAST 的资本加速年。3 月 A 轮 5,000 万美元，6 月 A1、A2 两轮合计近 2 亿美元、估值突破 10 亿美元，7 月 A3 超 10 亿元人民币，9 月 B/B+ 合计约 30 亿元人民币。融资节奏从「一年一轮」变成「一个月一轮」，投资方从市场化 VC 扩展到游戏、汽车、电商、3D 打印、地方国资。</p>
+
+  <div class="tw">
+    <table>
+      <caption>VAST 成立至今的融资时间线。金额与估值均标注口径；「未披露」表示公开信息中没有可靠数字，不做推测。早期轮次日期来自融资库，官宣日期另注。</caption>
+      <thead>
+        <tr><th>时间</th><th>轮次</th><th>金额</th><th>投后估值</th><th>主要投资方</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">2023-06</td><td>天使轮</td><td>3,000 万元<br><span class="muted">绿洲资本方口径；融资库未披露金额</span></td><td>未披露</td><td>绿洲资本（独家）</td><td>起步资金；团队早期约半年未领薪</td>
+        </tr>
+        <tr>
+          <td class="k">2024-07</td><td>Pre-A</td><td>数亿元</td><td>未披露</td><td>达晨财智、春华创投领投；英诺天使基金、水木清华校友基金跟投</td><td>2024-09-19 官宣；Tripo 2.0 同步发布</td>
+        </tr>
+        <tr>
+          <td class="k">2025-06-10</td><td>Pre-A+</td><td>数千万美元</td><td>未披露；公司称「AI 3D 领域最高」</td><td>北京市人工智能产业投资基金领投；靖亚资本跟投</td><td>Tripo Studio 发布；ARR 约 700 万美元</td>
+        </tr>
+        <tr>
+          <td class="k">2026-03-05</td><td>A 轮</td><td>5,000 万美元</td><td>未披露</td><td>恒旭资本、阿里巴巴联合领投；启明创投、BV 百度风投跟投</td><td>2026 年融资加速的起点</td>
+        </tr>
+        <tr>
+          <td class="k">2026-06</td><td>A1 + A2</td><td>近 2 亿美元</td><td>&gt; 10 亿美元<br><span class="muted">Bloomberg 口径</span></td><td>INCE Capital、国寿长三角科创基金联合领投</td><td>晋级独角兽；Project Eden 世界模型发布</td>
+        </tr>
+        <tr>
+          <td class="k">2026-07-02</td><td>A3</td><td>&gt; 10 亿元<br><span class="muted">约 1.5 亿美元</span></td><td>未披露</td><td>吉利资本、4399、贪玩游戏、巨人网络、复星创富等</td><td>汽车与游戏产业资本密集入场</td>
+        </tr>
+        <tr>
+          <td class="k">2026-09-01</td><td>B + B+</td><td>约 30 亿元<br><span class="muted">约 4.46 亿美元</span></td><td>未披露；WSJ 报道目标近 20 亿美元</td><td>经纬创投领投；完美世界、蓝色光标、三七互娱、中科创达等</td><td>公司未披露投后估值；同步发布 Tripo P2.0</td>
+        </tr>
+        <tr class="sum">
+          <td class="k">累计</td><td>9 轮</td><td>约 57 亿元<br><span class="muted">媒体统计；公司口径 2026 年上半年约 50 亿元</span></td><td>—</td><td>—</td><td>2026 年 3–9 月约 50 亿元；约 7.44 亿美元</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>估值：哪些是确认的，哪些只是「目标」</h4>
+
+  <p>「VAST 估值 20 亿美元」在中文媒体上流传很广，但需要拆开看：<b>10 亿美元是已确认的</b>（2026 年 6 月 A1/A2 轮，Bloomberg 报道）；<b>20 亿美元是 2026 年 8 月 WSJ 报道的 B 轮目标</b>，公司从未确认；<b>B/B+ 的实际投后估值至今未披露</b>。另有分析机构对 A 轮系列给出过最高 30 亿美元的估算，但那是第三方模型，不是成交价。</p>
+
+  <div class="tw">
+    <table>
+      <caption>VAST 估值节点的证据等级。投资决策应使用「已确认」一列，而不是「目标/估算」一列。</caption>
+      <thead>
+        <tr><th>节点</th><th>估值</th><th>证据等级</th><th>依据</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">2023–2025 早期轮</td><td>未披露</td><td><span class="chip mid">无公开数字</span></td><td>融资库与公司公告均未披露投后估值</td></tr>
+        <tr><td class="k">2026-06 A1/A2</td><td>&gt; 10 亿美元</td><td><span class="chip ok">已确认</span></td><td>Bloomberg 报道；Forbes 同日称其晋级独角兽</td></tr>
+        <tr><td class="k">2026-08 B 轮目标</td><td>近 20 亿美元</td><td><span class="chip mid">报道口径</span></td><td>WSJ 引述知情人士；公司未确认</td></tr>
+        <tr><td class="k">2026-09 B/B+</td><td>未披露</td><td><span class="chip no">未获取</span></td><td>公司公告只披露金额，不披露投后估值</td></tr>
+        <tr><td class="k">A 轮系列（第三方估算）</td><td>最高 30 亿美元</td><td><span class="chip no">推算</span></td><td>SiliconReport 引述 Caplight 等第三方数据；非成交价</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">01.3</span>靠什么收钱：订阅、API、企业项目，以及未披露的收入</h3>
+
+  <p>VAST 的收入结构可以拆成三层：<b>个人订阅</b>（Tripo 订阅起步价 20 美元/月，承担获客与产品教育）、<b>开发者 API</b>（按 token/调用量计费，随使用量扩张）、<b>企业项目</b>（更高客单价、更长合同周期，含定制与交付）。公司披露的客户包括网易《蛋仔派对》《逆水寒》、腾讯、字节跳动、微软的内部工作流，以及 Bambu Lab、Anycubic、群核科技（Coohom）等 3D 打印/设计平台。</p>
+
+  <p>但收入数字是这份报告里最大的空白。公司最后一次公开 ARR 是 2025 年 6 月的 700 万美元；当时 Tripo Studio 的月收入约 60 万美元。2026 年公司只披露了用户与客户数（2,000 万用户、650 万创作者、4 万开发者、700+ 企业客户、累计 1 亿+ 3D 模型），<em>没有再披露 ARR、付费率、毛利率或海外收入占比</em>。这意味着：外界能看到「用户规模」，看不到「收入质量」。</p>
+
+  <div class="callout warnb">
+    <div class="ct">口径提醒：三套数字，不能混着用</div>
+    <p><b>融资额</b>是投资人给公司的钱，不是公司的收入；<b>估值</b>是交易价格，不是公司账上的现金；<b>ARR</b> 是收入 run-rate，不是审计收入。VAST 的「50 亿元」是融资额，「20 亿美元」是报道中的目标估值，「700 万美元」是 2025 年的 ARR——三者之间没有可比的换算关系。把融资额当收入、把估值当现金流，是读这类公司最常见的错误。</p>
+  </div>
+</section>
+
+<section class="wide" id="org-talent">
+  <span class="snum">02</span>
+  <h2 class="sec">组织人才：一个非技术 CEO，和一支「产业回流 + 清华网络」的团队</h2>
+
+  <p class="lede">VAST 的组织形态与它的融资节奏高度相关：CEO 把大部分时间花在融资与招人上，技术由两位有腾讯/商汤背景的负责人扛，产品与商业化在 2025 年后才补齐。这是一支「先有技术、再补商业」的团队，也是一支高度依赖关键人的团队。</p>
+
+  <div class="tw">
+    <table>
+      <caption>核心三人。信息来自公开采访、公司公告与媒体报道；职务可能随时间变化，以公司最新披露为准。</caption>
+      <thead>
+        <tr><th>角色</th><th>公开履历</th><th>在公司的分工</th><th>对判断的含义</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">宋亚宸<br><span class="muted">创始人 / CEO</span></td>
+          <td>1997 年生；Johns Hopkins 毕业（公开报道称其读神学）；曾在商汤 AI 游戏团队；MiniMax 001 号员工</td>
+          <td>战略、融资、招人；公开采访称「20% 时间定战略，80% 时间融资和招人」；不直接负责模型技术</td>
+          <td>优势是融资与叙事能力；风险是技术判断依赖 CSO/CTO，关键人集中度高</td>
+        </tr>
+        <tr>
+          <td class="k">曹炎培<br><span class="muted">首席科学家</span></td>
+          <td>前腾讯 ARC Lab 3D 生成负责人；长期做 3D 生成/重建研究</td>
+          <td>3D 基础模型与技术路线；对外代表公司讲 3D 生成的技术演进</td>
+          <td>技术声誉的核心；其研究判断决定 Tripo 能否持续领先</td>
+        </tr>
+        <tr>
+          <td class="k">梁鼎<br><span class="muted">CTO</span></td>
+          <td>清华大学博士；前商汤通用视觉与大语言模型负责人</td>
+          <td>模型、训练、工程与基础设施；把研究转成可规模化的产品</td>
+          <td>决定「生成速度/成本/稳定性」这三项工程指标</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>团队规模：</b>2025 年 6 月约 50 人（虎嗅口径）；2026 年融资后明显扩张，但公司未披露最新人数。公开招聘信息集中在 3D 算法、训练/推理基础设施、商业化产品、企业销售——这与「从模型公司转向生产基础设施」的战略一致。</p>
+
+  <p><b>组建逻辑：</b>VAST 不是典型的「一个实验室班底整体出走」，而是<b>产业回流型 + 学术网络型</b>的混合：核心成员来自商汤、MiniMax、腾讯 ARC Lab，同时与清华系人才网络有交集。好处是工程落地能力强、对国内产业客户熟悉；代价是团队的技术风格更偏「产品化」而非「前沿探索」，世界模型这种长周期研究需要另外补人。</p>
+
+  <div class="callout">
+    <div class="ct">一个不寻常的组织实验</div>
+    <p>虎嗅 2025 年的报道提到，VAST 采用<b>季度调薪</b>，而不是行业常见的半年/年度调薪；宋亚宸还主张「健康组织不应该有优先级概念」，发现问题就第一时间一并解决。这些做法在 50 人规模可能有效，但到了数百人、多产品线、跨地域的阶段，会考验管理层的制度化能力。<em>需要强调的是：这些是创始人公开表述，不是经过验证的管理结论。</em></p>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">口径提醒</div>
+    <p>「核心团队来自清华/商汤/腾讯/MiniMax」是公司叙事与媒体归纳，不等于当前员工名单；论文作者、投资方合伙人、顾问也不等于全职员工。VAST 未公开完整组织架构与员工数，本报告不做推算。</p>
+  </div>
+</section>
+
+<section class="wide" id="tech">
+  <span class="snum">03</span>
+  <h2 class="sec">技术路线：3D-native 基础模型，加一个世界模型的期权</h2>
+
+  <p class="lede">VAST 的技术栈可以概括为：一个 3D-native 基础模型、一个 AI 原生工作台、一个世界模型研究计划。三层不是并列的，而是从近到远的现金流/期权结构——前两层负责今天赚钱，第三层负责明天的叙事。</p>
+
+  <div class="stack">
+    <div class="band mid">
+      <div class="bl">Layer 4 · 期权 · 尚未产生可审计收入</div>
+      <div class="bn">世界模型：Project Eden / EdenLive</div>
+      <p class="bd">把「世界状态推演」与「视觉渲染」解耦：上游游戏逻辑/物理状态保持显式、可测试，下游生成模型只负责把状态渲染成高保真画面。EdenLive 5B 模型在单张 RTX 5090 上 720p &gt;24 FPS，权重与代码开源。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 3 · 交付 · 今天的主要收入来源</div>
+      <div class="bn">Tripo Studio + 插件 + 企业 API</div>
+      <p class="bd">文生 3D、图生 3D、智能分割、纹理、自动绑定、动画；Blender / Unity / Unreal / Cocos 插件；订阅 + token 计费 + 企业项目。</p>
+    </div>
+    <div class="band mid">
+      <div class="bl">Layer 2 · 核心资产 · 决定生成质量与成本</div>
+      <div class="bn">Tripo 3D-native 基础模型族</div>
+      <p class="bd">Tripo 1.0 → 2.0 → 3.0（200 亿参数）→ H3.1 / P1.0 → P2.0（四边形拓扑、8K 纹理）。核心指标：几何精度、拓扑可编辑性、PBR 材质、生成速度、单位成本。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 1 · 燃料 · 壁垒的另一半</div>
+      <div class="bn">3D 原生数据与评测</div>
+      <p class="bd">扫描/ licensed 资产、UGC 生成结果、人工标注与偏好数据；用于训练、微调与评测。公司 2024 年称积累 2,000 万高质量 3D 数据，2026 年称累计生成 1 亿+ 3D 模型。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.1</span>模型时间线：从「8 秒出网格」到「生产级四边形拓扑」</h3>
+
+  <div class="tw">
+    <table>
+      <caption>Tripo 模型与产品时间线。参数、速度、分辨率等为公司公开口径；未做独立复测。</caption>
+      <thead>
+        <tr><th>时间</th><th>模型 / 产品</th><th>关键能力</th><th>对商业化的意义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">2023-10</td><td>Wonder 3D（开源）</td><td>单图生成 3D 模型；GitHub 3 个月近 4,000 星</td><td>建立开发者认知；验证「图生 3D」需求</td></tr>
+        <tr><td class="k">2024 年初</td><td>Tripo 1.0</td><td>数十亿参数；8 秒内文/图生成 3D 网格；上线半年生成 500 万个模型</td><td>第一个可规模化的产品；证明速度优势</td></tr>
+        <tr><td class="k">2024-03</td><td>TripoSR（开源，与 Stability AI）</td><td>单图快速重建 3D；不到 1 秒</td><td>开源换生态；也成为后续商品化的基线</td></tr>
+        <tr><td class="k">2024-09</td><td>Tripo 2.0</td><td>DiT + U-Net 混合架构；约 10 秒几何 + 10 秒纹理/PBR；公司称达到 Midjourney V4 水平</td><td>从「能生成」到「能用于生产」；Pre-A 同步官宣</td></tr>
+        <tr><td class="k">2025-06</td><td>Tripo Studio</td><td>AI 原生 3D 工作台；分割、纹理、绑定、动画；Blender/Unity/Unreal/Cocos 插件</td><td>从模型 API 转向工作流；内测首周付费率提升 4 倍（公司口径）</td></tr>
+        <tr><td class="k">2025-08</td><td>Tripo 3.0</td><td>200 亿参数；十亿体素级分辨率；任意拓扑</td><td>把「细节」和「可编辑性」推到生产级</td></tr>
+        <tr><td class="k">2026-03</td><td>Tripo H3.1 / P1.0</td><td>面向可投入生产的网格生成；8K 纹理、Segmentation V2</td><td>补后处理与管线兼容；企业交付的关键</td></tr>
+        <tr><td class="k">2026-06</td><td>Project Eden</td><td>多玩家/智能体世界模型；状态推演与视觉渲染解耦</td><td>第二增长曲线；资本叙事的新支点</td></tr>
+        <tr><td class="k">2026-09</td><td>Tripo P2.0</td><td>四边形拓扑；秒级生成；8K 纹理；面向 3D 打印/游戏管线</td><td>直接对标「生产可用」，而不只是演示效果</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.2</span>技术分野：3D-native 与 world-model-native 是两条路</h3>
+
+  <p>AI 3D 赛道里至少有三条技术路线，经常被混为一谈：</p>
+
+  <div class="tw">
+    <table>
+      <caption>三条路线的第一性问题不同。VAST 站在第一条，并向第三条延伸；Meshy/Rodin 也在第一条，World Labs/Luma 更偏第二/第三条。</caption>
+      <thead>
+        <tr><th>路线</th><th>第一性问题</th><th>代表</th><th>优势</th><th>难点</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">3D-native 资产生成</td>
+          <td>如何生成可编辑、可导出、可进入生产管线的 3D 资产</td>
+          <td>VAST / Tripo、Meshy、影眸 / Rodin、Hunyuan3D、TRELLIS</td>
+          <td>离钱近；游戏、3D 打印、设计都有明确付费场景</td>
+          <td>开源拉平质量；价格战；拓扑/材质/绑定等「最后一公里」很重</td>
+        </tr>
+        <tr>
+          <td class="k">视频/世界模型</td>
+          <td>如何生成连续、可交互、物理一致的世界</td>
+          <td>World Labs、Luma、Runway、DeepMind Genie、NVIDIA Cosmos</td>
+          <td>叙事空间大；具身智能/仿真/互动内容的长远需求</td>
+          <td>资本开支极高；离收入远；长期一致性/物理规律仍未解决</td>
+        </tr>
+        <tr>
+          <td class="k">3D 重建 / 空间智能</td>
+          <td>如何从图像/视频/传感器重建可用的空间</td>
+          <td>World Labs Atlas、Luma、Polycam、NeRF/Gaussian Splatting 系</td>
+          <td>与 XR、机器人、数字孪生天然契合</td>
+          <td>数据采集成本；实时性；与生成模型的边界模糊</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>VAST 的差异化不在「单点生成质量」——这个维度正在被 Meshy、Rodin 和开源模型快速拉平——而在<b>「生成之后」</b>：拓扑是否可编辑、UV 是否合理、PBR 是否完整、能否自动绑定/动画、能否一键进 Unity/Unreal、能否直接 3D 打印。这些是生产管线的脏活，也是开源模型最不愿意做的部分。P2.0 的四边形拓扑与 8K 纹理，就是朝这个方向的动作。</p>
+
+  <p>世界模型则是另一条逻辑。Project Eden 的核心不是「生成一个更逼真的视频」，而是<b>把状态与渲染分开</b>：游戏/仿真逻辑维护显式的世界状态，生成模型只负责渲染。这个架构的好处是可测试、可编辑、可多玩家；坏处是需要两套系统协同，且渲染模型仍然受限于实时性与一致性。EdenLive 在单张 RTX 5090 上做到 720p &gt;24 FPS，是一个有意义的工程里程碑，但它离「可商业化的世界模型」还有距离。</p>
+
+  <div class="callout warnb">
+    <div class="ct">技术口径提醒</div>
+    <p>「全球第一」「盲测第一」「生产可用」均为公司或媒体口径；本报告未找到独立的第三方复测。3D 生成的质量高度依赖任务类型（角色/道具/场景/硬表面/有机体）、输入模态（文/图/多视图）和下游管线（游戏/打印/XR）。引用这些结论时，必须连同测试条件一起引用。</p>
+  </div>
+</section>
+
+<section class="wide" id="capital">
+  <span class="snum">04</span>
+  <h2 class="sec">资本结构：谁在给 VAST 钱，以及这些钱意味着什么</h2>
+
+  <p class="lede">VAST 的融资结构比金额更有信息量：它同时拿了游戏、汽车、电商、3D 打印、地方国资和市场化 VC 的钱。每一类钱带来的不只是现金，还有场景、算力、政策与约束。</p>
+
+  <div class="tw">
+    <table>
+      <caption>投资方按性质分类。「带来什么」为分析判断；「潜在约束」不是已发生事实，而是这类资本常见的结构性影响。</caption>
+      <thead>
+        <tr><th>类别</th><th>代表机构</th><th>带来什么</th><th>潜在约束</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">市场化 VC</td>
+          <td>绿洲资本、达晨财智、春华创投、英诺天使、水木清华校友基金、靖亚资本、经纬创投、鼎晖 VGC、中金资本、CMC 资本、洪泰基金、华控基金、渶策资本、元生资本、策源资本、基石资本、毅达资本</td>
+          <td>资金、IPO 经验、后续融资网络；经纬同时投了 Meshy，说明它押注的是「AI 3D 赛道」而非单一公司</td>
+          <td>对增长与退出节奏有预期；估值抬升后，下一轮需要更高的收入证明</td>
+        </tr>
+        <tr>
+          <td class="k">产业资本 · 互联网/云</td>
+          <td>阿里巴巴、百度（BV 百度风投）、中科创达、蓝色光标</td>
+          <td>云算力、分发、企业客户、广告/营销场景</td>
+          <td>阿里/百度自己也有模型与 3D/世界模型能力，既是股东也可能是平台竞争者</td>
+        </tr>
+        <tr>
+          <td class="k">产业资本 · 游戏/内容</td>
+          <td>完美世界、三七互娱、4399、贪玩游戏、巨人网络、延趣游戏</td>
+          <td>游戏内容需求、IP/资产、直接采购与联合开发</td>
+          <td>可能希望优先/独家使用；游戏行业周期影响预算</td>
+        </tr>
+        <tr>
+          <td class="k">产业资本 · 汽车/制造</td>
+          <td>吉利资本、芯动能投资、广电投资</td>
+          <td>汽车设计/仿真/座舱场景；智能制造与供应链</td>
+          <td>汽车客户验证周期长；定制化项目可能拉低毛利率</td>
+        </tr>
+        <tr>
+          <td class="k">地方国资/政府基金</td>
+          <td>北京市人工智能产业投资基金、深圳市人工智能终端产业基金、国寿长三角科创基金、亦庄国投、上海半导体产投、福建产投基金、江西金控、成都科创投、锡创投</td>
+          <td>算力、土地、产业政策、区域客户；对 IPO 与「硬科技」定位有加分</td>
+          <td>可能要求区域落地/就业/纳税；关联交易与国资审批增加 IPO 复杂度</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>这套组合讲的是一个很具体的故事：<b>VAST 不是「又一个模型公司」，而是「游戏、汽车、3D 打印、电商共用的 3D 内容基础设施」</b>。这解释了为什么游戏厂商和车企愿意在收入尚未验证时下注——它们买的不是财务回报，而是上游供给的确定性。也解释了为什么地方国资愿意连续加注——3D 内容/世界模型被视为「空间智能」的基础设施，符合地方 AI 产业政策。</p>
+
+  <h3 class="sub"><span class="subn">04.1</span>估值与收入：把「20 亿美元」放回分母</h3>
+
+  <p>估值本身没有意义，必须放进分母。VAST 最后一次公开 ARR 是 2025 年 6 月的 700 万美元；2026 年收入未披露。下面用四个假设场景，展示不同收入水平下 20 亿美元估值对应的倍数——这不是预测，是压力测试。</p>
+
+  <div class="tw">
+    <table>
+      <caption>估值/ARR 压力测试。VAST 2026 年 ARR 为假设值，不是披露值；Meshy/Luma 为公开口径，仅作参照。</caption>
+      <thead>
+        <tr><th>公司 / 场景</th><th>估值</th><th>ARR</th><th>估值/ARR</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">VAST · 最后公开</td><td>10 亿美元</td><td>700 万美元（2025-06）</td><td class="n">143x</td><td>用 2025 年收入对照 2026 年估值，仅作量级参考</td></tr>
+        <tr><td class="k">VAST · 目标估值</td><td>20 亿美元</td><td>700 万美元（2025-06）</td><td class="n">286x</td><td>若 2026 年收入没有增长，这个倍数不可持续</td></tr>
+        <tr><td class="k">VAST · 场景 A</td><td>20 亿美元</td><td>3,000 万美元（假设）</td><td class="n">67x</td><td>需要 2026 年 ARR 较 2025 年增长约 4 倍</td></tr>
+        <tr><td class="k">VAST · 场景 B</td><td>20 亿美元</td><td>5,000 万美元（假设）</td><td class="n">40x</td><td>接近高增长 SaaS 的估值上限</td></tr>
+        <tr><td class="k">VAST · 场景 C</td><td>20 亿美元</td><td>1 亿美元（假设）</td><td class="n">20x</td><td>与 Meshy 当前倍数接近；需要收入翻 14 倍</td></tr>
+        <tr class="sum"><td class="k">Meshy · 参照</td><td>15 亿美元</td><td>1 亿美元（2026-09）</td><td class="n">15x</td><td>AI 3D 赛道目前唯一公开的 1 亿美元 ARR</td></tr>
+        <tr class="sum"><td class="k">Luma · 参照</td><td>40 亿美元</td><td>约 8,000 万美元（第三方口径）</td><td class="n">50x</td><td>视频/世界模型，非纯 3D 资产；口径不同</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>这张表想说明的不是「VAST 太贵」或「VAST 便宜」，而是：<b>20 亿美元估值需要 2026 年收入出现数量级增长，或者需要世界模型给出更高的远期期权价值。</b>如果 2026 年 ARR 停在 3,000 万美元左右，67 倍仍然可以讲「高增长」；如果停在 700 万美元，286 倍就是泡沫。公司不披露收入，外界无法判断，这也是 IPO 招股书最重要的看点。</p>
+
+  <h3 class="sub"><span class="subn">04.2</span>IPO：港股 18C 是一条可行的路，但不是估值验证</h3>
+
+  <p>2026 年 8 月 4 日，Bloomberg 报道 VAST 正考虑在香港上市，已与美国银行、中金公司讨论潜在发行方案，处于初步阶段；WSJ 称最早可能 2027 年上市。公司未递表，也未确认。</p>
+
+  <p>按港交所 18C 规则（据证券之星 2026-08 的整理）：已商业化公司最近一个经审计财年收入需达到 <b>2.5 亿港元</b>，最低预期市值 <b>40 亿港元</b>；未商业化公司最低预期市值 <b>80 亿港元</b>，并承担更高的研发投入比例与披露要求。VAST 最后公开 ARR 700 万美元（约 5,500 万港元），远低于 2.5 亿港元；若 2026 年收入没有大幅增长，它更可能按「未商业化公司」路径上市——以 10–20 亿美元估值（约 78–156 亿港元）看，市值门槛不是问题，但「未商业化」标签会影响定价与流动性。</p>
+
+  <div class="callout">
+    <div class="ct">IPO 真正会披露什么</div>
+    <p>招股书会把今天看不到的东西摊开：<b>收入、毛利率、客户集中度、关联交易、算力成本、股权结构、期权池、对赌/回购条款</b>。这些才是判断「20 亿美元是否合理」的一手数据。IPO 是流动性的加速器，不是商业模式的验证；一家公司可以上市，但仍然没有单位经济。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.3</span>股权与控制权：公开信息不足</h3>
+
+  <p>VAST 的股权结构、创始人持股比例、期权池、优先股条款均未公开。境内存在多个关联主体（上海瓦嘶特科技、北京三启万物科技、北京哇嘶嗒科技等），品牌统一为 VAST/Tripo；境外架构与红筹/VIE 安排未见公开披露。可以确认的只有两点：创始人宋亚宸仍在主导经营；公司正在为港股上市做资本结构准备。其余不做推测。</p>
+</section>
+
+<section class="wide" id="compete">
+  <span class="snum">05</span>
+  <h2 class="sec">竞争格局：AI 3D 与通用世界模型的地图</h2>
+
+  <p class="lede">把 VAST 放进 AI 3D/世界模型的地图里，它既不是「另一个 Meshy」，也不是「另一个 World Labs」。它站在两者之间：用 3D 资产生成的现金流，养世界模型的期权。</p>
+
+  <h3 class="sub"><span class="subn">05.1</span>上游：算力、数据、开源模型——而且上游常常同时是股东与对手</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">算力</div>
+      <div class="gt">英伟达 / AMD / 云厂商</div>
+      <p class="gd">训练与推理都依赖 GPU；阿里、百度既是投资方也是云厂商。出口管制与 GPU 供给会影响训练节奏与成本。<b>上游即股东</b>：云厂商给算力，也可能推自己的 3D/世界模型。</p>
+    </div>
+    <div>
+      <div class="gk">数据</div>
+      <div class="gt">扫描资产 / licensed 内容 / UGC</div>
+      <p class="gd">高质量 3D 数据稀缺，版权链条复杂；UGC 生成结果可以反哺训练，但需要清洗与授权。<b>数据是壁垒，也是合规风险</b>。</p>
+    </div>
+    <div>
+      <div class="gk">开源模型</div>
+      <div class="gt">Hunyuan3D / TRELLIS / TripoSR</div>
+      <p class="gd">开源模型把「能生成」变成公共品；VAST 自己也开源了 TripoSR、TripoSG、TripoSF、EdenLive。<b>开源换生态，也换掉了部分定价权</b>。</p>
+    </div>
+    <div>
+      <div class="gk">分发</div>
+      <div class="gt">Unity / Unreal / Blender / Cocos</div>
+      <p class="gd">插件是 VAST 进入生产管线的入口，也是平台依赖。引擎厂商若自建 3D 生成能力，VAST 的渠道会被压缩。</p>
+    </div>
+    <div>
+      <div class="gk">3D 打印</div>
+      <div class="gt">Bambu Lab / Anycubic / Creality</div>
+      <p class="gd">打印机厂商需要「一键可打印」的模型，是 VAST 的天然渠道；但它们也会同时接入 Meshy 等多家模型，保持中立。</p>
+    </div>
+    <div>
+      <div class="gk">游戏/内容</div>
+      <div class="gt">网易 / 腾讯 / 字节 / 完美世界</div>
+      <p class="gd">最大的 3D 资产需求方，也是最有能力自建团队的一方。它们采购 API 的同时，会保留内部管线与自研选项。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.2</span>横向：谁在同一个类别里</h3>
+
+  <div class="tw">
+    <table>
+      <caption>AI 3D/世界模型的主要玩家。估值与收入均为公开报道/公司口径；「与 VAST 的关系」为分析判断。</caption>
+      <thead>
+        <tr><th>公司</th><th>定位</th><th>最新融资 / 估值</th><th>收入 / 用户</th><th>与 VAST 的关系</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">Meshy</td>
+          <td>AI 3D 资产生成（游戏、3D 打印、设计）</td>
+          <td>2026-07 近 4 亿美元 B 轮，估值 15 亿美元</td>
+          <td>2026-09 ARR 1 亿美元；1,500 万用户；3,000+ 企业/机构；1 亿+ 模型</td>
+          <td><span class="chip no">直接对手</span> 商业化领先；同样服务游戏/打印；经纬同时投了两家</td>
+        </tr>
+        <tr>
+          <td class="k">影眸科技 / Deemos<br><span class="muted">Rodin / Hyper3D</span></td>
+          <td>3D 生成，B 端/全球化</td>
+          <td>2026-06 数亿元 B 轮</td>
+          <td>ARR 数千万美元；约 60 人；海外收入约 80%；B 端收入公司称高于同赛道其他公司之和</td>
+          <td><span class="chip no">直接对手</span> B 端交付与全球化更强；团队更小、更聚焦</td>
+        </tr>
+        <tr>
+          <td class="k">World Labs</td>
+          <td>空间智能 / 世界模型（Marble、Atlas）</td>
+          <td>2026-02 融资 10 亿美元；2026-09 AMD 以约 82 亿美元全股票收购（待交割）</td>
+          <td>未披露收入；产品 Marble 已上线，Atlas 研究预览</td>
+          <td><span class="chip mid">间接/远期</span> 不是 3D 资产对手；抬高了世界模型的退出锚</td>
+        </tr>
+        <tr>
+          <td class="k">Luma AI</td>
+          <td>视频/3D/世界模型</td>
+          <td>估值约 40 亿美元（2026）</td>
+          <td>ARR 约 8,000 万美元（第三方口径）</td>
+          <td><span class="chip mid">间接</span> 在多模态/世界模型上重叠；客户场景不同</td>
+        </tr>
+        <tr>
+          <td class="k">Runway</td>
+          <td>视频/世界模型（GWM）</td>
+          <td>估值数十亿美元（公开报道）</td>
+          <td>未披露</td>
+          <td><span class="chip mid">间接</span> 互动内容/世界模型；与 3D 资产管线相邻</td>
+        </tr>
+        <tr>
+          <td class="k">Google DeepMind<br><span class="muted">Genie 3</span></td>
+          <td>通用世界模型研究</td>
+          <td>—（大厂内部）</td>
+          <td>未商业化</td>
+          <td><span class="chip mid">平台威胁</span> 若开放 API，会压缩创业公司空间</td>
+        </tr>
+        <tr>
+          <td class="k">NVIDIA<br><span class="muted">Cosmos</span></td>
+          <td>物理 AI / 世界基础模型</td>
+          <td>—（上市公司）</td>
+          <td>平台/工具</td>
+          <td><span class="chip mid">上游+平台</span> 既供给算力，也提供世界模型工具链</td>
+        </tr>
+        <tr>
+          <td class="k">腾讯混元 3D</td>
+          <td>开源 3D 生成</td>
+          <td>—（大厂内部）</td>
+          <td>开源模型；腾讯也是 VAST 客户</td>
+          <td><span class="chip no">开源基线</span> 拉平质量；客户与对手并存</td>
+        </tr>
+        <tr>
+          <td class="k">Microsoft TRELLIS</td>
+          <td>开源 3D 生成</td>
+          <td>—（大厂内部）</td>
+          <td>开源模型</td>
+          <td><span class="chip no">开源基线</span> 降低「生成」的进入门槛</td>
+        </tr>
+        <tr>
+          <td class="k">Stability AI</td>
+          <td>开源 3D（Stable Fast 3D、TripoSR 合作）</td>
+          <td>—</td>
+          <td>开源模型</td>
+          <td><span class="chip mid">合作+竞争</span> 曾与 VAST 联合开源 TripoSR</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>收入对照：VAST 的「用户规模」与「收入规模」不匹配</h4>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl">Meshy · ARR</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="bar-val">$100M</div></div>
+    <div class="bar-row"><div class="bar-lbl">Luma · ARR</div><div class="bar-track"><div class="bar-fill alt" style="width:80%"></div></div><div class="bar-val">≈$80M</div></div>
+    <div class="bar-row"><div class="bar-lbl">VAST · 最后公开</div><div class="bar-track"><div class="bar-fill" style="width:7%"></div></div><div class="bar-val">$7M</div></div>
+  </div>
+  <p class="scale-note">口径：Meshy 为 2026-09 公司公告；Luma 为 2026 第三方估算；VAST 为 2025-06 最后公开 ARR（2026 年未披露）。时间与细分不同，仅示意量级，不可直接相减。</p>
+
+  <p>这张图是整份报告里最刺眼的一组对比：VAST 有 2,000 万用户，Meshy 有 1,500 万用户；但 Meshy 的 ARR 是 1 亿美元，VAST 最后公开的 ARR 是 700 万美元。可能的解释有三种：<b>①</b> VAST 的用户更多来自免费/低付费场景（3D 打印爱好者、学生），付费率低；<b>②</b> VAST 的收入在 2026 年快速增长但未披露；<b>③</b> 两者对「用户」的定义不同（注册 vs 活跃 vs 创作者）。没有 2026 年收入，无法判断是哪一种。</p>
+
+  <h3 class="sub"><span class="subn">05.3</span>下游：客户为什么可能自建，而不是采购</h3>
+
+  <p>VAST 的下游是游戏、3D 打印、汽车、电商、XR、影视、具身智能。每一个下游都有「自建」的动机：</p>
+
+  <ul class="plain">
+    <li><b>游戏大厂：</b>网易、腾讯、字节有足够的 3D 美术与工程团队，可以用开源模型 + 内部数据微调，做出更贴合自己美术风格的管线。VAST 的价值是「更快、更便宜、更少人力」，不是「唯一能做」。</li>
+    <li><b>3D 打印平台：</b>Bambu Lab、Anycubic、Creality 需要「一键可打印」的模型，会同时接入多家模型，保持议价权；它们不太可能独家绑定 VAST。</li>
+    <li><b>汽车/制造：</b>吉利等产业方需要的是仿真/设计资产，可能需要私有化部署与数据隔离；这会抬高交付成本，也给了 VAST 企业服务的机会。</li>
+    <li><b>具身智能/仿真：</b>世界模型的需求真实，但客户更可能自建或与 NVIDIA/World Labs 合作；VAST 的 Project Eden 需要证明「比开源/大厂方案更适合中国场景」。</li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">它站的那条缝</div>
+    <p><b>缝在哪里：</b>「生产级 3D 资产 + 工作流 + 中国产业数据」——不是「生成一个模型」，而是「让模型进入游戏/打印/制造的管线」。这条缝现在很宽，因为开源模型只解决「生成」，不解决拓扑、UV、PBR、绑定、引擎兼容、批量交付。<br>
+    <b>缝会不会变窄：</b>会。Meshy 用 1 亿美元 ARR 证明商业化可以规模化；影眸/Rodin 在 B 端更深；Hunyuan3D/TRELLIS 把生成质量拉平；World Labs 被 AMD 收购后，世界模型的资本门槛更高。<br>
+    <b>护城河朝哪移动：</b>从「模型质量」移向「数据飞轮 + 工作流 + 企业集成 + 成本」。VAST 必须在 12–18 个月内把用户转成付费工作流/API，否则就会退化成「一个可以被替换的模型供应商」。</p>
+  </div>
+</section>
+
+<section class="wide" id="outlook">
+  <span class="snum">06</span>
+  <h2 class="sec">发展走向：四条路径、十个信号、十个风险</h2>
+
+  <p class="lede">VAST 的未来不取决于「3D 生成会不会成立」——这件事已经成立——而取决于它能不能把「生成能力」变成「生产基础设施」，以及世界模型这条第二曲线会不会在现金流断裂之前接上。</p>
+
+  <h3 class="sub"><span class="subn">06.1</span>可能的路径：分支式，不预设单一结论</h3>
+
+  <div class="tw">
+    <table>
+      <caption>四条路径与触发条件。估值区间为分析推演，不是预测；每条路径都可能与其他路径重叠。</caption>
+      <thead>
+        <tr><th>路径</th><th>触发条件</th><th>会看到什么</th><th>估值含义</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">A · 3D 生产基础设施<br><span class="muted">基准情形</span></td>
+          <td>付费率/续费率提升；企业客户复购；P2.0 进入游戏/打印管线；2027 年 ARR 达到 5,000 万–1 亿美元</td>
+          <td>Tripo Studio/API 收入占比上升；海外收入稳定；IPO 递表；毛利率改善</td>
+          <td>20–30 亿美元；对应 20–40x ARR</td>
+        </tr>
+        <tr>
+          <td class="k">B · 世界模型平台<br><span class="muted">上行情形</span></td>
+          <td>Project Eden 做到长时一致、多玩家、可交互；拿到具身智能/仿真/互动内容的标杆客户；算力协议落地</td>
+          <td>Eden 从研究项目变成产品线；与游戏/机器人公司联合发布；估值叙事从「3D 工具」升级为「空间智能基础设施」</td>
+          <td>50 亿美元以上；但需要新的资本开支与人才</td>
+        </tr>
+        <tr>
+          <td class="k">C · 战略并购<br><span class="muted">退出情形</span></td>
+          <td>IPO 窗口关闭/延迟；收入增长低于预期；游戏/云/芯片公司需要 3D 内容供给</td>
+          <td>被游戏 publisher、云厂商或芯片公司收购；参考 World Labs/AMD 的 82 亿美元全股票交易</td>
+          <td>20–40 亿美元；取决于战略买方的协同价值</td>
+        </tr>
+        <tr>
+          <td class="k">D · 模型商品化<br><span class="muted">下行情形</span></td>
+          <td>Hunyuan3D/TRELLIS 质量追平；Meshy/影眸打价格战；客户自建；付费率停滞</td>
+          <td>ARR 停在 3,000 万美元以下；融资节奏放缓；估值回调；团队收缩</td>
+          <td>5–10 亿美元；回到「模型供应商」倍数</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.2</span>该盯的信号：领先指标，不是预测</h3>
+
+  <ul class="plain">
+    <li><b>收入披露。</b>VAST 是否在 IPO 前主动披露 ARR/收入、毛利率、付费率；这是判断 20 亿美元估值是否成立的唯一硬数据。</li>
+    <li><b>企业客户复购/扩张。</b>700+ 企业客户里，有多少从「试点」变成「年度合同」；前五大客户占比是否下降。客户集中度高，收入质量就低。</li>
+    <li><b>Tripo P2.0 的管线采用。</b>P2.0 的四边形拓扑/8K 纹理是否真的进入游戏/打印生产管线；插件使用量、导出格式、引擎兼容性是领先指标。</li>
+    <li><b>Project Eden 的技术里程碑。</b>长时一致性、多玩家同步、物理规律、实时性；从「演示」到「可交互产品」的跨度，比参数规模更重要。</li>
+    <li><b>招聘结构。</b>世界模型研究员、训练/推理 infra、企业销售的比例；如果只招 3D 算法，说明仍在做工具，不是在押世界模型。</li>
+    <li><b>IPO 进度。</b>是否递表、选择 18C 的哪条路径、承销商/审计师；招股书会一次性暴露收入、成本、关联交易与股权结构。</li>
+    <li><b>开源与价格。</b>Hunyuan3D/TRELLIS 的新版本、Meshy/影眸的定价、VAST 自己的开源节奏；开源越强，模型层定价权越弱。</li>
+    <li><b>算力与数据。</b>GPU 采购/云协议、数据授权/诉讼、地方国资的算力支持；这些决定训练节奏与成本曲线。</li>
+    <li><b>战略投资方的后续动作。</b>游戏/汽车产业方是否追加、是否签采购合同、是否要求独家；投资不等于订单。</li>
+    <li><b>二级市场/老股交易。</b>若出现老股转让折价，是估值预期松动的早期信号。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">06.3</span>主要风险：按「对判断的影响程度」排序，不按发生概率</h3>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R1</span><span class="risk-t">估值与收入脱节</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>极高</em></span></div>
+    <p>20 亿美元是报道中的 B 轮目标，不是确认的投后估值；公司最后公开 ARR 仅 700 万美元（2025-06）。如果 2026 年 ARR 没有达到 3,000 万–5,000 万美元，估值/收入倍数会远高于 Meshy 的 15x。<b>最容易被误读的是：把「融资额 50 亿元」当成「收入 50 亿元」。</b></p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R2</span><span class="risk-t">Meshy / 影眸的商业化领先</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>Meshy 以 1 亿美元 ARR、1,500 万用户、3,000+ 企业客户领先；影眸/Rodin 以 B 端交付和 80% 海外收入见长。VAST 的用户数不低，但收入验证落后。<b>风险不是「技术不如人」，而是「同样的技术，别人先把它变成收入」。</b></p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R3</span><span class="risk-t">开源的 commodity 化</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>Hunyuan3D、TRELLIS、Stable Fast 3D 把「能生成」变成公共品；VAST 自己也开源了 TripoSR、TripoSG、TripoSF、EdenLive。开源换生态，但也换掉了模型层的定价权。<b>如果收入主要来自「生成次数」，价格战会先杀死它。</b></p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R4</span><span class="risk-t">世界模型的资本开支与分心</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>Project Eden 需要长期算力、数据与人才，且离收入远。如果 3D 现金牛的收入没有跟上，世界模型会变成「用融资养研究」的无底洞。<b>最容易被误读的是：EdenLive 的 24 FPS 演示等于世界模型商业化。</b></p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R5</span><span class="risk-t">客户自建与垂直整合</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>网易、腾讯、字节有足够的 3D 美术/工程团队，可以用开源模型 + 内部数据微调；3D 打印平台会同时接入多家模型。VAST 的价值必须持续证明「比自建更快/更便宜」。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R6</span><span class="risk-t">数据版权与合规</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>3D 训练数据的来源、授权、衍生作品权属复杂；企业客户要求私有化部署与数据隔离。一次版权诉讼或大客户合规否决，可能影响融资/IPO 节奏。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R7</span><span class="risk-t">组织扩张与关键人风险</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>公司从 2025 年的约 50 人快速扩张；CEO 非技术背景，技术判断依赖 CSO/CTO；季度调薪、「无优先级」等实验在规模化后可能失效。<b>关键人离开的冲击，可能大于任何一次模型迭代失败。</b></p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R8</span><span class="risk-t">IPO 不确定性</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>港股 18C 对收入/市值有门槛；VAST 可能按「未商业化公司」路径上市，估值与流动性受市场窗口影响。IPO 推迟不等于公司失败，但会改变融资节奏与员工期权预期。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R9</span><span class="risk-t">算力与地缘约束</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>高端 GPU 供给、出口管制、云厂商议价权都会影响训练成本；VAST 的股东里有阿里/百度，算力有协同，但也意味着依赖。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R10</span><span class="risk-t">技术路线押注</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>VAST 押注「3D-native + 生产管线」，而不是纯视频/世界模型路线。如果世界模型路线在 2–3 年内跳过 3D 资产层（直接从视频生成可交互环境），VAST 的 3D 数据与管线优势会被削弱。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.4</span>上限推演：如果一切顺利，能到哪</h3>
+
+  <p><b>基准上限：</b>如果 VAST 在 2027 年做到 1 亿美元 ARR、30% 以上的增长、60% 左右的毛利率，按 15–20x ARR 给估值，对应 15–20 亿美元；如果市场愿意给「AI 3D 基础设施」更高倍数（25–30x），对应 25–30 亿美元。这个上限不需要世界模型成立，只需要把今天的用户转成付费工作流/API。</p>
+
+  <p><b>上行上限：</b>如果 Project Eden 真的成为「互动内容/具身智能/仿真」的世界模型平台，VAST 的 TAM 会从「3D 资产工具」扩展到「空间智能基础设施」。参考 World Labs 被 AMD 以 82 亿美元收购、Luma 40 亿美元估值，世界模型平台的估值可以到 50 亿美元以上。但这个上限需要三件事同时成立：<em>技术 milestone、标杆客户、持续算力</em>。</p>
+
+  <p><b>天花板约束：</b>不是需求，而是<b>收入质量</b>与<b>资本纪律</b>。3D 生成的需求是真实的，但付费意愿集中在专业用户与企业客户，不在大众 UGC；世界模型的需求是远期的，但资本开支是当期的。VAST 必须在「用 3D 养世界模型」和「用世界模型讲故事融资」之间保持平衡——前者是生意，后者是估值。</p>
+</section>
+
+<section id="caveats">
+  <span class="snum">07</span>
+  <h2 class="sec">信息源与未核实项</h2>
+
+  <p class="lede">这一节是这份报告可信度的全部来源。已核实的附一手链接；存疑的写清为什么；拿不到的写清障碍。</p>
+
+  <h3 class="sub"><span class="subn">07.1</span>已核实（附一手/接近一手来源）</h3>
+
+  <ul class="plain">
+    <li><b>成立时间与主体：</b>VAST 成立于 2023 年 3 月；上海瓦嘶特科技有限公司注册于 2023-05-12，法定代表人为宋亚宸。来源：innoHere 融资历史页、公司公告。</li>
+    <li><b>早期融资：</b>天使轮 2023-06（绿洲资本独家；金额 3,000 万元为绿洲方口径）、Pre-A 2024-07（数亿元；达晨/春华领投）、Pre-A+ 2025-06-10（数千万美元；北京 AI 基金领投）。来源：innoHere、36氪、投资界。</li>
+    <li><b>2026 年融资：</b>A 轮 5,000 万美元（2026-03）、A1/A2 近 2 亿美元（2026-06，估值 &gt;10 亿美元）、A3 1.5 亿美元（2026-07）、B/B+ 约 30 亿元/4.46 亿美元（2026-09）。来源：InvestGame、DealStreetAsia、36氪、钛媒体。</li>
+    <li><b>估值：</b>2026-06 估值 &gt;10 亿美元（Bloomberg，经 InvestGame/Caproasia 转引）；2026-08 B 轮目标近 20 亿美元（WSJ，经 InvestGame/中文媒体转引）。</li>
+    <li><b>IPO：</b>2026-08-04 Bloomberg 报道考虑港股 IPO，美银/中金，初步阶段；WSJ 称最早 2027 年。来源：明报、证券之星。</li>
+    <li><b>用户/客户：</b>2,000 万全球用户、650 万创作者、4 万活跃开发者、700+ 企业客户、1 亿+ 3D 模型（公司口径，2026-08）。来源：证券之星转引公司官网。</li>
+    <li><b>收入：</b>2025-06 ARR 约 700 万美元；Tripo Studio 月收入约 60 万美元。来源：虎嗅。</li>
+    <li><b>模型：</b>Tripo 3.0 200 亿参数（2025-08）；Tripo P2.0 四边形拓扑/8K 纹理（2026-09）；EdenLive 5B 模型 720p &gt;24 FPS（RTX 5090）。来源：创业邦、36氪、Pandaily。</li>
+    <li><b>竞争：</b>Meshy 1 亿美元 ARR（2026-09-30 公司公告）、15 亿美元估值（2026-07）；World Labs 被 AMD 以约 82 亿美元全股票收购（2026-09-28 签署，待交割）；影眸/Deemos 数亿元 B 轮（2026-06）。来源：Meshy 新闻稿、3Dnatives、Mixed News、新浪财经。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">07.2</span>未核实 / 存疑</h3>
+
+  <div class="tw">
+    <table>
+      <caption>这些是报告里最需要打问号的数字。引用时必须带上「未披露/报道口径/推算」。</caption>
+      <thead>
+        <tr><th>事项</th><th>当前说法</th><th>为什么存疑</th><th>什么能证伪/证实</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">B/B+ 投后估值</td><td>近 20 亿美元</td><td>公司未披露；20 亿美元是 WSJ 报道的融资目标，不是成交价</td><td>招股书/公司公告/可靠融资数据库</td></tr>
+        <tr><td class="k">2026 年收入</td><td>未披露</td><td>公司只披露用户/客户数，未披露 ARR/收入</td><td>IPO 招股书、公司主动披露</td></tr>
+        <tr><td class="k">付费率/续费率</td><td>未披露</td><td>2,000 万用户不等于付费用户</td><td>招股书运营数据</td></tr>
+        <tr><td class="k">毛利率/单位经济</td><td>未披露</td><td>推理成本、企业交付成本未知</td><td>招股书财务报表</td></tr>
+        <tr><td class="k">员工数</td><td>2025-06 约 50 人</td><td>2026 年扩张后未披露</td><td>公司/工商/招聘数据</td></tr>
+        <tr><td class="k">股权/控制权</td><td>未披露</td><td>多主体、境外架构未见公开</td><td>招股书/工商穿透</td></tr>
+        <tr><td class="k">「全球第一」</td><td>公司/媒体口径</td><td>缺少独立第三方复测；任务/输入/管线不同</td><td>公开 benchmark + 复现</td></tr>
+        <tr><td class="k">Project Eden 商业化</td><td>研究计划</td><td>目前是演示/开源，无收入</td><td>产品发布/客户合同</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.3</span>未能获取</h3>
+
+  <ul class="plain">
+    <li><b>审计财务数据：</b>收入、成本、毛利率、现金流、客户集中度——IPO 前不会公开。</li>
+    <li><b>Cap table：</b>创始人持股、优先股条款、期权池、回购/对赌——未披露。</li>
+    <li><b>B 轮与 B+ 的金额拆分：</b>公司只披露合计约 30 亿元。</li>
+    <li><b>企业合同金额/续约率：</b>700+ 客户是数量，不是收入质量。</li>
+    <li><b>算力合同/GPU 成本：</b>与阿里/百度/国资的算力安排未见披露。</li>
+    <li><b>数据授权/版权协议：</b>训练数据来源与授权链条未披露。</li>
+    <li><b>MAU/付费用户/留存：</b>只有注册用户与累计生成量。</li>
+    <li><b>IPO 时间表/承销细节：</b>目前仅为「考虑」，未递表。</li>
+  </ul>
+
+  <div class="callout">
+    <div class="ct">隐私与边界</div>
+    <p>本报告只使用公开职业信息：公司公告、媒体报道、论文/开源项目、公开采访。未收集任何个人联系方式，未使用登录墙后的招聘数据，未对候选人/员工做私人背景调查。所有对创始人/团队的描述均来自公开报道，可能存在误差。</p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="snum">08</span>
+  <h2 class="sec">主要公开信息源</h2>
+
+  <ol class="src">
+    <li>36氪《VAST 半年融资约 50 亿：曾经的非共识玩家，成了「世界的基座」》，2026-09-01。<a href="https://www.36kr.com/p/3964267974008322">36kr.com/p/3964267974008322</a></li>
+    <li>钛媒体《半年狂揽 57 亿，95 后创业做 AI 3D》，2026-09。<a href="https://www.tmtpost.com/8127562.html">tmtpost.com/8127562</a></li>
+    <li>InvestGame《Matrix Partners China has led a ~$446m Series B and B+ into VAST》，2026-09。<a href="https://investgame.net/news/matrix-partners-china-has-led-a-446m-series-b-and-b-into-vast-maker-of-tripo-ai-in-its-fourth-round-of-2026/">investgame.net</a></li>
+    <li>DealStreetAsia《China-based Tripo AI-developer VAST raises $446m》，2026-09-03。<a href="https://www.dealstreetasia.com/stories/tripo-ai-series-b-rounds-493956">dealstreetasia.com</a></li>
+    <li>Caproasia《China AI 3D Modeling Start-Up Vast Raised $446 Million…》，2026-09-03。<a href="https://www.caproasia.com/2026/09/03/china-ai-3d-modeling-start-up-vast-raised-446-million-in-series-b-series-b-funding-round-founded-in-2023-by-simon-song-investors-include-ince-capital-china-life-insurance-capital-alibaba-group/">caproasia.com</a></li>
+    <li>innoHere《VAST 融资历史》，2026。<a href="https://innohere.com/ir/159191/finance.html">innohere.com/ir/159191/finance.html</a></li>
+    <li>36氪《刚刚，今年最大 3D 大模型融资来了》，2024-09-19。<a href="https://www.36kr.com/p/2956262604404096">36kr.com/p/2956262604404096</a></li>
+    <li>投资界《核心团队源于清华，3D 大模型公司「VAST」完成数亿元融资》，2024-09-19。<a href="https://m.pedaily.cn/news/540275">pedaily.cn/news/540275</a></li>
+    <li>新芽《VAST 再获数千万美元融资，北京市人工智能产业投资基金领投》，2025-06-10。<a href="https://m.newseed.cn/news/1375783">newseed.cn/news/1375783</a></li>
+    <li>晚点 LatePost《对话 VAST 宋亚宸：3D 关乎全人类幸福，也关乎我的》，2025。<a href="https://www.latepost.com/news/dj_detail?id=3025">latepost.com</a></li>
+    <li>虎嗅《700 万美金 ARR 背后：95 后如何管理天才员工》，2025-06。<a href="https://tech.ifeng.com/c/8kvoDyZXrbX">tech.ifeng.com</a></li>
+    <li>证券之星《VAST 考虑赴港：2000 万用户之后，AI 3D 要回答商业化》，2026-08-05。<a href="https://wap.stockstar.com/detail/IG2026080500018840">stockstar.com</a></li>
+    <li>品玩《对话 VAST 创始人宋亚宸：神学爱好者、文科留学生、MiniMax 001 号员工》，2024。<a href="https://www.pingwest.com/a/298733">pingwest.com/a/298733</a></li>
+    <li>Forbes《Under 30 Alum’s 3D Model Startup Hits Unicorn Status》，2026-06-01。<a href="https://www.forbes.com/sites/ywang/2026/06/01/under-30-alums-3d-model-startup-hits-unicorn-status-amid-ai-frenzy/">forbes.com</a></li>
+    <li>明报《彭博：阿里持股的 3D 建模初创公司 Vast 考虑在香港上市》，2026-08-04。<a href="https://finance.mingpao.com/fin/instantf/20260804/1785811024693/">finance.mingpao.com</a></li>
+    <li>Mitrade《VAST 寻求以约 20 亿美元的估值进行新一轮融资》，2026-08-05。<a href="https://www.mitrade.com/cn/insights/news/live-news/article-3-1963417-20260805">mitrade.com</a></li>
+    <li>Meshy 新闻稿《Meshy Surpasses $100 Million in ARR》，2026-09-30。<a href="https://digital-release.kxan.com/business/press-releases/cision/20260930CN60225/meshy-surpasses-100-million-in-annual-recurring-revenue-growing-100x-in-under-two-years/">kxan.com</a></li>
+    <li>3Dnatives《Meshy Raises Nearly $400 Million in Series B, Valued at $1.5 Billion》，2026-07-21。<a href="https://www.3dnatives.com/en/meshy-400-million-in-series-b-21072026/amp/">3dnatives.com</a></li>
+    <li>Mixed News《AMD is buying World Labs for about $8.2 billion》，2026-09-28。<a href="https://mixed-news.com/en/amd-world-labs-8-2-billion-fei-fei-li-chief-scientist/">mixed-news.com</a></li>
+    <li>Moneycontrol《AI pioneer Fei-Fei Li’s startup World Labs raises $1 billion》，2026-02-18。<a href="https://www.moneycontrol.com/news/business/ai-pioneer-fei-fei-li-s-startup-world-labs-raises-1-billion-13834842.html">moneycontrol.com</a></li>
+    <li>CNBC《Luma AI — Disruptor 50》，2026-05-19。<a href="https://www.cnbc.com/2026/05/19/luma-ai-cnbc-disruptor-50-ranking.html">cnbc.com</a></li>
+    <li>新浪财经《影眸科技完成新一轮数亿元融资》，2026-06-23。<a href="https://finance.sina.com.cn/jjxw/2026-06-23/doc-iniekqut6490030.shtml">finance.sina.com.cn</a></li>
+    <li>TripoSR 论文《TripoSR: Fast 3D Object Reconstruction from a Single Image》，2024。<a href="https://arxiv.org/abs/2403.02151">arxiv.org/abs/2403.02151</a></li>
+    <li>Stability AI《Introducing TripoSR》，2024-03。<a href="https://stability.ai/news-updates/triposr-3d-generation">stability.ai</a></li>
+    <li>Tripo 官方《Project Eden: A World Model for Multiplayer and Agents》，2026-06。<a href="https://www.tripo3d.ai/research/project-eden">tripo3d.ai/research/project-eden</a></li>
+    <li>Pandaily《VAST Open-Sources EdenLive》，2026。<a href="https://pandaily.com/vast-edenlive-open-source-real-time-generative-renderer-world-model-5b-14b-rtx-5090">pandaily.com</a></li>
+    <li>GlobeNewswire《Tripo AI Raises Nearly $200 Million in Series A+ and A++》，2026-06-01。<a href="https://www.globenewswire.com/fr/news-release/2026/06/01/3304603/0/en/tripo-ai-raises-nearly-200-million-in-series-a-and-series-a-financing-to-advance-ai-3d-and-world-model-roadmap.html">globenewswire.com</a></li>
+    <li>GamesBeat《Tripo AI raises nearly $200M in financing for AI 3D and world model tech》，2026-06。<a href="https://gamesbeat.com/tripo-ai-raises-nearly-200m-in-financing-for-ai-3d-and-world-model-tech/">gamesbeat.com</a></li>
+    <li>SiliconReport《Tripo AI Adds $150M in Third Raise of 2026》，2026-07。<a href="https://www.siliconreport.com/tripo-ai-adds-150m-in-third-raise-of-2026-pushing-total-to-400m-486ac01d">siliconreport.com</a></li>
+    <li>创业邦《VAST 完成超 10 亿元 A3 轮融资》，2026-07。<a href="https://www.cyzone.cn/article/838608.html">cyzone.cn/article/838608</a></li>
+  </ol>
+
+  <p class="scale-note">共 30 项。所有链接均在 2026-10-21 前可访问；部分中文媒体为转载，已尽量选用接近一手或含明确口径的版本。未标注来源的数字为公开报道口径，可能存在偏差。</p>
+</section>
+
+<footer>
+  <p><b>VAST（三启万物）· 公司深度研究</b> · 数据截止 2026-10-21 · 版本 v1</p>
+  <p>本报告基于公开信息整理，用于竞争情报、招聘背调与行业研究，不构成投资建议。所有推断均已标注核实状态；未标注来源的数字为公开报道口径，可能存在偏差。融资额、估值与收入是三套不同口径，引用时请连同口径与日期一起引用。</p>
+  <p>报告只使用公开职业信息，不含任何个人联系方式；未使用登录墙后的招聘数据，未对个人做私人背景调查。</p>
+</footer>
+
+</div>
+</body>
+</html>
+</body>
+</html>
