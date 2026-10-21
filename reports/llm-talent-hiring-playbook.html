@@ -1,0 +1,2408 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>招聘手册·大模型技术人才</title>
+<meta name="description" content="语言模型 RSI 算法研究员、训练/推理工程师、数据工程师：人才画像、极致寻源、面试评估、Offer 设计与入职落地">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;family=Noto+Serif+SC:wght@500;600;700&amp;display=swap">
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+header.mast{padding-block:clamp(48px,8vw,96px) 40px;max-width:var(--col)}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.h1sub{
+  display:block;font-size:.52em;font-weight:600;line-height:1.35;
+  letter-spacing:0;color:var(--ink-soft);margin-top:8px;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;margin:40px 0 14px;text-wrap:balance}
+h4{font-family:var(--sans);font-weight:700;font-size:15px;margin:28px 0 10px;color:var(--ink)}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+ol.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ol.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+.muted{color:var(--muted);font-weight:400}
+
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{display:block;margin-top:10px;font-family:var(--sans);font-style:normal;font-size:13px;color:var(--muted)}
+
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chip.acc{background:var(--accent-tint);color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+.stack{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:30px 0;background-color:var(--rule)}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{background:var(--surface-2);padding:9px 20px;font-family:var(--mono);font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+.callout{background:var(--surface-2);border:1px solid var(--rule);padding:20px 24px;margin:26px 0}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+.callout.goodb{background:var(--good-tint);border-color:color-mix(in srgb,var(--good) 30%,transparent)}
+.callout.goodb .ct{color:var(--good)}
+
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{counter-increment:s;padding:10px 0 10px 42px;position:relative;border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65}
+ol.src li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+ol.src a{word-break:break-word}
+
+footer{border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+h3.sub{font-family:var(--serif);font-weight:700;font-size:clamp(21px,2.8vw,27px);line-height:1.35;margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);text-wrap:balance}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.14em;color:var(--accent);margin-bottom:8px}
+h5{font-family:var(--sans);font-weight:700;font-size:13.5px;letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft)}
+section.wide > p,section.wide > ul.plain,section.wide > ol.plain,section.wide > blockquote,
+section.wide > h2.sec,section.wide > h3.sub,section.wide > h4,section.wide > h5,
+section.wide > .callout,section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+
+/* --- additional components, same tokens --- */
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.grid3>div{background:var(--surface);padding:20px 22px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.grid2>div{background:var(--surface);padding:20px 22px}
+.gk{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.gt{font-family:var(--serif);font-weight:600;font-size:17px;line-height:1.45;margin-bottom:8px;color:var(--ink)}
+.gd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.gd b{color:var(--ink)}
+
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.flow>div{background:var(--surface);padding:15px 16px;position:relative}
+.flow .fn{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--accent);letter-spacing:.08em;margin-bottom:6px}
+.flow .ft{font-size:13.5px;font-weight:700;color:var(--ink);line-height:1.45;margin-bottom:4px}
+.flow .fd{font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+
+.script{background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:18px 22px;margin:18px 0;font-size:14px;line-height:1.75;color:var(--ink-soft)}
+.script .sh{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.script p{margin:0 0 10px}
+.script p:last-child{margin-bottom:0}
+
+.check{list-style:none;padding:0;margin:22px 0;border:1px solid var(--rule);background:var(--surface)}
+.check li{position:relative;padding:10px 16px 10px 42px;border-bottom:1px solid var(--rule-soft);font-size:14px;color:var(--ink-soft);line-height:1.65}
+.check li:last-child{border-bottom:none}
+.check li::before{content:"";position:absolute;left:16px;top:16px;width:12px;height:12px;border:1.5px solid var(--muted);border-radius:2px}
+.check li b{color:var(--ink)}
+
+.qbank{counter-reset:q;margin:22px 0}
+.qbank .q{counter-increment:q;position:relative;padding:14px 0 14px 38px;border-bottom:1px solid var(--rule-soft)}
+.qbank .q::before{content:counter(q,decimal-leading-zero);position:absolute;left:0;top:16px;font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.qbank .qt{font-size:15px;color:var(--ink);line-height:1.65;margin-bottom:4px}
+.qbank .qa{font-size:13px;color:var(--muted);line-height:1.6}
+.qbank .qa b{color:var(--ink-soft);font-weight:600}
+
+.tw tr.grp td{background:var(--surface-2);border-top:1px solid var(--rule);font-size:13.5px;letter-spacing:.02em}
+.tw tr.sum td{background:var(--surface-2);border-top:1px solid var(--rule)}
+.tw tr.sum td.k{font-weight:700}
+.tw td .chip{vertical-align:middle}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="inner">
+    <span class="brand">招聘手册 · 技术人才</span>
+    <div class="links">
+      <a href="#thesis">结论</a>
+      <a href="#market">市场</a>
+      <a href="#rsi-def">RSI</a>
+      <a href="#tie-def">训推</a>
+      <a href="#data-def">数据</a>
+      <a href="#map">地图</a>
+      <a href="#sourcing">寻源</a>
+      <a href="#outreach">触达</a>
+      <a href="#process">流程</a>
+      <a href="#scorecard">评分卡</a>
+      <a href="#decision">决策</a>
+      <a href="#offer">Offer</a>
+      <a href="#attract">吸引</a>
+      <a href="#landing">Landing</a>
+      <a href="#grow">发展</a>
+      <a href="#metrics">度量</a>
+      <a href="#sources">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">人才战略 · 大模型 · 2026</p>
+  <h1>招聘手册<span class="h1sub">大模型技术人才</span></h1>
+  <p class="standfirst">语言模型 RSI 算法研究员、训练/推理工程师、数据工程师——在供给按百人计、价格由外部定、岗位定义还没成文的市场上，如何找到最 top 的三个人，并让他们在第一年真正跑起来。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-21</dd></div>
+    <div><dt>版本</dt><dd>v1 · 20 节（结论 + 18 节分析 + 信息源）</dd></div>
+    <div><dt>核心判断</dt><dd>三个岗位是三个不同的劳动力市场；用同一套 JD、流程和带宽去招，三个都会招错</dd></div>
+    <div><dt>适用对象</dt><dd>种子轮到 C 轮的大模型公司 / Neolab；也适用于大厂新方向从 0 到 1 建队</dd></div>
+  </dl>
+  <p class="scale-note" style="margin-top:10px">阅读提示：宽表格在手机上可左右滑动；薪酬数字均为设计锚点，不是报价。</p>
+</header>
+
+<section id="thesis">
+  <span class="snum">00</span>
+  <h2 class="sec">结论先行</h2>
+
+  <div class="thesis">
+    <ol>
+      <li>
+        <b>这不是一场招聘，而是三场招聘。</b>
+        RSI 算法研究员是<em>明星驱动的研究市场</em>——定价靠论文、闭环成果和创始人判断，周期 3–6 个月；训练/推理工程师是<em>稀缺驱动的工程市场</em>——定价靠真实性能数字和系统深度，周期 2–4 个月；数据工程师是<em>被低估的杠杆市场</em>——供给池最大，但真正做过万亿 token 数据配方的人极少，周期 1.5–3 个月。三者的 JD、面试官、评估维度、薪酬结构和 close 话术都不同。把它们打包成「大模型算法工程师」一个岗位去招，是最常见的起点错误。
+      </li>
+      <li>
+        <b>RSI 研究员必须先定义、再招聘。</b>
+        市场上至少四类工作都自称 RSI：基础设施自动优化、自动化 AI 研究、模型自我改进、推理时自我改进。真正与「语言模型 RSI」相关的是前三类，而其中只有<em>能形成「生成—验证—更新」闭环</em>的才值得按 RSI 研究员定价。用两把尺子筛选：<b>验证器层级</b>（形式化验证 &gt; 过程奖励 &gt; 判官 &gt; rubric &gt; 自评）和<b>改进/成本比</b>（去掉算力与人力增量后还剩多少）。30 分钟电话就能筛掉大部分错配。
+      </li>
+      <li>
+        <b>最 top 的人不在招聘网站上，在「图」里。</b>
+        论文作者网络、GitHub commit 历史、benchmark leaderboard、开源项目 maintainer 名单、实验室离职与转岗名单——这五张图覆盖了 80% 的目标人群。极致寻源不是「多买几个招聘网站账号」，而是<em>用做研究的方法做招聘</em>：先建 200 人目标图，再按图触达。一个 3 人招聘小组两周可以建完第一版。
+      </li>
+      <li>
+        <b>面试要考「做过什么闭环」，不是「知道什么概念」。</b>
+        RSI 候选人讲不清自己 loop 的验证信号、轮次衰减和成本归因，就不是 RSI 研究员；训推候选人报不出 MFU、tokens/s/GPU、p99 和故障定位案例，就不是训推工程师；数据候选人说不清一条数据决策如何影响下游 eval，就只是 ETL 工程师。三道题分别对应三个岗位的<em>唯一硬通货</em>。
+      </li>
+      <li>
+        <b>Offer 的胜负手不是总包数字，是「三个确定性」。</b>
+        股权的确定性（估值、行权价、回购路径、变现窗口）、算力的确定性（配额、优先级、集群规模）、数据的确定性（能不能拿到该拿的数据）。同样的总包，把这三件事讲清楚，接受率能差 20–30 个百分点。顶级候选人不是被钱打动，是被「到这里能把事做成」打动；钱只是让这件事不成为拒绝理由。
+      </li>
+      <li>
+        <b>Landing 是招聘的一部分，不是入职后的事。</b>
+        高级别 hire 在前 90 天没有可演示的 first win，12 个月内离职或失效的概率显著上升。每个岗位都要在发出 offer 前就设计好「30 天 first win」：RSI 是复现一个已知闭环并建立评测；训推是拿到一个可量化的性能提升；数据是修好一条影响下游 eval 的数据链路。入职培训讲不清这件事，等于把招聘成本扔进水里。
+      </li>
+      <li>
+        <b>用不同的 SLA 管理三个岗位，否则团队会系统性降标准。</b>
+        RSI 90–180 天、训推 60–120 天、数据 45–90 天是合理区间。用「30 天必须到岗」去压 RSI 岗，结果一定是招到一个会讲 RSI 故事的人，而不是做过 RSI 的人。反过来，数据岗拖到 120 天，候选人早被电商和量化挖走。
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="wide" id="market">
+  <span class="snum">01</span>
+  <h2 class="sec">市场形状：三个岗位、三个市场、三条定价曲线</h2>
+
+  <p class="lede">在写 JD 之前，先接受一个事实：这三个岗位的供给、定价和流动性完全不同。把它们放在同一张招聘看板上管理，会同时犯三种错误——对 RSI 岗太慢、对训推岗太省、对数据岗太随便。</p>
+
+  <div class="facts">
+    <div><div class="fv">≈500</div><div class="fl">中国大模型核心研究员规模（行业估算口径，2025–2026）</div></div>
+    <div><div class="fv">≈200</div><div class="fl">能牵头大规模预训练的人（猎头口径，2025）</div></div>
+    <div><div class="fv">200–300万</div><div class="fl">2026 年一线算法岗年包基准线（现金+股权口径，调研口径）</div></div>
+    <div><div class="fv">90–180天</div><div class="fl">RSI 级研究员的合理招聘周期，不是 30 天</div></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">01.1</span>三个市场对照</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三个岗位的劳动力市场结构。薪酬为 2026 年公开调研与报道的综合口径，仅作量级参考，不是报价。</caption>
+      <thead>
+        <tr><th>维度</th><th>RSI 算法研究员</th><th>训练/推理工程师</th><th>数据工程师（LLM 数据）</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">供给规模</td>
+          <td>估计全球真正做过闭环的 ≤ 300 人；中国 ≤ 50 人。<br><span class="muted">多数是 2023 年后才进入该方向</span></td>
+          <td>估计中国能独立带千卡训练的人 ≤ 500；能同时做训练与推理优化的 ≤ 100</td>
+          <td>泛数据工程师很多；估计做过 1T+ token 配方与质量的 ≤ 200</td>
+        </tr>
+        <tr>
+          <td class="k">定价锚</td>
+          <td>论文/闭环成果 + 明星效应 + 替代 offer；塔尖千万到亿级</td>
+          <td>集群规模、MFU、吞吐/延迟、故障恢复；一线 150–400 万，塔尖 500 万+</td>
+          <td>数据规模、下游 eval 影响、成本；一线 60–150 万，塔尖 200–300 万</td>
+        </tr>
+        <tr>
+          <td class="k">流动性</td>
+          <td>低。顶级研究者经验上 2–4 年动一次，且多为熟人网络驱动</td>
+          <td>中。被大厂、云厂商、芯片公司、推理创业公司同时争抢</td>
+          <td>高。容易被电商、量化、金融数据平台以更高现金挖走</td>
+        </tr>
+        <tr>
+          <td class="k">主要买家</td>
+          <td>前沿实验室、Neolab、大厂 Seed/研究院、少数量化基金</td>
+          <td>大模型公司、云厂商、芯片公司、推理服务商、自动驾驶</td>
+          <td>大模型公司、大厂数据平台、数据标注/合成数据公司</td>
+        </tr>
+        <tr>
+          <td class="k">招聘周期</td>
+          <td class="n">90–180 天</td>
+          <td class="n">60–120 天</td>
+          <td class="n">45–90 天</td>
+        </tr>
+        <tr>
+          <td class="k">最大失败模式</td>
+          <td>招到「会讲 RSI」的人，招不到「做过闭环」的人</td>
+          <td>招到「会用框架」的人，招不到「能定位性能瓶颈」的人</td>
+          <td>招到「会跑 Spark」的人，招不到「能做数据决策」的人</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">01.2</span>三条反直觉的定价规律</h3>
+
+  <p><b>第一，顶薪不由你的职级带宽决定，由候选人的替代 offer 决定。</b>你可以设定 P7 的带宽是 300 万，但当一个候选人手里有字节、Meta 和一家 Neolab 的三个 offer 时，你的带宽只是一张内部文件。真正可操作的做法是：为每个 S 级候选人做<em>替代 offer 映射</em>——他在哪些公司值多少、那些公司能给什么非现金条件、我们的差异化筹码是什么。带宽是给 A/B 级候选人用的，S 级用的是例外审批。</p>
+
+  <p><b>第二，名气与交付能力的相关性，没有招聘经理以为的那么高。</b>论文引用量是「被社区注意到的证据」，不是「能在一个混乱的创业环境里把事做成的证据」。一个常见误判是把「大实验室出身 + 顶会论文多」直接映射为「能独立带方向」。实际上，前沿实验室的很多成果依赖<em>组织化的大规模工程支持</em>；离开那套支持后，能否用 1/10 的资源做出可复现的结果，是另一回事。面试必须专门考「资源受限下的判断」。</p>
+
+  <p><b>第三，数据岗的供给池最大，但 frontier-grade 的人最少。</b>「数据工程师」在招聘网站上有几万人，但其中做过万亿 token 级去重、质量分类器、配比消融、污染检测、合成数据闭环的人，可能只有几百人。这个岗位的筛选难点不是「没人」，而是<em>简历关键词高度同质化</em>——每个人都写 Spark、Airflow、数据质量，只有极少数人能讲清楚「我改了一条过滤规则，下游哪个 benchmark 动了几个点，为什么」。</p>
+
+  <div class="callout warnb">
+    <div class="ct">口径提醒</div>
+    <p>本报告中的薪酬数字来自公开调研、媒体报道与行业访谈的综合口径，存在城市、阶段、现金/股权比例、估值口径的巨大差异。所有区间都是<b>带宽设计锚点</b>，不是市场报价，也不能直接写进 offer。真实定价必须以候选人当前的替代 offer、公司融资阶段与股权公允价值重算。凡涉及具体公司的数字，均标注了日期与来源性质；未标注的，视为量级判断而非精确事实。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">01.3</span>先设计「席位组合」，再开始招人</h3>
+
+  <p>顶级人才不是越多越好，而是<em>组合越完整越好</em>。一个能跑通 RSI 方向的最小团队不是「三个 RSI 研究员」，而是：</p>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">Seat 01 · 方向</div>
+      <div class="gt">1 名 RSI 算法研究员（S/A）</div>
+      <p class="gd">定义 loop、验证器与评测；决定「改进什么、用什么信号、如何归因」。没有这个人，团队会在概念里打转。</p>
+    </div>
+    <div>
+      <div class="gk">Seat 02 · 放大器</div>
+      <div class="gt">1 名训推工程师（A/S）</div>
+      <p class="gd">把研究员的实验从「一周一轮」变成「一天一轮」；负责 rollout 吞吐、训练稳定性、推理成本。RSI 的经济性一半在这。</p>
+    </div>
+    <div>
+      <div class="gk">Seat 03 · 燃料</div>
+      <div class="gt">1 名数据工程师（A）</div>
+      <p class="gd">任务合成、数据筛选、污染控制、lineage。没有这条线，loop 会在第二轮开始自我污染。</p>
+    </div>
+    <div>
+      <div class="gk">Seat 04 · 裁判</div>
+      <div class="gt">0.5–1 名评测/研究工程师</div>
+      <p class="gd">独立于 loop 的 held-out eval、人类基线、成本核算。可由 RSI 研究员兼任，但必须有独立汇报线或否决权。</p>
+    </div>
+  </div>
+
+  <p>如果预算只够两个人，优先级是 <b>RSI 研究员 + 训推工程师</b>；数据能力先用现有平台 + 外包标注顶上，但要在 6 个月内补第三席。反过来，如果公司当前的主战场是「把模型训出来、把推理成本打下来」，而不是 RSI，那么优先级是 <b>训推 + 数据</b>，RSI 研究员可以作为顾问或小规模探索席位存在。<em>不要为了叙事招 RSI，除非你准备给它独立的算力、数据和 12 个月的时间。</em></p>
+</section>
+
+<section class="wide" id="rsi-def">
+  <span class="snum">02</span>
+  <h2 class="sec">岗位定义 I：语言模型 RSI 算法研究员到底做什么</h2>
+
+  <p class="lede">这是三个岗位里定义最模糊、也最容易被叙事污染的一个。先把「RSI」拆成四类，再谈招聘。这里的 RSI 指 <b>Recursive Self-Improvement（递归自我改进）</b>：系统把上一轮的输出/验证结果转化为下一轮系统本身的改进，而不是一次性的训练或推理时多想几步。</p>
+
+  <h3 class="sub"><span class="subn">02.1</span>四类「RSI」，只有三类与这个岗位有关</h3>
+
+  <div class="tw">
+    <table>
+      <caption>「RSI」在招聘与路演中被用来指至少四种不同的工作，能力要求与可验证性差别极大。</caption>
+      <thead>
+        <tr><th>类别</th><th>做什么</th><th>典型产出</th><th>与语言模型 RSI 研究员的关系</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">① 工程/系统层自动化</td>
+          <td>自动优化 kernel、搜索并行策略、调 infra、自动排障</td>
+          <td>吞吐 +X%、训练时间 −Y%、$/token −Z%</td>
+          <td><span class="chip ok">相关</span> 但更偏训推/系统岗；RSI 研究员需要懂，不必以此为主业</td>
+        </tr>
+        <tr>
+          <td class="k">② 自动化 AI 研究</td>
+          <td>让 agent 提假设、设计实验、写训练代码、跑实验、读结果</td>
+          <td>端到端研究任务的成功率、单位成本、可复现性</td>
+          <td><span class="chip ok">核心</span> 当前最接近「RSI 叙事」的一类，但方向端仍未闭环</td>
+        </tr>
+        <tr>
+          <td class="k">③ 模型自我改进</td>
+          <td>用模型自己生成的数据/奖励/任务训练自己；权重更新</td>
+          <td>在固定算力下，多轮迭代后的能力曲线</td>
+          <td><span class="chip ok">核心</span> 最严格意义上的 RSI，验证器是瓶颈</td>
+        </tr>
+        <tr>
+          <td class="k">④ 推理时自我改进</td>
+          <td>test-time compute、self-refine、长思维链自检</td>
+          <td>单次推理的准确率/成本</td>
+          <td><span class="chip mid">边缘</span> 权重不变、无跨轮复利；主流不把它算作 RSI</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>招聘时最需要区分的是 <b>②③ 与 ④</b>。一个候选人如果全部经验都在「让模型多想几步、自己检查答案」，他可能是很好的推理/后训练工程师，但不是 RSI 研究员——因为他的系统没有<em>跨轮次的能力累积</em>。判断方法很简单：问他「上一轮的结果如何改变下一轮的系统」，如果答案是「没有改变，只是这次多想了一会儿」，那就不在 RSI 的范畴。</p>
+
+  <h3 class="sub"><span class="subn">02.2</span>第一把尺子：验证器层级</h3>
+
+  <p>RSI 的能力上限，不取决于模型多强，取决于<em>验证信号有多可信</em>。把验证器按「可支撑的自我改进强度」排序，得到一条非常稳定的层级：</p>
+
+  <div class="stack">
+    <div class="band mid">
+      <div class="bl">最强 · 可支撑权重级自我改进</div>
+      <div class="bn">形式化验证器 / 可执行测试 / 数学证明</div>
+      <p class="bd">代码单测、编译器、定理证明器、SQL 执行结果、kernel 正确性检查。信号客观、便宜、难以被模型操纵。数学、代码、kernel、结构化数据是 RSI 已经能闭环的地方。</p>
+    </div>
+    <div class="band">
+      <div class="bl">强 · 可支撑有限闭环</div>
+      <div class="bn">过程奖励模型 / 环境奖励 / 可复现实验指标</div>
+      <p class="bd">游戏引擎、模拟器、A/B 实验、延迟/吞吐指标。需要大量工程搭建，但一旦建成，信号相对稳定。</p>
+    </div>
+    <div class="band">
+      <div class="bl">中 · 易退化</div>
+      <div class="bn">判官模型（LLM-as-judge）</div>
+      <p class="bd">成本低、覆盖广，但存在位置偏差、长度偏差、自我偏好；必须用人类标注与对抗样本持续校准。</p>
+    </div>
+    <div class="band">
+      <div class="bl">弱 · 只能做筛选</div>
+      <div class="bn">Rubric / 规则打分</div>
+      <p class="bd">适合冷启动与人工抽检，不适合作为权重更新的唯一信号。</p>
+    </div>
+    <div class="band">
+      <div class="bl">最弱 · 会退化</div>
+      <div class="bn">模型内在自评 / 自我 reward</div>
+      <p class="bd">「自己给自己打分」在开放域已被反复证明会奖励 hacking 与能力退化。可以作为辅助，不能作为闭环主信号。</p>
+    </div>
+  </div>
+
+  <p>这条层级直接决定招聘问题：<b>「你做的 loop，验证信号在哪一层？」</b>如果候选人说「我们用 GPT-4 当裁判，跑了很多轮」，你要追问：裁判和策略是否是同一个模型？有没有独立的人类基线？有没有对抗样本？有没有测过「裁判分数涨了但 held-out 能力没涨」的情况？答不上来，说明他没有真正处理过 RSI 的核心风险。</p>
+
+  <h3 class="sub"><span class="subn">02.3</span>第二把尺子：改进/成本比</h3>
+
+  <p>「模型变强了」不是 RSI 的证据，<em>「单位成本下的改进速度变快了」</em>才是。一个实用的尽调/面试问题是：</p>
+
+  <blockquote>
+    把你这套 loop 的算力、人力、数据成本全部放进分母。去掉「更多 GPU」和「更多人」之后，你的方法本身还剩下多少改进？
+    <cite>这条纪律可以直接用于面试、offer 决策与季度复盘</cite>
+  </blockquote>
+
+  <p>具体要问三个数：<b>每轮迭代的成本</b>（GPU-hours、token 数、人工小时）、<b>每轮带来的能力增量</b>（在固定 eval 上的 delta）、<b>增量的衰减曲线</b>（第 1 轮到第 5 轮，边际收益如何变化）。如果候选人只能给出「最终分数」，给不出这三条曲线，他大概率是在做「一次性 post-training」，而不是 RSI。</p>
+
+  <h3 class="sub"><span class="subn">02.4</span>这个岗位的日常工作与第一年交付物</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">时间分配 · 参考</div>
+      <div class="gt">30 / 30 / 20 / 10 / 10</div>
+      <p class="gd"><b>30%</b> 实验设计与假设；<b>30%</b> 写 harness / 训练 / 评测代码；<b>20%</b> 读结果、做归因；<b>10%</b> 与训推/数据协作；<b>10%</b> 写作与对外沟通。</p>
+    </div>
+    <div>
+      <div class="gk">第一年 · 必须交付</div>
+      <div class="gt">一条能重复跑的闭环</div>
+      <p class="gd">在固定算力预算下，至少跑通 3–5 轮「生成—验证—更新」，并给出每轮的成本、增量与衰减；有一套独立的 held-out eval；有一份可被外部复现的技术报告。</p>
+    </div>
+    <div>
+      <div class="gk">第一年 · 加分项</div>
+      <div class="gt">一个可复用的资产</div>
+      <p class="gd">一个别人能用的验证器/环境、一个开源 harness、一篇有影响力的论文，或一个把训练迭代周期缩短 X 倍的工具链。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.5</span>三种原型，以及你要招哪一种</h3>
+
+  <div class="tw">
+    <table>
+      <caption>RSI 研究员的三种典型原型。理想候选人是 T 型：一种很深，另外两种能对话。</caption>
+      <thead>
+        <tr><th>原型</th><th>强在哪</th><th>盲区</th><th>适合的公司阶段</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">算法派<br><span class="muted">RL / post-training 出身</span></td>
+          <td>奖励设计、RL 稳定性、SFT/DPO/RLHF、数据配比、训练曲线判断</td>
+          <td>容易低估 harness 与评测工程；可能把 RSI 做成「又一轮 RLHF」</td>
+          <td>已有基座模型、要做后训练与自我改进闭环的公司</td>
+        </tr>
+        <tr>
+          <td class="k">系统派<br><span class="muted">agent / search / infra 出身</span></td>
+          <td>长程任务、工具调用、沙箱、搜索、吞吐与成本、故障恢复</td>
+          <td>容易把 RSI 做成「更复杂的 agent workflow」；对学习信号的理解偏浅</td>
+          <td>从 0 建 RSI 平台、需要快速搭 harness 的团队</td>
+        </tr>
+        <tr>
+          <td class="k">评测派<br><span class="muted">eval / interpretability 出身</span></td>
+          <td>验证器设计、污染控制、能力 elicitation、人类基线、统计 rigor</td>
+          <td>可能偏分析、不擅长大规模训练；需要配一个能跑的工程搭档</td>
+          <td>已经有 loop、但改进无法归因或 eval 不可信的公司</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">一分钟判断：他是不是 RSI 研究员</div>
+    <p>让他用 5 分钟画一张图：<b>任务从哪来 → 谁来做 → 谁打分 → 分数如何变成下一轮的改进 → 如何证明不是算力堆出来的</b>。真正做过的人会在第 2 步就开始讲失败案例和归因；只有概念的人会从「我们用一个多 agent 框架」开始讲架构。前者可以进下一轮，后者请他去面 agent 产品岗。</p>
+  </div>
+</section>
+
+<section class="wide" id="tie-def">
+  <span class="snum">03</span>
+  <h2 class="sec">岗位定义 II：训练/推理工程师——一个人还是一条流水线</h2>
+
+  <p class="lede">「训练/推理工程师」在 2026 年是一个被压缩的标题。真实市场上，训练系统、推理引擎、性能优化是三套不同的能力；能同时打通的人极少。招聘前必须先决定：你要的是「一个人全包」，还是「一条流水线上的关键一环」。</p>
+
+  <h3 class="sub"><span class="subn">03.1</span>三个子方向，以及它们的交集</h3>
+
+  <div class="tw">
+    <table>
+      <caption>训练/推理工程师的三个子方向。「训推一体」是交集，不是三者的简单叠加。</caption>
+      <thead>
+        <tr><th>子方向</th><th>核心问题</th><th>硬技能</th><th>可验证的产出</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">训练系统</td>
+          <td>如何让千卡/万卡集群在尽可能长的时间里保持高利用率，且不崩</td>
+          <td>3D/4D 并行、MoE、FP8、checkpoint、故障恢复、NCCL/RDMA、调度</td>
+          <td>MFU、tokens/s/GPU、训练中断恢复时间、有效训练天数占比</td>
+        </tr>
+        <tr>
+          <td class="k">推理引擎</td>
+          <td>如何用最低的 $/1M tokens 和 p99 延迟服务尽可能多的请求</td>
+          <td>vLLM/SGLang/TRT-LLM、PagedAttention、continuous batching、量化、投机解码、KV cache、PD 分离</td>
+          <td>吞吐、p99、goodput、$/1M tokens、GPU 利用率</td>
+        </tr>
+        <tr>
+          <td class="k">性能/内核</td>
+          <td>如何把某个算子/通信/内存访问压到硬件上限附近</td>
+          <td>CUDA/Triton、FlashAttention、fusion、roofline、Nsight、编译器</td>
+          <td>kernel 加速比、带宽利用率、端到端收益</td>
+        </tr>
+        <tr class="sum">
+          <td class="k">训推一体</td>
+          <td>同一套模型权重，在训练与推理之间高效切换；RL rollout 与训练的协同</td>
+          <td>以上三者 + 权重同步、异步 RL、colocated 部署、成本归因</td>
+          <td>RL 迭代周期、rollout 吞吐、训练/推理共享集群利用率</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>一个残酷的现实：<b>同时精通训练系统和推理引擎的人，比纯训练或纯推理的人少一个数量级</b>。大多数「训推一体」候选人其实是「训练出身、推理懂接口」或「推理出身、训练懂配置」。面试要区分「懂」和「做过」：懂的人能讲原理，做过的人能报出自己调过的参数、踩过的坑和最终的数值。</p>
+
+  <h3 class="sub"><span class="subn">03.2</span>这个岗位的「硬通货」：四个数字</h3>
+
+  <div class="facts">
+    <div><div class="fv">MFU</div><div class="fl">Model FLOPs Utilization；训练效率最直接的指标，需说明模型、集群、序列长度口径</div></div>
+    <div><div class="fv">tokens/s/GPU</div><div class="fl">训练或推理吞吐；比「加速比」更可比，需说明 batch/seq/精度</div></div>
+    <div><div class="fv">$/1M tokens</div><div class="fl">推理单位成本；必须含 GPU 折旧/租用、利用率、失败重试</div></div>
+    <div><div class="fv">p99 / goodput</div><div class="fl">尾延迟与有效吞吐；比平均延迟更能反映真实服务能力</div></div>
+  </div>
+
+  <p>面试时不要让候选人只报「提升了 2 倍」。要追问：<em>基线是什么、测试条件是什么、端到端还是单算子、有没有牺牲精度、稳定性如何、上线后是否保持</em>。一个真实的 20% 端到端提升，比一个实验室里的 3 倍 kernel 加速更有价值。反过来，一个只能报「某 kernel 快了 3 倍」但说不清端到端影响的候选人，可能只是做过一次课程项目。</p>
+
+  <h3 class="sub"><span class="subn">03.3</span>训练与推理，创业公司先招哪个</h3>
+
+  <div class="grid2">
+    <div>
+      <div class="gk">阶段 A · 还在训基座 / 持续预训练</div>
+      <div class="gt">优先训练系统</div>
+      <p class="gd">此时 80% 的算力花在训练上，MFU 每提高 10 个百分点，等于多出 10% 的有效算力。推理可以先用 vLLM/SGLang 托管，招一个懂推理的兼职顾问即可。</p>
+    </div>
+    <div>
+      <div class="gk">阶段 B · 模型已上线 / API 业务</div>
+      <div class="gt">优先推理引擎</div>
+      <p class="gd">此时成本结构从「一次性训练」变成「持续推理」，$/1M tokens 直接决定毛利率。训练侧可以维持一个小团队做继续预训练与后训练。</p>
+    </div>
+    <div>
+      <div class="gk">阶段 C · RL / RSI 闭环</div>
+      <div class="gt">优先训推一体</div>
+      <p class="gd">RL rollout 是推理，梯度更新是训练，两者频繁切换。这个阶段最贵的能力是「让同一套集群在 rollout 和训练之间高效复用」。</p>
+    </div>
+    <div>
+      <div class="gk">阶段 D · 芯片/国产化</div>
+      <div class="gt">优先内核 + 编译器</div>
+      <p class="gd">不是所有算子都能直接跑；需要有人能写 Triton/CUDA、改编译器、做图优化。这类人通常来自 NVIDIA/AMD/芯片公司，而不是大模型公司。</p>
+    </div>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">一个常见的组织错误</div>
+    <p>把「训练」和「推理」放在两个互不说话的团队，各自优化自己的指标。结果是训练团队把 checkpoint 格式做成推理团队不能用，推理团队把量化方案做成训练团队无法继续微调。RSI 闭环会把这个裂缝放大：rollout 要推理、更新要训练、评测要两者一致。<b>如果只能设一个负责人，让这个人同时拥有训练与推理的 SLO。</b></p>
+  </div>
+</section>
+
+<section class="wide" id="data-def">
+  <span class="snum">04</span>
+  <h2 class="sec">岗位定义 III：数据工程师——LLM 数据工厂，不是 ETL</h2>
+
+  <p class="lede">在大模型公司，数据工程师的产出不是「表」，是「模型能力」。这个岗位的定义必须从下游倒推：一条数据决策，最终要在哪个 eval 上体现，成本是多少，风险是什么。</p>
+
+  <h3 class="sub"><span class="subn">04.1</span>LLM 数据工厂的七层</h3>
+
+  <div class="stack">
+    <div class="band">
+      <div class="bl">Layer 1 · 获取</div>
+      <div class="bn">来源、许可、抓取、采购、合作</div>
+      <p class="bd">网页、代码、书籍、论文、对话、业务日志、合成数据、标注数据。每一类都有不同的许可、隐私、质量和成本约束。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 2 · 解析与清洗</div>
+      <div class="bn">抽取、去噪、语言识别、结构还原</div>
+      <p class="bd">HTML→text、PDF 解析、代码去重、表格/公式保留。解析质量对下游的影响常被低估。</p>
+    </div>
+    <div class="band mid">
+      <div class="bl">Layer 3 · 质量与安全</div>
+      <div class="bn">去重、质量分类、PII、毒性、合规</div>
+      <p class="bd">MinHash/SimHash、分类器、规则、人工抽检。这是数据工程师最核心的「判断层」，不是纯工程。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 4 · 配比与课程</div>
+      <div class="bn">domain mixture、curriculum、stage-wise recipe</div>
+      <p class="bd">预训练/继续预训练/后训练各阶段的配比；需要做消融，不能拍脑袋。</p>
+    </div>
+    <div class="band mid">
+      <div class="bl">Layer 5 · 合成与增强</div>
+      <div class="bn">self-instruct、演化、任务合成、验证</div>
+      <p class="bd">RSI 的燃料。合成数据的边际收益会衰减，必须测「第 N 轮之后还有没有用」。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 6 · 版本与 lineage</div>
+      <div class="bn">dataset version、tokenizer、contamination、可复现</div>
+      <p class="bd">每个训练 run 必须能回答：用了哪版数据、怎么过滤的、和 eval 有没有重叠。</p>
+    </div>
+    <div class="band">
+      <div class="bl">Layer 7 · 反馈</div>
+      <div class="bn">eval → 数据决策 → 下一版</div>
+      <p class="bd">把下游 eval 的 delta 归因回数据配方；这是「数据工程师」与「ETL 工程师」的分水岭。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.2</span>三种数据角色，别招错</h3>
+
+  <div class="tw">
+    <table>
+      <caption>大模型公司的数据职能至少分三种；创业公司常把它们压成一个人，但面试必须知道自己在买哪一种能力。</caption>
+      <thead>
+        <tr><th>角色</th><th>核心能力</th><th>典型背景</th><th>能否独立定义数据配方</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">数据平台工程师</td>
+          <td>PB 级管道、Spark/Ray、存储、调度、成本</td>
+          <td>大厂数据平台、搜索/推荐 infra、云厂商</td>
+          <td><span class="chip no">否</span> 需要研究员给方向</td>
+        </tr>
+        <tr>
+          <td class="k">数据质量/配方工程师</td>
+          <td>过滤、去重、分类器、配比、消融、污染控制</td>
+          <td>数据-centric AI、NLP 数据、搜索质量、标注体系</td>
+          <td><span class="chip ok">是</span> 这是最稀缺的一类</td>
+        </tr>
+        <tr>
+          <td class="k">数据运营/标注</td>
+          <td>标注体系、众包管理、一致性、供应商</td>
+          <td>AI 数据服务、内容审核、研究助理</td>
+          <td><span class="chip mid">部分</span> 强在执行，弱在配方</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>创业公司最理想的第三席，是<b>「平台能力 + 质量判断」的复合型</b>：既能自己写 Ray/Spark 管道，又能和研究员讨论「这条过滤规则会不会把数学推理样本误杀」。纯平台工程师可以把管道搭起来，但定义不了配方；纯配方工程师如果没有工程能力，会陷入「用 notebook 处理 10 亿条数据」的困境。</p>
+
+  <h3 class="sub"><span class="subn">04.3</span>这个岗位的五个可验证指标</h3>
+
+  <div class="grid3">
+    <div><div class="gk">规模</div><div class="gt">处理过的 token 量</div><p class="gd">不是「数据量 TB」，而是「训练 token 数」；要能说清去重前后、过滤前后、最终进入训练的比例。</p></div>
+    <div><div class="gk">成本</div><div class="gt">每 1T token 的处理成本</div><p class="gd">含存储、计算、人工；能说清瓶颈在 I/O、CPU 还是分类器推理。</p></div>
+    <div><div class="gk">质量</div><div class="gt">过滤器的 precision/recall</div><p class="gd">有没有人工标注的黄金集？误杀率多少？对下游 eval 的影响是什么？</p></div>
+    <div><div class="gk">归因</div><div class="gt">数据改动 → eval delta</div><p class="gd">至少举一个「改了配比/过滤器，某个 benchmark 动了 X 点」的完整案例。</p></div>
+    <div><div class="gk">安全</div><div class="gt">PII / 污染 / 许可</div><p class="gd">有没有做过污染检测？有没有处理过版权/许可问题？出问题如何回溯？</p></div>
+  </div>
+
+  <div class="callout">
+    <div class="ct">一句话区分</div>
+    <p>问：「你最近一次改变数据配方，是因为看到了什么？」<b>ETL 工程师</b>会回答「上游表结构变了 / 业务要加字段」；<b>LLM 数据工程师</b>会回答「某个 benchmark 的错误集中在代码长尾 / 合成数据第 3 轮开始重复 / 去重阈值误杀了数学题」。后者的答案里一定有<em>下游信号</em>。</p>
+  </div>
+</section>
+
+<section class="wide" id="rsi-profile">
+  <span class="snum">05</span>
+  <h2 class="sec">人才画像 I：RSI 算法研究员</h2>
+
+  <p class="lede">一句话画像：<b>能在固定算力预算下，设计并跑通一条「生成—验证—更新」闭环，并用归因证明改进来自方法而不是资源的人。</b></p>
+
+  <h3 class="sub"><span class="subn">05.1</span>S / A / B 三档</h3>
+
+  <div class="tw">
+    <table>
+      <caption>RSI 研究员的三档画像。「S」不是「最有名」，而是「最接近独立闭环」。档位决定定价与汇报关系，不决定是否值得招。</caption>
+      <thead>
+        <tr><th>档位</th><th>证据（至少满足两条）</th><th>典型背景</th><th>市场信号</th><th>招聘难度</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">S<br><span class="muted">独立方向</span></td>
+          <td>① 主导过一个在 ≥10B 模型上产生可测能力增量的自我改进 loop；② 一作/核心作者的身份发表过该方向的基础论文；③ 设计过被多个团队使用的验证器/评测/环境；④ 能独立带 3–5 人 pod 并交付</td>
+          <td>前沿实验室 RSI/后训练核心成员；Sakana/METR 等方向性机构；少数 Neolab 创始研究员；顶尖高校 + 工业界联合项目</td>
+          <td>论文被反复引用；开源项目有真实用户；会议邀请报告；被大厂/Neolab 争抢</td>
+          <td><span class="chip no">极高</span> 90–180 天，创始人必须亲自下场</td>
+        </tr>
+        <tr>
+          <td class="k">A<br><span class="muted">核心贡献</span></td>
+          <td>① 是某个大规模后训练/RL/数据闭环的核心贡献者，能说清自己负责的模块与数值；② 有 1–2 篇高质量一作或若干核心署名；③ 能独立设计实验、写 harness、读曲线；④ 有跨团队协作经验</td>
+          <td>大厂 Seed/研究院的后训练、RL、Agent 团队；DeepSeek/Qwen/Moonshot 等核心工程团队；优秀博士 + 2–3 年工业界</td>
+          <td>能报出具体指标与失败案例；有内部晋升或关键项目记录；被前同事强推</td>
+          <td><span class="chip mid">高</span> 60–120 天</td>
+        </tr>
+        <tr>
+          <td class="k">B<br><span class="muted">高潜</span></td>
+          <td>① 强 RL/ML 基础 + 扎实工程能力；② 有可复现的个人项目或竞赛成绩；③ 对验证器/评测有超出同龄人的判断；④ 缺少大规模闭环经验，但学习速度极快</td>
+          <td>顶尖博士/博士后；Kaggle/ARC/IOI 背景；开源贡献者；从推理/Agent 团队转方向</td>
+          <td>代码质量高；能快速复现论文；有清晰的 research taste</td>
+          <td><span class="chip ok">中</span> 30–60 天，适合做第二席</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.2</span>必备、加分、反信号</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">Must-have · 缺一不可</div>
+      <div class="gt">闭环 + 工程 + 归因</div>
+      <p class="gd"><b>闭环：</b>做过至少一轮「模型输出 → 验证 → 训练/更新 → 再评测」。<br><b>工程：</b>能自己写数据、训练、评测代码，不依赖平台团队喂到嘴边。<br><b>归因：</b>能区分「方法有效」与「算力/数据变多」。</p>
+    </div>
+    <div>
+      <div class="gk">Nice-to-have · 决定上限</div>
+      <div class="gt">验证器品味 + 系统感 + 写作</div>
+      <p class="gd">知道什么领域有便宜验证器；懂 rollout 吞吐与训练稳定性；能把复杂实验写成清晰的技术报告；有开源/社区影响力。</p>
+    </div>
+    <div>
+      <div class="gk">Anti-signal · 见到要警惕</div>
+      <div class="gt">只有叙事，没有分母</div>
+      <p class="gd">只讲「多 agent 自我进化」不讲验证信号；只报最终分数不报成本；所有经验都在 prompt/workflow 层；把「模型多想几步」叫 RSI；论文很多但说不清自己贡献了哪一行。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.3</span>证据清单：在哪里看什么</h3>
+
+  <div class="tw">
+    <table>
+      <caption>RSI 候选人的证据分层。简历最不可信，代码与论文的「贡献颗粒度」最可信。</caption>
+      <thead>
+        <tr><th>证据源</th><th>看什么</th><th>什么算强信号</th><th>什么算弱信号</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">论文</td>
+          <td>一作/核心署名、实验规模、消融、失败分析、代码/数据是否开源</td>
+          <td>有成本分析、有 held-out、有负结果；审稿人评价「实验扎实」</td>
+          <td>只有方法图；实验只在 1B 以下；没有 baseline；代码不可复现</td>
+        </tr>
+        <tr>
+          <td class="k">GitHub</td>
+          <td>commit 历史、issue 回复、review 质量、项目是否有真实用户</td>
+          <td>在关键 repo 有持续 commit；能修别人的 bug；写测试</td>
+          <td>只有 fork；commit 集中在课程作业；star 多但无维护</td>
+        </tr>
+        <tr>
+          <td class="k">Benchmark</td>
+          <td>是否在公开榜上有可复现成绩；是否理解榜单的局限</td>
+          <td>能解释「为什么这个榜不能代表真实能力」</td>
+          <td>只报排名，不谈 contamination / cherry-pick</td>
+        </tr>
+        <tr>
+          <td class="k">前同事</td>
+          <td>是否被强推；是否独立；是否愿意再合作</td>
+          <td>「他走了之后这个方向停了」</td>
+          <td>「他挺聪明，但具体做了什么我不清楚」</td>
+        </tr>
+        <tr>
+          <td class="k">公开表达</td>
+          <td>技术博客、talk、Twitter/X、知乎；是否有自己的判断</td>
+          <td>能提前识别方向泡沫；有可执行的观点</td>
+          <td>只转述别人的结论；追热点</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.4</span>30 分钟电话筛：六个问题</h3>
+
+  <div class="qbank">
+    <div class="q"><div class="qt">你做过的最接近「闭环」的工作是什么？从任务生成到权重更新，中间每一步是谁做的？</div><div class="qa"><b>听什么：</b>能否清晰划分自己负责的环节；有没有真正的「更新」；还是只有推理时自检。</div></div>
+    <div class="q"><div class="qt">你的验证信号是什么？为什么可信？如果验证器错了，loop 会怎么坏？</div><div class="qa"><b>听什么：</b>验证器层级；是否处理过 reward hacking；有没有独立人类基线。</div></div>
+    <div class="q"><div class="qt">每轮成本多少，能力增量多少，第 3–5 轮衰减到什么程度？</div><div class="qa"><b>听什么：</b>三个数能不能立刻报出来；有没有「边际收益归零」的失败案例。</div></div>
+    <div class="q"><div class="qt">如果给你 1,000 张卡和 3 个月，验证一个 RSI 假设，最小实验是什么？</div><div class="qa"><b>听什么：</b>会不会先做「可证伪的最小实验」；有没有成本意识；还是上来就训大模型。</div></div>
+    <div class="q"><div class="qt">你怎么防止 eval 污染？如果 eval 泄漏了，怎么发现、怎么补救？</div><div class="qa"><b>听什么：</b>n-gram/embedding 去重、训练损失异常、动态 held-out；是否把污染当成系统问题。</div></div>
+    <div class="q"><div class="qt">最近一次你推翻自己的结论是什么？</div><div class="qa"><b>听什么：</b>有没有真实的失败复盘；是否愿意承认「我原来的方法不 work」。</div></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.5</span>三个常见误判</h3>
+
+  <p><b>误判一：把「发过 RSI 相关论文」当成「做过 RSI」。</b>论文可以是单点方法，不需要闭环；而岗位要的是把方法接进训练系统并持续跑。面试必须问「你的方法在真实训练里跑过几轮、谁维护、失败了怎么回滚」。</p>
+
+  <p><b>误判二：把「大厂后训练经验」直接等同于「RSI 能力」。</b>大厂后训练团队分工极细，很多人只做数据、只做 reward、只做评测。RSI 需要端到端视角。要问「你离开那套平台后，自己从零搭过什么」。</p>
+
+  <p><b>误判三：把「聪明」当成「能落地」。</b>RSI 的日常大量是脏活：修 harness、处理超时、对齐 tokenizer、分析日志。一个只在干净 benchmark 上工作过的天才，可能在第 2 周就想离开。要专门问「你最近花时间最多的一件脏活是什么」。</p>
+
+  <div class="callout goodb">
+    <div class="ct">给招聘经理的一句话</div>
+    <p>如果你只能问一个问题，问：<b>「你的 loop 第 N 轮和第 1 轮相比，系统本身发生了什么变化？」</b>能回答「任务分布变了 / 验证器变强了 / 策略学会了新技能 / 课程自动调整了」的人，才真正拥有 RSI；回答「分数更高了」的人，只是在做训练。</p>
+  </div>
+</section>
+
+<section class="wide" id="tie-profile">
+  <span class="snum">06</span>
+  <h2 class="sec">人才画像 II：训练/推理工程师</h2>
+
+  <p class="lede">一句话画像：<b>能把一个训练或推理系统的关键指标（MFU、吞吐、p99、$/1M tokens）从「能跑」推到「接近硬件上限」，并在故障发生时 30 分钟内定位的人。</b></p>
+
+  <h3 class="sub"><span class="subn">06.1</span>S / A / B 三档</h3>
+
+  <div class="tw">
+    <table>
+      <caption>训推工程师的三档画像。核心区分不是「用过什么框架」，而是「在多大集群上、把指标推到了多少、故障时能不能定位」。</caption>
+      <thead>
+        <tr><th>档位</th><th>证据（至少满足两条）</th><th>典型背景</th><th>市场信号</th><th>招聘难度</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">S<br><span class="muted">系统owner</span></td>
+          <td>① 在 ≥1,000 卡集群上负责过训练或推理系统，能报出 MFU/吞吐/p99 的绝对值与优化过程；② 写过被合并的 kernel/框架代码，或 core maintainer；③ 处理过大规模 hang/NaN/straggler/网络故障；④ 能做容量规划与成本归因</td>
+          <td>NVIDIA/AMD/Google/Meta 的训练或推理 infra 核心；vLLM/SGLang/Megatron/DeepSpeed maintainer；字节 Seed/AML、阿里 PAI/Qwen、华为 CANN 核心</td>
+          <td>GitHub commit 被广泛引用；MLSys/OSDI 论文；GTC/MLSys talk；能给出端到端收益</td>
+          <td><span class="chip no">极高</span> 90–150 天</td>
+        </tr>
+        <tr>
+          <td class="k">A<br><span class="muted">独立模块</span></td>
+          <td>① 负责过百卡到千卡级的训练/推理子系统；② 能独立定位常见故障；③ 有明确的性能优化案例（端到端 ≥10%）；④ 熟悉至少一种推理引擎的内部机制</td>
+          <td>大模型公司训推团队；云厂商 GPU 平台；推理创业公司；芯片公司软件栈</td>
+          <td>能讲清 trade-off；有 on-call 经验；被前同事评价「能扛事」</td>
+          <td><span class="chip mid">高</span> 60–100 天</td>
+        </tr>
+        <tr>
+          <td class="k">B<br><span class="muted">高潜</span></td>
+          <td>① 强分布式系统/后端基础；② 有 GPU 编程或性能优化经验；③ 能读框架源码；④ 缺少超大集群经验，但排障思路清晰</td>
+          <td>数据库/存储/编译器/高性能计算背景；GPU MODE/MLSys 社区活跃者；优秀应届博士</td>
+          <td>代码质量高；能复现性能实验；学习速度快</td>
+          <td><span class="chip ok">中</span> 30–60 天，适合做第二席</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.2</span>必备、加分、反信号</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">Must-have · 缺一不可</div>
+      <div class="gt">排障 + 指标 + 端到端</div>
+      <p class="gd"><b>排障：</b>能从一个慢/挂/NaN 的现象追到根因。<br><b>指标：</b>能报出自己负责系统的绝对值，而不只是「提升 X%」。<br><b>端到端：</b>知道单点优化在真实链路里会被什么抵消。</p>
+    </div>
+    <div>
+      <div class="gk">Nice-to-have · 决定上限</div>
+      <div class="gt">内核 + 编译器 + 硬件</div>
+      <p class="gd">能写 Triton/CUDA；懂 roofline 与内存层级；了解特定芯片（H100/H200/B200/昇腾/寒武纪）的瓶颈；有开源维护经验。</p>
+    </div>
+    <div>
+      <div class="gk">Anti-signal · 见到要警惕</div>
+      <div class="gt">只会调用，不会定位</div>
+      <p class="gd">所有经验都是「用托管服务/现成框架」；只能报「加速比」不能报基线；没处理过故障；把「会写 Kubernetes YAML」当成系统能力；频繁换栈但没有深度。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.3</span>证据清单</h3>
+
+  <div class="tw">
+    <table>
+      <caption>训推工程师的证据优先级：生产数字 &gt; 代码 &gt; 论文 &gt; 简历关键词。</caption>
+      <thead>
+        <tr><th>证据源</th><th>看什么</th><th>什么算强信号</th><th>什么算弱信号</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">生产数字</td>
+          <td>集群规模、MFU、tokens/s/GPU、p99、$/1M tokens、故障恢复时间</td>
+          <td>能说清口径、基线、测试条件、上线后是否保持</td>
+          <td>只有「提升 3 倍」；不给基线；把单算子当端到端</td>
+        </tr>
+        <tr>
+          <td class="k">代码</td>
+          <td>vLLM/SGLang/Megatron/DeepSpeed/FlashAttention/Triton 的 commit、PR review</td>
+          <td>持续贡献；修过别人的 bug；代码有测试与 benchmark</td>
+          <td>只有 fork/star；提交集中在文档；没有 review 记录</td>
+        </tr>
+        <tr>
+          <td class="k">论文/演讲</td>
+          <td>MLSys/OSDI/NSDI/ASPLOS/SC/PPoPP；GTC/MLSys/vLLM meetup</td>
+          <td>有真实系统部署；有可复现实验；有失败分析</td>
+          <td>纯仿真；没有真实集群；结论不可复现</td>
+        </tr>
+        <tr>
+          <td class="k">排障故事</td>
+          <td>一次真实的 hang/NaN/straggler/网络抖动/显存泄漏</td>
+          <td>能按「现象→假设→验证→根因→修复→防复发」讲完整</td>
+          <td>只说「重启就好了」；归因于「框架 bug」但说不出证据</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.4</span>30 分钟电话筛：六个问题</h3>
+
+  <div class="qbank">
+    <div class="q"><div class="qt">你负责过的最大集群是多少卡？MFU 多少？瓶颈在哪？</div><div class="qa"><b>听什么：</b>绝对值与口径；能否区分计算、通信、I/O、调度瓶颈。</div></div>
+    <div class="q"><div class="qt">讲一次训练 hang 或 loss spike 的定位过程。</div><div class="qa"><b>听什么：</b>是否有系统化假设；是否用过 nsys/ncu/NCCL debug/日志；修复后有没有防复发。</div></div>
+    <div class="q"><div class="qt">给定模型和集群，你怎么选 TP/PP/DP/EP？</div><div class="qa"><b>听什么：</b>能否从显存、带宽、通信量推导；是否只会套模板。</div></div>
+    <div class="q"><div class="qt">推理的 $/1M tokens 怎么降一半？优先级是什么？</div><div class="qa"><b>听什么：</b>是否先看利用率与瓶颈；是否知道量化/投机/PD 分离的适用边界；会不会牺牲 p99。</div></div>
+    <div class="q"><div class="qt">你写过 kernel 吗？讲一个你优化过的，roofline 上在哪？</div><div class="qa"><b>听什么：</b>是否理解内存带宽/计算密度；优化是否端到端有效。</div></div>
+    <div class="q"><div class="qt">RL rollout 的吞吐瓶颈在哪？训练和推理怎么共享集群？</div><div class="qa"><b>听什么：</b>权重同步、异步、colocated、冷启动；有没有实际调过。</div></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.5</span>三个常见误判</h3>
+
+  <p><b>误判一：把「大厂 infra 背景」当成「能从小团队从零搭」。</b>大厂有成熟的平台、SRE、采购和芯片团队；创业公司可能只有裸机和一个人。要问「没有平台团队时，你自己装过什么、修过什么」。</p>
+
+  <p><b>误判二：把「kernel 快」当成「系统快」。</b>一个 kernel 快 3 倍，端到端可能只快 3%，因为瓶颈在数据加载或通信。必须问端到端数字，以及「你怎么知道瓶颈不在别处」。</p>
+
+  <p><b>误判三：把「会很多框架」当成「有深度」。</b>框架是消耗品，排障能力和硬件直觉才是资产。一个只用过 vLLM 的人，遇到 vLLM 不支持的模型结构就束手无策；一个懂调度与显存的人，可以在一周内上手任何引擎。</p>
+</section>
+
+<section class="wide" id="data-profile">
+  <span class="snum">07</span>
+  <h2 class="sec">人才画像 III：数据工程师</h2>
+
+  <p class="lede">一句话画像：<b>能在万亿 token 规模上设计数据配方，并用下游 eval 证明「这条数据决策值得做」的人——既写得了管道，也敢对数据质量下判断。</b></p>
+
+  <h3 class="sub"><span class="subn">07.1</span>S / A / B 三档</h3>
+
+  <div class="tw">
+    <table>
+      <caption>LLM 数据工程师的三档画像。核心区分是「是否拥有过数据配方」，而不是「是否用过某个大数据组件」。</caption>
+      <thead>
+        <tr><th>档位</th><th>证据（至少满足两条）</th><th>典型背景</th><th>市场信号</th><th>招聘难度</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">S<br><span class="muted">配方 owner</span></td>
+          <td>① 拥有过一个 frontier/接近 frontier 模型的数据配方；② 建过 1T+ token 的清洗/去重/质量/合成流水线；③ 能用消融证明数据改动对下游的影响；④ 处理过许可、PII、污染等复杂问题</td>
+          <td>HuggingFace/AllenAI/EleutherAI 数据核心；大厂基座数据负责人；头部数据公司配方专家</td>
+          <td>开源数据集被广泛使用；论文/技术报告有数据章节；能报出成本与质量曲线</td>
+          <td><span class="chip no">极高</span> 60–120 天</td>
+        </tr>
+        <tr>
+          <td class="k">A<br><span class="muted">独立链路</span></td>
+          <td>① 负责过百 B–T 级 token 的某条数据链路；② 能独立设计过滤器/去重/配比实验；③ 熟悉至少一种大规模计算框架与存储格式；④ 有质量评估与人工抽检经验</td>
+          <td>大模型公司数据团队；搜索/推荐数据质量；数据标注公司技术负责人</td>
+          <td>能讲清 precision/recall 与下游影响；有成本优化案例</td>
+          <td><span class="chip mid">高</span> 45–90 天</td>
+        </tr>
+        <tr>
+          <td class="k">B<br><span class="muted">高潜</span></td>
+          <td>① 强数据工程基础（Spark/Ray/Flink/Arrow）；② 有 ML 基础或数据质量经验；③ 能读论文并复现数据方法；④ 缺少万亿 token 经验</td>
+          <td>大厂数据平台、量化数据、搜索质量、优秀应届</td>
+          <td>代码工程质量高；有统计与实验意识</td>
+          <td><span class="chip ok">中</span> 30–60 天</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.2</span>必备、加分、反信号</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">Must-have · 缺一不可</div>
+      <div class="gt">规模 + 质量 + 归因</div>
+      <p class="gd"><b>规模：</b>处理过至少百 B 级 token，知道 PB 级管道的坑。<br><b>质量：</b>设计过过滤器/去重/分类器，并评估过误杀。<br><b>归因：</b>能把数据改动和下游 eval 连起来。</p>
+    </div>
+    <div>
+      <div class="gk">Nice-to-have · 决定上限</div>
+      <div class="gt">合成数据 + 法务 + 成本</div>
+      <p class="gd">做过合成数据与自我博弈；懂版权/许可/PII；能优化每 1T token 的处理成本；有开源数据集经验。</p>
+    </div>
+    <div>
+      <div class="gk">Anti-signal · 见到要警惕</div>
+      <div class="gt">只有管道，没有判断</div>
+      <p class="gd">简历全是 Spark/Airflow/Kafka，但说不清数据质量；只做过数仓 ETL；把「标注管理」当成数据配方；没有污染意识；所有决策都是「上游要求」。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.3</span>证据清单</h3>
+
+  <div class="tw">
+    <table>
+      <caption>数据工程师的证据：开源数据集 &gt; 消融实验 &gt; 管道规模 &gt; 组件关键词。</caption>
+      <thead>
+        <tr><th>证据源</th><th>看什么</th><th>什么算强信号</th><th>什么算弱信号</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">数据集/论文</td>
+          <td>Dolma、FineWeb、DataComp-LM、RedPajama、The Pile 等；是否一作/核心</td>
+          <td>数据集被广泛下载/引用；有数据处理细节与消融</td>
+          <td>只挂名；数据卡（datasheet）缺失</td>
+        </tr>
+        <tr>
+          <td class="k">管道</td>
+          <td>token 量、吞吐、成本、去重率、过滤率、失败恢复</td>
+          <td>能报出端到端数字与瓶颈；有 lineage</td>
+          <td>只说「用了 Spark」；没有规模数字</td>
+        </tr>
+        <tr>
+          <td class="k">质量</td>
+          <td>黄金集、precision/recall、人工抽检、分类器迭代</td>
+          <td>能说清误杀与漏杀的权衡</td>
+          <td>「质量很好」但无量化</td>
+        </tr>
+        <tr>
+          <td class="k">下游</td>
+          <td>数据改动 → eval delta；污染检测；配比消融</td>
+          <td>有完整的「假设—实验—结论」案例</td>
+          <td>只做数据、不碰 eval</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.4</span>30 分钟电话筛：六个问题</h3>
+
+  <div class="qbank">
+    <div class="q"><div class="qt">你处理过的最大 token 量是多少？最终进入训练的比例是多少？</div><div class="qa"><b>听什么：</b>是否区分原始数据、去重后、过滤后、实际训练 token；是否知道损耗。</div></div>
+    <div class="q"><div class="qt">1T token 去重怎么做？MinHash 参数怎么选？误杀怎么评估？</div><div class="qa"><b>听什么：</b>是否做过阈值实验；是否评估过对下游的影响；还是照搬默认参数。</div></div>
+    <div class="q"><div class="qt">质量过滤器怎么设计？规则和模型分别用在哪？怎么验证有效？</div><div class="qa"><b>听什么：</b>黄金集、人工抽检、分类器 AUC、下游消融；能否承认过滤器会误杀。</div></div>
+    <div class="q"><div class="qt">数据配比怎么定？你做过的最有信息量的消融是什么？</div><div class="qa"><b>听什么：</b>是否有实验设计；是否控制变量；是否理解不同阶段的配比不同。</div></div>
+    <div class="q"><div class="qt">合成数据什么时候边际收益归零？你怎么测？</div><div class="qa"><b>听什么：</b>第 N 轮衰减、多样性、验证器；是否盲目堆合成数据。</div></div>
+    <div class="q"><div class="qt">怎么防污染？如果训练集和 eval 重叠了，怎么发现？</div><div class="qa"><b>听什么：</b>n-gram/embedding/训练损失异常；是否有系统性流程。</div></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.5</span>两个常见误判</h3>
+
+  <p><b>误判一：把「大厂数据平台」当成「LLM 数据配方」。</b>大厂平台工程师擅长稳定性、治理、成本，但 LLM 数据配方的核心是「什么数据能提升模型」，这更接近研究判断。面试要问「你做过哪个模型的数据消融」，而不是「你管过多少张表」。</p>
+
+  <p><b>误判二：把「标注公司背景」当成「数据质量能力」。</b>标注运营强在流程和人力管理，弱在自动过滤、合成数据、污染控制。如果公司需要的是配方 owner，标注背景的候选人只能做 B 档或运营岗，不能直接给 S 档。</p>
+</section>
+
+<section class="wide" id="map">
+  <span class="snum">08</span>
+  <h2 class="sec">人才地图：人在哪里，以及如何把「人」变成「图」</h2>
+
+  <p class="lede">人才地图不是一张公司名单，而是一张<em>关系图</em>：谁和谁合作过、谁在哪个项目里做了什么、谁最近换了机构。招聘的命中率，取决于这张图的颗粒度。</p>
+
+  <h3 class="sub"><span class="subn">08.1</span>五层人才池</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三个岗位共享的五层人才池，但每层的「可挖性」不同。越靠上的层越贵、越难动；越靠下的层越需要判断。</caption>
+      <thead>
+        <tr><th>层级</th><th>典型组织</th><th>RSI 研究员</th><th>训推工程师</th><th>数据工程师</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">L1 前沿实验室</td>
+          <td>OpenAI、Anthropic、Google DeepMind、Meta FAIR、xAI、SSI</td>
+          <td><span class="chip ok">主战场</span> 但要区分「核心」与「边缘」</td>
+          <td><span class="chip ok">主战场</span> 训练/推理 infra 团队</td>
+          <td><span class="chip mid">较少</span> 数据团队通常外包/平台化</td>
+        </tr>
+        <tr>
+          <td class="k">L2 大厂模型团队</td>
+          <td>字节 Seed/AML、阿里 Qwen/PAI、腾讯混元、百度、华为、Meta、Google</td>
+          <td><span class="chip ok">高</span> 被组织压住的核心贡献者</td>
+          <td><span class="chip ok">最高</span> 集群规模大、排障经验真实</td>
+          <td><span class="chip ok">高</span> 数据规模大、流程成熟</td>
+        </tr>
+        <tr>
+          <td class="k">L3 Neolab/创业公司</td>
+          <td>DeepSeek、Moonshot、MiniMax、智谱、Sakana、Periodic、Recursive、Ineffable</td>
+          <td><span class="chip ok">高</span> 端到端经验、愿意冒险</td>
+          <td><span class="chip ok">高</span> 一个人当三个人用</td>
+          <td><span class="chip mid">中</span> 数据团队小，但决策权大</td>
+        </tr>
+        <tr>
+          <td class="k">L4 学术/开源</td>
+          <td>MIT、Stanford、Berkeley、CMU、清华、北大、上海 AI Lab；HuggingFace、AllenAI、EleutherAI</td>
+          <td><span class="chip ok">高潜</span> 一作/开源作者，性价比高</td>
+          <td><span class="chip mid">中</span> 系统论文作者，缺生产经验</td>
+          <td><span class="chip ok">高</span> 开源数据集作者</td>
+        </tr>
+        <tr>
+          <td class="k">L5 相邻行业</td>
+          <td>量化基金、自动驾驶、芯片公司、云厂商、搜索/推荐、数据库/编译器</td>
+          <td><span class="chip mid">中</span> RL/优化/系统人才可迁移</td>
+          <td><span class="chip ok">高</span> 分布式/内核/高性能计算</td>
+          <td><span class="chip ok">高</span> PB 级管道/数据质量</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">08.2</span>锚点论文与项目：从「方向」找到「人」</h3>
+
+  <div class="tw">
+    <table>
+      <caption>RSI 方向的锚点工作。用途不是让 HR 读懂论文，而是用作者/机构/引用关系生成候选人名单。作者机构为发表时口径。</caption>
+      <thead>
+        <tr><th>锚点工作</th><th>年份 / 机构</th><th>核心作者（发表时）</th><th>它对应哪类候选人</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">STaR</td><td>2022 · Stanford</td><td>Eric Zelikman、Yuhuai Wu、Jesse Mu、Noah Goodman</td><td>自生成推理轨迹、bootstrapping 方向</td></tr>
+        <tr><td class="k">ReST / ReST-EM</td><td>2023–2024 · Google</td><td>Caglar Gulcehre、Avi Singh 等</td><td>自我训练 + 期望最大化、代码/数学闭环</td></tr>
+        <tr><td class="k">Self-Rewarding LMs</td><td>2024 · Meta</td><td>Weizhe Yuan、Jason Weston 等</td><td>模型自评、reward 自生成（也要知道其风险）</td></tr>
+        <tr><td class="k">Absolute Zero</td><td>2025 · 清华</td><td>Andrew Zhao、Gao Huang 等</td><td>零数据自博弈、任务自生成</td></tr>
+        <tr><td class="k">SEAL</td><td>2025 · MIT</td><td>Adam Zweiger、Pulkit Agrawal 等</td><td>self-adapting、权重级自我编辑</td></tr>
+        <tr><td class="k">AlphaEvolve</td><td>2025 · DeepMind</td><td>Matej Balog、Alexander Novikov 等</td><td>进化搜索 + 可验证评估器、kernel/算法优化</td></tr>
+        <tr><td class="k">FunSearch</td><td>2024 · DeepMind</td><td>Bernardino Romera-Paredes、Mohammadamin Barekatain 等</td><td>LLM + evaluator 的程序搜索</td></tr>
+        <tr><td class="k">Darwin Gödel Machine</td><td>2025 · Sakana/UBC</td><td>Jenny Zhang、Shengran Hu、Cong Lu、Jeff Clune 等</td><td>自我修改 agent、开放式进化</td></tr>
+        <tr><td class="k">AI Scientist</td><td>2024 · Sakana</td><td>Chris Lu、Cong Lu、David Ha 等</td><td>端到端自动化研究、paper generation</td></tr>
+        <tr><td class="k">RE-Bench</td><td>2024 · METR</td><td>METR 团队</td><td>AI R&amp;D 能力评测、长周期任务</td></tr>
+        <tr><td class="k">MLE-bench</td><td>2024 · OpenAI</td><td>OpenAI 团队</td><td>ML 工程 agent、Kaggle 式任务</td></tr>
+        <tr><td class="k">SWE-bench</td><td>2023 · Princeton</td><td>Carlos Jimenez、John Yang、Shunyu Yao 等</td><td>代码 agent、真实 issue 修复</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>怎么用这张表：</b>不要只记名字。以每篇论文为种子，做两跳扩散——<em>第一跳</em>是共同作者与致谢里出现的人；<em>第二跳</em>是引用它的论文里的一作、以及这些作者最近 12 个月的挂靠机构变化。两跳之后，通常会得到 100–300 人的名单，覆盖该方向 70% 以上的活跃研究者。</p>
+
+  <h3 class="sub"><span class="subn">08.3</span>开源社区：最诚实的能力证明</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">RSI / Agent</div>
+      <div class="gt">OpenHands · SWE-agent · Aider · verl · OpenRLHF · TRL · AI Scientist · DGM</div>
+      <p class="gd">看 commit 质量、issue 回复、是否修过别人的 bug。maintainer 是最值得挖的一类人：他们已经在没有报酬的情况下做出了生产级工作。</p>
+    </div>
+    <div>
+      <div class="gk">训练 / 推理</div>
+      <div class="gt">vLLM · SGLang · Megatron-LM · DeepSpeed · FlashAttention · Triton · TensorRT-LLM · llama.cpp · MLC-LLM</div>
+      <p class="gd">按「最近 12 个月 commit 次数」排序，而不是 star。重点看 performance PR、NCCL/显存/调度相关 issue 的参与者。</p>
+    </div>
+    <div>
+      <div class="gk">数据</div>
+      <div class="gt">datatrove · Dolma · Data-Juicer · NeMo Curator · FineWeb · DataComp-LM · Ray Data</div>
+      <p class="gd">看数据集作者、数据处理 PR、datasheet 质量。能写清楚「为什么这样过滤」的人，通常也能做配方。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">08.4</span>地理分布与流动</h3>
+
+  <p>三个岗位的人才地理并不重合。<b>RSI 研究员</b>集中在旧金山湾区、西雅图、伦敦、苏黎世、北京、上海、杭州；<b>训推工程师</b>集中在湾区、西雅图、北京、上海、杭州、深圳、以色列；<b>数据工程师</b>更分散，北京、上海、杭州、深圳、新加坡、东欧都有强团队。远程招聘可以扩大漏斗，但 RSI 和训推的核心协作通常需要<em>至少每周数次面对面</em>，尤其是早期团队。</p>
+
+  <p>流动信号比静态名单更有价值。需要持续监控的五类事件：<b>论文挂靠机构变化</b>（作者从 A 机构换到 B）、<b>LinkedIn/GitHub 状态变化</b>、<b>公司融资/裁员/acquisition</b>、<b>会议上的新面孔</b>、<b>开源项目 maintainer 变动</b>。这些事件发生时，候选人的「可触达窗口」会短暂打开 2–6 周。</p>
+
+  <div class="callout">
+    <div class="ct">三类最值得挖的人</div>
+    <p><b>① 「一作但还没成名」的 2–5 年研究者：</b>有真实产出，但还没被市场定价；性价比最高，也最容易被忽视。<br><b>② 「大厂核心贡献者但被组织压住」的工程师：</b>能力强、流程熟，但在大厂只能负责一个模块；给他端到端 ownership 就能激活。<br><b>③ 「开源 maintainer 但在小公司」的人：</b>已经在做生产级工作，只是没有被大厂品牌背书；触达成本低，忠诚度高。</p>
+  </div>
+</section>
+
+<section class="wide" id="sourcing">
+  <span class="snum">09</span>
+  <h2 class="sec">极致寻源：14 天建一张 200 人目标图</h2>
+
+  <p class="lede">「极致」不是把招聘网站翻到第 100 页，而是用研究的方法做人才发现：定义种子、做引用扩散、做代码扩散、做组织扩散，最后收敛成一张可执行的目标图。有人把这件事叫「人才开源」——把招聘从封闭的岗位漏斗，变成论文、代码、社区三张开放网络的持续运营。</p>
+
+  <h3 class="sub"><span class="subn">09.1</span>14 天作战计划</h3>
+
+  <div class="tw">
+    <table>
+      <caption>一个 3 人招聘小组（1 名负责人 + 1 名研究员 + 1 名协调员）的 14 天寻源计划。目标不是「联系完」，而是「图建完、优先级排完」。</caption>
+      <thead>
+        <tr><th>天</th><th>动作</th><th>产出</th><th>负责人</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">D1–2</td><td>定义 3 个岗位的「种子名单」：各 10 篇论文/10 个 repo/10 家公司</td><td>30 个种子</td><td>招聘负责人 + 用人经理</td></tr>
+        <tr><td class="k">D3–5</td><td>引用扩散：Semantic Scholar/OpenAlex 拉共同作者、引用者、被引者</td><td>每个岗位 100–150 人初筛名单</td><td>研究员</td></tr>
+        <tr><td class="k">D6–7</td><td>代码扩散：GitHub commit/PR/issue 拉活跃贡献者；按最近 12 个月排序</td><td>每个岗位 50–80 人</td><td>研究员</td></tr>
+        <tr><td class="k">D8–9</td><td>组织扩散：目标公司 org chart、离职校友、会议讲者、社区 maintainer</td><td>30–50 人补充</td><td>招聘负责人</td></tr>
+        <tr><td class="k">D10–11</td><td>去重、合并、补全公开信息（机构、方向、最近动态）</td><td>200 人主名单</td><td>协调员</td></tr>
+        <tr><td class="k">D12–13</td><td>按 S/A/B 与「可触达性」打分，排优先级</td><td>Top 60 触达名单</td><td>用人经理 + 招聘负责人</td></tr>
+        <tr><td class="k">D14</td><td>启动第一批 20 条个性化触达；建立 CRM 标签与跟进节奏</td><td>首批回复</td><td>全员</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.2</span>目标图字段：不要只存姓名</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">身份</div>
+      <div class="gt">姓名 · 当前机构 · 职位 · 地点 · 公开主页</div>
+      <p class="gd">只收集公开职业信息；不碰手机号、微信号、私人邮箱。来源标注到 URL 与日期。</p>
+    </div>
+    <div>
+      <div class="gk">证据</div>
+      <div class="gt">代表论文/项目 · 贡献颗粒度 · 代码/数据 · 公开演讲</div>
+      <p class="gd">每条证据写「他具体做了什么」，不要只写标题。贡献颗粒度是后续面试的抓手。</p>
+    </div>
+    <div>
+      <div class="gk">可触达性</div>
+      <div class="gt">共同联系人 · 社区交集 · 最近动态 · 流动信号</div>
+      <p class="gd">有共同联系人的优先级 ×2；最近换机构/发论文/融资的，窗口期优先级 ×1.5。</p>
+    </div>
+    <div>
+      <div class="gk">匹配度</div>
+      <div class="gt">S/A/B · 岗位匹配 · 阶段匹配 · 地理/签证</div>
+      <p class="gd">「很强但不匹配」要单独标记，避免招聘团队把时间花在错的人身上。</p>
+    </div>
+    <div>
+      <div class="gk">状态</div>
+      <div class="gt">未触达 · 已触达 · 回复 · 初筛 · 面试 · offer · 关闭</div>
+      <p class="gd">每个状态有下一步动作与日期；超过 14 天无进展自动进入「 nurture」池。</p>
+    </div>
+    <div>
+      <div class="gk">备注</div>
+      <div class="gt">动机 · 顾虑 · 竞争流程 · 薪酬预期</div>
+      <p class="gd">只记候选人在沟通中主动提供的信息；敏感信息加密/限权。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.3</span>可直接用的搜索式</h3>
+
+  <h4>LinkedIn / Google 布尔式</h4>
+  <div class="script">
+    <div class="sh">RSI 研究员</div>
+    <p><code>("recursive self-improvement" OR "self-improving" OR "self-training" OR "self-play") AND ("large language model" OR LLM OR "foundation model") AND (research OR scientist)</code></p>
+    <p><code>("AlphaEvolve" OR "Darwin Gödel Machine" OR "Absolute Zero" OR "SEAL" OR "STaR") AND (author OR researcher)</code></p>
+  </div>
+  <div class="script">
+    <div class="sh">训推工程师</div>
+    <p><code>("vLLM" OR "SGLang" OR "TensorRT-LLM" OR "Megatron" OR "DeepSpeed" OR "FlashAttention") AND ("kernel" OR "distributed training" OR "inference") AND engineer</code></p>
+    <p><code>("MFU" OR "tokens per second" OR "p99" OR "KV cache") AND (GPU OR H100 OR Ascend)</code></p>
+  </div>
+  <div class="script">
+    <div class="sh">数据工程师</div>
+    <p><code>("pretraining data" OR "data curation" OR "data mixture" OR "deduplication") AND ("trillion tokens" OR "web scale" OR "LLM") </code></p>
+    <p><code>("FineWeb" OR "Dolma" OR "DataComp" OR "RedPajama" OR "datatrove") AND (engineer OR author)</code></p>
+  </div>
+
+  <h4>GitHub 代码/提交搜索</h4>
+  <div class="script">
+    <div class="sh">按「真实做过」而不是「star 过」找人</div>
+    <p><code>repo:vllm-project/vllm path:csrc</code> — 看谁在写 CUDA/C++ 核心。</p>
+    <p><code>repo:sgl-project/sglang path:python/sglang/srt</code> — 看调度/内存管理贡献者。</p>
+    <p><code>repo:NVIDIA/Megatron-LM "parallel_state"</code> — 看并行策略改动的作者。</p>
+    <p><code>repo:huggingface/datatrove path:src</code> — 看数据处理管道的实际维护者。</p>
+    <p><code>"triton.jit" language:Python stars:&gt;10</code> — 找写 Triton kernel 的个人项目。</p>
+  </div>
+
+  <h4>Semantic Scholar / OpenAlex / arXiv API</h4>
+  <div class="script">
+    <div class="sh">引用扩散（示例端点）</div>
+    <p><code>https://api.semanticscholar.org/graph/v1/paper/search?query=recursive+self-improvement&amp;fields=title,authors,year,venue,citationCount</code></p>
+    <p><code>https://api.openalex.org/works?search=self-improving%20language%20model&amp;per-page=50</code></p>
+    <p><code>http://export.arxiv.org/api/query?search_query=all:%22self-improving%22+AND+all:LLM&amp;max_results=100</code></p>
+    <p>拿到 paper ID 后，再查 <code>/paper/{id}/citations</code> 与 <code>/paper/{id}/references</code>，做两跳扩散。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.4</span>渠道经济学：每个渠道买的是什么</h3>
+
+  <div class="tw">
+    <table>
+      <caption>渠道的「量 / 质 / 速度 / 成本」不同。经验区间，非行业统计；实际以自己历史数据为准。</caption>
+      <thead>
+        <tr><th>渠道</th><th>量</th><th>质</th><th>速度</th><th>成本</th><th>最适合</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">内推</td><td>中</td><td>高</td><td>快</td><td>2–5 万/人</td><td>所有岗位；S 级尤其靠熟人</td></tr>
+        <tr><td class="k">个性化外联</td><td>中</td><td>高</td><td>中</td><td>人力</td><td>被动候选人；S/A 级</td></tr>
+        <tr><td class="k">论文作者</td><td>低</td><td>极高</td><td>慢</td><td>人力</td><td>RSI 研究员</td></tr>
+        <tr><td class="k">开源贡献者</td><td>低–中</td><td>极高</td><td>中</td><td>人力</td><td>训推/数据；RSI 的 harness 人才</td></tr>
+        <tr><td class="k">会议/社区</td><td>中</td><td>高</td><td>季节性</td><td>低–中</td><td>建立信任、长期品牌</td></tr>
+        <tr><td class="k">猎头</td><td>中</td><td>中–高</td><td>中</td><td>年薪 20–25%</td><td>被动 senior；保密岗位</td></tr>
+        <tr><td class="k">校招</td><td>高</td><td>中（高潜）</td><td>慢</td><td>低–中</td><td>B 档 pipeline；1–3 年培养</td></tr>
+        <tr><td class="k">竞对离职/回流</td><td>低</td><td>极高</td><td>窗口期</td><td>中</td><td>所有岗位；需要持续监控</td></tr>
+        <tr><td class="k">内容/品牌</td><td>高</td><td>中</td><td>慢</td><td>中</td><td>长期降低获客成本</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.5</span>内推计划：设计「值得转发」的理由</h3>
+
+  <p>内推的有效性不取决于奖金高低，取决于<em>员工是否知道该推谁、以及推了会不会被认真对待</em>。三个设计要点：</p>
+
+  <ol class="plain">
+    <li><b>给「画像」而不是「岗位链接」。</b>员工转发 JD 的转化率极低；转发一张「我们具体在找做过 X 的人，这是他的三个信号」的卡片，转化率高得多。</li>
+    <li><b>48 小时反馈承诺。</b>内推最大的杀手是「石沉大海」。哪怕不匹配，也要在 48 小时内给推荐人一个具体理由。</li>
+    <li><b>分级奖励。</b>入职奖 + 过保奖 + S 级特别奖；对推荐人而不是候选人保密。奖金是必要条件，不是充分条件。</li>
+  </ol>
+
+  <div class="callout warnb">
+    <div class="ct">合规与隐私边界</div>
+    <p>人才地图只使用<b>公开职业信息</b>：论文、GitHub、公司官网、公开演讲、公开报道。不要购买来源不明的通讯录，不要抓取登录后才可见的数据，不要通过私人关系索取手机号/微信号。跨境招聘需注意 GDPR/PIPL 对个人数据处理的要求；候选人信息的存储、访问、删除应有明确规则。<em>招聘的专业性，首先体现在不越界。</em></p>
+  </div>
+</section>
+
+<section class="wide" id="outreach">
+  <span class="snum">10</span>
+  <h2 class="sec">触达：让顶级候选人愿意回你第一条消息</h2>
+
+  <p class="lede">顶级候选人每天收到大量模板消息。能让他回复的，不是「我们估值多少、福利多好」，而是「你具体看懂了我做的东西，并且你手里有一个我感兴趣的问题」。</p>
+
+  <h3 class="sub"><span class="subn">10.1</span>三条原则</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">原则一</div>
+      <div class="gt">具体到「那一行」</div>
+      <p class="gd">不要写「拜读了您的大作」。写「你在 X 论文第 4 节的消融里发现，去掉 Y 后 Z 反而提升，这一点和我们上周的失败结果一致」。具体性是最低的信任成本。</p>
+    </div>
+    <div>
+      <div class="gk">原则二</div>
+      <div class="gt">先给价值，再提请求</div>
+      <p class="gd">附上一份失败记录、一个 benchmark 结果、一个他可能感兴趣的内部技术问题。不要第一封就发 JD。</p>
+    </div>
+    <div>
+      <div class="gk">原则三</div>
+      <div class="gt">请求要小</div>
+      <p class="gd">「20 分钟请教」比「聊聊机会」更容易答应；「不一定聊招聘」比「我们有个岗位」更真实。降低对方的社会压力。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">10.2</span>三次触达节奏</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三次触达的节奏与目的。超过三次仍未回复，转入 nurture 池，不要骚扰。</caption>
+      <thead>
+        <tr><th>时点</th><th>渠道</th><th>内容</th><th>目的</th><th>预期回复率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">T0</td><td>邮件 / LinkedIn / X DM</td><td>具体技术钩子 + 20 分钟请求</td><td>建立「你懂我」的第一印象</td><td class="n">15–30%</td></tr>
+        <tr><td class="k">T+4 天</td><td>同一渠道</td><td>补一个技术 artifact（失败记录/benchmark/问题清单）</td><td>提供价值，降低回复成本</td><td class="n">+5–10%</td></tr>
+        <tr><td class="k">T+10 天</td><td>同一渠道</td><td>低压力收尾：不回复也没关系，欢迎推荐同事</td><td>保留未来窗口</td><td class="n">+2–5%</td></tr>
+        <tr><td class="k">T+30 天</td><td>CRM nurture</td><td>新论文/新融资/新版本时再触达</td><td>等待下一个窗口</td><td class="n">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">10.3</span>可直接改的脚本</h3>
+
+  <div class="script">
+    <div class="sh">RSI 研究员 · 中文</div>
+    <p>X 老师，我是 Y 公司的 Z，在做 [具体方向]。看到你在 [论文/项目] 里用 [具体方法] 处理 [具体问题]，尤其是 [一个细节，例如：用执行结果做 verifier、把任务生成和策略更新分开]，我们最近正好卡在 [具体瓶颈，例如：合成任务第 3 轮后多样性塌缩]。</p>
+    <p>想约 20 分钟请教这个问题，不一定是招聘。作为交换，我可以把我们这周的失败记录（含 3 组消融和成本）先发你。如果更方便，也可以约个异步问答。</p>
+  </div>
+
+  <div class="script">
+    <div class="sh">RSI 研究员 · 英文</div>
+    <p>Hi X — I'm Z at Y, working on [specific area]. I read your work on [paper], especially [specific detail]. We're hitting [specific bottleneck] and your result on [X] looks directly relevant. Would you be open to a 20-minute conversation? Not a pitch — I'd value your take on [specific tradeoff]. Happy to share our failure notes first.</p>
+  </div>
+
+  <div class="script">
+    <div class="sh">训推工程师 · 中文</div>
+    <p>X 你好，我是 Y 公司的 Z。看到你在 [repo] 的 [PR/commit] 把 [指标，例如：decode 阶段的 KV cache 占用] 从 A 降到了 B，尤其是 [具体做法]。我们正在 [规模，例如：2,048 卡] 上做 [训练/推理]，遇到 [具体问题，例如：PD 分离后 prefill 抖动导致 p99 超标]。</p>
+    <p>想约 30 分钟请教，顺便聊聊我们正在搭的 [集群/引擎]。如果你愿意，我可以先把我们的 profiling 数据发你。</p>
+  </div>
+
+  <div class="script">
+    <div class="sh">训推工程师 · 英文</div>
+    <p>Hi X — I saw your PR in [repo] that took [metric] from A to B. We're running [scale] and struggling with [specific issue]. Would you be up for a 30-minute technical conversation? I can share our profiling traces beforehand. Not a recruiter blast — I'm the hiring manager for this area.</p>
+  </div>
+
+  <div class="script">
+    <div class="sh">数据工程师 · 中文</div>
+    <p>X 你好，我是 Y 公司的 Z。看到你做的 [数据集/过滤器/去重方案]，特别是 [具体细节，例如：用分类器分数和规则做双阈值、保留了数学样本的召回]。我们在 [token 量] 的预训练数据上遇到 [具体问题，例如：去重阈值一调高，代码题就掉点]。</p>
+    <p>想约 20 分钟请教这个 trade-off，不一定是招聘。我们可以把最近的消融结果发你，也想听听你们当时怎么定阈值。</p>
+  </div>
+
+  <div class="script">
+    <div class="sh">数据工程师 · 英文</div>
+    <p>Hi X — I'm Z at Y. Your work on [dataset/filter] caught my eye, especially [detail]. We're curating [token scale] and seeing [specific issue]. Would you be open to a short conversation about how you set the tradeoff? Happy to share our ablation results first.</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">10.4</span>异议处理：他为什么不回/不来</h3>
+
+  <div class="tw">
+    <table>
+      <caption>顶级候选人最常见的七个异议。核心不是「说服」，而是「找到真实顾虑并判断能否解决」。</caption>
+      <thead>
+        <tr><th>异议</th><th>真实含义</th><th>回应策略</th><th>不要做什么</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">「现在不考虑机会」</td><td>没看到足够好的理由，或不想冒险</td><td>降低请求（20 分钟请教）；给一个具体技术问题；请其推荐同事</td><td>追问「为什么」；发 JD</td></tr>
+        <tr><td class="k">「太忙了」</td><td>优先级不在你这里</td><td>异步问答、约周末、先发材料；给明确的时间盒</td><td>反复约同一时间</td></tr>
+        <tr><td class="k">「钱不够」</td><td>可能只是表面理由；也可能是真实缺口</td><td>先问「除了钱，还有什么会让你犹豫」；用签字费/股权/算力组合解决</td><td>立刻加价；破坏带宽</td></tr>
+        <tr><td class="k">「地点/签证」</td><td>家庭、身份、生活成本</td><td>远程/relocation/签证支持/分部；给具体时间表</td><td>含糊承诺「都可以谈」</td></tr>
+        <tr><td class="k">「公司太小/风险」</td><td>担心跑道、算力、团队</td><td>给 runway、算力、投资人、团队的具体事实；允许他和创始人/核心 IC 聊</td><td>只讲愿景</td></tr>
+        <tr><td class="k">「我在做自己的项目」</td><td>不想放弃所有权/自由度</td><td>顾问、访问学者、residency、联合项目；尊重边界</td><td>逼他二选一</td></tr>
+        <tr><td class="k">「竞业/离职周期」</td><td>法律或现实约束</td><td>给 start date 弹性；法务提前评估；签字费覆盖空窗</td><td>让他自己冒险</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout goodb">
+    <div class="ct">一个提高回复率的小动作</div>
+    <p>在邮件末尾加一句：<b>「如果你现在不方便，能否推荐一位你觉得更适合这个问题的同事？」</b>顶级人才往往不愿意自己动，但愿意推荐别人；这条推荐链的转化率，通常比冷邮件高 3–5 倍。</p>
+  </div>
+</section>
+
+<section class="wide" id="process">
+  <span class="snum">11</span>
+  <h2 class="sec">面试评估流程：用五轮判断，而不是用感觉判断</h2>
+
+  <p class="lede">面试的目标不是「了解这个人」，而是「在有限信息下做出可复盘的 hiring 决策」。流程的设计标准只有两个：<em>每一轮都能独立提供决策信息</em>，以及<em>任何一个面试官都不能凭感觉一票否决</em>。</p>
+
+  <h3 class="sub"><span class="subn">11.1</span>漏斗与 SLA</h3>
+
+  <div class="tw">
+    <table>
+      <caption>标准漏斗。通过率为经验区间，需按公司品牌与岗位稀缺度校准。</caption>
+      <thead>
+        <tr><th>阶段</th><th>时长</th><th>谁参与</th><th>回答的问题</th><th>目标通过率</th><th>SLA</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">0 · 校准</td><td>30 min</td><td>用人经理 + 招聘负责人</td><td>这个席位到底要解决什么问题？S/A/B 的边界？</td><td>—</td><td>启动前</td></tr>
+        <tr><td class="k">1 · 证据审</td><td>20 min</td><td>招聘 + 1 名技术</td><td>论文/代码/项目是否值得进入？</td><td class="n">30–50%</td><td>48h</td></tr>
+        <tr><td class="k">2 · 电话筛</td><td>30 min</td><td>用人经理或资深 IC</td><td>是否真做过闭环？动机/时间/地点是否可行？</td><td class="n">40–60%</td><td>5 天</td></tr>
+        <tr><td class="k">3 · 技术 screen</td><td>60 min</td><td>资深 IC</td><td>深度是否够？能否独立解决问题？</td><td class="n">30–40%</td><td>7 天</td></tr>
+        <tr><td class="k">4 · Work sample</td><td>4–8h（付费）</td><td>候选人独立完成</td><td>真实任务下的工程质量与判断</td><td class="n">50–70%</td><td>7 天</td></tr>
+        <tr><td class="k">5 · Onsite</td><td>4–5 × 45–60 min</td><td>跨团队 panel + bar raiser</td><td>多维度证据；是否存在硬伤</td><td class="n">20–30%</td><td>10 天</td></tr>
+        <tr><td class="k">6 · Debrief</td><td>60 min</td><td>全体面试官</td><td>hire / no-hire / level</td><td>—</td><td>48h</td></tr>
+        <tr><td class="k">7 · Reference</td><td>2–3 × 20 min</td><td>招聘负责人/用人经理</td><td>验证独立性与协作；发现盲点</td><td>—</td><td>5 天</td></tr>
+        <tr><td class="k">8 · Offer</td><td>—</td><td>用人经理 + 创始人（S）</td><td>close</td><td class="n">50–70%</td><td>3 天</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">11.2</span>三个岗位的 loop 设计</h3>
+
+  <div class="tw">
+    <table>
+      <caption>每个 loop 的面试官应来自不同团队，且至少有一名与候选人未来工作直接相关。避免同一人重复考同一维度。</caption>
+      <thead>
+        <tr><th>轮次</th><th>RSI 研究员</th><th>训推工程师</th><th>数据工程师</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">1 · 深度</td><td>研究深挖：代表作 + 贡献颗粒度 + 失败复盘（60）</td><td>系统深挖：集群/指标/架构 trade-off（60）</td><td>数据深挖：规模/质量/配方/下游（60）</td></tr>
+        <tr><td class="k">2 · 设计</td><td>闭环设计：无便宜验证器的领域，如何构造 loop（60）</td><td>训练/推理设计：给定模型与集群做方案（60）</td><td>数据管道设计：10T token 端到端（60）</td></tr>
+        <tr><td class="k">3 · 动手</td><td>Harness/评测编码：实现一个小型 loop 组件（60）</td><td>排障/内核：真实 trace 定位或 kernel 优化（60）</td><td>编码/SQL：大规模数据处理与质量实验（45–60）</td></tr>
+        <tr><td class="k">4 · 判断</td><td>评测与归因：如何证明改进来自方法（45）</td><td>成本与容量：$/1M tokens、SLO、故障恢复（45）</td><td>质量与合规：污染、PII、许可、lineage（45）</td></tr>
+        <tr><td class="k">5 · 协作</td><td>跨职能案例：与 infra/data 冲突时怎么办（45）</td><td>跨职能案例：研究 vs 稳定的 trade-off（45）</td><td>跨职能案例：研究员要「更多数据」时怎么判断（45）</td></tr>
+        <tr><td class="k">6 · Bar raiser</td><td>独立判断：是否长期拉高团队 bar（45）</td><td>同左</td><td>同左</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">11.3</span>Work sample：付费、真实、可复现</h3>
+
+  <p>Work sample 是三个岗位最有效的预测器，但设计不好会变成「免费咨询」或「考记忆力」。四条规则：</p>
+
+  <ol class="plain">
+    <li><b>付费。</b>按候选人日薪的 1–1.5 倍支付；既是对专业的尊重，也避免法律与雇主品牌风险。</li>
+    <li><b>真实但脱敏。</b>用你们真实遇到的问题，去掉敏感数据与商业机密；不要用「教科书题」。</li>
+    <li><b>限时 4–8 小时，给 7 天窗口。</b>考的是判断与工程，不是熬夜能力。</li>
+    <li><b>评过程，不只评答案。</b>要求提交：假设、方案、取舍、失败尝试、下一步。面试时用 20 分钟追问。</li>
+  </ol>
+
+  <div class="grid3">
+    <div><div class="gk">RSI work sample</div><div class="gt">给一个领域 + 一个验证器，设计 3 轮 loop</div><p class="gd">提供 100 条样本、一个可执行 evaluator、固定预算；要求给出每轮的任务生成、过滤、训练/更新方案与预期成本。</p></div>
+    <div><div class="gk">训推 work sample</div><div class="gt">给一段慢的训练/推理 trace，定位并优化</div><p class="gd">提供 profiler 数据与代码；要求找出 top 3 瓶颈、给出优化方案、估算端到端收益与风险。</p></div>
+    <div><div class="gk">数据 work sample</div><div class="gt">给 1GB 脏数据 + 一个下游任务，做清洗与配比</div><p class="gd">要求交付可复现脚本、质量指标、消融设计与成本估算；不追求跑完，追求思路。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">11.4</span>候选人体验就是雇主品牌</h3>
+
+  <ul class="plain">
+    <li><b>48 小时反馈</b>：无论通过与否，给具体理由；顶级候选人的圈子很小，坏体验会传播。</li>
+    <li><b>一个联系人</b>：从 first touch 到 offer，候选人只需要找一个人。</li>
+    <li><b>不重复问</b>：panel 之间共享简历与上一轮记录；重复问同一问题是专业度的大扣分。</li>
+    <li><b>给准备材料</b>：面试前告知轮次、面试官背景、考察维度；这不是放水，是让候选人展示真实水平。</li>
+    <li><b>尊重时间</b>：准时开始、准时结束；S 级候选人的时间成本极高。</li>
+  </ul>
+</section>
+
+<section class="wide" id="scorecard">
+  <span class="snum">12</span>
+  <h2 class="sec">评分卡与题库：把「感觉不错」变成可比较的证据</h2>
+
+  <p class="lede">评分卡的作用不是给候选人打分，而是<em>强迫面试官把证据和判断分开</em>。先写证据，再写分数；先独立提交，再集体讨论。</p>
+
+  <h3 class="sub"><span class="subn">12.1</span>维度与权重</h3>
+
+  <div class="tw">
+    <table>
+      <caption>三个岗位的评分维度与权重。权重不是绝对的，但要在 loop 启动前定好，不能事后调整。</caption>
+      <thead>
+        <tr><th>维度</th><th>RSI 研究员</th><th>训推工程师</th><th>数据工程师</th><th>看什么</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">技术深度</td><td class="n">25%</td><td class="n">30%</td><td class="n">20%</td><td>在本领域的真实深度；能否追到原理与边界</td></tr>
+        <tr><td class="k">问题定义 / 品味</td><td class="n">25%</td><td class="n">10%</td><td class="n">15%</td><td>是否选对问题；能否识别伪问题；有没有自己的判断</td></tr>
+        <tr><td class="k">工程与执行</td><td class="n">20%</td><td class="n">25%</td><td class="n">30%</td><td>能否独立交付；代码/管道/实验的质量</td></tr>
+        <tr><td class="k">实证 rigor</td><td class="n">15%</td><td class="n">10%</td><td class="n">20%</td><td>归因、消融、统计、污染控制；是否区分相关与因果</td></tr>
+        <tr><td class="k">协作与沟通</td><td class="n">10%</td><td class="n">15%</td><td class="n">10%</td><td>能否跨团队工作；能否把复杂问题讲清楚</td></tr>
+        <tr><td class="k">使命与价值观</td><td class="n">5%</td><td class="n">10%</td><td class="n">5%</td><td>是否认同公司方向；是否诚实、能接受反驳</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">12.2</span>1–5 分锚点</h3>
+
+  <div class="tw">
+    <table>
+      <caption>统一锚点，避免「我觉得他是 4 分」的漂移。评分必须附一条具体证据。</caption>
+      <thead>
+        <tr><th>分数</th><th>含义</th><th>证据标准</th><th>决策含义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">5</td><td>显著高于团队现有水平</td><td>有规模、有结果、有归因；能教我们东西；在不确定中做出过正确判断</td><td>强 yes；值得破格</td></tr>
+        <tr><td class="k">4</td><td>高于 bar</td><td>独立交付过类似问题；有清晰 trade-off；少量盲区可在 3 个月内补</td><td>yes</td></tr>
+        <tr><td class="k">3</td><td>达到 bar</td><td>有相关经验但规模/深度不足；需要 6 个月 ramp</td><td>视岗位层级与 pipeline 决定</td></tr>
+        <tr><td class="k">2</td><td>低于 bar</td><td>只懂概念；无法独立；关键维度有明显缺口</td><td>no</td></tr>
+        <tr><td class="k">1</td><td>明确不合格</td><td>证据造假、沟通失效、价值观冲突</td><td>强 no</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">12.3</span>RSI 研究员 · Onsite 题库</h3>
+
+  <div class="qbank">
+    <div class="q"><div class="qt">选一个没有便宜验证器的领域（例如法律写作），设计一个能跑 3 轮的自我改进 loop。验证器是什么？成本多少？</div><div class="qa"><b>好：</b>先承认验证器是瓶颈；用专家 rubric + 少量人类标注 + 对抗样本；给出每轮成本与衰减预期。<b>红旗：</b>直接说「用 GPT-4 打分」；不讨论可靠性。</div></div>
+    <div class="q"><div class="qt">你的 loop 在 eval 上涨了，但在一个隐藏的 held-out 上掉了。你怎么发现、怎么修？</div><div class="qa"><b>好：</b>有独立 eval、污染检测、分布偏移分析；能区分过拟合与真实退化。<b>红旗：</b>「再调一下 prompt」。</div></div>
+    <div class="q"><div class="qt">讲一个你亲眼见过的 reward hacking，以及你怎么修的。</div><div class="qa"><b>好：</b>具体到行为、指标、修复后的副作用；有对抗测试。<b>红旗：</b>只讲教科书例子。</div></div>
+    <div class="q"><div class="qt">512 张 H100、8 周，把代码能力提升 X。设计实验；什么结果会让你放弃这个假设？</div><div class="qa"><b>好：</b>先做最小可证伪实验；有 baseline、算力分母、停止条件。<b>红旗：</b>上来就排训练计划，没有假设。</div></div>
+    <div class="q"><div class="qt">数据、RL、test-time compute，预算有限时你怎么排序？</div><div class="qa"><b>好：</b>按边际收益/成本排序；知道三者的交互；能引用自己的数据。<b>红旗：</b>「都重要」。</div></div>
+    <div class="q"><div class="qt">怎么设计任务生成器，保证多样性和难度递进？</div><div class="qa"><b>好：</b>有覆盖度指标、去重、难度分层、人工抽检；知道 mode collapse。<b>红旗：</b>只靠 prompt 让模型「多生成一些」。</div></div>
+    <div class="q"><div class="qt">怎么证明改进来自方法，而不是更多算力/数据？设计一个归因实验。</div><div class="qa"><b>好：</b>控制变量、等算力 baseline、消融、多 seed；有统计显著性。<b>红旗：</b>只看最终分数。</div></div>
+    <div class="q"><div class="qt">loop 从 7B 放大到 70B，哪里会先坏？</div><div class="qa"><b>好：</b>验证器成本、rollout 吞吐、训练稳定性、数据污染、评测失效。<b>红旗：</b>「scale 就好了」。</div></div>
+    <div class="q"><div class="qt">怎么保证 evaluator 独立于 policy？如果必须是同一个模型，怎么办？</div><div class="qa"><b>好：</b>独立模型/人类/规则；隔离训练数据；对抗校准；知道自评偏差。<b>红旗：</b>不认为这是问题。</div></div>
+    <div class="q"><div class="qt">有什么是你明确不会自动化的？为什么？</div><div class="qa"><b>好：</b>有边界感；知道安全、价值判断、不可验证领域的风险。<b>红旗：</b>「一切都可以自动化」。</div></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">12.4</span>训推工程师 · Onsite 题库</h3>
+
+  <div class="qbank">
+    <div class="q"><div class="qt">100B MoE，2,048 张卡，设计训练方案：并行策略、显存、通信、MFU 预估。</div><div class="qa"><b>好：</b>从模型/集群参数推导；知道 EP/TP/PP/DP 的取舍；给出瓶颈与验证方法。<b>红旗：</b>直接套 Megatron 默认配置。</div></div>
+    <div class="q"><div class="qt">训练到 12k step，grad norm 尖刺然后 NaN。给你日志和 trace，怎么定位？</div><div class="qa"><b>好：</b>系统化二分：数据、学习率、数值精度、某层、通信；有复现与防复发。<b>红旗：</b>「降学习率」。</div></div>
+    <div class="q"><div class="qt">写一个 KV cache 或 softmax 的 kernel，讲 roofline 位置与优化点。</div><div class="qa"><b>好：</b>理解内存带宽/计算密度；会做 fusion/tiling；能测端到端。<b>红旗：</b>只会调库。</div></div>
+    <div class="q"><div class="qt">10k QPS、32k 上下文、p99 &lt; 2s，设计推理服务；成本目标 $/1M tokens。</div><div class="qa"><b>好：</b>容量规划、批处理、KV 管理、PD 分离、量化、降级策略。<b>红旗：</b>只说「上 vLLM」。</div></div>
+    <div class="q"><div class="qt">FP8/INT4/AWQ 怎么选？精度怎么评估？</div><div class="qa"><b>好：</b>按模型/硬件/任务；有 eval 与回退；知道校准数据偏差。<b>红旗：</b>「量化都会掉点，凭感觉」。</div></div>
+    <div class="q"><div class="qt">投机解码什么时候有效、什么时候反而更慢？</div><div class="qa"><b>好：</b>看接受率、batch、任务分布、草稿模型成本。<b>红旗：</b>「总是更快」。</div></div>
+    <div class="q"><div class="qt">PD 分离的收益与代价？什么场景不该做？</div><div class="qa"><b>好：</b>理解 prefill/decode 的资源差异；KV 传输成本；小规模/低并发不划算。<b>红旗：</b>追热点。</div></div>
+    <div class="q"><div class="qt">RL rollout 用同步还是异步？权重怎么同步？straggler 怎么处理？</div><div class="qa"><b>好：</b>知道 on-policy 偏差、吞吐、staleness、容错。<b>红旗：</b>没做过 RL infra。</div></div>
+    <div class="q"><div class="qt">集群容量规划：故障率、checkpoint 成本、有效训练天数怎么估？</div><div class="qa"><b>好：</b>有数字模型；知道 checkpoint 频率与故障成本的权衡。<b>红旗：</b>「多买卡」。 </div></div>
+    <div class="q"><div class="qt">512 卡 NCCL hang，怎么二分定位？</div><div class="qa"><b>好：</b>按节点/交换机/rank/集合通信操作二分；看日志与拓扑；有防复发。<b>红旗：</b>「重启」。</div></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">12.5</span>数据工程师 · Onsite 题库</h3>
+
+  <div class="qbank">
+    <div class="q"><div class="qt">设计一个 10T token 的端到端数据管道：获取、解析、去重、质量、配比、版本。</div><div class="qa"><b>好：</b>每层的吞吐/成本/失败模式；存储格式；lineage；人工抽检。<b>红旗：</b>只列工具名。</div></div>
+    <div class="q"><div class="qt">MinHash、SimHash、embedding 去重怎么选？阈值怎么定？误杀怎么评估？</div><div class="qa"><b>好：</b>按数据类型/规模/召回要求；有黄金集与下游消融。<b>红旗：</b>照搬默认参数。</div></div>
+    <div class="q"><div class="qt">设计一个质量分类器：标签从哪来、怎么校准、怎么防漂移？</div><div class="qa"><b>好：</b>弱监督 + 人工黄金集；precision/recall；定期重训；下游验证。<b>红旗：</b>「用 GPT-4 打分就行」。</div></div>
+    <div class="q"><div class="qt">算力有限，怎么设计数据配比消融？</div><div class="qa"><b>好：</b>小模型代理、控制变量、多 seed、按阶段；知道代理与外推的局限。<b>红旗：</b>直接全量训。</div></div>
+    <div class="q"><div class="qt">合成数据第几轮开始没用？怎么测？</div><div class="qa"><b>好：</b>多样性/重复率/验证器/下游曲线；知道 model collapse。<b>红旗：</b>「越多越好」。</div></div>
+    <div class="q"><div class="qt">怎么检测训练集与 eval 的污染？发现后怎么补救？</div><div class="qa"><b>好：</b>n-gram/embedding/损失异常；隔离、重采、重跑；流程防复发。<b>红旗：</b>只做字符串匹配。</div></div>
+    <div class="q"><div class="qt">PII、版权、许可怎么处理？法务怎么协作？</div><div class="qa"><b>好：</b>分级、来源追踪、过滤、合同约束；知道不同司法辖区差异。<b>红旗：</b>「先用了再说」。</div></div>
+    <div class="q"><div class="qt">设计数据 lineage：schema、版本、可复现、审计。</div><div class="qa"><b>好：</b>内容哈希、配置版本、代码版本、父数据集；能回答「这个 run 用了什么」。<b>红旗：</b>只存路径。</div></div>
+    <div class="q"><div class="qt">产品日志怎么做数据飞轮？隐私、采样、标注怎么处理？</div><div class="qa"><b>好：</b>脱敏、采样偏差、反馈闭环、质量评估。<b>红旗：</b>直接拿用户数据训。</div></div>
+    <div class="q"><div class="qt">研究员说「给我更多数据」，你怎么判断该不该给？</div><div class="qa"><b>好：</b>先问 eval 缺口与假设；用小实验验证边际收益；敢说 no。<b>红旗：</b>无条件满足。</div></div>
+  </div>
+</section>
+
+<section class="wide" id="decision">
+  <span class="snum">13</span>
+  <h2 class="sec">决策：debrief、bar raiser 与背景调查</h2>
+
+  <p class="lede">大多数招聘错误不是发生在面试，而是发生在「讨论之后」：最先发言的人定调、最有权威的人压场、最想招人的经理把 3 分说成 4 分。用制度把这些噪音隔离掉。</p>
+
+  <h3 class="sub"><span class="subn">13.1</span>Debrief 的四条规则</h3>
+
+  <ol class="plain">
+    <li><b>先独立书面提交，再开口。</b>每位面试官在讨论前提交：分数、三条证据、一条风险、hire/no-hire。主持人汇总后才开始讨论。</li>
+    <li><b>先证据，后判断。</b>每个人先说「我看到了什么」，再说「我怎么打分」；不允许先说结论再找理由。</li>
+    <li><b>用人经理最后发言。</b>避免经理的偏好锚定其他人；经理可以补充信息，但不能改写别人的证据。</li>
+    <li><b>记录反对意见。</b>debrief 记录里必须保留至少一条最强反对意见及其回应；这既是决策质量，也是未来复盘的材料。</li>
+  </ol>
+
+  <h3 class="sub"><span class="subn">13.2</span>Bar raiser：独立的一票</h3>
+
+  <p>Bar raiser 不是「最后一轮面试官」，而是一个<em>对长期招聘标准负责、与岗位没有直接利益</em>的人。职责与权限：</p>
+
+  <div class="grid3">
+    <div><div class="gk">选谁</div><div class="gt">跨团队资深 IC 或管理者</div><p class="gd">不向用人经理汇报；受过评分卡训练；理解岗位，但不急于填坑。</p></div>
+    <div><div class="gk">考什么</div><div class="gt">长期 bar，不是即时匹配</div><p class="gd">这个人 12 个月后是否仍高于团队中位数？是否会拉高而不是稀释标准？</p></div>
+    <div><div class="gk">权限</div><div class="gt">可以否决，但不能单独录用</div><p class="gd">强 no 即终止；强 yes 不能绕过其他面试官的硬伤。防止 bar raiser 变成「超级面试官」。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">13.3</span>决策规则</h3>
+
+  <div class="tw">
+    <table>
+      <caption>用规则减少「讨论到最后一刻靠感觉」。规则要在 loop 启动前达成一致。</caption>
+      <thead>
+        <tr><th>情形</th><th>决策</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">≥ 3 个 4/5 分，无 1/2 分</td><td><span class="chip ok">Hire</span></td><td>进入 level 校准与 reference</td></tr>
+        <tr><td class="k">多数 4 分，但有 1 个 2 分在「must-have」维度</td><td><span class="chip no">No-hire</span></td><td>must-have 的一票否决，不用「其他方面很强」抵消</td></tr>
+        <tr><td class="k">全部 3 分</td><td><span class="chip mid">视 pipeline</span></td><td>只有在「没有更好候选人 + 岗位可培养」时录用；需记录理由</td></tr>
+        <tr><td class="k">Bar raiser 强 no</td><td><span class="chip no">No-hire</span></td><td>除非 bar raiser 改变判断，否则终止</td></tr>
+        <tr><td class="k">证据冲突（有人说 5，有人说 2）</td><td><span class="chip mid">补面</span></td><td>针对冲突维度加一轮；不要用平均分掩盖</td></tr>
+        <tr><td class="k">level 争议</td><td><span class="chip mid">按证据定级</span></td><td>用 level rubric 逐条对照；不按候选人当前 title 或薪资倒推</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">13.4</span>背景调查：三个问题</h3>
+
+  <p>背景调查不是「确认履历真假」，而是「验证独立性与协作」。找 2–3 位候选人提供之外的 back-channel（前同事、合作者），每个电话 20 分钟，问三个问题：</p>
+
+  <blockquote>
+    ① 你会放心把什么规模的系统/方向交给他独立负责？为什么？<br>
+    ② 他最近一次失败或判断错误是什么？他当时怎么处理的？<br>
+    ③ 如果明天有机会，你还会和他一起工作吗？为什么？
+    <cite>三个问题分别验证：能力边界、失败模式、协作口碑</cite>
+  </blockquote>
+
+  <p>注意：只问与工作相关的公开职业信息；不做背景歧视；不追问与岗位无关的私人信息。Reference 的结论要写成「证据 + 判断」，不要只写「评价很好」。</p>
+
+  <h3 class="sub"><span class="subn">13.5</span>六种常见误判</h3>
+
+  <div class="grid2">
+    <div><div class="gk">01 · 光环效应</div><div class="gt">论文/名校/大厂品牌</div><p class="gd">把「被机构筛选过」当成「能独立交付」。解法：只认候选人在面试中展示的证据，不认标签。</p></div>
+    <div><div class="gk">02 · 相似性偏差</div><div class="gt">「和我很像」</div><p class="gd">面试官更容易给背景相似的人高分。解法：结构化评分卡 + 多元 panel。</p></div>
+    <div><div class="gk">03 · 紧迫性偏差</div><div class="gt">「岗位空了三个月」</div><p class="gd">把 3 分说成 4 分。解法：预先设定「宁缺毋滥」的硬规则，空缺成本单独核算。</p></div>
+    <div><div class="gk">04 · 表达力偏差</div><div class="gt">会讲的人显得更强</div><p class="gd">RSI 尤其是重灾区。解法：work sample + 代码 + 具体数字，降低演讲权重。</p></div>
+    <div><div class="gk">05 · 唯一候选人</div><div class="gt">「只有他愿意来」</div><p class="gd">把可得性当成质量。解法：持续 pipeline，任何岗位至少有 2 个可比较的 finalist。</p></div>
+    <div><div class="gk">06 · 权威压制</div><div class="gt">创始人/VP 一开口</div><p class="gd">其他人改分。解法：先书面提交；创始人最后发言；记录异议。</p></div>
+  </div>
+</section>
+
+<section class="wide" id="offer">
+  <span class="snum">14</span>
+  <h2 class="sec">Offer 设计：用结构解决不确定性，而不是用数字解决一切</h2>
+
+  <p class="lede">顶级候选人对 offer 的判断，不是「总包多少」，而是「这个包在最坏情况下值多少、我什么时候能拿到、公司凭什么兑现」。Offer 设计的第一原则是<em>可解释</em>，第二才是<em>有竞争力</em>。</p>
+
+  <h3 class="sub"><span class="subn">14.1</span>薪酬哲学：三句话</h3>
+
+  <ol class="plain">
+    <li><b>为稀缺性付溢价，不为资历付溢价。</b>S 级候选人按替代 offer 定价；A 级按带宽上限；B 级按带宽中位。</li>
+    <li><b>现金买安全感，股权买上行，签字费买转换成本。</b>三者解决的是不同问题，不要用一个大数字混在一起谈。</li>
+    <li><b>例外要有记录，但不要有秘密。</b>例外审批必须写清「为什么这个人值」，并在小范围内可解释；否则会侵蚀带宽的公信力。</li>
+  </ol>
+
+  <h3 class="sub"><span class="subn">14.2</span>Offer 结构</h3>
+
+  <div class="tw">
+    <table>
+      <caption>中国市场的常见结构。海外/跨国招聘需按当地税制、签证与股权工具调整。</caption>
+      <thead>
+        <tr><th>组成部分</th><th>常见形式</th><th>解决什么</th><th>谈判弹性</th><th>注意</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">基本工资</td><td>月薪 × 12–16</td><td>稳定的现金流</td><td>中</td><td>影响社保、公积金、离职补偿基数</td></tr>
+        <tr><td class="k">绩效奖金</td><td>0–6 个月，按季度/年度</td><td>短期激励</td><td>低–中</td><td>不要用「保证奖金」掩盖低 base</td></tr>
+        <tr><td class="k">期权/RSU</td><td>4 年成熟，1 年 cliff，按月；行权价按最近一轮估值/公允价值</td><td>长期上行与留人</td><td>高</td><td>必须讲清估值、稀释、回购、离职条款</td></tr>
+        <tr><td class="k">签字费</td><td>一次性，可能带 12 个月 clawback</td><td>补偿未归属股权/空窗/搬家</td><td>高</td><td>比加 base 更不破坏带宽</td></tr>
+        <tr><td class="k">搬家/住房</td><td>一次性 + 12–24 个月补贴</td><td>降低迁移摩擦</td><td>中</td><td>一线城市与海外迁移差异大</td></tr>
+        <tr><td class="k">签证/身份</td><td>律师费、加急费、配偶/子女</td><td>解决后顾之忧</td><td>低</td><td>时间表要写清楚，不要含糊</td></tr>
+        <tr><td class="k">研究预算</td><td>算力配额、会议、设备、数据</td><td>对 RSI/训推尤其重要</td><td>中–高</td><td>写进 offer letter 或 side letter</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.3</span>带宽示例：只用于设计，不是报价</h3>
+
+  <div class="tw">
+    <table>
+      <caption>中国市场、早期到成长期公司的带宽设计示例。期权比例为 4 年授予、按最近一轮估值计算的纸面价值；实际价值需扣除流动性折价与稀释。所有数字都必须按公司阶段重算。</caption>
+      <thead>
+        <tr><th>岗位 / 档位</th><th class="n">现金年包（万元）</th><th class="n">期权（4 年，%）</th><th class="n">签字费（万元）</th><th class="n">总包量级（万元/年，纸面）</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">RSI · S</td><td class="n">180–350</td><td class="n">0.3–1.0</td><td class="n">50–150</td><td class="n">500–1,000+</td><td>创始人亲自 close；例外审批</td></tr>
+        <tr><td class="k">RSI · A</td><td class="n">90–180</td><td class="n">0.1–0.3</td><td class="n">20–60</td><td class="n">200–450</td><td>带宽上限；可用签字费补差</td></tr>
+        <tr><td class="k">训推 · S</td><td class="n">120–250</td><td class="n">0.1–0.5</td><td class="n">30–100</td><td class="n">300–700</td><td>按集群规模与指标定价</td></tr>
+        <tr><td class="k">训推 · A</td><td class="n">80–150</td><td class="n">0.05–0.15</td><td class="n">10–30</td><td class="n">150–300</td><td>市场供给紧张，速度是关键</td></tr>
+        <tr><td class="k">数据 · S</td><td class="n">80–150</td><td class="n">0.05–0.2</td><td class="n">10–40</td><td class="n">150–300</td><td>常被低估；要用「配方权」吸引</td></tr>
+        <tr><td class="k">数据 · A</td><td class="n">50–90</td><td class="n">0.02–0.08</td><td class="n">5–20</td><td class="n">80–180</td><td>警惕被电商/量化用现金挖走</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">不要直接使用这张表</div>
+    <p>同样的「0.3% 期权」，在 10 亿美元估值公司值 300 万美元，在 100 亿人民币估值公司值 3,000 万人民币，在零外部融资公司可能一文不值。报价前必须重算三件事：<b>最近一轮估值与每股价格</b>、<b>期权池剩余比例与稀释</b>、<b>回购/变现的历史与承诺</b>。否则你卖的是一个自己都算不清的数字。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.4</span>股权说明：候选人一定会问的三个问题</h3>
+
+  <div class="grid3">
+    <div>
+      <div class="gk">问题一</div>
+      <div class="gt">「现在值多少？」</div>
+      <p class="gd">给出：授予数量、行权价、最近一轮估值、纸面价值、稀释假设。不要只给百分比；百分比在不同估值下含义完全不同。</p>
+    </div>
+    <div>
+      <div class="gk">问题二</div>
+      <div class="gt">「什么时候能卖？」</div>
+      <p class="gd">给出：IPO/并购/老股转让/公司回购的历史与计划；如果没有流动性路径，要诚实说「目前没有」。</p>
+    </div>
+    <div>
+      <div class="gk">问题三</div>
+      <div class="gt">「公司死了怎么办？」</div>
+      <p class="gd">给出：清算优先权、普通股顺序、行权窗口、回购条款。不要用「不会死」回答。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.5</span>谈判的七条规则</h3>
+
+  <ol class="plain">
+    <li><b>先问期望，不先报价。</b>「你目前在看的机会，总包大概在什么区间？」比你先给一个数字更有利。</li>
+    <li><b>只在两个维度上让步。</b>例如 base + 签字费，或股权 + 算力；不要每个维度都给一点，否则候选人会继续要。</li>
+    <li><b>用签字费解决现金缺口，用股权解决长期。</b>签字费不破坏带宽，也不影响团队内部的薪酬结构。</li>
+    <li><b>不做虚假 urgency。</b>「这个 offer 明天过期」会失去顶级候选人；给 7–10 天，并愿意配合对方的流程。</li>
+    <li><b>不盲目匹配 counteroffer。</b>候选人拿原公司 counteroffer 时，先问「除了钱，什么变了？」；如果只是钱，他大概率还会走。</li>
+    <li><b>所有承诺书面化。</b>算力配额、汇报线、title、远程安排、研究预算，写进 offer letter 或 side letter；口头承诺是未来的纠纷。</li>
+    <li><b>例外要记录，不要传播。</b>例外审批写清理由；不要在团队内公开谁拿了多少，但要对薪酬公平性做定期审计。</li>
+  </ol>
+
+  <h3 class="sub"><span class="subn">14.6</span>可交换的筹码</h3>
+
+  <div class="tw">
+    <table>
+      <caption>当现金到顶时，还有什么可以交换。顶级候选人往往更在意右列。</caption>
+      <thead>
+        <tr><th>筹码</th><th>成本</th><th>对谁有效</th><th>怎么给</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">算力配额</td><td>中–高</td><td>RSI、训推</td><td>写进 side letter：每月 GPU-hours、优先级、集群规模</td></tr>
+        <tr><td class="k">数据访问</td><td>中</td><td>RSI、数据</td><td>明确可访问的数据集、日志、标注预算</td></tr>
+        <tr><td class="k">研究方向</td><td>低</td><td>RSI</td><td>20% 自由探索时间；独立发表政策</td></tr>
+        <tr><td class="k">汇报线</td><td>低</td><td>所有</td><td>直接向创始人/CTO 汇报；或独立 pod</td></tr>
+        <tr><td class="k">Title</td><td>低</td><td>所有</td><td>不要用 title 代替钱，但对某些人有效</td></tr>
+        <tr><td class="k">团队</td><td>中</td><td>S 级</td><td>允许带 1–2 人；或承诺 6 个月内配齐 pod</td></tr>
+        <tr><td class="k">发表/开源</td><td>低</td><td>RSI、训推</td><td>明确发表审批流程与署名规则</td></tr>
+        <tr><td class="k">地点/远程</td><td>低–中</td><td>所有</td><td>每周 2–3 天远程；或分部</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.7</span>法务与合规清单</h3>
+
+  <ul class="check">
+    <li><b>劳动合同/offer letter</b>：岗位、汇报线、地点、薪酬结构、试用期、保密与发明归属。</li>
+    <li><b>竞业限制</b>：是否适用、补偿标准、期限、地域、竞争范围；中国法下需支付补偿，不能只约束不补偿。</li>
+    <li><b>知识产权/发明协议</b>：职务发明归属、开源贡献政策、前雇主 IP 风险。</li>
+    <li><b>期权授予协议</b>：授予数量、行权价、成熟节奏、cliff、加速、回购、离职行权窗口、反稀释。</li>
+    <li><b>税务</b>：中国股权激励个税、美国 83(b)/ISO/NSO、跨境税务；提前让税务顾问介入。</li>
+    <li><b>签证/工作许可</b>：外籍、跨境远程、社保与劳动合同主体。</li>
+    <li><b>数据与出口管制</b>：候选人接触的数据/代码是否受出口管制或前雇主保密协议限制。</li>
+    <li><b>背景调查授权</b>：书面授权、范围、保存期限；遵守个人信息保护法。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">14.8</span>被拒之后： salvage 的三件事</h3>
+
+  <p>顶级候选人拒绝 offer 是常态（接受率 50–70% 已是不错）。拒绝后的处理，决定未来 12 个月还有没有机会：</p>
+
+  <ol class="plain">
+    <li><b>问真实原因，不要争辩。</b>「哪一个因素最关键？如果我们改变它，你会重新考虑吗？」</li>
+    <li><b>保持低频、高价值联系。</b>每季度发一次有价值的技术内容/论文/产品更新，不要发招聘广告。</li>
+    <li><b>建立 alumni/advisor 关系。</b>邀请做顾问、讲者、外部评审；很多 S 级候选人第一次拒绝，第二次加入。</li>
+  </ol>
+</section>
+
+<section class="wide" id="attract">
+  <span class="snum">15</span>
+  <h2 class="sec">吸引：卖「能把事做成」，不卖「我们很酷」</h2>
+
+  <p class="lede">顶级候选人不需要你告诉他「大模型是未来」。他需要知道的是：<em>到这里，我能拿到什么在别处拿不到的东西？</em>答案必须具体到算力、数据、人、决策权和署名。</p>
+
+  <h3 class="sub"><span class="subn">15.1</span>EVP 金字塔：越往上越难复制</h3>
+
+  <div class="stack">
+    <div class="band mid">
+      <div class="bl">顶层 · 最难复制</div>
+      <div class="bn">使命与问题</div>
+      <p class="bd">不是「做 AGI」这种人人都会说的话，而是一个具体的、可证伪的技术命题：「我们相信在代码域，验证器已经足够便宜，能把自我改进的循环从 3 轮推到 30 轮。」</p>
+    </div>
+    <div class="band">
+      <div class="bl">第二层 · 决定能否做成</div>
+      <div class="bn">算力、数据、评测基础设施</div>
+      <p class="bd">候选人会算：你有多少卡、能给他多少、数据能不能拿到、eval 是否可信。这些比「团队氛围好」重要一个数量级。</p>
+    </div>
+    <div class="band">
+      <div class="bl">第三层 · 决定和谁一起做</div>
+      <div class="bn">人：创始人、直属上级、同组 IC</div>
+      <p class="bd">顶级候选人加入的往往不是公司，而是某几个人。让他见未来 3 个月真正一起工作的人，不要只安排高管。</p>
+    </div>
+    <div class="band">
+      <div class="bl">第四层 · 决定回报</div>
+      <div class="bn">股权、现金、签字费</div>
+      <p class="bd">钱是必要条件，不是充分条件。把股权讲清楚，比多给 10% 更能提高接受率。</p>
+    </div>
+    <div class="band">
+      <div class="bl">底层 · 保健因素</div>
+      <div class="bn">title、福利、办公室、餐食</div>
+      <p class="bd">这些可以防止不满，但不能促成加入。不要在顶层没讲清楚时，先讲底层。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">15.2</span>三个岗位的「一句话卖点」</h3>
+
+  <div class="tw">
+    <table>
+      <caption>同一家公司，对三个岗位要讲不同的故事。卖点必须能被验证，不能是口号。</caption>
+      <thead>
+        <tr><th>岗位</th><th>一句话卖点</th><th>支撑证据（必须能拿出来）</th><th>不要说的话</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">RSI 研究员</td>
+          <td>「你会拥有一个独立的 loop、一个独立的 evaluator 和一支 3 人 pod，算力配额写进 offer。」</td>
+          <td>过去 12 个月的实验记录、评测集、失败复盘；创始人对方向的判断；发表政策</td>
+          <td>「我们也在做 RSI」但拿不出闭环数据</td>
+        </tr>
+        <tr>
+          <td class="k">训推工程师</td>
+          <td>「你造的集群会被真正跑满，你的优化会直接进主线，你的名字会出现在开源/论文里。」</td>
+          <td>集群规模、MFU/吞吐现状、正在做的优化、开源 repo、on-call 机制</td>
+          <td>「我们卡很多」但说不清利用率和瓶颈</td>
+        </tr>
+        <tr>
+          <td class="k">数据工程师</td>
+          <td>「你定义数据配方，不是洗数据；你的决策会直接进入下一版模型，你有 eval 的发言权。」</td>
+          <td>数据规模、eval 体系、配方迭代记录、与研究的协作方式</td>
+          <td>「数据很重要」但数据团队汇报给 infra</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">15.3</span>创始人 close：60 分钟议程</h3>
+
+  <div class="tw">
+    <table>
+      <caption>创始人参与 close 的前提是「能回答硬问题」。如果创始人只会讲愿景，这场对话会起反作用。</caption>
+      <thead>
+        <tr><th>时间</th><th>内容</th><th>目的</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">0–5 min</td><td>你为什么做这家公司：一个具体的、私人的原因</td><td>建立真诚感，而不是背稿</td></tr>
+        <tr><td class="k">5–15 min</td><td>未来 12 个月最重要的三件事；这个席位在哪一件上</td><td>让候选人看到「我的工作如何影响公司」</td></tr>
+        <tr><td class="k">15–25 min</td><td>候选人提问：算力、runway、股权、失败、组织</td><td>直接回答，不回避；不知道就说不知道</td></tr>
+        <tr><td class="k">25–40 min</td><td>具体的第一年目标与 first win；汇报线；团队</td><td>把「加入」变成「一起做一件具体的事」</td></tr>
+        <tr><td class="k">40–50 min</td><td>诚实的风险与不确定性：我们可能失败在哪</td><td>降低候选人的「被忽悠感」，提高信任</td></tr>
+        <tr><td class="k">50–60 min</td><td>下一步、决策时间表、联系人</td><td>减少摩擦，避免候选人在等待中冷却</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>一条反直觉的建议：创始人应该比候选人说得少。</b>顶级候选人判断一家公司，很大程度靠「创始人如何回答一个尖锐问题」。如果创始人一直在推销，候选人会认为这家公司没有安全感；如果创始人能坦然说「这件事我们还没想清楚，但我知道怎么验证」，信任会显著上升。</p>
+
+  <h3 class="sub"><span class="subn">15.4</span>给候选人的「技术尽调包」</h3>
+
+  <p>大多数公司在 close 阶段只给 offer letter；顶级候选人真正想要的是<em>可验证的信息</em>。准备一个 8–12 页的 pack，在 final round 后发给候选人：</p>
+
+  <ul class="check">
+    <li><b>公司与融资</b>：最近一轮估值、累计融资、当前 runway、主要投资人；不能说的可以写「不便披露」，但不要编。</li>
+    <li><b>算力</b>：集群规模、可用配额、调度方式、未来 6 个月计划。</li>
+    <li><b>数据</b>：数据来源、规模、许可状态、标注预算、eval 体系。</li>
+    <li><b>技术路线</b>：未来 12 个月的 3 个赌注；已知的失败与放弃方向。</li>
+    <li><b>组织</b>：org chart、汇报线、跨团队协作方式、决策机制。</li>
+    <li><b>股权</b>：授予、行权价、成熟、回购、流动性路径；用一页纸讲清楚。</li>
+    <li><b>风险</b>：最可能失败的三个原因；公司正在怎么应对。</li>
+  </ul>
+
+  <p>这份 pack 的成本很低，但信号极强：它告诉候选人「我们不是靠信息不对称招人」。顶级候选人见过太多画饼的公司，一份诚实的尽调包，比任何福利都更有说服力。</p>
+
+  <h3 class="sub"><span class="subn">15.5</span>Close 的时间管理</h3>
+
+  <div class="grid3">
+    <div><div class="gk">T+0</div><div class="gt">口头 offer + 书面 offer 同一天</div><p class="gd">不要「先口头，明天发书面」；顶级候选人会在这 24 小时里被其他公司截胡。</p></div>
+    <div><div class="gk">T+1–3</div><div class="gt">创始人/直属上级各一次通话</div><p class="gd">回答硬问题；确认 first win；不重复面试内容。</p></div>
+    <div><div class="gk">T+3–7</div><div class="gt">团队见面 + 尽调包 + 答疑</div><p class="gd">让他见未来同事；允许他问「最糟糕的一天是什么样的」。</p></div>
+    <div><div class="gk">T+7–10</div><div class="gt">决策窗口</div><p class="gd">给 7–10 天；如果他还在面别家，问清时间表，必要时同步推进。</p></div>
+    <div><div class="gk">T+10–14</div><div class="gt">签约 + pre-boarding</div><p class="gd">签约当天启动入职准备；不要等到入职前一周。</p></div>
+    <div><div class="gk">T+14–30</div><div class="gt">离职支持</div><p class="gd">帮他处理竞业、交接、搬家；这段时间最容易反悔。</p></div>
+  </div>
+</section>
+
+<section class="wide" id="landing">
+  <span class="snum">16</span>
+  <h2 class="sec">Landing：前 90 天决定这笔招聘是否回本</h2>
+
+  <p class="lede">高级别 hire 的失败，很少是因为能力不够，而是因为<em>前 90 天没有被放进一个能赢的位置</em>：没有算力、没有明确 ownership、没有 first win、没有反馈。Landing 不是入职培训，是招聘的最后一公里。</p>
+
+  <h3 class="sub"><span class="subn">16.1</span>入职前 14 天清单</h3>
+
+  <ul class="check">
+    <li><b>欢迎与信息</b>：欢迎邮件、团队介绍、第一周议程、入职联系人。</li>
+    <li><b>设备与账号</b>：笔记本、GPU 账号、集群权限、代码仓库、内部文档、Slack/飞书。</li>
+    <li><b>算力与数据</b>：明确第一个月可用的 GPU-hours、数据集、实验配额；不要让他第一天自己申请。</li>
+    <li><b>Buddy</b>：指定一名非直属同事，负责「傻问题」；buddy 要有时间，不是挂名。</li>
+    <li><b>First project</b>：一页纸，写清目标、成功标准、时间盒、可用的资源、找谁求助。</li>
+    <li><b>阅读清单</b>：架构文档、最近的论文/技术报告、eval 说明、on-call 手册。</li>
+    <li><b>行政</b>：合同、社保、工资、期权文件、税务、签证、搬家。</li>
+    <li><b>社交</b>：第一周团队午餐/晚餐；与关键合作者的一对一安排。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">16.2</span>30 / 60 / 90 天：分岗位的 first win</h3>
+
+  <div class="tw">
+    <table>
+      <caption>「First win」必须是可演示、可量化、与业务相关的，不是「熟悉了环境」。入职前就要和候选人对齐。</caption>
+      <thead>
+        <tr><th>阶段</th><th>RSI 研究员</th><th>训推工程师</th><th>数据工程师</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">0–30 天<br><span class="muted">看懂 + 复现</span></td>
+          <td>复现一个已知的闭环结果；画出 eval 与数据流；列出 3 个最关键瓶颈</td>
+          <td>跑通训练/推理 baseline；拿到 profiling；列出 top 3 瓶颈</td>
+          <td>审计现有数据管道；量化质量/成本/污染风险；列出 3 个优先修复项</td>
+        </tr>
+        <tr>
+          <td class="k">31–60 天<br><span class="muted">第一个改动</span></td>
+          <td>提出 2–3 个可证伪实验（含成本）；选定一个，搭好 harness</td>
+          <td>交付一个可量化优化（MFU +5% / p99 −20% / 成本 −15%）；建立监控</td>
+          <td>修复一个数据质量问题；用下游 eval 证明影响；建立 lineage</td>
+        </tr>
+        <tr>
+          <td class="k">61–90 天<br><span class="muted">拥有 + 复盘</span></td>
+          <td>跑通第一轮完整 loop；给出成本/增量/衰减；写内部报告</td>
+          <td>own 一个子系统；完成容量规划；主导一次故障复盘</td>
+          <td>own 一个领域的数据配方；交付配比消融；成本优化方案</td>
+        </tr>
+        <tr class="sum">
+          <td class="k">90 天验收</td>
+          <td>「有一个可重复的实验，能说清它为什么有效/无效」</td>
+          <td>「有一个上线后仍保持的性能提升」</td>
+          <td>「有一条能解释下游变化的 data lineage」</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">16.3</span>管理者 playbook：八条</h3>
+
+  <ol class="plain">
+    <li><b>一个 owner、一个指标、一个 deadline。</b>高级别 hire 最怕「你先看看，找找感觉」；模糊的起点会让他怀疑公司。</li>
+    <li><b>算力/数据配额写下来。</b>不是「需要的时候申请」，而是「这个月你有 X GPU-hours，优先级是 Y」。</li>
+    <li><b>替他挡掉前 30 天的会议和杂事。</b>让他把时间花在理解系统和交付 first win 上。</li>
+    <li><b>每周 30 分钟 1:1，雷打不动。</b>问三个问题：什么在阻碍你？你需要我做什么？你最近学到了什么？</li>
+    <li><b>公开 credit。</b>在全员会、技术评审、论文/开源署名上明确他的贡献；顶级人才对「被看见」很敏感。</li>
+    <li><b>给 context，不给 control。</b>告诉他为什么、边界在哪，然后让他决定怎么做；不要微观管理。</li>
+    <li><b>48 小时升级机制。</b>他遇到跨团队阻塞时，管理者必须在 48 小时内推动解决；否则他会认为公司「说得好听」。 </li>
+    <li><b>30/90 天 stay interview。</b>不要等到离职才问「你为什么不满意」；在第 30 天和第 90 天主动问。</li>
+  </ol>
+
+  <h3 class="sub"><span class="subn">16.4</span>十种 landing 失败模式</h3>
+
+  <div class="tw">
+    <table>
+      <caption>失败模式与早期信号。越早发现，修复成本越低。</caption>
+      <thead>
+        <tr><th>失败模式</th><th>早期信号</th><th>修复动作</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">没有算力</td><td>第一周就在等配额；开始问「什么时候能跑」</td><td>入职前锁定配额；第一周必须跑通一个 baseline</td></tr>
+        <tr><td class="k">ownership 模糊</td><td>反复问「这个该谁决定」；项目没有 owner</td><td>写一页纸：目标、边界、决策权、成功标准</td></tr>
+        <tr><td class="k">大厂习惯冲突</td><td>要求流程、评审、排期；抱怨「太乱」</td><td>明确「这里哪些流程没有」；给一个可控的秩序岛</td></tr>
+        <tr><td class="k">研究与产品冲突</td><td>被拉去做短期需求；研究时间被挤占</td><td>保护 20% 探索时间；把产品需求单独排期</td></tr>
+        <tr><td class="k">数据/权限阻塞</td><td>无法访问关键数据集；合规审批太久</td><td>入职前完成权限；指定数据对接人</td></tr>
+        <tr><td class="k">infra 摩擦</td><td>环境搭三天；训练经常挂</td><td>配一个 buddy/平台工程师；第一周只解决环境</td></tr>
+        <tr><td class="k">管理者缺位</td><td>1:1 被取消；问题无人拍板</td><td>管理者日历锁定；升级机制</td></tr>
+        <tr><td class="k">first project 过大</td><td>30 天没有任何可演示的东西</td><td>切成 2 周一个里程碑；先做小胜利</td></tr>
+        <tr><td class="k">没有反馈</td><td>不知道自己做得怎么样；开始问「你觉得我适应吗」</td><td>第 2 周、第 6 周、第 12 周结构化反馈</td></tr>
+        <tr><td class="k">文化/价值观冲突</td><td>对安全、开源、署名、工作方式有根本分歧</td><td>尽早谈；无法调和就不要拖</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout goodb">
+    <div class="ct">一个简单的 landing 验收问题</div>
+    <p>第 90 天，让新人对团队做一次 15 分钟的分享：<b>「我这 90 天发现了什么、做了什么、接下来要做什么。」</b>如果他讲不出「发现了什么」，说明 onboarding 失败；如果他讲不出「接下来」，说明 ownership 失败；如果他讲得出但没人听懂，说明沟通或项目选择失败。一次分享，三个维度都能验收。</p>
+  </div>
+</section>
+
+<section class="wide" id="grow">
+  <span class="snum">17</span>
+  <h2 class="sec">发展与留人：把「招到」变成「留住并放大」</h2>
+
+  <p class="lede">顶级人才的离职，通常不是因为钱，而是因为<em>成长速度变慢、影响力变小、或者发现自己不是被信任的人</em>。留人的核心不是加薪，是持续给他「更大的问题」。</p>
+
+  <h3 class="sub"><span class="subn">17.1</span>IC 阶梯：三个岗位共用一套语言</h3>
+
+  <div class="tw">
+    <table>
+      <caption>用「scope / impact / leverage / judgment」四个维度定义级别，避免用「年限」或「title」定级。</caption>
+      <thead>
+        <tr><th>级别</th><th>Scope</th><th>Impact</th><th>Leverage</th><th>Judgment</th><th>典型证据</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">P5 · 独立执行</td><td>一个模块/一条链路</td><td>交付被直接使用</td><td>自己的产出</td><td>在明确目标下做取舍</td><td>独立完成一个训练/推理/数据模块</td></tr>
+        <tr><td class="k">P6 · 工作流 owner</td><td>一个工作流/子系统</td><td>影响一个团队的目标</td><td>通过工具/流程放大他人</td><td>在模糊中定义问题</td><td>主导一次性能优化/数据配方/loop 迭代</td></tr>
+        <tr><td class="k">P7 · 方向 owner</td><td>一个方向/多条工作流</td><td>影响公司级指标</td><td>通过团队与标准放大</td><td>在不确定性中做方向判断</td><td>定义 RSI 路线/训练架构/数据战略</td></tr>
+        <tr><td class="k">P8 · 领域 owner</td><td>一个领域/跨方向</td><td>影响行业/外部生态</td><td>通过组织与外部影响力放大</td><td>在冲突目标间做长期取舍</td><td>开源/论文/标准/人才梯队</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">17.2</span>晋升：看证据，不看资历</h3>
+
+  <div class="grid3">
+    <div><div class="gk">Impact</div><div class="gt">可量化的结果</div><p class="gd">不是「做了很多」，而是「哪个指标因为他的工作变了多少」。没有数字，就没有晋升证据。</p></div>
+    <div><div class="gk">Scope</div><div class="gt">问题的边界</div><p class="gd">从模块到工作流到方向；边界扩大，意味着他能在更大不确定性下工作。</p></div>
+    <div><div class="gk">Leverage</div><div class="gt">别人是否在用他的东西</div><p class="gd">工具、标准、论文、开源、带人；影响力是否超出自己的产出。</p></div>
+    <div><div class="gk">Judgment</div><div class="gt">关键时刻的判断</div><p class="gd">有没有在信息不足时做出正确取舍；失败后能否复盘。</p></div>
+    <div><div class="gk">Communication</div><div class="gt">能否代表团队</div><p class="gd">对外讲清楚技术路线；能写清楚文档/报告；能影响跨团队。</p></div>
+    <div><div class="gk">Values</div><div class="gt">是否拉高 bar</div><p class="gd">诚实、合作、对安全/质量的态度；是否让身边的人变强。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">17.3</span>成长计划：70–20–10</h3>
+
+  <div class="tw">
+    <table>
+      <caption>不同岗位的成长杠杆不同。不要用同一套培训计划套三个人。</caption>
+      <thead>
+        <tr><th>方式</th><th>RSI 研究员</th><th>训推工程师</th><th>数据工程师</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">70% 在岗挑战</td><td>独立负责一条 loop；从 0 到 1 设计 evaluator</td><td>own 一个集群/引擎；主导一次大故障复盘</td><td>own 一个领域的数据配方；主导一次配比消融</td></tr>
+        <tr><td class="k">20% 辅导/协作</td><td>与评测/安全/infra 交叉项目；带 1 名实习生</td><td>与研究员配对；review 别人的性能 PR</td><td>与研究员配对做数据消融；带标注/运营团队</td></tr>
+        <tr><td class="k">10% 课程/会议</td><td>NeurIPS/ICML/COLM；写论文/博客</td><td>MLSys/OSDI/GTC；开源贡献</td><td>数据-centric AI 会议；开源数据集</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">17.4</span>RSI 研究员的特殊留人设计：研究 pod</h3>
+
+  <p>RSI 研究员最容易离职的原因，不是钱，是<em>「我一个人在推，推不动」</em>。给他一个 pod，比给他加薪更有效：</p>
+
+  <div class="grid3">
+    <div><div class="gk">Pod 构成</div><div class="gt">1 RSI + 1 训推 + 1 数据 + 0.5 评测</div><p class="gd">4–5 人；研究员是方向 owner，不是所有人的行政经理；pod 有独立的目标与算力配额。</p></div>
+    <div><div class="gk">Pod 的权</div><div class="gt">算力、数据、发表、招聘</div><p class="gd">在预算内自主决定实验；对 pod 的招聘有否决权；发表走快速审批。</p></div>
+    <div><div class="gk">Pod 的边界</div><div class="gt">12 个月一个周期</div><p class="gd">每 6 个月 review 一次；成功则扩大，失败则解散或转向；失败不被惩罚，但要有复盘。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">17.5</span>留人：五个杠杆与早期信号</h3>
+
+  <div class="grid2">
+    <div><div class="gk">杠杆一 · 更大的问题</div><div class="gt">scope 增长</div><p class="gd">每 12–18 个月给他一个更大的问题；如果公司没有更大的问题，他就会去别处找。</p></div>
+    <div><div class="gk">杠杆二 · 股权 refresh</div><div class="gt">持续的所有权</div><p class="gd">晋升/关键贡献时追加期权；不要只在新 offer 时给股权。</p></div>
+    <div><div class="gk">杠杆三 · 外部影响力</div><div class="gt">论文/开源/演讲</div><p class="gd">支持他建立个人品牌；这与公司品牌不冲突，反而是招聘资产。</p></div>
+    <div><div class="gk">杠杆四 · 内部流动</div><div class="gt">换方向/换团队</div><p class="gd">允许在 18 个月后转岗；比让他离职再回来便宜。</p></div>
+    <div><div class="gk">杠杆五 · 信任与诚实</div><div class="gt">信息透明</div><p class="gd">让他知道公司的真实状况；坏消息比「被蒙在鼓里」更能建立忠诚。</p></div>
+    <div><div class="gk">早期信号</div><div class="gt">六个变化</div><p class="gd">1:1 开始取消；不再主动提新想法；抱怨算力/数据；频繁提「以前公司」；代码 review 变少；开始整理简历/问股权回购。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">17.6</span>Stay interview：五个问题</h3>
+
+  <blockquote>
+    ① 过去一个月，哪件事让你最有成就感？哪件事最消耗你？<br>
+    ② 如果你明天要离开，最可能的原因是什么？<br>
+    ③ 你希望在未来 12 个月学会什么？现在有什么阻碍？<br>
+    ④ 你觉得自己的贡献被看见了吗？如果没有，哪里出了问题？<br>
+    ⑤ 如果我只能帮你解决一件事，你希望是什么？
+    <cite>每 6 个月一次；由直属上级做，HR 只做记录与跟进</cite>
+  </blockquote>
+</section>
+
+<section class="wide" id="metrics">
+  <span class="snum">18</span>
+  <h2 class="sec">度量与风险：把招聘当成一个可运营的系统</h2>
+
+  <p class="lede">没有度量的招聘，只能靠「感觉顺利」；而感觉通常滞后于事实。下面 12 个指标足够管理这三个岗位，不需要更多。</p>
+
+  <h3 class="sub"><span class="subn">18.1</span>招聘 dashboard</h3>
+
+  <div class="tw">
+    <table>
+      <caption>指标定义与目标值需按公司阶段校准；目标值不是行业基准，是管理承诺。</caption>
+      <thead>
+        <tr><th>指标</th><th>定义</th><th>目标（参考）</th><th>Owner</th><th>频率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">Time to fill</td><td>从批准 headcount 到接受 offer</td><td>RSI ≤120 天；训推 ≤90；数据 ≤60</td><td>招聘负责人</td><td>月度</td></tr>
+        <tr><td class="k">Offer acceptance</td><td>接受数 / 发出数</td><td>S ≥60%；A ≥70%</td><td>招聘负责人</td><td>月度</td></tr>
+        <tr><td class="k">Pipeline coverage</td><td>每个 finalist 对应的合格候选人</td><td>≥3:1</td><td>招聘负责人</td><td>周度</td></tr>
+        <tr><td class="k">Source mix</td><td>内推/外联/ inbound/猎头占比</td><td>内推 ≥35%；外联 ≥30%；猎头 ≤15%</td><td>招聘负责人</td><td>季度</td></tr>
+        <tr><td class="k">Stage conversion</td><td>各轮通过率</td><td>按 11.1 的区间</td><td>招聘负责人</td><td>月度</td></tr>
+        <tr><td class="k">Loop cycle time</td><td>电话筛到 offer 决策</td><td>≤21 天</td><td>协调员</td><td>周度</td></tr>
+        <tr><td class="k">Candidate NPS</td><td>面试体验净推荐值</td><td>≥50</td><td>招聘负责人</td><td>季度</td></tr>
+        <tr><td class="k">90-day first win</td><td>是否按时交付约定的 first win</td><td>≥80%</td><td>用人经理</td><td>季度</td></tr>
+        <tr><td class="k">Quality of hire</td><td>6 个月时 manager 评分（1–5）</td><td>≥4</td><td>用人经理</td><td>半年</td></tr>
+        <tr><td class="k">Regretted attrition</td><td>12 个月内非自愿/可避免离职</td><td>≤5%</td><td>HRBP</td><td>半年</td></tr>
+        <tr><td class="k">Cost per hire</td><td>渠道费+奖金+面试成本/入职数</td><td>按岗位设上限</td><td>招聘负责人</td><td>季度</td></tr>
+        <tr><td class="k">Diversity of slate</td><td>finalist  slate 的背景多样性</td><td>按公司目标</td><td>招聘负责人</td><td>季度</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">18.2</span>三个岗位的漏斗基准</h3>
+
+  <div class="bars">
+    <div class="bar-row"><div class="bar-lbl">RSI · 外联回复率</div><div class="bar-track"><div class="bar-fill" style="width:22%"></div></div><div class="bar-val">15–30%</div></div>
+    <div class="bar-row"><div class="bar-lbl">RSI · 电话筛通过</div><div class="bar-track"><div class="bar-fill" style="width:45%"></div></div><div class="bar-val">40–50%</div></div>
+    <div class="bar-row"><div class="bar-lbl">RSI · onsite 通过</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><div class="bar-val">20–30%</div></div>
+    <div class="bar-row"><div class="bar-lbl">训推 · 外联回复率</div><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div><div class="bar-val">20–35%</div></div>
+    <div class="bar-row"><div class="bar-lbl">训推 · onsite 通过</div><div class="bar-track"><div class="bar-fill" style="width:30%"></div></div><div class="bar-val">25–35%</div></div>
+    <div class="bar-row"><div class="bar-lbl">数据 · 外联回复率</div><div class="bar-track"><div class="bar-fill" style="width:33%"></div></div><div class="bar-val">25–40%</div></div>
+    <div class="bar-row"><div class="bar-lbl">数据 · onsite 通过</div><div class="bar-track"><div class="bar-fill" style="width:32%"></div></div><div class="bar-val">25–35%</div></div>
+    <div class="bar-row"><div class="bar-lbl">三岗 · offer 接受</div><div class="bar-track"><div class="bar-fill alt" style="width:60%"></div></div><div class="bar-val">50–70%</div></div>
+  </div>
+  <p class="scale-note">条形仅表示区间中值；经验区间，非行业统计。用自己前 20 个 case 重算，才是有意义的基准。</p>
+
+  <h3 class="sub"><span class="subn">18.3</span>十二个风险</h3>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R01</span><span class="risk-t">招到「论文明星」但不能落地</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>论文引用与独立交付能力相关性有限。对策：work sample + 资源受限追问 + 前同事 back-channel；S 级也要过 hand-on 轮。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R02</span><span class="risk-t">薪酬倒挂与带宽击穿</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>新人为抢人给到带宽上限，老人发现后失衡。对策：签字费/一次性补贴代替 base；年度薪酬公平性审计；例外记录。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R03</span><span class="risk-t">股权承诺无法兑现</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>极高</em></span></div>
+    <p>零融资、无估值、无回购路径的公司，期权只是纸。对策：诚实披露；给现金/签字费补偿；设回购机制；不要把期权当现金报价。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R04</span><span class="risk-t">创始人成为招聘瓶颈</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>所有 S 级都要创始人面，排期 3 周起，候选人流失。对策：创始人只做 close 与最终判断；初筛交给资深 IC；固定每周面试时段。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R05</span><span class="risk-t">流程太慢丢候选人</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>顶级候选人平均同时跑 2–4 个流程。对策：21 天 loop；并行安排；48 小时反馈；offer 当天发。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R06</span><span class="risk-t">竞业/知识产权纠纷</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>从竞对挖人可能触发竞业限制、商业秘密、发明归属争议。对策：法务前置；不带走代码/数据；尊重竞业补偿；书面确认。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R07</span><span class="risk-t">数据/隐私合规</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>数据工程师可能接触 PII、版权数据、跨境数据。对策：权限分级、脱敏、审计、DPIA；招聘过程中也不越界收集个人信息。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R08</span><span class="risk-t">人才密度被稀释</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>为了填坑降标准，B 档招多了，A/S 档不愿留。对策：每个岗位设「不招」红线；宁缺毋滥；用实习生/顾问过渡。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R09</span><span class="risk-t">RSI 叙事泡沫导致错配</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>候选人把 agent/workflow 包装成 RSI；公司为叙事付溢价。对策：两把尺子（验证器层级、改进/成本比）；work sample 必须跑闭环。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R10</span><span class="risk-t">单点依赖</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>整个方向只有一个 S 级，他离职则方向停摆。对策：每个方向至少 1.5 个 owner；文档化；培养第二人。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R11</span><span class="risk-t">远程/地理协作失败</span><span class="meter"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><em>中</em></span></div>
+    <p>RSI/训推需要高频协作；纯远程可能降低迭代速度。对策：核心时段重叠；每月面对面；明确文档规范。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R12</span><span class="risk-t">招聘团队与用人经理目标不一致</span><span class="meter"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><em>中</em></span></div>
+    <p>招聘追速度，经理追质量，最后互相甩锅。对策：共用一份 scorecard 与 SLA；每周 pipeline review；offer 结果共同复盘。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">18.4</span>每月复盘：五个问题</h3>
+
+  <ol class="plain">
+    <li><b>这个月哪一个环节最慢？</b>是 sourcing、scheduling、debrief 还是 offer？只修最慢的一环。</li>
+    <li><b>我们拒掉的候选人里，有没有后来在别处做得很好的？</b>如果有，回看评分卡哪里失真。</li>
+    <li><b>我们发出的 offer，拒绝的真实原因是什么？</b>把原因分类，不要归因于「钱不够」。</li>
+    <li><b>新人的 first win 是否按时发生？</b>如果没有，是招聘错了，还是 landing 错了？</li>
+    <li><b>我们的目标名单更新了吗？</b>过去 30 天有哪些人换了机构、发了论文、拿了融资？</li>
+  </ol>
+</section>
+
+<section id="sources">
+  <span class="snum">19</span>
+  <h2 class="sec">边界、口径与信息源</h2>
+
+  <p class="lede">这份文档是招聘作战手册，不是法律、税务或投资意见。所有薪酬数字、市场判断与公司信息都有口径与时效，使用前必须按当前情况复核。</p>
+
+  <h3 class="sub"><span class="subn">19.1</span>口径说明</h3>
+
+  <ul class="plain">
+    <li><b>薪酬</b>：文中区间来自公开调研、媒体报道与行业访谈的综合口径，混合了现金/股权、不同城市、不同融资阶段；仅用于带宽设计，不是报价。真实定价必须以候选人的替代 offer、公司估值与股权条款重算。</li>
+    <li><b>人才规模</b>：「中国核心研究员约 500 人」「能牵头预训练约 200 人」均为行业估算/猎头口径，不是官方统计；不同口径可能相差 2–3 倍。</li>
+    <li><b>技术判断</b>：RSI 的验证器层级、改进/成本比、四类 RSI 的划分，是基于公开论文与工程实践的分析框架，不是学术共识；具体候选人评估应结合其实际工作。</li>
+    <li><b>公司与人物</b>：文中提到的机构、论文、项目均为公开信息；作者机构为发表时口径，可能已变化。未对任何具体候选人做背景评价。</li>
+    <li><b>法律</b>：竞业限制、股权激励、税务、签证、数据合规因司法辖区而异；具体条款必须由当地律师/税务顾问审核。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">19.2</span>隐私与伦理</h3>
+
+  <p>本手册主张的人才地图，只使用<b>公开职业信息</b>：论文、代码、公司官网、公开演讲、公开报道。不购买来源不明的通讯录，不抓取登录后才可见的数据，不通过私人关系索取手机号/微信号，不对候选人做与岗位无关的私人调查。跨境招聘需遵守 GDPR/PIPL 等个人信息保护法规；候选人信息的收集、存储、访问、删除应有明确规则。<em>招聘的专业性，首先体现在不越界。</em></p>
+
+  <h3 class="sub"><span class="subn">19.3</span>主要公开信息源</h3>
+
+  <ol class="src">
+    <li>Zelikman et al., <i>STaR: Bootstrapping Reasoning With Reasoning</i>, 2022. <a href="https://arxiv.org/abs/2203.14465">arXiv:2203.14465</a></li>
+    <li>Gulcehre et al., <i>Reinforced Self-Training (ReST) for Language Modeling</i>, 2023. <a href="https://arxiv.org/abs/2308.08998">arXiv:2308.08998</a>；Singh et al., <i>Beyond Human Data: Scaling Self-Training for Problem-Solving with Language Models</i> (ReST-EM), 2023. <a href="https://arxiv.org/abs/2312.06585">arXiv:2312.06585</a></li>
+    <li>Yuan et al., <i>Self-Rewarding Language Models</i>, 2024. <a href="https://arxiv.org/abs/2401.10020">arXiv:2401.10020</a></li>
+    <li>Zhao et al., <i>Absolute Zero: Reinforced Self-play Reasoning with Zero Data</i>, 2025. <a href="https://arxiv.org/abs/2505.03335">arXiv:2505.03335</a></li>
+    <li>Zweiger et al., <i>SEAL: Self-Adapting Language Models</i>, 2025. <a href="https://arxiv.org/abs/2506.10943">arXiv:2506.10943</a></li>
+    <li>Novikov et al., <i>AlphaEvolve: A coding agent for scientific and algorithmic discovery</i>, 2025. <a href="https://arxiv.org/abs/2506.13131">arXiv:2506.13131</a></li>
+    <li>Romera-Paredes et al., <i>Mathematical discoveries from program search with large language models</i> (FunSearch), Nature, 2024. <a href="https://www.nature.com/articles/s41586-023-06924-6">nature.com</a></li>
+    <li>Zhang et al., <i>Darwin Gödel Machine: Open-Ended Evolution of Self-Improving Agents</i>, 2025. <a href="https://arxiv.org/abs/2505.22954">arXiv:2505.22954</a></li>
+    <li>Lu et al., <i>The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery</i>, 2024. <a href="https://arxiv.org/abs/2408.06292">arXiv:2408.06292</a></li>
+    <li>METR, <i>RE-Bench: Evaluating frontier AI R&amp;D capabilities of language model agents against human experts</i>, 2024. <a href="https://arxiv.org/abs/2411.15114">arXiv:2411.15114</a></li>
+    <li>Chan et al., <i>MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering</i>, 2024. <a href="https://arxiv.org/abs/2410.07095">arXiv:2410.07095</a></li>
+    <li>Jimenez et al., <i>SWE-bench: Can Language Models Resolve Real-World GitHub Issues?</i>, 2023. <a href="https://arxiv.org/abs/2310.06770">arXiv:2310.06770</a></li>
+    <li>Wang et al., <i>Voyager: An Open-Ended Embodied Agent with Large Language Models</i>, 2023. <a href="https://arxiv.org/abs/2305.16291">arXiv:2305.16291</a></li>
+    <li>Soldaini et al., <i>Dolma: an Open Corpus of Three Trillion Tokens</i>, 2024. <a href="https://arxiv.org/abs/2402.00159">arXiv:2402.00159</a></li>
+    <li>Li et al., <i>DataComp-LM: In search of the next generation of training sets for language models</i>, 2024. <a href="https://arxiv.org/abs/2406.11794">arXiv:2406.11794</a></li>
+    <li>HuggingFace, <i>FineWeb: decanting the web for the finest text data at scale</i>, 2024. <a href="https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1">huggingface.co</a></li>
+    <li>Kwon et al., <i>Efficient Memory Management for Large Language Model Serving with PagedAttention</i> (vLLM), 2023. <a href="https://arxiv.org/abs/2309.06180">arXiv:2309.06180</a></li>
+    <li>Zheng et al., <i>SGLang: Efficient Execution of Structured Language Model Programs</i>, 2023. <a href="https://arxiv.org/abs/2312.07104">arXiv:2312.07104</a></li>
+    <li>Shoeybi et al., <i>Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism</i>, 2019. <a href="https://arxiv.org/abs/1909.08053">arXiv:1909.08053</a></li>
+    <li>Dao et al., <i>FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness</i>, 2022. <a href="https://arxiv.org/abs/2205.14135">arXiv:2205.14135</a></li>
+    <li>METR, 任务时长与「支出视野」研究. <a href="https://metr.org/">metr.org</a></li>
+    <li>Epoch AI, <i>InnovationEval</i> 与 AI R&amp;D 能力评估. <a href="https://epoch.ai/">epoch.ai</a></li>
+    <li>OpenAI, <i>MLE-bench</i> 与自动化研究相关公开材料. <a href="https://openai.com/">openai.com</a></li>
+    <li>Anthropic, 公开招聘信息与 <i>Claude's Constitution</i>. <a href="https://www.anthropic.com/">anthropic.com</a></li>
+    <li>DeepSeek, <i>DeepSeek-R1</i> 技术报告, 2025. <a href="https://arxiv.org/abs/2501.12948">arXiv:2501.12948</a></li>
+    <li>Qwen Team, Qwen 系列技术报告. <a href="https://qwenlm.github.io/">qwenlm.github.io</a></li>
+    <li>Levels.fyi / 公开薪酬社区：用于校准总包结构，不用于精确报价. <a href="https://www.levels.fyi/">levels.fyi</a></li>
+    <li>Ashby, <i>Recruiting Benchmarks</i>：招聘漏斗与效率参考. <a href="https://www.ashbyhq.com/">ashbyhq.com</a></li>
+    <li>本系列既有报告：<i>从 10 人到 300 人 · 基础大模型公司的人力资源体系</i>（2026-10-16）、<i>递归自我改进：投资视角</i>（2026-10-20）。用于组织、薪酬与 RSI 技术背景的交叉参照。</li>
+  </ol>
+
+  <div class="callout">
+    <div class="ct">使用建议</div>
+    <p>不要试图一次执行全部 19 节。先做三件事：<b>①</b> 用第 05–07 节把三个岗位的 S/A/B 画像与用人经理对齐；<b>②</b> 用第 09 节在 14 天内建一张 200 人目标图；<b>③</b> 用第 16 节为每个即将发出的 offer 写一页「30 天 first win」。这三件事做完，招聘质量会有可感知的变化；其余的流程与工具，可以在此基础上迭代。</p>
+  </div>
+</section>
+
+<footer>
+  <p><b>招聘手册 · 大模型技术人才</b> · 数据截止 2026-10-21 · 版本 v1</p>
+  <p>本报告为招聘策略与组织方法研究，不构成法律、税务、投资或人力资源合规意见。薪酬区间为设计锚点，不是市场报价；公司与论文信息来自公开来源，作者机构为发表时口径。涉及竞业限制、股权激励、税务、签证与数据合规的具体条款，请由当地专业顾问审核。</p>
+  <p>人才地图只使用公开职业信息；不收集手机号、微信号、私人邮箱等个人联系方式。跨辖区招聘请遵守 GDPR、PIPL 等个人信息保护法规。</p>
+</footer>
+
+</div>
+</body>
+</html>
