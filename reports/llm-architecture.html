@@ -1,0 +1,1701 @@
+<title>大模型技术架构全景</title>
+<meta name="description" content="大模型技术架构全景：算力、训推基础设施、数据基建、数据算法、模型算法、推理部署、产研工程，含六层架构图、三条流水线、四个接口、RACI、七家公司对照，以及 HRBP 与招聘支持 AI Infra 团队的实操框架。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;family=Noto+Serif+SC:wght@500;600;700&amp;display=swap">
+
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- merged-section hierarchy ---------- */
+h3.sub{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(21px,2.8vw,27px);line-height:1.35;
+  margin:0 0 24px;padding-top:38px;border-top:1px solid var(--rule);
+  text-wrap:balance;
+}
+h3.sub:first-of-type{border-top:none;padding-top:0}
+h3.sub .subn{
+  display:block;font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;color:var(--accent);margin-bottom:8px;
+}
+h5{
+  font-family:var(--sans);font-weight:700;font-size:13.5px;
+  letter-spacing:.02em;margin:26px 0 9px;color:var(--ink-soft);
+}
+section.wide > p,section.wide > ul.plain,section.wide > ol,
+section.wide > blockquote,section.wide > h2.sec,section.wide > h3.sub,
+section.wide > h4,section.wide > h5,section.wide > .callout,
+section.wide > .chips,section.wide > .risk{max-width:var(--col)}
+
+/* ---------- architecture diagrams ---------- */
+.arch{display:grid;grid-template-columns:190px minmax(0,1fr) 180px;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:30px 0}
+.arch .rail{background:var(--surface-2);padding:16px 14px}
+.arch .rail .rt{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.arch .rail .rn{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.4;margin-bottom:8px;color:var(--ink)}
+.arch .rail .rd{font-size:12px;line-height:1.65;color:var(--ink-soft);margin:0}
+.arch .main{background:var(--surface)}
+.arch .layer{display:grid;grid-template-columns:98px minmax(0,1fr);border-bottom:1px solid var(--rule-soft);position:relative}
+.arch .layer:last-child{border-bottom:none}
+.arch .ln{background:var(--surface-2);padding:13px 10px;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;color:var(--muted);display:flex;align-items:center}
+.arch .lc{padding:11px 14px}
+.arch .lt{font-family:var(--serif);font-weight:600;font-size:15.5px;line-height:1.35;margin-bottom:6px;color:var(--ink)}
+.arch .mods{display:flex;flex-wrap:wrap;gap:5px}
+.arch .mod{font-size:11.5px;line-height:1.4;border:1px solid var(--rule);background:var(--surface-2);padding:3px 7px;border-radius:3px;color:var(--ink-soft);white-space:nowrap}
+.arch .mod.hot{background:var(--accent-tint);border-color:color-mix(in srgb,var(--accent) 30%,transparent);color:var(--accent)}
+.arch .layer.hero .ln{background:var(--accent-tint);color:var(--accent)}
+@media(max-width:820px){
+  .arch{grid-template-columns:1fr}
+  .arch .rail{border-bottom:1px solid var(--rule)}
+  .arch .layer{grid-template-columns:82px minmax(0,1fr)}
+  .arch .mod{white-space:normal}
+}
+.modgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.modcard{background:var(--surface);padding:17px 19px}
+.modcard .mn{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--accent);margin-bottom:5px}
+.modcard .mt{font-family:var(--serif);font-weight:600;font-size:15.5px;line-height:1.4;margin-bottom:6px;color:var(--ink)}
+.modcard .md{font-size:12.5px;line-height:1.65;color:var(--ink-soft);margin:0}
+.modcard .md b{color:var(--ink)}
+@media(max-width:760px){.modgrid{grid-template-columns:1fr}}
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.flow>div{background:var(--surface);padding:14px 13px}
+.flow .fn{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--accent);margin-bottom:5px}
+.flow .ft{font-size:13px;font-weight:700;line-height:1.4;color:var(--ink);margin-bottom:4px}
+.flow .fd{font-size:11.5px;line-height:1.6;color:var(--ink-soft)}
+@media(max-width:760px){.flow{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<nav class="top">
+  <div class="inner">
+    <span class="brand">大模型 · 技术架构</span>
+    <div class="links">
+      <a href="#thesis">结论</a>
+      <a href="#overview">总图</a>
+      <a href="#compute">算力</a>
+      <a href="#train-infra">训练基础设施</a>
+      <a href="#inference">推理部署</a>
+      <a href="#data-infra">数据基建</a>
+      <a href="#data-algo">数据算法</a>
+      <a href="#model">模型算法</a>
+      <a href="#product-eng">产研工程</a>
+      <a href="#collab">分工协同</a>
+      <a href="#companies">公司对照</a>
+      <a href="#org">组织形态</a>
+      <a href="#maturity">成熟度</a>
+      <a href="#risks">误区风险</a>
+      <a href="#hrbp">HRBP</a>
+      <a href="#sources">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">技术架构研究 · 大模型 · 2026</p>
+  <h1>大模型技术架构全景</h1>
+  <p class="standfirst">一家大模型公司真正的技术能力，不在某一层最强，而在六层之间能否低损耗地循环：算力变成有效算力，数据变成配方，训练变成能力，推理变成收入，反馈再变成下一轮数据。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-22</dd></div>
+    <div><dt>版本</dt><dd>v1 · 16 节（结论 + 14 节分析 + 信息源）</dd></div>
+    <div><dt>核心结论</dt><dd>架构的胜负手在层间接口与反馈回路，不在单层堆料</dd></div>
+  </dl>
+  <p class="scale-note" style="margin-top:10px">参考公司：OpenAI · Anthropic · DeepSeek · Kimi · 字节 Seed · 阿里 Qwen · 腾讯混元</p>
+</header>
+
+<section id="thesis">
+  <span class="snum">00</span>
+  <h2 class="sec">结论先行</h2>
+
+  <div class="thesis">
+    <ol>
+      <li>
+        <b>大模型技术架构不是六层堆叠，而是三条闭环：训练闭环、推理闭环、数据闭环。</b>
+        算力、训练基础设施、数据、模型、推理、产研工程只是节点；真正的能力差在<em>回路速度</em>与<em>接口损耗</em>。一条训练流水线每多等一天数据、每多一次 checkpoint 不兼容、每多一轮评测污染，都会把算力优势抵消掉。需要强调的是：不同阶段的瓶颈不同，0→1 的瓶颈通常是模型与数据，1→10 的瓶颈通常是训练稳定性，10→100 的瓶颈通常是推理成本与组织接口。
+      </li>
+      <li>
+        <b>算力层的核心不是「有多少卡」，而是「有多少有效算力」。</b>
+        有效算力 ≈ 峰值算力 × 利用率 × 互联效率 × 稳定性 × 调度效率。行业训练 MFU 常在 35%–45%，字节 MegaScale 在 12,288 卡上做到 55.2%，已经是头部水平；同样的卡，利用率差两倍，产出就差两倍。需要强调的是：MFU 的计算口径（模型 FLOPs、序列长度、是否含重算）不同，不能直接横比。
+      </li>
+      <li>
+        <b>训练基础设施的核心是「并行组合 + 故障恢复」，不是「选一个框架」。</b>
+        千卡看并行（DP/TP/PP/EP/CP 怎么切），万卡看网络与容错（NCCL、RDMA、checkpoint、straggler），十万卡看电力、调度与集群运营。框架会趋同，<em>调优经验与故障库</em>不会。需要强调的是：公开的 MFU 数字往往来自理想 workload，真实训练的长时间稳定性才是分水岭。
+      </li>
+      <li>
+        <b>数据基建是供应链，数据算法是配方；两者常被混为一谈。</b>
+        基建管吞吐、成本、lineage、合规；算法管配比、合成、课程、污染、飞轮。把「爬了 10T token」当成数据能力，就像把「买了面粉」当成会做面包。需要强调的是：数据量不等于数据质量，合成数据也不等于免费数据——合成需要验证器、过滤与去重，成本常常被低估。
+      </li>
+      <li>
+        <b>推理部署是唯一直接决定毛利率的层。</b>
+        训练是资本开支，推理是运营成本；$/1M tokens、p99、goodput、KV cache 命中率、GPU 利用率，决定商业模式能不能成立。推理优化必须与模型结构、训练精度、checkpoint 格式联合设计，事后补课的成本很高。需要强调的是：低价 API 不等于低成本，可能只是用融资补贴推理。
+      </li>
+      <li>
+        <b>产研工程是把「研究能力」变成「可重复交付」的层，也是最容易被低估的层。</b>
+        实验管理、CI/CD、eval harness、release gate、安全、客户交付，决定了模型能否从 demo 变成产品。没有这一层，研究团队会陷入「每次都要重新跑一遍」的泥潭。需要强调的是：产研工程不是支持部门，它是规模化后的主战场。
+      </li>
+      <li>
+        <b>组织架构没有唯一答案，但有一条规律：越靠近前沿，越需要「研究—infra—数据」共置；越靠近规模，越需要平台化与接口契约。</b>
+        七家公司的差异，本质是「共置」与「平台化」的比例不同：DeepSeek 用极小的共置团队做模型-基础设施协同设计，字节用平台（MegaScale/veScale/Volcano）+ 1,500 人 Seed 做规模化，Anthropic 用研究/产品/政策的清晰分工做安全与产品。需要强调的是：照搬别家的 org chart 会失败，因为阶段、瓶颈与人才结构不同。
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="wide" id="overview">
+  <span class="snum">01</span>
+  <h2 class="sec">总图：六层架构、三条流水线、四个接口</h2>
+
+  <p class="lede">先看全局。把大模型技术栈拆成六层，再用两条侧轨把「数据」与「治理」贯穿起来——这样既能看清模块，也能看清模块之间的依赖。</p>
+
+  <div class="arch">
+    <div class="rail">
+      <div class="rt">Left Rail · 数据</div>
+      <div class="rn">数据基建 + 数据算法</div>
+      <p class="rd">供应链与配方：采集、湖仓、清洗、去重、质量、配比、合成、lineage、污染控制。它同时供给预训练、后训练与评测。</p>
+    </div>
+    <div class="main">
+      <div class="layer">
+        <div class="ln">L6 · 产品</div>
+        <div class="lc"><div class="lt">产品与应用</div><div class="mods"><span class="mod">Chat / API</span><span class="mod">Agent / Harness</span><span class="mod">企业私有化</span><span class="mod">行业方案</span><span class="mod">计费 / 运营</span></div></div>
+      </div>
+      <div class="layer">
+        <div class="ln">L5 · 产研</div>
+        <div class="lc"><div class="lt">产研工程</div><div class="mods"><span class="mod">实验管理</span><span class="mod">CI/CD</span><span class="mod">Eval Harness</span><span class="mod">Release Gate</span><span class="mod">安全 / 红队</span><span class="mod">可观测</span></div></div>
+      </div>
+      <div class="layer hero">
+        <div class="ln">L4 · 模型</div>
+        <div class="lc"><div class="lt">模型与算法</div><div class="mods"><span class="mod">基座架构</span><span class="mod">预训练</span><span class="mod">后训练 / RL</span><span class="mod">推理 / Agent</span><span class="mod">多模态</span><span class="mod">评测</span></div></div>
+      </div>
+      <div class="layer hero">
+        <div class="ln">L3 · 推理</div>
+        <div class="lc"><div class="lt">推理部署</div><div class="mods"><span class="mod">推理引擎</span><span class="mod">调度 / 批处理</span><span class="mod">KV Cache</span><span class="mod">量化</span><span class="mod">PD 分离</span><span class="mod">网关 / SLO</span></div></div>
+      </div>
+      <div class="layer">
+        <div class="ln">L2 · 训练</div>
+        <div class="lc"><div class="lt">训练基础设施</div><div class="mods"><span class="mod">框架</span><span class="mod">并行策略</span><span class="mod">MoE</span><span class="mod">Checkpoint</span><span class="mod">容错</span><span class="mod">Kernel / 编译器</span></div></div>
+      </div>
+      <div class="layer">
+        <div class="ln">L1 · 算力</div>
+        <div class="lc"><div class="lt">算力</div><div class="mods"><span class="mod">GPU / NPU</span><span class="mod">高速互联</span><span class="mod">存储</span><span class="mod">调度</span><span class="mod">电力 / 制冷</span><span class="mod">FinOps</span></div></div>
+      </div>
+    </div>
+    <div class="rail">
+      <div class="rt">Right Rail · 治理</div>
+      <div class="rn">安全 · 评测 · FinOps</div>
+      <p class="rd">横切所有层：权限、数据合规、模型安全、红队、成本归因、SLO、审计。它不直接产生产能，但决定产能能不能被使用。</p>
+    </div>
+  </div>
+
+  <p class="scale-note">读图方式：向上是能力交付（算力→训练→模型→推理→产品），向下是约束传导（产品 SLO→推理成本→模型结构→训练策略→算力采购）。左右两条侧轨不是「层」，而是贯穿所有层的供给与治理。</p>
+
+  <h3 class="sub"><span class="subn">01.1</span>三条流水线：训练、推理、数据</h3>
+
+  <div class="flow">
+    <div><div class="fn">T1</div><div class="ft">数据</div><div class="fd">采集、清洗、去重、配比、版本</div></div>
+    <div><div class="fn">T2</div><div class="ft">Tokenize</div><div class="fd">分词器、序列打包、mask、课程</div></div>
+    <div><div class="fn">T3</div><div class="ft">预训练</div><div class="fd">并行、MoE、FP8、稳定性</div></div>
+    <div><div class="fn">T4</div><div class="ft">后训练</div><div class="fd">SFT、RLHF/DPO/GRPO、Agentic RL</div></div>
+    <div><div class="fn">T5</div><div class="ft">评测</div><div class="fd">离线、人类、红队、污染控制</div></div>
+    <div><div class="fn">T6</div><div class="ft">发布</div><div class="fd">Checkpoint、量化、灰度、回滚</div></div>
+  </div>
+  <p class="scale-note">训练流水线：越往后越贵，越需要 gate。数据错误会在 T3 放大，评测漏洞会在 T6 放大。</p>
+
+  <div class="flow">
+    <div><div class="fn">I1</div><div class="ft">请求</div><div class="fd">协议、鉴权、配额、内容安全</div></div>
+    <div><div class="fn">I2</div><div class="ft">网关</div><div class="fd">路由、限流、计费、缓存</div></div>
+    <div><div class="fn">I3</div><div class="ft">调度</div><div class="fd">批处理、优先级、抢占、多租户</div></div>
+    <div><div class="fn">I4</div><div class="ft">Prefill</div><div class="fd">长上下文、chunked prefill、PD 分离</div></div>
+    <div><div class="fn">I5</div><div class="ft">Decode</div><div class="fd">KV cache、投机解码、量化</div></div>
+    <div><div class="fn">I6</div><div class="ft">观测</div><div class="fd">TTFT、TPOT、p99、goodput、成本</div></div>
+  </div>
+  <p class="scale-note">推理流水线：真正的成本在 I4/I5，真正的体验在 I1/I6。任何一段的毛刺都会变成 p99 和退款。</p>
+
+  <div class="flow">
+    <div><div class="fn">D1</div><div class="ft">日志/反馈</div><div class="fd">产品日志、用户反馈、失败样本</div></div>
+    <div><div class="fn">D2</div><div class="ft">筛选</div><div class="fd">去重、脱敏、质量、合规</div></div>
+    <div><div class="fn">D3</div><div class="ft">标注/合成</div><div class="fd">人类反馈、验证器、合成任务</div></div>
+    <div><div class="fn">D4</div><div class="ft">训练</div><div class="fd">继续预训练、后训练、RL</div></div>
+    <div><div class="fn">D5</div><div class="ft">评测</div><div class="fd">能力、回归、安全、污染</div></div>
+    <div><div class="fn">D6</div><div class="ft">部署</div><div class="fd">灰度、A/B、回滚</div></div>
+  </div>
+  <p class="scale-note">数据飞轮：D1→D6 不是自动的。没有筛选与评测，飞轮会变成「用噪声训练噪声」。</p>
+
+  <h3 class="sub"><span class="subn">01.2</span>四个接口：层与层之间真正需要「签约」的地方</h3>
+
+  <div class="tw">
+    <table>
+      <caption>架构损耗大多发生在接口，而不是层内。四个接口必须有明确的 owner、版本与验收标准。</caption>
+      <thead>
+        <tr><th>接口</th><th>生产方</th><th>消费方</th><th>必须写清什么</th><th>典型失败</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">Checkpoint 契约</td>
+          <td>训练基础设施</td>
+          <td>推理部署、后训练</td>
+          <td>张量布局、并行切分、精度、tokenizer、config、版本兼容</td>
+          <td>训练完的 checkpoint 推理引擎加载不了；量化后精度崩；并行度改变后无法续训</td>
+        </tr>
+        <tr>
+          <td class="k">数据契约</td>
+          <td>数据基建 / 数据算法</td>
+          <td>预训练、后训练、评测</td>
+          <td>schema、tokenizer、去重/过滤版本、污染检测、许可、lineage</td>
+          <td>训练集与 eval 重叠；数据配比变了但实验记录没变；同一份数据被重复计费</td>
+        </tr>
+        <tr>
+          <td class="k">评测契约</td>
+          <td>模型团队 / 评测团队</td>
+          <td>产研工程、产品、发布委员会</td>
+          <td>benchmark 版本、prompt、采样参数、人类基线、污染声明、通过阈值</td>
+          <td>榜单涨了但真实体验没涨；eval 泄漏；不同团队用不同口径汇报</td>
+        </tr>
+        <tr>
+          <td class="k">API/SLO 契约</td>
+          <td>推理平台 / 产品</td>
+          <td>客户、应用、计费</td>
+          <td>TTFT、TPOT、p99、可用性、限流、价格、上下文上限、安全策略</td>
+          <td>演示很快，上线 p99 超标；低价套餐被大客户打穿；模型升级导致 API 行为变化</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">一条公式</div>
+    <p><b>有效算力 ≈ 峰值算力 × 利用率 × 互联效率 × 稳定性 × 调度效率。</b>采购只能改变第一项；后四项由架构、运维与组织决定。这也是为什么「买更多卡」经常不是瓶颈的答案。</p>
+  </div>
+</section>
+
+<section class="wide" id="compute">
+  <span class="snum">02</span>
+  <h2 class="sec">算力层：把电力、芯片、网络、存储、调度、运维、运营组合成一台机器</h2>
+
+  <p class="lede">算力层最容易被简化成「买了多少张卡」。但在真实集群里，卡只占 TCO 的一部分；网络、存储、电力、运维与利用率，才决定这些卡能不能持续产出 token。</p>
+
+  <h3 class="sub"><span class="subn">02.1</span>九个模块：算力层的完整拆分</h3>
+
+  <div class="modgrid">
+    <div class="modcard">
+      <div class="mn">C1 · 硬件</div>
+      <div class="mt">服务器与加速卡</div>
+      <p class="md">GPU/NPU/TPU、HBM 容量与带宽、卡间互联、整机形态、采购/租赁/云。决定峰值算力与显存上限，也决定可用的精度（FP8/FP4）。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C2 · 互联</div>
+      <div class="mt">节点内与集群网络</div>
+      <p class="md">NVLink/PCIe、InfiniBand/RoCE、超节点、叶脊拓扑、拥塞控制。决定张量并行、专家并行与流水并行的可扩展性。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C3 · 存储</div>
+      <div class="mt">并行文件系统与对象存储</div>
+      <p class="md">训练数据、checkpoint、日志、模型权重。要求高吞吐、低延迟、POSIX 兼容、PB 级扩展；DeepSeek 3FS 是公开样本。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C4 · 调度</div>
+      <div class="mt">集群调度与多租户</div>
+      <p class="md">Slurm/Kubernetes/Volcano、队列、配额、抢占、拓扑感知、gang scheduling。决定集群是「一台机器」还是「一堆孤岛」。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C5 · 运维</div>
+      <div class="mt">SRE、容灾与备件</div>
+      <p class="md">监控、告警、故障隔离、备件、固件/驱动升级、灰度、混沌演练。万卡集群的可用性，靠的是运维体系而不是运气。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C6 · 机房</div>
+      <div class="mt">电力、制冷与选址</div>
+      <p class="md">MW 级供电、PUE、液冷、土地、电价、网络时延。十万卡时代的真正瓶颈往往不是芯片，而是电力和并网。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C7 · 异构</div>
+      <div class="mt">国产卡与软件栈适配</div>
+      <p class="md">CUDA/ROCm/CANN、算子库、编译器、通信库、框架适配。差距常在显存带宽与生态，不只是峰值算力。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C8 · 运营</div>
+      <div class="mt">FinOps 与算力经营</div>
+      <p class="md">成本归因、利用率、预留/竞价、预算、内部计价、集群共享。没有成本可见性，就没有优化动力。</p>
+    </div>
+    <div class="modcard">
+      <div class="mn">C9 · 观测</div>
+      <div class="mt">集群可观测性</div>
+      <p class="md">GPU 利用率、显存、温度、功耗、NCCL 状态、网络丢包、存储 IOPS。故障定位的第一现场。</p>
+    </div>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.2</span>每个模块的指标、故障与建设方式</h3>
+
+  <div class="tw">
+    <table>
+      <caption>算力模块的「KPI—故障—建设」对照。指标必须能落到监控面板，否则只是口号。</caption>
+      <thead>
+        <tr><th>模块</th><th>核心指标</th><th>常见故障</th><th>建设方式</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">服务器/加速卡</td><td>峰值 FLOPS、HBM 带宽、显存容量、故障率</td><td>GPU 掉卡、ECC 错误、降频、备件不足</td><td>自建/云租/混合；按训练与推理分池</td></tr>
+        <tr><td class="k">高速互联</td><td>卡间带宽、端到端时延、丢包率、NCCL 效率</td><td>链路抖动、拥塞、拓扑不匹配、光模块故障</td><td>IB/RoCE 双栈；超节点；拓扑感知调度</td></tr>
+        <tr><td class="k">存储</td><td>读/写吞吐、IOPS、元数据延迟、checkpoint 时间</td><td>训练等数据、checkpoint 写不进去、元数据瓶颈</td><td>并行文件系统 + 对象存储分层；3FS 类方案</td></tr>
+        <tr><td class="k">调度</td><td>排队时间、利用率、抢占率、碎片率</td><td>大任务饿死、小任务占满、拓扑碎片</td><td>Slurm/K8s/Volcano；配额与优先级；gang scheduling</td></tr>
+        <tr><td class="k">运维</td><td>MTBF、MTTR、可用性、备件周转</td><td>故障发现慢、误重启、升级引入回归</td><td>SRE + 自动化 + 混沌演练 + 灰度升级</td></tr>
+        <tr><td class="k">机房</td><td>MW、PUE、电价、并网进度</td><td>电力不足、制冷失效、选址延误</td><td>长期电力合同；液冷；靠近电网/网络</td></tr>
+        <tr><td class="k">异构</td><td>算子覆盖率、性能/功耗、适配周期</td><td>算子缺失、精度不一致、通信库不兼容</td><td>抽象层 + 自研 kernel + 国产卡专用优化</td></tr>
+        <tr><td class="k">FinOps</td><td>每卡时成本、每 token 成本、闲置率</td><td>预算超支、资源囤积、部门间争抢</td><td>内部计价、配额、预留/竞价组合</td></tr>
+        <tr><td class="k">可观测</td><td>GPU/网络/存储指标覆盖率、告警准确率</td><td>指标缺失、告警风暴、根因定位慢</td><td>统一采集 + 拓扑关联 + 故障知识库</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">02.3</span>千卡、万卡、十万卡：瓶颈会换位置</h3>
+
+  <div class="tw">
+    <table>
+      <caption>集群规模每上一个量级，瓶颈就从「并行策略」转向「网络/存储/电力/组织」。用千卡经验管万卡，通常会低估运维与调度。</caption>
+      <thead>
+        <tr><th>规模</th><th>主要瓶颈</th><th>必须有的能力</th><th>组织含义</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">千卡</td><td>并行策略、显存、MFU</td><td>Megatron/DeepSpeed/FSDP、NCCL 调优、checkpoint</td><td>一个训练平台小组 + 模型团队共置</td></tr>
+        <tr><td class="k">万卡</td><td>网络、存储、故障率、调度</td><td>拓扑感知、RDMA、并行文件系统、自动容错、SRE</td><td>独立集群团队；训练/推理分池；容量规划</td></tr>
+        <tr><td class="k">十万卡</td><td>电力、并网、集群运营、跨域调度</td><td>MW 级供电、液冷、超节点、全局调度、FinOps</td><td>基础设施成为公司级能力；CEO/CTO 直接负责</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p><b>公开样本：</b>字节 MegaScale 在 12,288 张 GPU 上做到 55.2% MFU，说明万卡集群的瓶颈不只是卡，而是网络、调度与故障恢复的系统工程；DeepSeek 的 3FS 在 180 节点集群上公开了约 6.6 TiB/s 的读吞吐，说明存储可能成为训练吞吐的隐形上限；阿里灵骏、腾讯 Angel 等平台则把「集群—框架—模型」做成了一体化栈。需要强调的是：这些数字来自各自公开材料，测试条件不同，不能直接横比。</p>
+
+  <div class="callout warnb">
+    <div class="ct">算力层最常见的三个误判</div>
+    <p><b>① 把峰值算力当有效算力。</b>峰值是理论值，MFU 才是产出。<b>② 把云当无限弹性。</b>大集群的瓶颈是配额、网络与电力，不是 API。<b>③ 把推理卡和训练卡混在一起。</b>训练要互联与显存，推理要吞吐与成本，混池会同时拖累两边。</p>
+  </div>
+</section>
+
+<section class="wide" id="train-infra">
+  <span class="snum">03</span>
+  <h2 class="sec">训练基础设施：把「能训」变成「稳定地训完」</h2>
+
+  <p class="lede">训练基础设施的目标不是「把模型跑起来」，而是「在尽可能长的时间里，以尽可能高的 MFU，稳定地训完，并且随时能恢复」。这是一项系统工程，不是选一个框架。</p>
+
+  <h3 class="sub"><span class="subn">03.1</span>八个模块</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">T1 · 框架</div><div class="mt">训练框架</div><p class="md">PyTorch/JAX、Megatron-LM、DeepSpeed、FSDP、veScale 等。负责计算图、自动微分、分布式抽象与算子调度。</p></div>
+    <div class="modcard"><div class="mn">T2 · 并行</div><div class="mt">并行策略</div><p class="md">数据并行（DP）、张量并行（TP）、流水并行（PP）、专家并行（EP）、序列/上下文并行（CP）。决定模型能切多大、通信有多少。</p></div>
+    <div class="modcard"><div class="mn">T3 · 显存</div><div class="mt">显存与计算优化</div><p class="md">ZeRO、激活重算、offload、融合算子、梯度累积。目标是在有限 HBM 下装下更大的模型与更长的序列。</p></div>
+    <div class="modcard"><div class="mn">T4 · MoE</div><div class="mt">MoE 训练</div><p class="md">路由、负载均衡、capacity factor、dropless、专家并行、EPLB。MoE 的难点不是参数，而是「不均衡」。</p></div>
+    <div class="modcard"><div class="mn">T5 · 精度</div><div class="mt">混合精度与数值稳定</div><p class="md">BF16/FP8/FP4、loss scaling、梯度裁剪、QK-clip、随机数复现。精度是吞吐的来源，也是 NaN 的来源。</p></div>
+    <div class="modcard"><div class="mn">T6 · 容错</div><div class="mt">Checkpoint 与故障恢复</div><p class="md">分片 checkpoint、异步保存、断点续训、弹性训练、straggler 检测。万卡集群里，故障是常态，不是异常。</p></div>
+    <div class="modcard"><div class="mn">T7 · Kernel</div><div class="mt">算子与编译器</div><p class="md">FlashAttention、DeepGEMM、Triton/CUDA kernel、图编译、通信融合。决定同样的卡能多跑出多少 tokens。</p></div>
+    <div class="modcard"><div class="mn">T8 · 观测</div><div class="mt">实验管理与可观测</div><p class="md">loss/grad norm、MFU、tokens/s、显存、通信耗时、config/seed/数据版本。没有可复现，就没有研究。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.2</span>训练稳定性的三角：数值、通信、数据</h3>
+
+  <div class="tw">
+    <table>
+      <caption>训练事故大多落在这三类。每一类都要有监控、止损与复盘机制。</caption>
+      <thead>
+        <tr><th>稳定性维度</th><th>典型症状</th><th>根因</th><th>止损手段</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">数值稳定</td><td>loss spike、grad norm 爆炸、NaN、精度回退</td><td>FP8 scaling 不当、attention logits 过大、学习率过高、数据异常</td><td>QK-clip、梯度裁剪、回滚 checkpoint、降学习率、隔离脏数据</td></tr>
+        <tr><td class="k">通信稳定</td><td>NCCL hang、吞吐骤降、straggler、超时</td><td>链路抖动、网卡/光模块故障、拓扑不匹配、负载不均</td><td>拓扑感知调度、超时重试、故障节点隔离、通信/计算 overlap</td></tr>
+        <tr><td class="k">数据稳定</td><td>loss 周期性问题、某个 domain 突然变差、重复样本</td><td>数据配比漂移、去重失败、shard 顺序固定、污染</td><td>数据版本锁定、shuffle buffer、配比监控、污染检测</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">03.3</span>公开样本：不同公司的训练栈选择</h3>
+
+  <div class="tw">
+    <table>
+      <caption>公开资料能确认的部分。未公开的内部实现不做推测；「参考」不代表完整架构。</caption>
+      <thead>
+        <tr><th>公司</th><th>公开可确认的训练栈要素</th><th>它解决的问题</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">DeepSeek</td><td>MLA、DeepSeekMoE、FP8、DualPipe、EPLB、DeepGEMM、3FS</td><td>用算法-系统协同设计，在有限算力下降低 KV cache、通信与专家不均衡的成本</td></tr>
+        <tr><td class="k">字节 Seed</td><td>MegaScale（12,288 卡、55.2% MFU）、veScale、ByteCheckpoint、Volcano</td><td>把万卡训练做成平台：网络、调度、容错、checkpoint 一体化</td></tr>
+        <tr><td class="k">Kimi</td><td>K2 万亿参数 MoE（32B 激活）、MuonClip 优化器、Agentic 数据</td><td>用优化器与数据策略，降低超大 MoE 的训练不稳定与冷启动成本</td></tr>
+        <tr><td class="k">阿里 Qwen</td><td>PAI/灵骏集群、xDL、Qwen 系列训练体系</td><td>云 + 平台 + 模型一体化，支持多代模型与多租户</td></tr>
+        <tr><td class="k">腾讯混元</td><td>Angel-PTM、TACO、TurboTransformers 等公开平台/工具</td><td>从训练到推理的工程链路；2026 年组织收拢后强调基础模型统一</td></tr>
+        <tr><td class="k">OpenAI / Anthropic</td><td>公开信息有限：多云/自建集群、内部训练栈、研究与应用一体化</td><td>以研究目标反推基础设施；具体并行/框架细节未公开</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">训练基础设施的分工边界</div>
+    <p><b>模型团队</b>决定模型结构、并行约束与训练目标；<b>训练平台团队</b>负责框架、并行、checkpoint、容错与性能；<b>SRE/集群团队</b>负责硬件、网络、存储与故障；<b>数据团队</b>负责数据供给与版本。四者的接口是 checkpoint、数据契约与训练配置。边界不清时，最常见的结果是「模型团队在调框架，平台团队在猜模型」。</p>
+  </div>
+</section>
+
+<section class="wide" id="inference">
+  <span class="snum">04</span>
+  <h2 class="sec">推理部署：唯一直接决定毛利率的层</h2>
+
+  <p class="lede">训练是资本开支，推理是运营成本。一个模型能不能赚钱，最终落在 $/1M tokens、p99、goodput 和 GPU 利用率这四个数字上。</p>
+
+  <h3 class="sub"><span class="subn">04.1</span>九个模块</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">I1 · 网关</div><div class="mt">API Gateway</div><p class="md">鉴权、限流、配额、路由、计费、内容安全。它是产品与模型之间的第一道契约。</p></div>
+    <div class="modcard"><div class="mn">I2 · 调度</div><div class="mt">请求调度</div><p class="md">continuous batching、优先级、抢占、多租户隔离、SLA 分级。决定吞吐与尾延迟。</p></div>
+    <div class="modcard"><div class="mn">I3 · 引擎</div><div class="mt">推理引擎</div><p class="md">vLLM、SGLang、TensorRT-LLM、自研引擎。负责图执行、批处理、内存管理与并行。</p></div>
+    <div class="modcard"><div class="mn">I4 · KV</div><div class="mt">KV Cache 管理</div><p class="md">PagedAttention、prefix caching、KV 量化/offload、跨请求复用。长上下文时代的核心内存问题。</p></div>
+    <div class="modcard"><div class="mn">I5 · 量化</div><div class="mt">量化与压缩</div><p class="md">FP8/INT8/INT4、AWQ/GPTQ、平滑量化、精度评估。用精度换吞吐与显存，但要守住任务指标。</p></div>
+    <div class="modcard"><div class="mn">I6 · 投机</div><div class="mt">投机解码</div><p class="md">草稿模型、Medusa/EAGLE、n-gram/检索草稿。接受率高时提速，接受率低时反而更慢。</p></div>
+    <div class="modcard"><div class="mn">I7 · PD</div><div class="mt">Prefill/Decode 分离</div><p class="md">把长 prompt 的 prefill 与自回归 decode 拆到不同资源池，按负载独立扩缩容。</p></div>
+    <div class="modcard"><div class="mn">I8 · 多租户</div><div class="mt">多模型/多 LoRA</div><p class="md">基础模型 + LoRA/adapters、路由、隔离、配额。企业客户需要私有化与专属实例。</p></div>
+    <div class="modcard"><div class="mn">I9 · 观测</div><div class="mt">SLO 与成本</div><p class="md">TTFT、TPOT、p99、goodput、缓存命中、每 token 成本、GPU 利用率、错误率。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.2</span>四个数字：TTFT、TPOT、p99、$/1M tokens</h3>
+
+  <div class="tw">
+    <table>
+      <caption>推理指标必须一起看。单看吞吐会牺牲尾延迟；单看价格会牺牲毛利率。</caption>
+      <thead>
+        <tr><th>指标</th><th>定义</th><th>谁最在意</th><th>优化手段</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">TTFT</td><td>首 token 延迟</td><td>交互产品、Agent</td><td>chunked prefill、prefix cache、PD 分离、路由到近端</td></tr>
+        <tr><td class="k">TPOT</td><td>每输出 token 时间</td><td>长文生成、对话</td><td>批处理、KV 管理、量化、投机解码</td></tr>
+        <tr><td class="k">p99</td><td>尾延迟</td><td>企业 SLA、API 客户</td><td>隔离、限流、优先级、容量冗余、避免大 batch 饿死小请求</td></tr>
+        <tr><td class="k">$/1M tokens</td><td>每百万 token 成本</td><td>CEO/财务/商业</td><td>提高 tokens/s/GPU、利用率、缓存命中、量化、采购/租赁组合</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">04.3</span>训练-推理协同：五个必须在训练前想清楚的问题</h3>
+
+  <ol class="plain">
+    <li><b>Checkpoint 格式：</b>推理引擎能不能直接加载？并行切分是否可重排？量化后是否保留关键层精度？</li>
+    <li><b>Attention/ KV 布局：</b>GQA/MLA/MQA 的选择，直接决定 KV cache 大小与推理吞吐；训练时就要为推理留好结构。</li>
+    <li><b>Tokenizer 与上下文：</b>tokenizer 变更会让缓存、计费、评测全部失效；长上下文能力要与推理显存规划一起定。</li>
+    <li><b>精度策略：</b>训练用 FP8、推理用 FP8/INT4，精度回退要在训练时用 QAT 或校准数据评估，不能上线后再补。</li>
+    <li><b>SLO 与模型结构：</b>如果产品要求 p99 &lt; 2s，模型层数、专家数、激活参数、上下文长度都要为推理成本让路。</li>
+  </ol>
+
+  <div class="callout warnb">
+    <div class="ct">推理成本公式</div>
+    <p><b>$/1M tokens ≈ (GPU 每小时成本 ÷ 每小时有效 token 数) × 1,000,000 + 网络/存储/运维分摊。</b>降低分子（采购、租赁、利用率）和抬高分母（吞吐、缓存、批处理）同样重要。很多团队只优化模型，不优化利用率，结果卡买了、成本没降。</p>
+  </div>
+
+  <p><b>公开样本：</b>DeepSeek 公开过推理系统的成本与利润率口径，说明推理层的成本可以被工程显著改变；字节 MegaScale-Infer 研究了 MoE 的 disaggregated expert parallelism；vLLM/SGLang 把 PagedAttention、continuous batching、prefix caching 变成行业基线；腾讯 TurboTransformers 则展示了推理引擎与业务场景联合优化的路径。需要强调的是：这些系统的测试条件、模型与负载不同，不能直接比较绝对数字。</p>
+</section>
+
+<section class="wide" id="data-infra">
+  <span class="snum">05</span>
+  <h2 class="sec">数据基建：LLM 的供应链，不是「数据湖」</h2>
+
+  <p class="lede">数据基建的目标不是「把数据存下来」，而是「以可控成本、可追溯、可复现的方式，把原始数据变成可训练的 token」。它是一条供应链，不是一个存储桶。</p>
+
+  <h3 class="sub"><span class="subn">05.1</span>十五个模块：从原始数据到训练 token</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">D1 · 来源</div><div class="mt">数据源与采集</div><p class="md">网页、代码、书籍、论文、对话、业务日志、合成数据、标注数据。每一类都有许可、隐私、质量与成本约束。</p></div>
+    <div class="modcard"><div class="mn">D2 · 存储</div><div class="mt">对象存储 / 数据湖</div><p class="md">S3/OSS/HDFS、Parquet/Arrow、压缩、分区、生命周期。要求高吞吐、低成本、可扩展。</p></div>
+    <div class="modcard"><div class="mn">D3 · 表格式</div><div class="mt">表格式与元数据</div><p class="md">Iceberg/Delta/Hudi、catalog、schema evolution、快照。让数据像表一样可查询、可回滚。</p></div>
+    <div class="modcard"><div class="mn">D4 · 计算</div><div class="mt">计算引擎</div><p class="md">Spark、Ray、Flink、DuckDB、Beam。批处理、流处理、分布式推理、向量化。</p></div>
+    <div class="modcard"><div class="mn">D5 · 解析</div><div class="mt">解析与清洗</div><p class="md">HTML→text、PDF/表格/公式解析、语言识别、去噪、结构还原。解析质量常被低估。</p></div>
+    <div class="modcard"><div class="mn">D6 · 去重</div><div class="mt">去重</div><p class="md">MinHash/SimHash、精确哈希、embedding 聚类、文档级/段落级。直接影响 token 效率与记忆。</p></div>
+    <div class="modcard"><div class="mn">D7 · 质量</div><div class="mt">质量与安全</div><p class="md">规则、分类器、LLM judge、PII、毒性、版权、许可。需要黄金集与人工抽检。</p></div>
+    <div class="modcard"><div class="mn">D8 · 配方</div><div class="mt">配比与课程</div><p class="md">domain mixture、stage-wise recipe、难度分层、序列长度、数据顺序。数据算法的核心输入。</p></div>
+    <div class="modcard"><div class="mn">D9 · 合成</div><div class="mt">合成数据</div><p class="md">self-instruct、演化、self-play、任务生成、验证器。合成不是免费数据，需要过滤与评估。</p></div>
+    <div class="modcard"><div class="mn">D10 · Tokenize</div><div class="mt">Tokenizer 与序列化</div><p class="md">分词器、词表、特殊 token、序列打包、mask、训练/推理一致性。tokenizer 变更会波及全栈。</p></div>
+    <div class="modcard"><div class="mn">D11 · 版本</div><div class="mt">版本与 Lineage</div><p class="md">数据集版本、内容哈希、父数据集、处理代码、配置。回答「这个 run 到底用了什么」。</p></div>
+    <div class="modcard"><div class="mn">D12 · 评测</div><div class="mt">评测数据与污染</div><p class="md">held-out、动态 eval、n-gram/embedding 污染检测、去污染、评测集版本。防止「考卷泄题」。</p></div>
+    <div class="modcard"><div class="mn">D13 · 标注</div><div class="mt">标注与人类反馈</div><p class="md">标注体系、众包/专家、一致性、偏好数据、红队数据。决定后训练的上限。</p></div>
+    <div class="modcard"><div class="mn">D14 · 成本</div><div class="mt">成本与可观测</div><p class="md">每 1T token 的存储/计算/人工成本、吞吐、失败率、重跑率。数据成本常被低估。</p></div>
+    <div class="modcard"><div class="mn">D15 · 契约</div><div class="mt">数据契约与 SLA</div><p class="md">schema、版本、owner、交付时间、质量阈值、回滚策略。让数据团队与训练团队有可执行的接口，而不是口头承诺。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.2</span>数据基建 vs 数据算法：别把供应链当配方</h3>
+
+  <div class="tw">
+    <table>
+      <caption>两类工作的目标、指标与人完全不同。创业公司常把两者压给一个人，结果两头都不深。</caption>
+      <thead>
+        <tr><th>维度</th><th>数据基建</th><th>数据算法</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">目标</td><td>把数据可靠、低成本、可追溯地送到训练</td><td>决定「用什么数据、怎么配、怎么合成」</td></tr>
+        <tr><td class="k">核心指标</td><td>吞吐、成本、延迟、可用性、lineage 覆盖率</td><td>下游 eval delta、去重率、污染率、多样性</td></tr>
+        <tr><td class="k">典型背景</td><td>数据平台、搜索/推荐 infra、云厂商</td><td>数据-centric AI、NLP、评测、研究</td></tr>
+        <tr><td class="k">失败模式</td><td>管道崩、成本失控、版本不可复现</td><td>配比拍脑袋、合成数据自嗨、eval 污染</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">05.3</span>数据基建的架构图：一条主链路 + 四条侧轨</h3>
+
+  <div class="flow">
+    <div><div class="fn">S1</div><div class="ft">采集</div><div class="fd">网页/代码/书籍/日志/合成</div></div>
+    <div><div class="fn">S2</div><div class="ft">入湖</div><div class="fd">对象存储、Parquet、分区</div></div>
+    <div><div class="fn">S3</div><div class="ft">解析</div><div class="fd">HTML/PDF/表格/公式</div></div>
+    <div><div class="fn">S4</div><div class="ft">清洗</div><div class="fd">去噪、语言、PII、许可</div></div>
+    <div><div class="fn">S5</div><div class="ft">去重/质量</div><div class="fd">MinHash、分类器、黄金集</div></div>
+    <div><div class="fn">S6</div><div class="ft">配方/Tokenize</div><div class="fd">配比、课程、分词、打包</div></div>
+  </div>
+  <p class="scale-note">四条侧轨贯穿全链路：<b>Catalog/Lineage</b>（知道数据从哪来）、<b>Security/Compliance</b>（PII、版权、许可）、<b>Quality</b>（黄金集、抽检、指标）、<b>FinOps</b>（每 1T token 成本）。</p>
+
+  <h3 class="sub"><span class="subn">05.4</span>数据基建的指标、故障与建设方式</h3>
+
+  <div class="tw">
+    <table>
+      <caption>数据基建的 KPI 必须能落到「每 1T token 的成本」与「下游 eval 的影响」，否则只是管道指标。</caption>
+      <thead>
+        <tr><th>模块</th><th>核心指标</th><th>常见故障</th><th>建设方式</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">采集/入湖</td><td>入库吞吐、失败率、重复率、成本/GB</td><td>源站限流、格式漂移、重复抓取</td><td>批流一体；去重前置；源站健康监控</td></tr>
+        <tr><td class="k">解析/清洗</td><td>解析成功率、文本保留率、噪声率</td><td>PDF 乱码、表格丢失、编码错误</td><td>多解析器路由；人工抽检；回归集</td></tr>
+        <tr><td class="k">去重</td><td>去重率、误杀率、漏杀率、token 节省</td><td>阈值过松/过紧、跨语言失效</td><td>MinHash + 精确哈希 + embedding 多级</td></tr>
+        <tr><td class="k">质量/安全</td><td>分类器 AUC、PII 召回、毒性率、许可覆盖</td><td>误杀数学/代码、PII 漏检、版权不明</td><td>黄金集、规则+模型、人工复核、法务前置</td></tr>
+        <tr><td class="k">配比/课程</td><td>下游 eval delta、domain 覆盖、训练效率</td><td>配比拍脑袋、课程与数据不匹配</td><td>小模型代理消融；stage-wise 实验</td></tr>
+        <tr><td class="k">合成</td><td>多样性、重复率、验证通过率、边际收益</td><td>mode collapse、自评偏差、成本失控</td><td>验证器、去重、难度分层、成本核算</td></tr>
+        <tr><td class="k">版本/Lineage</td><td>lineage 覆盖率、可复现率、回滚时间</td><td>版本对不上、配置丢失、重跑不一致</td><td>内容哈希、配置即代码、数据快照</td></tr>
+        <tr><td class="k">评测/污染</td><td>污染率、eval 稳定性、覆盖度</td><td>训练集泄漏、benchmark 过拟合</td><td>动态 held-out、n-gram/embedding 检测</td></tr>
+        <tr><td class="k">成本</td><td>每 1T token 的存储/计算/人工成本</td><td>重复计算、冷数据占热存储、重跑</td><td>分层存储、缓存、增量计算、预算告警</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">数据基建最容易被忽略的三件事</div>
+    <p><b>① 解析质量。</b>PDF/表格/公式解析错，后面的清洗与训练都在学噪声。<b>② 版本与 lineage。</b>没有它，实验无法复现，事故无法回溯，审计无法通过。<b>③ 成本。</b>数据管道的计算与存储成本，常常在训练成本之外单独膨胀；不核算，就会「数据越多越穷」。</p>
+  </div>
+
+  <p><b>公开样本：</b>DeepSeek 的 3FS 把存储做成训练/推理基础设施的一部分；字节 Seed 在 2026-08 把基础模型团队拆成 Pretrain Data、Horizon RL、Product Posttrain-Work、Product Posttrain-Chat 四个一级部门，说明数据与后训练已经被当作独立的一级能力；阿里 PAI、腾讯 Angel 等平台则把数据、训练、推理放在同一套云/平台体系里。需要强调的是：这些是公开的组织/平台信息，具体内部数据架构未公开。</p>
+</section>
+
+<section class="wide" id="data-algo">
+  <span class="snum">06</span>
+  <h2 class="sec">数据算法：配方，而不是「更多数据」</h2>
+
+  <p class="lede">数据算法决定「用什么数据、怎么配、怎么合成、怎么验证」。同样的食材，不同的配比、火候与顺序，结果完全不同。</p>
+
+  <h3 class="sub"><span class="subn">06.1</span>八个模块</h3>
+
+  <div class="tw">
+    <table>
+      <caption>数据算法的模块与度量。每个模块都要能回答「它让哪个下游指标动了多少」。</caption>
+      <thead>
+        <tr><th>模块</th><th>做什么</th><th>关键方法</th><th>度量</th><th>主要风险</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">去重</td><td>去掉重复/近似重复样本</td><td>MinHash、SimHash、精确哈希、embedding 聚类</td><td>去重率、误杀率、token 节省</td><td>误杀代码/数学；跨语言失效</td></tr>
+        <tr><td class="k">质量过滤</td><td>筛掉低质、有害、无关内容</td><td>规则、分类器、LLM judge、困惑度</td><td>precision/recall、下游 delta</td><td>偏见、误杀长尾、成本</td></tr>
+        <tr><td class="k">配比</td><td>决定各 domain 的比例</td><td>消融、代理模型、贝叶斯优化</td><td>eval delta / 训练 token</td><td>过拟合 benchmark；阶段不匹配</td></tr>
+        <tr><td class="k">课程</td><td>决定数据顺序与难度</td><td>难度分层、长度分桶、curriculum</td><td>收敛速度、最终能力</td><td>课程与数据分布冲突</td></tr>
+        <tr><td class="k">合成数据</td><td>生成新任务/答案/环境</td><td>self-instruct、演化、self-play、验证器</td><td>多样性、通过率、边际收益</td><td>mode collapse、自评偏差</td></tr>
+        <tr><td class="k">RL 数据</td><td>构造 prompt、环境、奖励</td><td>可验证奖励、过程奖励、环境模拟</td><td>RL 曲线、pass@k、泛化</td><td>reward hacking、环境过窄</td></tr>
+        <tr><td class="k">评测数据</td><td>构造 held-out 与红队集</td><td>动态 eval、对抗样本、人类基线</td><td>覆盖度、稳定性、污染率</td><td>泄漏、过拟合、口径不一</td></tr>
+        <tr><td class="k">飞轮</td><td>把产品反馈变成下一轮数据</td><td>日志采样、脱敏、标注、难例挖掘</td><td>数据新鲜度、反馈转化率</td><td>隐私、噪声、分布偏移</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.2</span>四个旋钮：质量、多样性、难度、新鲜度</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">K1</div><div class="mt">质量</div><p class="md">高质量数据提升 token 效率，但过度过滤会让分布变窄。要用下游 eval 校准，而不是只看分类器分数。</p></div>
+    <div class="modcard"><div class="mn">K2</div><div class="mt">多样性</div><p class="md">domain、语言、任务、难度、长度都要覆盖。多样性不足会让模型在长尾上崩，合成数据尤其容易 mode collapse。</p></div>
+    <div class="modcard"><div class="mn">K3</div><div class="mt">难度</div><p class="md">太简单学不到，太难学不动。课程与难度分层要与模型规模、训练阶段匹配。</p></div>
+    <div class="modcard"><div class="mn">K4</div><div class="mt">新鲜度</div><p class="md">产品日志、新事件、新代码。新鲜数据提升时效性，但带来隐私、噪声与污染风险。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">06.3</span>合成数据的边际收益：一条必须测的曲线</h3>
+
+  <p>合成数据不是「免费的数据」。它需要生成成本、验证成本、过滤成本与去重成本；更关键的是，它的边际收益会衰减。一个可操作的评估框架是：</p>
+
+  <div class="tw">
+    <table>
+      <caption>合成数据的三条曲线。任何一条开始恶化，就应该停止或换策略。</caption>
+      <thead>
+        <tr><th>曲线</th><th>看什么</th><th>什么时候停</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">能力曲线</td><td>第 N 轮合成后，held-out eval 的增量</td><td>连续两轮增量 &lt; 噪声水平</td></tr>
+        <tr><td class="k">多样性曲线</td><td>去重率、embedding 聚类数、任务类型覆盖</td><td>重复率快速上升、聚类数下降</td></tr>
+        <tr><td class="k">成本曲线</td><td>每轮生成的 GPU/人工/验证成本</td><td>单位增量成本高于真实数据</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">与 RSI 的接口</div>
+    <p>合成数据、self-play、验证器，本质上都是「让模型自己生产训练信号」。这条路的强度取决于<em>验证器层级</em>：形式化验证 &gt; 过程奖励 &gt; 判官 &gt; rubric &gt; 自评。没有可靠验证器的合成数据，跑得越久，越可能是在放大自己的偏差。</p>
+  </div>
+</section>
+
+<section class="wide" id="model">
+  <span class="snum">07</span>
+  <h2 class="sec">模型与算法层：架构、预训练、后训练、推理/Agent、评测</h2>
+
+  <p class="lede">模型层不是「选一个 Transformer 变体」，而是五个模块的组合：架构决定能力上限与推理成本，预训练决定知识底座，后训练决定行为，推理/Agent 决定产品形态，评测决定你能不能知道自己在哪。</p>
+
+  <div class="tw">
+    <table>
+      <caption>模型层的五个模块。每个模块都反向约束基础设施与数据；不是孤立的研究问题。</caption>
+      <thead>
+        <tr><th>模块</th><th>核心问题</th><th>关键选择</th><th>度量</th><th>对基础设施的反向约束</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">架构</td><td>用什么结构承载能力，同时控制推理成本</td><td>Dense/MoE、MLA/GQA/MHA、上下文长度、多模态、扩散/自回归</td><td>scaling 效率、tokens/s、KV cache 大小</td><td>MoE→EP/EPLB；MLA→KV 压缩；长上下文→CP/PD；多模态→存储/带宽</td></tr>
+        <tr><td class="k">预训练</td><td>如何用数据与算力得到知识底座</td><td>目标函数、数据配比、课程、精度、并行</td><td>loss、下游 eval、token 效率</td><td>数据管道、checkpoint、训练稳定性、集群规模</td></tr>
+        <tr><td class="k">后训练</td><td>如何把底座变成可用的助手/Agent</td><td>SFT、RLHF/DPO/GRPO、RLVR、Agentic RL、self-play</td><td>win rate、task success、安全性、成本</td><td>rollout 推理、环境/验证器、数据标注、评测</td></tr>
+        <tr><td class="k">推理/Agent</td><td>如何把能力变成产品体验</td><td>test-time compute、工具调用、harness、记忆、多 Agent</td><td>任务成功率、延迟、成本、稳定性</td><td>推理引擎、KV cache、沙箱、可观测、安全</td></tr>
+        <tr><td class="k">评测</td><td>如何知道模型真实能力与风险</td><td>benchmark、人类评测、红队、动态 eval、污染控制</td><td>覆盖度、稳定性、污染率、人类一致性</td><td>eval 数据、推理配额、发布 gate、回归集</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.1</span>架构选择如何反向决定基础设施</h3>
+
+  <p>模型架构不是「研究团队自己的事」。每一个结构选择都会在训练与推理层产生账单：</p>
+
+  <ul class="plain">
+    <li><b>MoE：</b>参数量可以做大，但带来专家并行、负载均衡、all-to-all 通信与 EPLB。MoE 的推理还需要专家并行/分层部署，否则单卡放不下。</li>
+    <li><b>MLA/GQA：</b>压缩 KV cache，直接降低长上下文推理的显存与带宽；但训练时的 attention kernel 更复杂，推理引擎需要专门支持。</li>
+    <li><b>长上下文：</b>训练需要序列/上下文并行、激活重算、长序列数据；推理需要 chunked prefill、KV 分页/offload、PD 分离。</li>
+    <li><b>多模态：</b>数据量、存储、预处理、视觉编码器与对齐训练都会膨胀；推理侧还要处理图像/视频的预处理与带宽。</li>
+    <li><b>推理模型（长思维链）：</b>训练需要大规模 rollout 与验证器；推理成本随思考长度线性上升，必须用缓存、批处理与预算控制。</li>
+  </ul>
+
+  <div class="callout warnb">
+    <div class="ct">一个常见的组织错位</div>
+    <p>模型团队选了一个「训练指标最好」的结构，推理团队上线时才发现 KV cache 放不下、专家并行通信太贵、量化精度崩。正确的做法是：<b>架构评审必须有推理与训练 infra 的人在场</b>，并把「每 token 成本」作为架构决策的一等指标，而不是上线后再优化。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">07.2</span>公开样本：不同公司的模型-基础设施协同</h3>
+
+  <div class="tw">
+    <table>
+      <caption>模型结构与基础设施的协同案例。只列公开可确认的部分，不推断内部完整架构。</caption>
+      <thead>
+        <tr><th>公司/模型</th><th>结构选择</th><th>对应的基础设施动作</th><th>结果/代价</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">DeepSeek-V3/R1</td><td>MLA + DeepSeekMoE + FP8</td><td>DualPipe 双向流水、EPLB 专家负载均衡、DeepGEMM、3FS</td><td>在有限算力下降低 KV/通信成本；工程复杂度高</td></tr>
+        <tr><td class="k">Kimi K2</td><td>1T 总参数 / 32B 激活 MoE</td><td>MuonClip 优化器、Agentic 数据、稳定训练</td><td>万亿 MoE 的可训练性；对数据与优化器依赖高</td></tr>
+        <tr><td class="k">Qwen 系列</td><td>Dense/MoE 多规格、长上下文、多模态</td><td>PAI/灵骏、xDL、多代模型训练平台</td><td>产品矩阵完整；平台要支持多规格</td></tr>
+        <tr><td class="k">混元 Hy3/Hy4</td><td>MoE、较小参数对标更大模型</td><td>Angel-PTM/TACO、TurboTransformers</td><td>训练/推理链路一体化；算力约束仍是瓶颈</td></tr>
+        <tr><td class="k">Claude/GPT</td><td>未公开具体结构</td><td>多云/自建集群、内部训练与推理栈、安全评测</td><td>研究目标驱动基础设施；细节不公开</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="wide" id="product-eng">
+  <span class="snum">08</span>
+  <h2 class="sec">产研工程：把研究能力变成可重复交付</h2>
+
+  <p class="lede">研究团队可以靠个人能力做出一次 demo；产品团队必须靠工程体系每天交付。产研工程就是这两者之间的桥：实验可复现、发布可回滚、评测可比较、事故可定位。</p>
+
+  <h3 class="sub"><span class="subn">08.1</span>十个模块</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">E1 · 实验</div><div class="mt">实验管理与模型注册</div><p class="md">config、seed、数据版本、代码 commit、指标、checkpoint。回答「这个结果是怎么来的」。</p></div>
+    <div class="modcard"><div class="mn">E2 · CI/CD</div><div class="mt">训练/评测流水线</div><p class="md">代码检查、单测、数据校验、训练启动、评测、产物归档。把「手动跑」变成「可重放」。</p></div>
+    <div class="modcard"><div class="mn">E3 · Eval</div><div class="mt">评测 harness</div><p class="md">benchmark、prompt 模板、采样参数、人类基线、回归集、污染检测。评测口径必须统一。</p></div>
+    <div class="modcard"><div class="mn">E4 · Gate</div><div class="mt">发布门禁</div><p class="md">能力、回归、安全、成本、延迟五类 gate；不达标不发布，或降级发布。</p></div>
+    <div class="modcard"><div class="mn">E5 · 安全</div><div class="mt">安全与红队</div><p class="md">越狱、注入、数据泄漏、有害内容、模型窃取；上线前红队，上线后监控。</p></div>
+    <div class="modcard"><div class="mn">E6 · 观测</div><div class="mt">线上可观测</div><p class="md">请求、延迟、错误、token、成本、用户反馈、模型版本；按版本/租户/场景切片。</p></div>
+    <div class="modcard"><div class="mn">E7 · API</div><div class="mt">API/计费/多租户</div><p class="md">鉴权、限流、配额、计费、路由、灰度、版本兼容。API 是模型公司的产品契约。</p></div>
+    <div class="modcard"><div class="mn">E8 · 交付</div><div class="mt">企业交付/FDE</div><p class="md">VPC/私有化、数据隔离、SLA、定制评测、现场调试。企业收入靠交付，不靠 API 文档。</p></div>
+    <div class="modcard"><div class="mn">E9 · 文档</div><div class="mt">开发者体验</div><p class="md">API 文档、SDK、示例、错误码、迁移指南。降低集成成本，就是降低获客成本。</p></div>
+    <div class="modcard"><div class="mn">E10 · 复盘</div><div class="mt">事故与复盘</div><p class="md">事故分级、止损、根因、行动项、回归测试。把一次事故变成一条防线。</p></div>
+  </div>
+
+  <h3 class="sub"><span class="subn">08.2</span>四个 gate：数据、训练、评测、发布</h3>
+
+  <div class="tw">
+    <table>
+      <caption>每个 gate 都要有明确的 owner、通过标准与回滚方案。没有 gate 的流水线，只是「更快地发布问题」。</caption>
+      <thead>
+        <tr><th>Gate</th><th>检查什么</th><th>谁签字</th><th>不通过怎么办</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">数据 gate</td><td>版本、配比、去重、PII、污染、许可</td><td>数据 owner + 法务/安全</td><td>回滚数据版本；隔离问题数据；重跑</td></tr>
+        <tr><td class="k">训练 gate</td><td>loss 曲线、grad norm、MFU、checkpoint 可加载</td><td>训练 infra + 模型 owner</td><td>止损/回滚 checkpoint；修数值/通信/数据</td></tr>
+        <tr><td class="k">评测 gate</td><td>能力、回归、安全、人类基线、成本</td><td>评测 owner + 产品</td><td>不发布；补数据/后训练；降低发布范围</td></tr>
+        <tr><td class="k">发布 gate</td><td>灰度、SLO、回滚、计费、文档</td><td>产研工程 + 业务 owner</td><td>灰度回滚；限流；降级到旧版本</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">08.3</span>研究到产品的死亡谷：五个断点</h3>
+
+  <ol class="plain">
+    <li><b>不可复现：</b>研究结果依赖某个人的本地环境、随机种子、未提交的数据。产品团队无法接手。</li>
+    <li><b>评测不一致：</b>研究用一套 prompt，产品用另一套；榜单涨了，用户体验没涨。</li>
+    <li><b>成本失控：</b>研究追求效果，不考虑 tokens/s 与 $/1M tokens；上线后毛利为负。</li>
+    <li><b>安全缺口：</b>研究只测能力，不测越狱/注入/数据泄漏；上线后被红队打穿。</li>
+    <li><b>交付断层：</b>API 能跑，但企业客户要 VPC/私有化/SLA；没有 FDE 与交付团队，收入落不了地。</li>
+  </ol>
+
+  <div class="callout">
+    <div class="ct">产研工程的定位</div>
+    <p>它不是「支持部门」，而是<b>规模化阶段的主战场</b>。当模型能力趋同，谁能更快、更稳、更便宜地把能力交付给客户，谁就赢。产研工程的产出不是「流程」，而是<em>发布频率、事故率、交付周期、单位成本</em>这四个数字。</p>
+  </div>
+</section>
+
+<section class="wide" id="collab">
+  <span class="snum">09</span>
+  <h2 class="sec">分工与协同：谁拥有什么，谁向谁交付什么</h2>
+
+  <p class="lede">架构图最容易画，难的是把「谁决定、谁执行、谁被通知」写清楚。下面用 RACI、SLA 与失败案例，把模块之间的协作关系落到可执行的层面。</p>
+
+  <h3 class="sub"><span class="subn">09.1</span>RACI：模块与角色的责任矩阵</h3>
+
+  <div class="tw">
+    <table>
+      <caption>R=负责执行，A=最终负责，C=需咨询，I=需通知。空白表示不直接参与。实际组织可按规模合并角色。</caption>
+      <thead>
+        <tr><th>工作项</th><th>算力平台</th><th>训练 infra</th><th>数据平台</th><th>数据算法</th><th>模型研究</th><th>推理平台</th><th>产研工程</th><th>安全/评测</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">集群建设/扩容</td><td>A/R</td><td>C</td><td>I</td><td>I</td><td>I</td><td>C</td><td>I</td><td>I</td></tr>
+        <tr><td class="k">训练框架/并行</td><td>C</td><td>A/R</td><td>I</td><td>I</td><td>C</td><td>C</td><td>I</td><td>I</td></tr>
+        <tr><td class="k">数据管道/存储</td><td>C</td><td>I</td><td>A/R</td><td>C</td><td>I</td><td>I</td><td>I</td><td>C</td></tr>
+        <tr><td class="k">数据配方/合成</td><td>I</td><td>I</td><td>C</td><td>A/R</td><td>C</td><td>I</td><td>I</td><td>C</td></tr>
+        <tr><td class="k">预训练</td><td>C</td><td>C</td><td>C</td><td>C</td><td>A/R</td><td>I</td><td>I</td><td>C</td></tr>
+        <tr><td class="k">后训练/RL</td><td>C</td><td>C</td><td>C</td><td>C</td><td>A/R</td><td>C</td><td>I</td><td>C</td></tr>
+        <tr><td class="k">推理服务</td><td>C</td><td>I</td><td>I</td><td>I</td><td>C</td><td>A/R</td><td>C</td><td>C</td></tr>
+        <tr><td class="k">发布/回滚</td><td>I</td><td>I</td><td>I</td><td>I</td><td>C</td><td>C</td><td>A/R</td><td>C</td></tr>
+        <tr><td class="k">事故响应</td><td>C</td><td>C</td><td>C</td><td>I</td><td>C</td><td>C</td><td>A/R</td><td>C</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.2</span>三条流水线的 SLA</h3>
+
+  <div class="tw">
+    <table>
+      <caption>SLA 必须互相咬合：训练吞吐影响模型迭代速度，推理 SLO 影响产品体验，数据新鲜度影响飞轮速度。</caption>
+      <thead>
+        <tr><th>流水线</th><th>核心 SLA</th><th>Owner</th><th>上游依赖</th><th>下游影响</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">训练</td><td>tokens/day、MFU、故障恢复时间、checkpoint 成功率</td><td>训练 infra</td><td>算力、数据、框架</td><td>模型迭代速度、研究节奏</td></tr>
+        <tr><td class="k">推理</td><td>TTFT、TPOT、p99、可用性、$/1M tokens</td><td>推理平台</td><td>模型/checkpoint、算力、网关</td><td>用户体验、毛利、客户续约</td></tr>
+        <tr><td class="k">数据</td><td>数据新鲜度、质量、lineage 覆盖率、每 1T token 成本</td><td>数据平台 + 数据算法</td><td>源站、存储、计算</td><td>训练效果、评测可信度、合规</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.3</span>五个最常见的协同失败</h3>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">F1</span><span class="risk-t">GPU 在等数据</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>训练集群已经就绪，数据管道还在洗数据；或者数据版本临时变更，训练任务被迫重启。<b>根因：</b>数据与训练没有共享的排期与版本冻结机制。<b>修复：</b>数据 gate + 版本冻结 + 预取/缓存。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">F2</span><span class="risk-t">Checkpoint 不兼容</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>训练团队换了并行度/精度，推理引擎加载不了；或者量化后精度崩。<b>根因：</b>Checkpoint 契约没有 owner。<b>修复：</b>格式版本、加载测试、量化评估纳入训练 gate。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">F3</span><span class="risk-t">评测污染</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>训练集混入 eval；榜单涨了，真实能力没涨。<b>根因：</b>数据与评测没有隔离，污染检测不是发布 gate。<b>修复：</b>动态 held-out、污染检测、评测集版本化。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">F4</span><span class="risk-t">上线后 p99 崩</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>离线评测很好，线上长上下文/高并发把 p99 打穿。<b>根因：</b>评测没有覆盖真实负载；推理容量规划缺失。<b>修复：</b>压测、容量规划、灰度、限流、降级。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">F5</span><span class="risk-t">发布没有回滚</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>新模型上线后行为变化，客户投诉，但没有旧版本可回。<b>根因：</b>模型注册/版本管理缺失。<b>修复：</b>模型 registry、灰度、双版本并行、回滚演练。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">09.4</span>协作机制：四个固定动作</h3>
+
+  <ul class="plain">
+    <li><b>每周 pipeline review：</b>训练、推理、数据三条流水线一起看，只看瓶颈与接口，不开成汇报会。</li>
+    <li><b>模型-基础设施 co-design：</b>新架构评审必须有训练 infra 与推理平台在场，把每 token 成本作为一等指标。</li>
+    <li><b>数据-模型 co-design：</b>数据配方变更必须配下游 eval；数据团队参与模型复盘，模型团队参与数据评审。</li>
+    <li><b>事故复盘：</b>只问系统与接口，不问「谁背锅」；行动项必须有 owner 与截止日期。</li>
+  </ul>
+</section>
+
+<section class="wide" id="companies">
+  <span class="snum">10</span>
+  <h2 class="sec">公司对照：七家公司的架构划分，以及它们各自在解什么题</h2>
+
+  <p class="lede">七家公司不是七套可以互相照抄的架构，而是七种「用组织解技术约束」的答案。看它们的差别，重点不是谁更强，而是谁把哪一层做成了平台、哪一层留在了团队里。</p>
+
+  <div class="tw">
+    <table>
+      <caption>公开信息可推断的架构划分。内部实现与组织细节未公开的部分，用「—」或「公开有限」标注，不做推测。</caption>
+      <thead>
+        <tr><th>公司</th><th>算力/平台</th><th>训练基础设施</th><th>数据</th><th>模型/算法</th><th>推理/部署</th><th>产研工程</th><th>组织特征</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">OpenAI</td><td>Azure + 自建/多云</td><td>内部训练栈；大规模集群</td><td>内部数据与评测；公开有限</td><td>GPT 系列；多模态/推理</td><td>ChatGPT/API 大规模服务</td><td>研究-产品一体；安全</td><td><span class="chip ok">共置型</span> research 与 compute 集中</td>
+        </tr>
+        <tr>
+          <td class="k">Anthropic</td><td>GCP TPU + AWS Trainium</td><td>内部训练栈；可解释性</td><td>对齐/人类反馈；公开有限</td><td>Claude；Constitutional AI</td><td>API/Claude 应用</td><td>安全/政策/红队</td><td><span class="chip ok">共置+制度型</span> Research/Product/Policy/Ops</td>
+        </tr>
+        <tr>
+          <td class="k">DeepSeek</td><td>Fire-Flyer/3FS；有限算力</td><td>DeepGEMM、DualPipe、EPLB、FP8</td><td>自建数据；公开有限</td><td>MLA + MoE；V3/R1</td><td>自研推理；开源</td><td>小团队；开源优先</td><td><span class="chip ok">共置型</span> 约 139 人、无层级</td>
+        </tr>
+        <tr>
+          <td class="k">Kimi</td><td>自建/云</td><td>K2/K3 MoE；MuonClip</td><td>Agentic 数据合成</td><td>K2/K3；Agent</td><td>API；开源权重</td><td>小团队；产品导向</td><td><span class="chip mid">研究密集型</span> 约 300 人</td>
+        </tr>
+        <tr>
+          <td class="k">字节 Seed</td><td>MegaScale、Volcano</td><td>veScale、ByteCheckpoint</td><td>Pretrain Data 一级部门</td><td>Seed/Doubao；多模态</td><td>火山引擎；大规模</td><td>平台化；低价换量</td><td><span class="chip mid">平台型</span> 约 1,500 人、四部门</td>
+        </tr>
+        <tr>
+          <td class="k">阿里 Qwen</td><td>PAI/灵骏、xDL</td><td>PAI 训练平台</td><td>数据平台</td><td>Qwen 系列；多规格</td><td>Model Studio/API</td><td>云+模型一体</td><td><span class="chip mid">平台+产品</span> 2026 年多次收拢</td>
+        </tr>
+        <tr>
+          <td class="k">腾讯混元</td><td>自建/腾讯云；算力受限</td><td>Angel-PTM、TACO</td><td>混元数据体系</td><td>Hy3/Hy4</td><td>TurboTransformers、腾讯云</td><td>产品/云交付</td><td><span class="chip mid">收拢型</span> 2026 年基础模型部统一</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">10.1</span>三种组织形态：平台型、共置型、混合型</h3>
+
+  <div class="tw">
+    <table>
+      <caption>没有绝对优劣，只有阶段匹配。平台型适合规模化，共置型适合前沿探索，混合型适合从 1 到 10。</caption>
+      <thead>
+        <tr><th>形态</th><th>代表</th><th>优势</th><th>代价</th><th>适用阶段</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">平台型</td><td>字节、阿里</td><td>规模复用、成本低、稳定性强</td><td>接口多、创新慢、研究团队离基础设施远</td><td>10→100，或多个模型/产品线并行</td></tr>
+        <tr><td class="k">共置型</td><td>DeepSeek、OpenAI、Anthropic</td><td>模型-基础设施协同快、决策链短</td><td>依赖少数关键人、规模化困难</td><td>0→1、1→10，追求前沿能力</td></tr>
+        <tr><td class="k">混合型</td><td>Kimi、腾讯、成长期创业公司</td><td>核心 pod 共置 + 通用平台复用</td><td>边界容易模糊、接口债</td><td>1→10，开始多产品线</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">配比不是拍脑袋</div>
+    <p>公开信息里可参考的三个比例：字节 Seed 约 1,500 人、Infra 数百人（约 20%–33%）；字节口径「一名算法工程师背后往往对应十余名数据人员」；Anthropic 约 1,680 名工程师中 40% 有基础设施背景（背景比例，不是岗位比例）。这些数字不能直接套用，但说明一件事：<b>模型能力越往规模化走，infra 与数据的相对权重越高</b>。</p>
+  </div>
+</section>
+
+<section class="wide" id="org">
+  <span class="snum">11</span>
+  <h2 class="sec">组织形态：从 0→1 到 10→100，团队该怎么长</h2>
+
+  <p class="lede">组织不是架构的附属品，它决定了接口成本。同样的六层架构，放在 30 人和 300 人里，需要完全不同的分工方式。</p>
+
+  <h3 class="sub"><span class="subn">11.1</span>三个阶段：人、比例、形态</h3>
+
+  <div class="tw">
+    <table>
+      <caption>比例为经验区间，按公司实际情况调整；关键不是数字，而是「什么时候该把共置变成平台」。</caption>
+      <thead>
+        <tr><th>阶段</th><th>研发规模</th><th>Infra 占比</th><th>数据占比</th><th>组织形态</th><th>关键招聘</th><th>最大失败模式</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">0→1</td><td>10–50</td><td>20–30%</td><td>20–30%</td><td>一个 pod：研究 + infra + 数据 + 评测</td><td> founding researcher、infra lead、data lead</td><td>过早平台化，把公司做成小号大厂</td></tr>
+        <tr><td class="k">1→10</td><td>50–150</td><td>25–35%</td><td>20–30%</td><td>中央平台 + 嵌入式 pod</td><td>训练/推理 lead、数据平台、SRE</td><td>接口债：平台与研究互相等</td></tr>
+        <tr><td class="k">10→100</td><td>150–500+</td><td>30–40%</td><td>20–30%</td><td>平台型 + 产品工程 + FDE</td><td>SRE、安全、评测、交付、FinOps</td><td>流程膨胀、平台脱离一线</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">11.2</span>Pod 模型：最小可交付单元</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">P1</div><div class="mt">研究 owner</div><p class="md">定义问题、模型结构、训练目标与评测标准；对「能力是否提升」负责。</p></div>
+    <div class="modcard"><div class="mn">P2</div><div class="mt">训练 infra</div><p class="md">并行、性能、稳定性、checkpoint；对「能否在预算内训完」负责。</p></div>
+    <div class="modcard"><div class="mn">P3</div><div class="mt">数据</div><p class="md">数据配方、合成、质量、污染；对「数据是否让 eval 动」负责。</p></div>
+    <div class="modcard"><div class="mn">P4</div><div class="mt">评测/推理</div><p class="md">独立评测、推理成本、SLO；对「能不能上线、上线后是否赚钱」负责。</p></div>
+  </div>
+
+  <p>Pod 的关键不是「四个人」，而是<b>四个角色对同一个目标共同负责</b>。当 pod 变大，就把通用能力抽到平台：训练框架、数据管道、推理引擎、评测 harness。抽平台的判断标准是：<em>这项能力是否被两个以上 pod 重复建设</em>。如果只有一个 pod 用，先留在 pod 里。</p>
+
+  <h3 class="sub"><span class="subn">11.3</span>平台 vs 嵌入式：一张决策表</h3>
+
+  <div class="tw">
+    <table>
+      <caption>不是所有能力都该平台化。平台化有接口成本，嵌入式有重复建设成本。</caption>
+      <thead>
+        <tr><th>能力</th><th>更适合平台</th><th>更适合嵌入式</th><th>判断依据</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">集群/调度/存储</td><td><span class="chip ok">平台</span></td><td></td><td>重资产、强规模效应、需要 7×24 运维</td></tr>
+        <tr><td class="k">训练框架/并行</td><td><span class="chip ok">平台</span></td><td><span class="chip mid">部分嵌入</span></td><td>通用并行平台化；模型特定 kernel 留在 pod</td></tr>
+        <tr><td class="k">数据管道</td><td><span class="chip ok">平台</span></td><td><span class="chip mid">配方嵌入</span></td><td>管道复用；配比/合成与模型强相关</td></tr>
+        <tr><td class="k">推理引擎</td><td><span class="chip ok">平台</span></td><td><span class="chip mid">模型适配嵌入</span></td><td>引擎通用；新结构适配需要共同开发</td></tr>
+        <tr><td class="k">评测 harness</td><td><span class="chip ok">平台</span></td><td><span class="chip mid">领域 eval 嵌入</span></td><td>口径统一；领域专家出题</td></tr>
+        <tr><td class="k">模型结构/后训练</td><td></td><td><span class="chip ok">嵌入</span></td><td>强研究属性，平台化会扼杀探索</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">组织设计的一条硬规则</div>
+    <p><b>每一个跨团队接口，都必须有一个 owner、一个版本、一个验收标准。</b>没有这三样，平台与研究就会陷入「互相等、互相怪」。接口不是文档，是合同：checkpoint 能不能加载、数据能不能复现、评测口径是否一致、API 是否兼容。</p>
+  </div>
+</section>
+
+<section class="wide" id="maturity">
+  <span class="snum">12</span>
+  <h2 class="sec">成熟度模型：从「能跑」到「自适应」</h2>
+
+  <p class="lede">用一张五级表判断团队现在在哪、下一步该补什么。不要跳级：没有可复现，就谈不上可扩展；没有可观测，就谈不上可优化。</p>
+
+  <div class="tw">
+    <table>
+      <caption>五级成熟度。每一级的关键不是工具，而是「是否形成了可重复的组织能力」。</caption>
+      <thead>
+        <tr><th>级别</th><th>算力</th><th>训练</th><th>数据</th><th>推理</th><th>产研工程</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">L1 手工</td><td>单机/小集群；利用率不可见</td><td>手动跑脚本；结果不可复现</td><td>手工拷贝；无版本</td><td>手工部署；无 SLO</td><td>无 gate；发布靠人</td>
+        </tr>
+        <tr>
+          <td class="k">L2 可复现</td><td>基础监控；能定位掉卡</td><td>config/seed/commit 可追溯</td><td>数据版本与 lineage 起步</td><td>基础压测；有 TTFT/p99</td><td>CI + 基础 eval</td>
+        </tr>
+        <tr>
+          <td class="k">L3 可扩展</td><td>千卡调度；拓扑感知</td><td>自动 checkpoint/恢复；MFU 可见</td><td>自动管道；质量/去重/污染</td><td>continuous batching；KV 管理</td><td>release gate；灰度/回滚</td>
+        </tr>
+        <tr>
+          <td class="k">L4 可优化</td><td>万卡；FinOps；成本归因</td><td>并行自动调优；故障预测</td><td>配方消融；合成数据闭环</td><td>PD 分离；量化/投机；$/token 优化</td><td>多租户；安全红队；FDE</td>
+        </tr>
+        <tr>
+          <td class="k">L5 自适应</td><td>跨域调度；电力/容量联动</td><td>自动实验；弹性训练</td><td>自动配比；飞轮；污染自检</td><td>自适应扩缩容；成本/SLO 平衡</td><td>持续评测；自动发布/回滚</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">12.1</span>90 天 / 6 个月 / 12 个月：建设路线</h3>
+
+  <div class="tw">
+    <table>
+      <caption>按「先可见、再可控、再优化」的顺序建设。不要一上来买最贵的平台。</caption>
+      <thead>
+        <tr><th>周期</th><th>算力</th><th>训练/推理</th><th>数据</th><th>产研</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="k">0–90 天</td><td>统一监控；算清利用率与成本</td><td>固定训练 recipe；checkpoint 可加载；推理基线压测</td><td>数据版本；去重/污染检测；lineage 最小集</td><td>统一 eval harness；发布 checklist</td>
+        </tr>
+        <tr>
+          <td class="k">3–6 个月</td><td>千卡调度；拓扑感知；故障库</td><td>自动容错；MFU 提升；推理批处理/缓存</td><td>自动管道；质量分类器；配比消融</td><td>CI/CD；release gate；灰度/回滚</td>
+        </tr>
+        <tr>
+          <td class="k">6–12 个月</td><td>万卡/多集群；FinOps；容量规划</td><td>并行自动调优；PD 分离；量化/投机</td><td>合成数据闭环；飞轮；成本核算</td><td>多租户；安全红队；企业交付/FDE</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">一个反直觉的建议</div>
+    <p>如果你的团队还在 L2，不要直接买 L4 的工具。先把「实验可复现、数据可追溯、评测口径统一」这三件事做好；否则再贵的平台也只是把混乱自动化。成熟度不是工具堆出来的，是<em>接口与纪律</em>长出来的。</p>
+  </div>
+</section>
+
+<section class="wide" id="risks">
+  <span class="snum">13</span>
+  <h2 class="sec">常见误区与风险</h2>
+
+  <p class="lede">架构讨论里，最容易犯的不是技术错误，而是把某一层当成全部。下面十个误区，几乎每个团队都会踩一到两个。</p>
+
+  <div class="tw">
+    <table>
+      <caption>十个常见误区。每条都给出「更准确的说法」。</caption>
+      <thead>
+        <tr><th>误区</th><th>为什么错</th><th>更准确的说法</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">卡越多，能力越强</td><td>有效算力取决于利用率、互联、稳定性与调度</td><td>先问 MFU 与集群可用性，再问采购</td></tr>
+        <tr><td class="k">选对框架就搞定了训练</td><td>框架只是起点；并行组合、故障库、调优才是壁垒</td><td>框架会趋同，故障库不会</td></tr>
+        <tr><td class="k">数据就是爬更多网页</td><td>数据是供应链 + 配方；质量、去重、配比、污染决定效果</td><td>先问「这条数据让哪个 eval 动了」</td></tr>
+        <tr><td class="k">评测就是跑 benchmark</td><td>benchmark 会过拟合、会污染；真实体验与安全更重要</td><td>评测是发布 gate，不是排行榜</td></tr>
+        <tr><td class="k">推理就是部署模型</td><td>推理是调度、KV、量化、SLO 与成本的系统</td><td>推理是毛利率的所在地</td></tr>
+        <tr><td class="k">MLOps 就是 CI/CD</td><td>还包括实验管理、数据版本、评测、监控、回滚</td><td>MLOps 是模型生命周期的操作系统</td></tr>
+        <tr><td class="k">照抄大厂 org chart</td><td>阶段、瓶颈、人才结构不同；大厂平台化是结果不是原因</td><td>按瓶颈设计组织，不按名单</td></tr>
+        <tr><td class="k">所有能力都该中央化</td><td>中央平台有接口成本，研究需要共置</td><td>通用能力平台化，模型能力留在 pod</td></tr>
+        <tr><td class="k">开源模型等于免费</td><td>推理、微调、数据、运维、合规都有成本</td><td>开源降低的是模型许可成本，不是总成本</td></tr>
+        <tr><td class="k">成本就是 GPU 价格</td><td>电力、网络、存储、人力、闲置、重跑都算</td><td>用 $/1M tokens 与 TCO 看成本</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">13.1</span>八个结构性风险</h3>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R1</span><span class="risk-t">算力与电力供给</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>极高</em></span></div>
+    <p>高端 GPU 供给、出口管制、MW 级电力与并网，决定训练节奏。算力规划必须以「拿不到最新卡」为前提，不能把希望寄托在采购上。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R2</span><span class="risk-t">网络与存储成为隐形上限</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>万卡训练的瓶颈常从计算转向网络与存储；NCCL hang、checkpoint 写入、数据加载都可能让 GPU 空转。需要拓扑感知、并行文件系统与故障隔离。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R3</span><span class="risk-t">训练稳定性</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>loss spike、NaN、通信故障、数据异常，任何一项都可能让数周训练归零。稳定性不是「调参」，是监控、止损、checkpoint 与复盘的体系。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R4</span><span class="risk-t">数据质量与污染</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>数据错、eval 污染、合成数据自嗨，会让「榜单上涨」变成「能力不涨」。数据 gate 与污染检测必须是发布流程的一部分。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R5</span><span class="risk-t">推理成本失控</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><em>高</em></span></div>
+    <p>低价 API、长上下文、长思维链、低利用率，都会让毛利为负。推理成本要按模型/客户/场景核算，不能只看平均。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R6</span><span class="risk-t">安全与合规</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>越狱、注入、数据泄漏、版权、PII、出口管制；企业客户还会要求私有化与审计。安全不是上线前的红队，是贯穿数据/训练/推理的流程。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R7</span><span class="risk-t">组织接口债</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中高</em></span></div>
+    <p>平台与研究互相等、数据与训练排期错位、推理与模型结构不匹配。接口债不会自己消失，只会在关键时刻爆炸。</p>
+  </div>
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R8</span><span class="risk-t">供应商锁定</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>云、芯片、推理引擎、数据平台都可能锁定。关键是保留可迁移性：checkpoint 格式、算子抽象、数据格式、API 兼容。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">13.2</span>架构自检清单：十个问题</h3>
+
+  <ol class="plain">
+    <li>我们能不能在 30 分钟内说清上一轮训练的 MFU、tokens/s 与故障时间？</li>
+    <li>任何一个训练 run，能不能还原它的数据版本、代码 commit、config 与 seed？</li>
+    <li>Checkpoint 从训练到推理，是否需要人工转换？转换脚本有测试吗？</li>
+    <li>训练集与 eval 的污染检测，是发布 gate 还是「有空再跑」？</li>
+    <li>推理的 p99 与 $/1M tokens，是否按模型/客户/场景拆分？</li>
+    <li>数据管道的每 1T token 成本，是否有人负责？</li>
+    <li>模型结构变更时，训练 infra 与推理平台是否在评审现场？</li>
+    <li>发布新模型时，能不能在 10 分钟内回滚到旧版本？</li>
+    <li>安全红队发现的问题，是否有回归测试与发布门禁？</li>
+    <li>如果明天换一家云/一款芯片，哪些层需要重写？</li>
+  </ol>
+</section>
+
+<section class="wide" id="hrbp">
+  <span class="snum">14</span>
+  <h2 class="sec">HRBP 与招聘：如何有效支持 AI Infra 团队和业务</h2>
+
+  <p class="lede">AI Infra 是典型「供给窄、岗位定义模糊、价值滞后显现」的组织。HR 如果按普通研发岗招人，通常会在三个地方失效：招错人、配错比、留不住人。HRBP 的价值不是「帮团队招人」，而是把业务路线翻译成人才与组织方案。</p>
+
+  <h3 class="sub"><span class="subn">14.1</span>先定义：六类岗位，三种人</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">H1 · 算力</div><div class="mt">算力平台 / 集群</div><p class="md">硬件、网络、存储、调度、SRE。证据是集群规模、MFU、故障恢复时间，不是「用过什么云」。</p></div>
+    <div class="modcard"><div class="mn">H2 · 训练</div><div class="mt">训练基础设施</div><p class="md">框架、并行、MoE、checkpoint、kernel。证据是训练稳定性、吞吐与端到端加速。</p></div>
+    <div class="modcard"><div class="mn">H3 · 推理</div><div class="mt">推理平台</div><p class="md">引擎、KV cache、量化、PD 分离、SLO。证据是 p99、$/1M tokens 与上线后的保持情况。</p></div>
+    <div class="modcard"><div class="mn">H4 · 数据</div><div class="mt">数据基建</div><p class="md">湖仓、管道、去重、质量、lineage。证据是 PB/token 规模、成本与下游 eval 影响。</p></div>
+    <div class="modcard"><div class="mn">H5 · 性能</div><div class="mt">性能 / 内核</div><p class="md">CUDA/Triton、编译器、通信库。证据是 kernel 加速比、roofline 分析与端到端收益。</p></div>
+    <div class="modcard"><div class="mn">H6 · 运营</div><div class="mt">容量 / FinOps / 安全</div><p class="md">容量规划、成本归因、权限与合规。证据是利用率、单位成本与审计通过率。</p></div>
+  </div>
+
+  <div class="tw">
+    <table>
+      <caption>三种人不是三个职级，而是三种能力组合。招错类型，比招错级别更常见。</caption>
+      <thead>
+        <tr><th>类型</th><th>擅长</th><th>适合阶段</th><th>招聘信号</th><th>常见误用</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">Builder</td><td>从 0 到 1 搭系统，能在模糊中做取舍，愿意干脏活</td><td>0→1、新方向、新集群</td><td>自己从零搭过训练/推理/数据系统；能讲清失败与回滚</td><td>招来维护稳态平台，很快失去兴趣</td></tr>
+        <tr><td class="k">Scaler</td><td>把 1 做到 100：平台化、自动化、稳定性、成本</td><td>1→10、10→100</td><td>把集群从百卡带到千卡/万卡；有平台化与流程经验</td><td>让他去开荒，缺少从 0 到 1 的判断</td></tr>
+        <tr><td class="k">Operator</td><td>7×24 稳定运行、故障响应、容量与变更管理</td><td>规模化、生产环境</td><td>值班、事故指挥、自动化、SLA 经验</td><td>当成「运维支持」，不给 ownership 与成长路径</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.2</span>业务翻译：从路线图到人才计划</h3>
+
+  <p>HRBP 最重要的工作，是把「业务要做什么」翻译成「组织缺什么」，而不是等用人经理递来一张 headcount 表。下面这张表可以直接用于季度人力规划。</p>
+
+  <div class="tw">
+    <table>
+      <caption>业务信号 → Infra 影响 → 人才动作。提前期是经验值，招聘难度越高越要提前。</caption>
+      <thead>
+        <tr><th>业务信号</th><th>Infra 影响</th><th>人才动作</th><th>提前期</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">集群从千卡到万卡</td><td>网络、存储、调度、故障率成为瓶颈</td><td>补网络/存储/SRE lead；建立集群运维与容灾</td><td>3–6 个月</td></tr>
+        <tr><td class="k">推理调用量 10 倍</td><td>GPU 成本、p99、容量规划吃紧</td><td>补推理性能、容量/FinOps；建立 SLO 体系</td><td>2–4 个月</td></tr>
+        <tr><td class="k">长上下文/多模态</td><td>显存、带宽、KV cache、存储膨胀</td><td>补 kernel/存储/推理引擎；提前做架构评审</td><td>3–6 个月</td></tr>
+        <tr><td class="k">企业私有化/出海</td><td>安全、合规、交付、VPC/私有部署</td><td>补安全、交付/FDE、解决方案架构师</td><td>1–3 个月</td></tr>
+        <tr><td class="k">单位成本降 30%</td><td>利用率、量化、批处理、采购结构</td><td>补性能优化与 FinOps；设成本 owner</td><td>1–2 个季度</td></tr>
+        <tr><td class="k">模型迭代加速</td><td>训练稳定性、checkpoint、实验管理</td><td>补训练 infra；建立故障库与发布 gate</td><td>立即</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">三个比例，用来挑战 headcount 申请</div>
+    <p>公开信息里的参考：字节 Seed 约 1,500 人、Infra 数百人（约 20%–33%）；字节口径「一名算法工程师背后往往对应十余名数据人员」；Anthropic 约 1,680 名工程师中 40% 有基础设施背景（背景比例，不是岗位比例）。这些不是行业标准，但可以用来问：<b>「我们的 Infra 占比与阶段匹配吗？是缺人，还是缺优先级/自动化？」</b></p>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.3</span>招聘：从「关键词」到「证据」</h3>
+
+  <h4>寻源地图：人在哪里</h4>
+
+  <div class="tw">
+    <table>
+      <caption>AI Infra 的候选人不在招聘网站的关键词里，而在代码、论文、集群和故障现场里。</caption>
+      <thead>
+        <tr><th>渠道</th><th>目标人群</th><th>看什么信号</th><th>转化特点</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">开源社区</td><td>vLLM、SGLang、Megatron、DeepSpeed、FlashAttention、Volcano、Ray、3FS 的贡献者</td><td>持续 commit、性能 PR、issue 回复、修别人的 bug</td><td>质量高、触达慢；需要技术 credibility</td></tr>
+        <tr><td class="k">系统论文</td><td>MLSys/OSDI/NSDI/ASPLOS/SC/PPoPP 的作者</td><td>真实部署、可复现实验、失败分析</td><td>量少、质量高；学术转工业需要 ramp</td></tr>
+        <tr><td class="k">芯片/云/HPC</td><td>NVIDIA/AMD/华为/阿里云/腾讯云/火山/量化/HPC 中心</td><td>集群规模、故障定位、性能数字</td><td>供给最集中；竞业与薪酬约束多</td></tr>
+        <tr><td class="k">相邻行业</td><td>数据库、存储、编译器、游戏引擎、量化交易</td><td>分布式系统、性能优化、低延迟</td><td>可迁移性强；需要补 GPU/LLM 语境</td></tr>
+        <tr><td class="k">内推/社区</td><td>GPU MODE、Triton、vLLM meetup、校友网络</td><td>实际贡献、口碑、on-call 经验</td><td>转化最高；适合 SRE/性能岗</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>岗位评分卡：五个维度，一条硬门槛</h4>
+
+  <div class="tw">
+    <table>
+      <caption>AI Infra 的面试要考「做过什么系统」，不是「知道什么概念」。must-have 不满足，其他维度不能抵消。</caption>
+      <thead>
+        <tr><th>维度</th><th>must-have 证据</th><th>反信号</th><th>怎么考</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">系统深度</td><td>最大集群规模、并行/调度/存储的真实取舍</td><td>只用托管服务；只会调框架</td><td>系统深挖 60 分钟</td></tr>
+        <tr><td class="k">排障能力</td><td>一次完整故障：现象→假设→验证→根因→防复发</td><td>「重启就好了」；归因于框架 bug 但无证据</td><td>真实 trace/日志现场排障</td></tr>
+        <tr><td class="k">性能结果</td><td>端到端提升（MFU/吞吐/p99/成本），含基线与上线保持</td><td>只报单算子加速；不给基线</td><td>性能案例深挖 + 白板</td></tr>
+        <tr><td class="k">端到端 ownership</td><td>从需求到上线、on-call、回滚都负责过</td><td>只做模块；不做值班</td><td>项目复盘 + 协作轮</td></tr>
+        <tr><td class="k">协作/on-call</td><td>与研究/数据/产品协作，能处理冲突</td><td>把 infra 当「支持」；不愿值班</td><td>行为面试 + bar raiser</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout goodb">
+    <div class="ct">三个必问问题</div>
+    <p><b>①</b> 你负责过的最大集群/最复杂的故障是什么？你是怎么定位的？<br><b>②</b> 你做过的最大的端到端性能提升是多少？基线、测试条件、上线后是否保持？<br><b>③</b> 离开大厂平台后，你自己从零搭过什么？<br>三个问题分别验证：规模、结果、独立性。答不上第三个的人，可能只是「平台使用者」。</p>
+  </div>
+
+  <h4>Offer：为证据付钱，不为品牌付钱</h4>
+
+  <ul class="plain">
+    <li><b>定价锚点：</b>集群规模、性能结果、故障经验、端到端 ownership；不是「来自哪家大厂」。</li>
+    <li><b>结构：</b>现金 + 期权 + 签字费/挖角补偿 + 算力/技术资源；签字费解决未归属股权与空窗，不破坏带宽。</li>
+    <li><b>非现金杠杆：</b>集群/卡配额、title、汇报线、远程、开源/会议支持；对 Infra 人往往比多 5% 现金有效。</li>
+    <li><b>速度：</b>Infra 候选人通常同时跑 2–4 个流程；电话筛到 offer 控制在 21 天，offer 当天发。</li>
+    <li><b>反 counteroffer：</b>先问「除了钱，什么变了」；如果只是加钱，他大概率还会走。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">14.4</span>Landing 与绩效：前 90 天决定招聘是否回本</h3>
+
+  <div class="tw">
+    <table>
+      <caption>Infra 的 first win 必须可量化、可保持。不要用「熟悉环境」当 30 天目标。</caption>
+      <thead>
+        <tr><th>阶段</th><th>目标</th><th>可交付物</th><th>HRBP/经理动作</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">0–30 天</td><td>看懂系统、跑通 baseline、找到 top 3 瓶颈</td><td>profiling 报告、故障地图、第一个小修复</td><td>入职前开权限；指定 buddy；每周 1:1</td></tr>
+        <tr><td class="k">31–60 天</td><td>交付一个可量化改进</td><td>MFU +5% / p99 −20% / 成本 −15% / 管道可靠性提升</td><td>锁定资源与优先级；清除跨团队阻塞</td></tr>
+        <tr><td class="k">61–90 天</td><td>own 一个子系统</td><td>容量规划、on-call、一次事故复盘、30 天保持证明</td><td>30/90 天 stay interview；公开 credit</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tw">
+    <table>
+      <caption>Infra 的绩效指标要成对看。单看利用率会被「跑无用任务」游戏化；单看成本会牺牲稳定性。</caption>
+      <thead>
+        <tr><th>指标</th><th>定义</th><th>和谁配对</th><th>常见误用</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">MFU / 吞吐</td><td>有效算力占比、tokens/s</td><td>稳定性、成本</td><td>用理想 workload 刷高</td></tr>
+        <tr><td class="k">$/1M tokens</td><td>推理单位成本</td><td>p99、质量</td><td>靠降精度/限流做低</td></tr>
+        <tr><td class="k">MTTR / 可用性</td><td>故障恢复时间、SLA</td><td>变更失败率</td><td>靠「不发布」换稳定</td></tr>
+        <tr><td class="k">On-call 负载</td><td>每周 page 数、夜间 page 数</td><td>事故复发率</td><td>把值班当「抗压能力」</td></tr>
+        <tr><td class="k">发布频率</td><td>变更上线速度</td><td>变更失败率</td><td>只追速度，不看回滚</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">On-call 是 Infra 的隐形离职原因</div>
+    <p>长期夜间 page、无补偿、无轮换、事故后只追责不改进，会让最可靠的 SRE 最先离开。HRBP 要把「on-call 负载」纳入组织健康指标：每周 page 数、夜间占比、连续值班天数、事故复盘完成率。这些数字比「团队氛围」更能预测流失。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.5</span>保留：给问题、给资源、给可见度</h3>
+
+  <div class="modgrid">
+    <div class="modcard"><div class="mn">R1</div><div class="mt">更大的问题</div><p class="md">从单集群到多集群、从训练到推理、从国内到海外；Infra 人的成长来自系统规模，不是职级。</p></div>
+    <div class="modcard"><div class="mn">R2</div><div class="mt">算力与技术资源</div><p class="md">明确的卡配额、实验环境、开源/会议支持。对 Infra 人，这比福利更实在。</p></div>
+    <div class="modcard"><div class="mn">R3</div><div class="mt">IC 路径</div><p class="md">P5–P8 的技术阶梯，与 manager 路径并行；不要逼所有人转管理。</p></div>
+    <div class="modcard"><div class="mn">R4</div><div class="mt">薪酬 refresh</div><p class="md">晋升/关键贡献时追加期权；不要只在新 offer 时给股权。</p></div>
+    <div class="modcard"><div class="mn">R5</div><div class="mt">On-call 公平</div><p class="md">轮换、补偿、调休、事故复盘；值班负担要可见、可分配。</p></div>
+    <div class="modcard"><div class="mn">R6</div><div class="mt">可见度</div><p class="md">Infra 是成本中心，容易被忽视；公开 credit、技术分享、开源署名，都是保留手段。</p></div>
+  </div>
+
+  <p><b>早期信号：</b>开始拒绝 on-call；事故里变得沉默；反复说「我们只是成本中心」；拿云厂商/芯片公司/量化的薪酬对比；不再主动提优化想法；代码 review 变少。出现两个以上，HRBP 应主动做 stay interview，而不是等离职。</p>
+
+  <blockquote>
+    ① 过去一个月，哪件事让你最有成就感？哪件事最消耗你？<br>
+    ② 如果明天离开，最可能的原因是什么？<br>
+    ③ 你希望未来 12 个月掌握什么系统/规模？现在有什么阻碍？<br>
+    ④ 你的 on-call 负担可持续吗？需要怎么调整？<br>
+    ⑤ 如果我只能帮你解决一件事，你希望是什么？
+    <cite>Infra 版 stay interview，每 6 个月一次；由直属上级做，HRBP 记录并跟进</cite>
+  </blockquote>
+
+  <h3 class="sub"><span class="subn">14.6</span>HRBP 的运营节奏：从「招聘协调」到「业务伙伴」</h3>
+
+  <div class="tw">
+    <table>
+      <caption>HRBP 的节奏要与 Infra 的交付节奏对齐：周看 pipeline 与 on-call，月看组织健康，季看人力规划。</caption>
+      <thead>
+        <tr><th>节奏</th><th>参与者</th><th>输入</th><th>输出</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">每周</td><td>HRBP + 用人经理 + 招聘</td><td>pipeline、面试反馈、30/60/90、on-call 负载</td><td>本周推进名单、阻塞清除、风险候选人</td></tr>
+        <tr><td class="k">每月</td><td>HRBP + Infra 负责人</td><td>离职风险、薪酬、绩效、加班/值班、组织摩擦</td><td>保留动作、岗位调整、招聘优先级</td></tr>
+        <tr><td class="k">每季度</td><td>HRBP + 业务/技术负责人</td><td>业务路线图、集群/推理增长、成本目标</td><td>人力规划、技能矩阵、继任、make/buy/partner</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tw">
+    <table>
+      <caption>HRBP 的八个核心指标。目标值为经验区间，按公司阶段校准。</caption>
+      <thead>
+        <tr><th>指标</th><th>定义</th><th>参考目标</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="k">Time to fill</td><td>批准到接受 offer</td><td>Infra 60–120 天</td><td>核心岗可更长，不要用算法岗的 30 天压</td></tr>
+        <tr><td class="k">Offer acceptance</td><td>接受/发出</td><td>≥65%</td><td>低于 50% 要复盘定价与 close 流程</td></tr>
+        <tr><td class="k">90-day first win</td><td>按约定交付可量化改进</td><td>≥80%</td><td>没有 first win，招聘大概率没回本</td></tr>
+        <tr><td class="k">Regretted attrition</td><td>12 个月内可避免离职</td><td>≤8%</td><td>Infra 关键人离职影响被低估</td></tr>
+        <tr><td class="k">Internal mobility</td><td>内部转岗/晋升比例</td><td>≥15%</td><td>比外部抢人便宜，也更稳</td></tr>
+        <tr><td class="k">Quality of hire</td><td>6 个月经理评分</td><td>≥4/5</td><td>与 first win、on-call 表现一起看</td></tr>
+        <tr><td class="k">On-call health</td><td>夜间 page/周、连续值班天数</td><td>按团队设上限</td><td>最容易被忽略的流失前兆</td></tr>
+        <tr><td class="k">Cost per hire</td><td>渠道+奖金+面试成本</td><td>按岗位设上限</td><td>不要为「快」付不合理的猎头费</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">HRBP 的三种角色</div>
+    <p><b>业务翻译者：</b>听得懂 GPU、MFU、p99、$/1M tokens，能把路线图翻译成人才与组织动作。<b>人才标准守门人：</b>坚持 scorecard 与 bar raiser，不为速度降标准。<b>组织健康守护者：</b>看 on-call、关键人、继任、协作摩擦，在问题变成离职前介入。</p>
+  </div>
+
+  <h3 class="sub"><span class="subn">14.7</span>六个常见误区</h3>
+
+  <ul class="plain">
+    <li><b>把 Infra 当纯成本中心。</b>只压价、不投入，最后用更高的故障与流失成本买单。</li>
+    <li><b>用算法岗的 JD/面试招 Infra。</b>考刷题与论文，考不出集群、故障与性能。</li>
+    <li><b>只看大厂品牌。</b>大厂平台使用者 ≠ 能从零搭系统的人；要问「离开平台后做过什么」。</li>
+    <li><b>为速度降 bar。</b>Infra 的坏 hire 会被 on-call 和事故放大，代价高于空缺。</li>
+    <li><b>忽视 on-call 与 burnout。</b>最可靠的 SRE 往往最先被耗尽。</li>
+    <li><b>HRBP 只做协调。</b>不参与业务规划、不看组织健康，就永远在追着补坑。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">14.8</span>HRBP 自检清单：十个问题</h3>
+
+  <ol class="plain">
+    <li>我们能否用一句话说清每个 Infra 岗位的「must-have 证据」？</li>
+    <li>每个在招岗位，是否有至少 3 个合格候选人，而不是「唯一候选人」？</li>
+    <li>面试是否考了真实故障、端到端性能与 on-call，而不是只考概念？</li>
+    <li>Offer 是否按证据定价，而不是按上一家公司的品牌定价？</li>
+    <li>每个新人是否有入职前权限、buddy、30 天 first win？</li>
+    <li>Infra 的绩效是否成对看（MFU+稳定性、成本+p99），而不是单指标？</li>
+    <li>On-call 负载是否可见、公平、可补偿？</li>
+    <li>关键人是否有备份、文档与轮换？</li>
+    <li>季度人力规划是否从业务路线图出发，而不是从 headcount 表出发？</li>
+    <li>HRBP 是否能在业务会上听懂 GPU、MFU、p99 与 $/1M tokens？</li>
+  </ol>
+</section>
+
+<section id="sources">
+  <span class="snum">15</span>
+  <h2 class="sec">信息源与口径</h2>
+
+  <p class="lede">本报告是架构方法研究，不是任何一家公司的内部架构披露。公司相关的内容只使用公开材料；未公开的部分明确标注，不做推测。</p>
+
+  <h3 class="sub"><span class="subn">14.1</span>口径说明</h3>
+
+  <ul class="plain">
+    <li><b>公司架构：</b>OpenAI/Anthropic/DeepSeek/Kimi/字节/阿里/腾讯的内部组织与系统，公开信息有限；表中的划分是「公开可确认的要素 + 行业通用分层」，不是官方 org chart。</li>
+    <li><b>MFU/吞吐：</b>不同公司、模型、序列长度、精度与并行配置的口径不同，不能直接横比。本报告只用它们说明量级与瓶颈，不做排名。</li>
+    <li><b>数据与成本：</b>数据成本、推理成本高度依赖采购/租赁、利用率、电价与人力；文中的公式用于分析，不是报价。</li>
+    <li><b>组织比例：</b>字节 Seed 1,500 人、Infra 数百人、Anthropic 40% 工程师有基础设施背景等，均为公开报道/第三方口径；不是精确编制。</li>
+  </ul>
+
+  <h3 class="sub"><span class="subn">14.2</span>主要公开信息源</h3>
+
+  <ol class="src">
+    <li>DeepSeek-AI, <i>DeepSeek-V3 Technical Report</i>, 2024. <a href="https://arxiv.org/abs/2412.19437">arXiv:2412.19437</a></li>
+    <li>DeepSeek, <i>3FS: Fire-Flyer File System</i>. <a href="https://github.com/deepseek-ai/3FS">github.com/deepseek-ai/3FS</a></li>
+    <li>DeepSeek, <i>DeepGEMM</i>. <a href="https://github.com/deepseek-ai/DeepGEMM">github.com/deepseek-ai/DeepGEMM</a></li>
+    <li>DeepSeek, <i>DualPipe</i>. <a href="https://github.com/deepseek-ai/DualPipe">github.com/deepseek-ai/DualPipe</a></li>
+    <li>DeepSeek, <i>EPLB: Expert Parallelism Load Balancer</i>. <a href="https://github.com/deepseek-ai/EPLB">github.com/deepseek-ai/EPLB</a></li>
+    <li>Moonshot AI, <i>Kimi K2: Open Agentic Intelligence</i>, 2025. <a href="https://arxiv.org/abs/2507.20534">arXiv:2507.20534</a></li>
+    <li>Jiang et al., <i>MegaScale: Scaling Large Language Model Training to More Than 10,000 GPUs</i>, NSDI 2024. <a href="https://arxiv.org/abs/2402.15627">arXiv:2402.15627</a></li>
+    <li>ByteDance, <i>veScale</i>. <a href="https://github.com/volcengine/veScale">github.com/volcengine/veScale</a></li>
+    <li>ByteDance, <i>ByteCheckpoint</i>. <a href="https://github.com/volcengine/ByteCheckpoint">github.com/volcengine/ByteCheckpoint</a></li>
+    <li>Volcano, <i>Cloud Native Batch System</i>. <a href="https://volcano.sh/">volcano.sh</a></li>
+    <li>Alibaba Cloud, <i>PAI: Platform for AI</i>. <a href="https://www.alibabacloud.com/product/pai">alibabacloud.com/product/pai</a></li>
+    <li>Tencent, <i>Angel</i>. <a href="https://github.com/Tencent/angel">github.com/Tencent/angel</a></li>
+    <li>Tencent, <i>TurboTransformers</i>. <a href="https://github.com/Tencent/TurboTransformers">github.com/Tencent/TurboTransformers</a></li>
+    <li>Kwon et al., <i>Efficient Memory Management for Large Language Model Serving with PagedAttention</i> (vLLM), 2023. <a href="https://arxiv.org/abs/2309.06180">arXiv:2309.06180</a></li>
+    <li>Zheng et al., <i>SGLang: Efficient Execution of Structured Language Model Programs</i>, 2023. <a href="https://arxiv.org/abs/2312.07104">arXiv:2312.07104</a></li>
+    <li>Dao et al., <i>FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness</i>, 2022. <a href="https://arxiv.org/abs/2205.14135">arXiv:2205.14135</a></li>
+    <li>Shoeybi et al., <i>Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism</i>, 2019. <a href="https://arxiv.org/abs/1909.08053">arXiv:1909.08053</a></li>
+    <li>Rajbhandari et al., <i>ZeRO: Memory Optimizations Toward Training Trillion Parameter Models</i>, 2019. <a href="https://arxiv.org/abs/1910.02054">arXiv:1910.02054</a></li>
+    <li>Yu et al., <i>Orca: A Distributed Serving System for Transformer-Based Generative Models</i>, 2022. <a href="https://arxiv.org/abs/2211.05102">arXiv:2211.05102</a></li>
+    <li>Chen et al., <i>Data-Juicer: A One-Stop Data Processing System for Large Language Models</i>, 2023. <a href="https://arxiv.org/abs/2309.02033">arXiv:2309.02033</a></li>
+    <li>Soldaini et al., <i>Dolma: an Open Corpus of Three Trillion Tokens</i>, 2024. <a href="https://arxiv.org/abs/2402.00159">arXiv:2402.00159</a></li>
+    <li>Li et al., <i>DataComp-LM: In search of the next generation of training sets for language models</i>, 2024. <a href="https://arxiv.org/abs/2406.11794">arXiv:2406.11794</a></li>
+    <li>HuggingFace, <i>FineWeb: decanting the web for the finest text data at scale</i>, 2024. <a href="https://huggingface.co/spaces/HuggingFaceFW/blogpost-fineweb-v1">huggingface.co</a></li>
+    <li>OpenAI, <i>Techniques for training large neural networks</i>, 2022. <a href="https://openai.com/index/techniques-for-training-large-neural-networks/">openai.com</a></li>
+    <li>Anthropic, <i>Claude's Constitution</i>, 2026. <a href="https://www.anthropic.com/constitution">anthropic.com/constitution</a></li>
+    <li>本系列既有报告：<i>大模型算力全景</i>（2026-10-20）、<i>从 10 人到 300 人</i>（2026-10-16）、<i>递归自我改进：投资视角</i>（2026-10-20）。用于算力、组织与 RSI 背景的交叉参照。</li>
+  </ol>
+
+  <div class="callout">
+    <div class="ct">使用建议</div>
+    <p>如果你要用这份报告做内部架构评审，建议按这个顺序：<b>①</b> 用第 01 节确认六层与四个接口；<b>②</b> 用第 02/05 节逐项盘点算力与数据模块；<b>③</b> 用第 09 节的 RACI 找出「没人负责的接口」；<b>④</b> 用第 12 节定 90 天建设清单。不要一次改所有层，先修最慢的那条流水线。</p>
+  </div>
+</section>
+
+<footer>
+  <p><b>大模型技术架构全景</b> · 数据截止 2026-10-22 · 版本 v1</p>
+  <p>本报告为技术架构与组织方法研究，不构成投资、采购或合规建议。公司相关系统与组织信息来自公开材料，未公开部分不做推测；MFU、吞吐、成本等数字口径不同，不能直接横比。引用时请连同口径与日期一起引用。</p>
+  <p>报告只使用公开职业信息，不含任何个人联系方式；未使用登录墙后的内部资料。</p>
+</footer>
+
+</div>
+</body>
+</html>
+</body>
+</html>
