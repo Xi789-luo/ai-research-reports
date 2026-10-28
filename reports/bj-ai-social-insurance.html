@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>北京 AI 创业公司社保公积金实操指南</title>
+<style>
+:root{
+  --paper:#EFF1F4;
+  --surface:#FFFFFF;
+  --surface-2:#F7F8FA;
+  --ink:#14171C;
+  --ink-soft:#4A515C;
+  --muted:#7C848F;
+  --rule:#D5D9E0;
+  --rule-soft:#E4E7EC;
+  --accent:#1E4C8A;
+  --accent-tint:#E7EDF6;
+  --warn:#8A6412;
+  --warn-tint:#F6EFDD;
+  --risk:#A32B26;
+  --risk-tint:#F7E7E5;
+  --good:#2A6A4F;
+  --good-tint:#E3EFE9;
+  --serif:"Noto Serif SC","Songti SC","Source Han Serif SC",Georgia,serif;
+  --sans:"Noto Sans SC","PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --col:74ch;
+  --gut:clamp(16px,4vw,40px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1216;
+    --surface:#171B21;
+    --surface-2:#1C2128;
+    --ink:#E8EAED;
+    --ink-soft:#B3BAC4;
+    --muted:#7E8794;
+    --rule:#2A313A;
+    --rule-soft:#222831;
+    --accent:#7FB0EE;
+    --accent-tint:#17243A;
+    --warn:#D6A040;
+    --warn-tint:#2A2317;
+    --risk:#E3706A;
+    --risk-tint:#2E1B1A;
+    --good:#5FBF92;
+    --good-tint:#15271F;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1216;
+  --surface:#171B21;
+  --surface-2:#1C2128;
+  --ink:#E8EAED;
+  --ink-soft:#B3BAC4;
+  --muted:#7E8794;
+  --rule:#2A313A;
+  --rule-soft:#222831;
+  --accent:#7FB0EE;
+  --accent-tint:#17243A;
+  --warn:#D6A040;
+  --warn-tint:#2A2317;
+  --risk:#E3706A;
+  --risk-tint:#2E1B1A;
+  --good:#5FBF92;
+  --good-tint:#15271F;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  font-size:16.5px;
+  line-height:1.8;
+  padding-inline:var(--gut);
+  padding-block:0 96px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto}
+
+/* ---------- nav ---------- */
+nav.top{
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  z-index:20;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  margin-inline:calc(var(--gut) * -1);
+  padding-inline:var(--gut);
+  padding-block:0;
+}
+nav.top .inner{
+  max-width:1120px;margin:0 auto;
+  display:flex;align-items:center;gap:20px;
+}
+nav.top .brand{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  white-space:nowrap;padding-block:12px;
+}
+nav.top .links{
+  display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;
+}
+nav.top .links::-webkit-scrollbar{display:none}
+nav.top a{
+  font-size:12.5px;color:var(--muted);text-decoration:none;
+  padding:13px 9px;white-space:nowrap;border-bottom:2px solid transparent;
+}
+nav.top a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+
+/* ---------- masthead ---------- */
+header.mast{
+  padding-block:clamp(48px,8vw,96px) 40px;
+  max-width:var(--col);
+}
+.kicker{
+  font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 22px;
+}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(38px,7vw,68px);
+  line-height:1.12;letter-spacing:-.015em;
+  margin:0 0 20px;text-wrap:balance;
+}
+.standfirst{
+  font-size:clamp(17px,2.2vw,20px);line-height:1.75;color:var(--ink-soft);
+  margin:0 0 34px;max-width:60ch;
+}
+.docmeta{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  font-family:var(--mono);font-size:12px;
+}
+.docmeta div{background:var(--surface);padding:12px 14px}
+.docmeta dt{
+  color:var(--muted);font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px;
+}
+.docmeta dd{margin:0;color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums;font-size:12.5px;line-height:1.5}
+
+/* ---------- thesis ---------- */
+.thesis{
+  margin-block:8px 0;
+  background:var(--surface);
+  border-top:2px solid var(--accent);
+  border-bottom:1px solid var(--rule);
+  padding:clamp(26px,4vw,42px) clamp(20px,3.5vw,44px);
+  max-width:var(--col);
+}
+.thesis h2{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+  margin:0 0 20px;
+}
+.thesis ol{margin:0;padding:0;list-style:none;counter-reset:t;display:flex;flex-direction:column;gap:16px}
+.thesis li{
+  counter-increment:t;position:relative;padding-left:34px;
+  font-size:16px;line-height:1.8;color:var(--ink-soft);
+}
+.thesis li::before{
+  content:counter(t);position:absolute;left:0;top:2px;
+  font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent);
+  border:1px solid var(--accent);border-radius:50%;
+  width:20px;height:20px;display:grid;place-items:center;
+}
+.thesis li b{color:var(--ink);font-weight:700}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(52px,7vw,86px);border-top:1px solid var(--rule);max-width:var(--col)}
+section.wide{max-width:none}
+.snum{
+  font-family:var(--mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;color:var(--muted);margin:0 0 12px;display:block;
+}
+h2.sec{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(25px,3.6vw,36px);line-height:1.3;letter-spacing:-.01em;
+  margin:0 0 26px;text-wrap:balance;
+}
+h3{
+  font-family:var(--serif);font-weight:600;font-size:19.5px;line-height:1.5;
+  margin:40px 0 14px;text-wrap:balance;
+}
+h4{
+  font-family:var(--sans);font-weight:700;font-size:15px;
+  margin:28px 0 10px;color:var(--ink);
+}
+p{margin:0 0 18px;color:var(--ink-soft)}
+p.lede{font-size:18px;color:var(--ink);line-height:1.75}
+strong,b{color:var(--ink);font-weight:700}
+em{font-style:normal;background:var(--accent-tint);padding:1px 4px;border-radius:2px;color:var(--ink)}
+code{font-family:var(--mono);font-size:.9em;background:var(--surface-2);border:1px solid var(--rule-soft);padding:1px 5px;border-radius:3px;color:var(--ink)}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+ul.plain{padding-left:20px;margin:0 0 18px;color:var(--ink-soft)}
+ul.plain li{margin-bottom:9px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink)}
+
+/* ---------- quote ---------- */
+blockquote{
+  margin:26px 0;padding:0 0 0 22px;
+  border-left:2px solid var(--rule);
+  font-family:var(--serif);font-size:18px;line-height:1.7;color:var(--ink);
+}
+blockquote cite{
+  display:block;margin-top:10px;font-family:var(--sans);font-style:normal;
+  font-size:13px;color:var(--muted);
+}
+
+/* ---------- table ---------- */
+.tw{overflow-x:auto;margin:26px 0;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:11px 15px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top;line-height:1.65}
+thead th{
+  background:var(--surface-2);font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+th.n{text-align:right}
+td.k{font-weight:700;color:var(--ink);white-space:nowrap}
+caption{caption-side:bottom;padding:11px 15px;text-align:left;font-size:12px;color:var(--muted);border-top:1px solid var(--rule-soft);line-height:1.6}
+
+/* ---------- chips ---------- */
+.chip{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.chip.ok{background:var(--good-tint);color:var(--good)}
+.chip.mid{background:var(--warn-tint);color:var(--warn)}
+.chip.no{background:var(--risk-tint);color:var(--risk)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 20px}
+
+/* ---------- stack diagram ---------- */
+.stack{
+  display:grid;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);margin:30px 0;background-color:var(--rule);
+}
+.band{background:var(--surface);padding:18px 20px}
+.band .bl{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:9px;
+}
+.band .bn{font-family:var(--serif);font-weight:600;font-size:17px;margin-bottom:8px;color:var(--ink)}
+.band .bd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);margin:0}
+.band.mid{background:var(--accent-tint);border-inline:3px solid var(--accent)}
+.band.mid .bl{color:var(--accent)}
+.membrane{
+  background:var(--surface-2);padding:9px 20px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.membrane b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- bars ---------- */
+.bars{margin:26px 0;display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(96px,150px) 1fr auto;gap:14px;align-items:center}
+.bar-lbl{font-size:13.5px;color:var(--ink);line-height:1.4}
+.bar-track{background:var(--surface-2);border:1px solid var(--rule-soft);height:22px;position:relative;min-width:60px}
+.bar-fill{height:100%;background:var(--accent);opacity:.85}
+.bar-fill.alt{background:var(--muted)}
+.bar-val{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:500;color:var(--ink);white-space:nowrap}
+.scale-note{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:4px}
+@media (max-width:560px){
+  .bar-row{grid-template-columns:1fr auto;gap:8px 12px}
+  .bar-track{grid-column:1/-1}
+}
+
+/* ---------- risk ---------- */
+.risk{border:1px solid var(--rule);background:var(--surface);margin-bottom:14px;padding:20px 22px}
+.risk-hd{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.risk-id{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--risk);letter-spacing:.06em}
+.risk-t{font-family:var(--serif);font-weight:600;font-size:17.5px;color:var(--ink);flex:1;min-width:200px}
+.meter{display:flex;gap:3px;align-items:center}
+.meter i{width:16px;height:5px;background:var(--rule);display:block;border-radius:1px}
+.meter i.on{background:var(--risk)}
+.meter em{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:5px}
+.risk p{margin:0;font-size:14.5px}
+
+/* ---------- facts ---------- */
+.facts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0;
+}
+.facts div{background:var(--surface);padding:15px 16px}
+.facts .fv{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);line-height:1.25;margin-bottom:5px}
+.facts .fl{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ---------- callout ---------- */
+.callout{
+  background:var(--surface-2);border:1px solid var(--rule);
+  padding:20px 24px;margin:26px 0;
+}
+.callout p:last-child{margin-bottom:0}
+.callout .ct{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+.callout.warnb{background:var(--warn-tint);border-color:color-mix(in srgb,var(--warn) 30%,transparent)}
+.callout.warnb .ct{color:var(--warn)}
+.callout.riskb{background:var(--risk-tint);border-color:color-mix(in srgb,var(--risk) 30%,transparent)}
+.callout.riskb .ct{color:var(--risk)}
+
+/* ---------- calculator ---------- */
+.calc{
+  border:1px solid var(--rule);background:var(--surface);margin:28px 0;padding:22px;
+}
+.calc h4{margin:0 0 4px}
+.calc .hint{font-size:12.5px;color:var(--muted);margin:0 0 18px}
+.calc-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-bottom:18px}
+.field label{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field input[type=number]{
+  width:100%;padding:9px 11px;border:1px solid var(--rule);background:var(--surface-2);
+  color:var(--ink);font-family:var(--mono);font-size:16px;border-radius:0;
+}
+.field input[type=range]{width:100%;accent-color:var(--accent);margin-top:10px}
+.field .rv{font-family:var(--mono);font-size:13px;color:var(--ink);margin-top:2px}
+.calc-out{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.calc-out div{background:var(--surface-2);padding:13px 15px}
+.calc-out .l{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:4px}
+.calc-out .v{font-family:var(--mono);font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.calc-out .v small{font-size:11px;font-weight:400;color:var(--muted);margin-left:2px}
+
+/* ---------- checklist ---------- */
+.check{list-style:none;padding:0;margin:24px 0;border:1px solid var(--rule);background:var(--surface)}
+.check li{
+  display:grid;grid-template-columns:22px 1fr;gap:12px;
+  padding:13px 18px;border-bottom:1px solid var(--rule-soft);font-size:14.5px;color:var(--ink-soft);
+}
+.check li:last-child{border-bottom:none}
+.check li::before{
+  content:"";width:14px;height:14px;border:1.5px solid var(--rule);
+  margin-top:5px;border-radius:2px;
+}
+.check li b{color:var(--ink)}
+
+/* ---------- sources ---------- */
+ol.src{list-style:none;counter-reset:s;padding:0;margin:26px 0;font-size:13.5px}
+ol.src li{
+  counter-increment:s;padding:10px 0 10px 42px;position:relative;
+  border-bottom:1px solid var(--rule-soft);color:var(--ink-soft);line-height:1.65;
+}
+ol.src li::before{
+  content:counter(s,decimal-leading-zero);position:absolute;left:0;top:11px;
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+ol.src a{word-break:break-word}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:2px solid var(--ink);margin-top:20px;padding-top:22px;
+  max-width:var(--col);font-size:13px;color:var(--muted);line-height:1.75;
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="inner">
+    <span class="brand">北京 · AI 创业公司 · HR 实操</span>
+    <div class="links">
+      <a href="#thesis">结论先行</a>
+      <a href="#params">2026 参数</a>
+      <a href="#cost">成本测算</a>
+      <a href="#ops">开户与节奏</a>
+      <a href="#base">基数口径</a>
+      <a href="#practice">大厂对照</a>
+      <a href="#choices">六个选择</a>
+      <a href="#redlines">合规红线</a>
+      <a href="#talent">人才政策</a>
+      <a href="#sop">SOP</a>
+      <a href="#sources">信息源</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">HR 实操手册 · 北京 · 2026 年度</p>
+  <h1>北京 AI 创业公司的社保与公积金</h1>
+  <p class="standfirst">从 10 人团队到 300 人公司，社保和公积金既是每月最大的一笔刚性支出，也是招聘时最容易被候选人追问、最容易踩合规红线的地方。这份指南用 2026 年北京最新口径，把参数、成本、开户节奏、基数口径和大厂做法一次讲清。</p>
+  <dl class="docmeta">
+    <div><dt>数据截止</dt><dd>2026-10-28</dd></div>
+    <div><dt>适用地区</dt><dd>北京市</dd></div>
+    <div><dt>政策年度</dt><dd>2026-07 至 2027-06</dd></div>
+    <div><dt>口径</dt><dd>官方文件为主 · 公司实践标注证据强度</dd></div>
+  </dl>
+</header>
+
+<section class="thesis" id="thesis">
+  <h2>结论先行</h2>
+  <ol>
+    <li><b>2026 年北京的硬参数只有两组：社保缴费基数 <span class="num">7,270–36,348</span> 元；公积金缴存比例 <span class="num">5%–12%</span>、基数上限 <span class="num">36,348</span> 元、下限 <span class="num">2,540</span> 元。</b>所有测算都从这两组数字出发，其余细节都是口径问题。</li>
+    <li><b>AI 公司薪酬高，多数研发岗的缴费基数会撞到 36,348 元上限。</b>撞顶之后，单位社保成本固定为每人每月 <span class="num">9,632</span> 元，不再随工资上涨——真正随工资变化的只有公积金。</li>
+    <li><b>公积金 5% 还是 12%，是北京创业公司唯一能合法自主决定的杠杆。</b>按上限基数计算，单位缴存部分每人每年相差 <span class="num">30,532</span> 元；50 人团队一年相差约 <span class="num">153</span> 万元（个人同比例部分另计）。</li>
+    <li><b>按最低基数缴是最大的隐性负债。</b>补缴、每日万分之五的滞纳金、员工被迫解约并索赔经济补偿，以及候选人落户、购房、摇号资格受损——任何一项都比省下的钱贵。</li>
+    <li><b>公开口径上，大厂普遍是「六险一金 + 12% 公积金」，但具体比例没有公司公告。</b>腾讯、阿里、字节的 12% 来自第三方汇总和员工社区；Kimi、DeepSeek、智谱只公开到「五险一金」。这些数字可以做市场参考，不能当 offer 依据。</li>
+    <li><b>对早期 AI 公司，最划算的组合通常是「足额基数 + 12% 公积金 + 补充医疗」。</b>单位在工资之外要多付 <span class="num">31.5%–38.5%</span>（总成本为工资的 1.315–1.385 倍），但在候选人侧，这是可感知、可比较、且免税的福利。</li>
+  </ol>
+</section>
+
+<section class="wide" id="params">
+  <span class="snum">01 / 参数</span>
+  <h2 class="sec">先记住五个数字</h2>
+
+  <div class="facts">
+    <div><div class="fv">12,116</div><div class="fl">2025 年度全口径月平均工资（元）</div></div>
+    <div><div class="fv">36,348</div><div class="fl">2026 社保基数上限；也是公积金基数上限（元）</div></div>
+    <div><div class="fv">7,270</div><div class="fl">2026 社保基数下限（元）</div></div>
+    <div><div class="fv">5%–12%</div><div class="fl">公积金缴存比例，单位自主确定</div></div>
+    <div><div class="fv">2,540</div><div class="fl">公积金缴存基数下限（元）</div></div>
+  </div>
+
+  <p>社保基数上下限由北京市人社局、市医保局、市税务局联合发布，<b>2026 年 7 月起执行</b>；公积金年度为 <b>2026 年 7 月 1 日至 2027 年 6 月 30 日</b>。两套基数的上限同为社平工资的三倍，但下限不同：社保下限是社平工资的 60%（12,116 × 60% ≈ 7,270 元），公积金下限单独设定，2026 年度为 2,540 元、与 2025 年度一致。</p>
+
+  <h3>缴费比例：单位 26.5%，个人 10.5% + 3 元</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>险种</th><th class="n">单位</th><th class="n">个人</th><th>基数口径</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="k">养老保险</td><td class="n">16%</td><td class="n">8%</td><td>7,270–36,348</td><td>法定，无自主空间</td></tr>
+        <tr><td class="k">医疗保险（含生育）</td><td class="n">9.8%</td><td class="n">2% + 3 元</td><td>7,270–36,348</td><td>3 元为大额医疗互助</td></tr>
+        <tr><td class="k">失业保险</td><td class="n">0.5%</td><td class="n">0.5%</td><td>7,270–36,348</td><td>法定</td></tr>
+        <tr><td class="k">工伤保险</td><td class="n">0.2%–1.9%</td><td class="n">—</td><td>7,270–36,348</td><td>按行业风险类别浮动；软件和信息技术服务业属一类，基准 0.2%</td></tr>
+        <tr><td class="k">住房公积金</td><td class="n">5%–12%</td><td class="n">5%–12%</td><td>2,540–36,348</td><td>单位与个人同比例，单位自主确定</td></tr>
+        <tr><td class="k">合计（按工伤 0.2%、公积金 12%）</td><td class="n">38.5%</td><td class="n">22.5% + 3 元</td><td>—</td><td>公积金取 5% 时，单位为 31.5%</td></tr>
+      </tbody>
+      <caption>来源：北京市人社局 2026 年社保基数通告、北京住房公积金管委会 2026 年度缴存通知、北京市医保局缴费比例通知、北京市工伤保险费率政策。个人医疗保险为大额互助 3 元/月。</caption>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="ct">口径提醒</div>
+    <p><b>「六险一金」的第六险通常不是法定险种，而是企业购买的商业补充医疗。</b>它不改变上述法定比例，只是在医保之外再报一部分门诊和住院费用。招聘时把「六险一金」当成公司福利卖点可以，但在成本表里要单列，不能混进社保。</p>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">年度补差</div>
+    <p>基数上下限调整后，<b>2026 年 9 月系统自动生成补差金额，单位无需申报</b>；在 2026 年 12 月底前完成补缴的，不计征滞纳金。7 月之后新入职的员工，按起薪当月工资核定，不参与本次补差。</p>
+  </div>
+</section>
+
+<section class="wide" id="cost">
+  <span class="snum">02 / 成本</span>
+  <h2 class="sec">一个人的真实用工成本</h2>
+
+  <p>北京 AI 公司的研发岗月薪常见在 3 万至 8 万元之间，几乎全部撞到 36,348 元的缴费上限。下面这张表把「月薪」和「单位实际支出」拆开：单位社保按 26.5%（养老 16% + 医疗 9.8% + 失业 0.5% + 工伤 0.2%）计算，公积金分别按 5% 和 12% 两档。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th class="n">月薪</th><th class="n">缴费基数</th><th class="n">单位社保</th><th class="n">公积金 5%</th><th class="n">公积金 12%</th><th class="n">单位总成本 5%</th><th class="n">单位总成本 12%</th><th class="n">个人扣除 12%</th></tr></thead>
+      <tbody>
+        <tr><td class="n">10,000</td><td class="n">10,000</td><td class="n">2,650</td><td class="n">500</td><td class="n">1,200</td><td class="n">13,150</td><td class="n">13,850</td><td class="n">2,253</td></tr>
+        <tr><td class="n">15,000</td><td class="n">15,000</td><td class="n">3,975</td><td class="n">750</td><td class="n">1,800</td><td class="n">19,725</td><td class="n">20,775</td><td class="n">3,378</td></tr>
+        <tr><td class="n">20,000</td><td class="n">20,000</td><td class="n">5,300</td><td class="n">1,000</td><td class="n">2,400</td><td class="n">26,300</td><td class="n">27,700</td><td class="n">4,503</td></tr>
+        <tr><td class="n">30,000</td><td class="n">30,000</td><td class="n">7,950</td><td class="n">1,500</td><td class="n">3,600</td><td class="n">39,450</td><td class="n">41,550</td><td class="n">6,753</td></tr>
+        <tr><td class="n">40,000</td><td class="n">36,348</td><td class="n">9,632</td><td class="n">1,817</td><td class="n">4,362</td><td class="n">51,450</td><td class="n">53,994</td><td class="n">8,181</td></tr>
+        <tr><td class="n">60,000</td><td class="n">36,348</td><td class="n">9,632</td><td class="n">1,817</td><td class="n">4,362</td><td class="n">71,450</td><td class="n">73,994</td><td class="n">8,181</td></tr>
+        <tr><td class="n">80,000</td><td class="n">36,348</td><td class="n">9,632</td><td class="n">1,817</td><td class="n">4,362</td><td class="n">91,450</td><td class="n">93,994</td><td class="n">8,181</td></tr>
+      </tbody>
+      <caption>单位：元/月。个人扣除 12% 含养老 8%、医疗 2% + 3 元、失业 0.5%、公积金 12%。四舍五入到元。工伤费率按 0.2% 计，实际以核定为准。</caption>
+    </table>
+  </div>
+
+  <div class="calc">
+    <h4>算一下你自己的方案</h4>
+    <p class="hint">输入月薪，拖动公积金比例，即时得到单位成本与个人扣除。默认按北京 2026 参数。</p>
+    <div class="calc-controls">
+      <div class="field">
+        <label for="salary">月薪（元）</label>
+        <input type="number" id="salary" value="40000" min="3000" step="1000">
+      </div>
+      <div class="field">
+        <label for="rate">公积金比例 <span class="rv" id="ratev">12%</span></label>
+        <input type="range" id="rate" min="5" max="12" step="1" value="12">
+      </div>
+      <div class="field">
+        <label for="inj">工伤费率</label>
+        <input type="number" id="inj" value="0.2" min="0.2" max="1.9" step="0.1">
+      </div>
+    </div>
+    <div class="calc-out">
+      <div><div class="l">缴费基数</div><div class="v" id="o-base">36,348</div></div>
+      <div><div class="l">单位社保</div><div class="v" id="o-ersi">9,632</div></div>
+      <div><div class="l">单位公积金</div><div class="v" id="o-erfund">4,362</div></div>
+      <div><div class="l">单位月总成本</div><div class="v" id="o-total">53,994</div></div>
+      <div><div class="l">个人社保+公积金</div><div class="v" id="o-ee">8,181</div></div>
+      <div><div class="l">成本系数</div><div class="v" id="o-ratio">1.35<small>×</small></div></div>
+    </div>
+  </div>
+
+  <h3>三个容易被忽略的结论</h3>
+  <p><b>第一，社保成本有「天花板」，公积金没有。</b>月薪 4 万、6 万、8 万的单位社保都是 9,632 元，因为基数封顶在 36,348 元。工资越高，社保占工资的比例越低——4 万时约 24%，8 万时只有 12%。所以对高薪团队，「足额缴社保」的边际痛感比想象中小。</p>
+  <p><b>第二，公积金比例是唯一可调的杠杆，而且杠杆很大。</b>按上限基数，5% 与 12% 的单位月缴分别是 1,817 元和 4,362 元，一年相差 30,532 元/人。50 人团队、平均按上限缴，一年相差约 153 万元——这还没算个人同比例多缴的部分。</p>
+  <p><b>第三，公积金是「免税的强制储蓄」，对候选人的感知远高于同等现金。</b>单位缴的 12% 不进个人当月工资，但进个人账户，租房、购房、还贷都能提取，且单位与个人两部分都免个税。对刚落户或准备买房的年轻研究员，这比每月多给两千块现金更有说服力。</p>
+
+  <div class="callout">
+    <div class="ct">给 HR 的换算话术</div>
+    <p>「公积金 12%」在 3 万元月薪档，等于每月单位和个人各存 3,600 元，合计 7,200 元进入个人账户；「5%」则是各 1,500 元、合计 3,000 元。一年下来，个人账户差额是 50,400 元。谈 offer 时把这笔账算给候选人看，比只说比例有效得多。</p>
+  </div>
+</section>
+
+<section class="wide" id="ops">
+  <span class="snum">03 / 开户与节奏</span>
+  <h2 class="sec">从注册到每月缴费的时间表</h2>
+
+  <p>北京已经把社保登记并进企业开办「一网通办」，但公积金是单独的系统，两个 30 日的时限经常被创业公司漏掉。下面是从公司设立到日常申报的完整节奏。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>时点</th><th>事项</th><th>办理渠道</th><th>关键点</th></tr></thead>
+      <tbody>
+        <tr><td class="k">设立之日起 30 日内</td><td>社会保险登记</td><td>北京市企业服务 e 窗通 / 社保经办机构</td><td>法定时限；可与工商注册同步勾选</td></tr>
+        <tr><td class="k">设立之日起 30 日内</td><td>住房公积金缴存登记</td><td>北京住房公积金网上业务系统</td><td>需先开立单位账户，再为职工开户</td></tr>
+        <tr><td class="k">登记后</td><td>签订税库银三方协议</td><td>电子税务局 / 开户银行</td><td>社保费由税务征收，协议不通无法扣款</td></tr>
+        <tr><td class="k">每月</td><td>增员、减员、申报缴费</td><td>电子税务局 / 社保网上服务平台</td><td>增减员全月可网上办理（月末最后一日 17 时至次日 9 时暂停）；申报缴费按税务征收期，通常每月 10–25 日</td></tr>
+        <tr><td class="k">每年 7 月</td><td>社保缴费基数申报</td><td>社保网上服务平台</td><td>按上年度月平均工资申报；不申报会沿用旧基数</td></tr>
+        <tr><td class="k">每年 7 月</td><td>公积金年度缴存基数申报（跨年清册核定）</td><td>公积金网上业务系统</td><td>同时可调整缴存比例；一年一次</td></tr>
+        <tr><td class="k">每年 9 月</td><td>社保基数补差</td><td>系统自动生成</td><td>12 月底前补缴免滞纳金</td></tr>
+        <tr><td class="k">员工离职</td><td>当月缴费、次月减员</td><td>社保 / 公积金系统</td><td>离职当月应缴，不能提前停</td></tr>
+      </tbody>
+      <caption>依据：《社会保险法》第五十七条、《住房公积金管理条例》第十四条、北京 2026 年度社保与公积金缴存通知。具体申报期以北京市税务局、公积金中心当期通知为准。</caption>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">新公司最容易漏的两件事</div>
+    <p><b>一是 30 日登记时限。</b>不少公司等到第一个员工入职才去开户，结果入职当月无法参保，只能次月补缴，员工的医保待遇和购房资格都会受影响。<b>二是 7 月年度申报。</b>不申报不会报错，系统会沿用旧基数——等到员工办房贷、工作居住证时才发现基数不对，补起来非常麻烦。</p>
+  </div>
+
+  <h3>公积金开户时的三个选择</h3>
+  <ul class="plain">
+    <li><b>缴存比例：</b>5%–12% 整数档，单位与个人同比例。选定后在一个公积金年度内一般不变，每年 7 月年度申报时可调整。</li>
+    <li><b>缴存基数：</b>职工上年度月平均工资，下限 2,540 元、上限 36,348 元。新入职员工按起薪当月工资核定。</li>
+    <li><b>缴存方式：</b>单位汇缴，按月足额缴存；新设单位一般从登记当月起缴，具体以公积金中心核定为准。</li>
+  </ul>
+</section>
+
+<section class="wide" id="base">
+  <span class="snum">04 / 基数口径</span>
+  <h2 class="sec">基数不是「基本工资」</h2>
+
+  <p>社保和公积金的缴费基数，都是<b>职工本人上一年度的月平均工资</b>，口径是「工资总额」，不是劳动合同上写的 basic salary。这是创业公司最常见的申报错误，也是劳动仲裁里最容易输的一类争议。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>收入类型</th><th>是否计入基数</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td class="k">基本工资、岗位工资</td><td><span class="chip ok">计入</span></td><td>工资总额的主体</td></tr>
+        <tr><td class="k">绩效奖金、年终奖</td><td><span class="chip ok">计入</span></td><td>按上年度工资总额除以 12 计算月平均</td></tr>
+        <tr><td class="k">13 薪、14 薪</td><td><span class="chip ok">计入</span></td><td>属于工资性收入</td></tr>
+        <tr><td class="k">餐补、房补、交通补（固定发放）</td><td><span class="chip ok">计入</span></td><td>货币性补贴，属于工资总额</td></tr>
+        <tr><td class="k">加班费、值班费</td><td><span class="chip ok">计入</span></td><td>工资总额组成部分</td></tr>
+        <tr><td class="k">实报实销的差旅、招待费</td><td><span class="chip no">不计入</span></td><td>凭票报销，不属于工资</td></tr>
+        <tr><td class="k">股权、期权行权收益</td><td><span class="chip no">通常不计入</span></td><td>属于财产性收入；但以工资名义发放的现金部分应计入</td></tr>
+        <tr><td class="k">一次性离职补偿</td><td><span class="chip no">不计入</span></td><td>不属于正常工资</td></tr>
+      </tbody>
+      <caption>口径依据：国家统计局《关于工资总额组成的规定》及北京社保缴费工资申报口径。实际操作中，以经办机构核定为准。</caption>
+    </table>
+  </div>
+
+  <h3>新员工、调薪与年终奖怎么处理</h3>
+  <ul class="plain">
+    <li><b>新入职：</b>按起薪当月工资核定基数，不是按上家公司的基数，也不是按最低基数。<b>缴费起始月</b>见下表——社保的严格口径是「在职当月缴」，15 日惯例是公司内部规则；公积金则按《住房公积金管理条例》第十七条确定。</li>
+    <li><b>年中调薪：</b>当年基数不变，次年 7 月年度申报时按上年度月平均工资调整。调薪后立即按新工资缴，属于提前足额，不违规；但按旧低基数缴，属于少缴。</li>
+    <li><b>年终奖：</b>计入上年度工资总额，摊到 12 个月参与月平均。3 月发年终奖、7 月调基数，时间上是衔接得上的。</li>
+    <li><b>多地发薪：</b>北京主体的员工，基数应包含其全部工资性收入，不能把北京工资拆到外地主体发放来压低基数。</li>
+  </ul>
+
+  <h4>入职、离职的缴费月份怎么定</h4>
+  <div class="tw">
+    <table>
+      <thead><tr><th>情形</th><th>社保</th><th>公积金</th><th>依据 / 风险</th></tr></thead>
+      <tbody>
+        <tr><td class="k">当月 15 日（含）前入职</td><td>当月缴</td><td>当月或次月，按公司规则</td><td>大厂通行做法</td></tr>
+        <tr><td class="k">当月 16 日（含）后入职</td><td>次月缴（惯例）</td><td>次月缴较常见</td><td>社保惯例不是法定豁免，存在补缴风险</td></tr>
+        <tr><td class="k">应届生首次参加工作</td><td>当月缴</td><td>第二个月起</td><td>《住房公积金管理条例》第十七条</td></tr>
+        <tr><td class="k">社招新调入</td><td>当月缴</td><td>从发放工资之日起</td><td>《住房公积金管理条例》第十七条</td></tr>
+        <tr><td class="k">离职</td><td>当月缴，次月减员</td><td>当月缴，次月封存/转移</td><td>在职当月仍有劳动关系</td></tr>
+      </tbody>
+      <caption>社保依据：《社会保险法》第五十八条（用工之日起 30 日内登记）；北京人社公开答复明确离职当月仍存在劳动关系、单位应缴当月社保。公积金依据：《住房公积金管理条例》第十七条。</caption>
+    </table>
+  </div>
+
+  <div class="callout warnb">
+    <div class="ct">15 日惯例：常见，但不等于合法豁免</div>
+    <p>大量大厂和 AI 公司按「15 日前入职当月缴、16 日后次月缴」执行，这是成本和管理的内部规则，不是法律给的豁免。社保方面，只要当月建立劳动关系，严格口径就是在职当月缴；一旦员工主张或遇到稽核，次月起缴仍可能被要求补缴。而且北京社保增减员<b>全月可网上办理</b>，月报在税务征收期内生成即可当月缴纳——系统并不存在「16 号后不能缴当月」的限制，15 日切分是公司自己的选择。公积金方面，《住房公积金管理条例》第十七条给了明确差异：<b>新参加工作的职工从第二个月起缴，新调入的职工从发放工资之日起缴</b>。建议把规则写进员工手册，社保不要跨月漏缴，公积金按条例和公司制度执行。</p>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">一句话判断</div>
+    <p>如果候选人的 offer 是「月薪 4 万 + 3 个月年终奖」，那么他的社保基数大致是 5 万，撞上限后按 36,348 元缴；如果公司只按 2 万或最低基数缴，差额部分就是未来的补缴敞口。</p>
+  </div>
+</section>
+
+<section class="wide" id="practice">
+  <span class="snum">05 / 大厂对照</span>
+  <h2 class="sec">腾讯、阿里、字节与 AI 独角兽怎么做</h2>
+
+  <p>先说结论：<b>没有任何一家公司公开发布过逐项社保和公积金缴纳比例。</b>下面能核实的是「福利口径」——招聘信息、公开报道里反复出现的表述；公积金比例一列来自第三方汇总和员工社区，<b>只能作市场参考，不能作为 offer 承诺的依据</b>。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>公司</th><th>公开可见的福利口径</th><th>公积金（市场口径）</th><th>证据强度</th></tr></thead>
+      <tbody>
+        <tr><td class="k">腾讯</td><td>五险一金 + 补充商业保险；餐饮、班车等福利在公开报道中常见</td><td>12%，全额基数</td><td><span class="chip mid">中</span> 第三方汇总，未见公告</td></tr>
+        <tr><td class="k">阿里巴巴</td><td>五险一金 + 商业保险；iHome 置业计划等福利有公开报道</td><td>12%，全额基数</td><td><span class="chip mid">中</span> 第三方汇总，未见公告</td></tr>
+        <tr><td class="k">字节跳动</td><td>六险一金（含补充医疗），公开招聘信息常见</td><td>12%，标准顶格</td><td><span class="chip mid">中</span> 第三方汇总，未见公告</td></tr>
+        <tr><td class="k">月之暗面（Kimi）</td><td>五险一金 + 带薪年假等，招聘信息转载</td><td>未公开披露</td><td><span class="chip no">低</span> 仅招聘信息口径</td></tr>
+        <tr><td class="k">DeepSeek（深度求索）</td><td>五险一金 + 商业保险；14/20 薪，媒体引招聘信息</td><td>未公开披露</td><td><span class="chip no">低</span> 仅媒体口径</td></tr>
+        <tr><td class="k">智谱 AI</td><td>五险一金 + 弹性工作等，校招/社招信息</td><td>未公开披露</td><td><span class="chip no">低</span> 仅招聘信息口径</td></tr>
+        <tr><td class="k">早期 AI 创业公司</td><td>以五险一金为主，少数提供补充医疗</td><td>5%–12% 均有；12% 常见于融资充足的团队</td><td><span class="chip no">无</span> 无公开数据</td></tr>
+      </tbody>
+      <caption>「六险一金」中的第六险通常为商业补充医疗，非法定险种。腾讯、阿里、字节的 12% 说法来自 2026 年第三方汇总与员工社区，未见公司官方公告；Kimi、DeepSeek、智谱未检索到公开的公积金比例。</caption>
+    </table>
+  </div>
+
+  <h3>大厂与 AI 公司的真实差异，不在比例，在「确定性」</h3>
+  <p><b>大厂的做法是「福利确定性」：</b>12% 顶格、全额基数、六险一金、每年 7 月自动调基。候选人不需要问，因为市场上已经有稳定预期。这套体系的成本很高，但大厂用高薪和规模摊薄了它，同时把它变成了雇主品牌的一部分。</p>
+  <p><b>AI 独角兽的做法是「高薪 + 基础合规」：</b>月薪开到 4 万至 8 万，社保公积金按法定缴，但具体比例不对外披露。对候选人来说，现金部分极具吸引力，福利部分则是一个需要逐项确认的黑箱。Kimi、DeepSeek、智谱的公开招聘信息都只写到「五险一金」，没有比例。</p>
+  <p><b>早期创业公司的做法是「用公积金做差异化」：</b>工资拼不过大厂，就把 12% 公积金、补充医疗、租房补贴打包成「福利包」，在候选人侧形成可感知的差异。这个策略在 30–100 人阶段最有效，因为每个人都能算清自己多拿了多少。</p>
+
+  <div class="callout warnb">
+    <div class="ct">跨城提醒：北京 12%，上海 7%</div>
+    <p>北京公积金缴存比例上限是 12%；上海住房公积金标准缴存比例是单位和个人各 5%–7%，另有 1%–5% 的补充公积金。同样月薪 4 万，北京按 12% 缴，单位和个人各 4,362 元（基数上限 36,348 元）；上海按 7% 缴，单位和个人各约 2,641 元（按上海 2026 年度基数上限计算）。AI 公司常在北京、上海、杭州、深圳多地设主体，<b>候选人签约主体不同，公积金到手可能差近一倍</b>。发 offer 前务必确认签约主体和缴存城市。</p>
+  </div>
+
+  <h3>怎么核实一家公司的真实缴纳情况</h3>
+  <ul class="plain">
+    <li><b>看 offer 和劳动合同的甲方：</b>是北京主体，还是外地主体、外包公司、关联公司。甲方决定缴存城市和比例。</li>
+    <li><b>看社保和公积金缴费记录：</b>候选人可在「北京通」、北京公积金 App、电子社保卡里查到近几年的缴费基数和单位名称，比任何口头承诺都可靠。</li>
+    <li><b>问三个具体问题：</b>公积金比例是多少？基数是不是全额工资？签约主体是哪家公司？这三个问题能过滤掉大部分信息差。</li>
+    <li><b>不要把「六险一金」当成比例承诺：</b>它只说明有补充医疗，不说明公积金是 5% 还是 12%。</li>
+  </ul>
+</section>
+
+<section class="wide" id="choices">
+  <span class="snum">06 / 六个选择</span>
+  <h2 class="sec">早期 AI 公司的决策清单</h2>
+
+  <p>下面六个选择，基本覆盖了 10–300 人阶段会遇到的社保公积金决策。每一项都给出推荐和理由，但最终要结合融资阶段、现金流和招聘竞争度判断。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>决策</th><th>选项</th><th>推荐</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td class="k">公积金比例</td><td>5% / 7% / 12%</td><td><span class="chip ok">12%</span></td><td>唯一可调的招聘杠杆；成本可预算；对候选人是免税、可提取的实得福利</td></tr>
+        <tr><td class="k">缴费基数</td><td>最低基数 / 实际工资 / 全额工资总额</td><td><span class="chip ok">全额</span></td><td>最低基数是明确违法；补缴、滞纳金、解约索赔的敞口远大于节省</td></tr>
+        <tr><td class="k">补充医疗</td><td>不买 / 团体医疗 / 含家属</td><td><span class="chip ok">团体医疗</span></td><td>成本约为工资的 1%–3%，但覆盖门诊住院，感知强，是「六险一金」的实质</td></tr>
+        <tr><td class="k">签约主体</td><td>北京单一主体 / 多地主体 / 外包</td><td><span class="chip ok">北京主体</span></td><td>北京团队挂外地主体，会影响工作居住证、购房、摇号和公积金贷款</td></tr>
+        <tr><td class="k">用工形式</td><td>正式劳动合同 / 外包 / 灵活用工</td><td><span class="chip ok">正式</span></td><td>核心研发岗用外包或个体户代缴，不能替代劳动关系，争议时风险极高</td></tr>
+        <tr><td class="k">年度调基</td><td>不申报 / 按实际申报</td><td><span class="chip ok">按实际</span></td><td>不申报会沿用旧基数，员工办房贷、落户时暴露，补缴成本更高</td></tr>
+      </tbody>
+      <caption>推荐基于合规优先和招聘竞争力的平衡，不构成法律意见。涉及具体劳动争议时，应咨询专业律师或社保经办机构。</caption>
+    </table>
+  </div>
+
+  <h3>如果现金流紧张，按这个顺序砍</h3>
+  <ol class="plain">
+    <li><b>先砍补充医疗的家属覆盖</b>，保留员工本人。</li>
+    <li><b>再考虑公积金从 12% 降到 7% 或 5%</b>，但要在 offer 里写清楚，并在年度申报时统一调整，不能对同一批员工区别对待而无制度依据。</li>
+    <li><b>不要动缴费基数。</b>按最低基数缴省下的钱，会在补缴、滞纳金、仲裁和人才政策资格上成倍还回去。</li>
+    <li><b>不要用外包或个体户替代核心岗位的劳动关系。</b>这不是成本优化，是把用工风险从社保转移到了劳动争议。</li>
+  </ol>
+</section>
+
+<section class="wide" id="redlines">
+  <span class="snum">07 / 合规红线</span>
+  <h2 class="sec">八条不能碰的线</h2>
+
+  <p>下面每一条都是北京 AI 创业公司的高频问题。后果一栏写的是法律后果，不是「可能被查」的概率——社保稽核、员工举报、离职仲裁，任何一条路径都可能触发。</p>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R1</span><span class="risk-t">试用期不缴社保</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>高</em></span></div>
+    <p>试用期包含在劳动合同期内，自用工之日起就应参保。以「试用期不缴、转正再补」为由停缴，员工可主张补缴，并据《劳动合同法》第三十八条解除合同、要求经济补偿。<b>正确做法：社保在职当月缴，至少不得跨月漏缴；公积金按条例确定起缴月。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R2</span><span class="risk-t">按最低基数缴，或只按基本工资缴</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>高</em></span></div>
+    <p>基数应为上年度月平均工资（工资总额），不是最低基数，也不是合同上的 basic salary。少缴部分可被要求补缴，并按日加收万分之五滞纳金；情节严重的，可处欠缴数额一倍以上三倍以下罚款。<b>正确做法：按工资总额申报，撞上限就按上限缴。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R3</span><span class="risk-t">让员工签「自愿放弃社保」</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>高</em></span></div>
+    <p>社保是法定义务，放弃协议无效。员工随时可以反悔并要求补缴，公司还要承担滞纳金；发生工伤时，全部待遇由公司承担。<b>正确做法：不签、不劝、不折现。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R4</span><span class="risk-t">社保挂靠、代缴、虚构劳动关系</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><em>高</em></span></div>
+    <p>通过第三方公司代缴、挂靠，本质是虚构劳动关系。对员工，可能影响购房、落户、公积金贷款的资格认定；对公司，可能被认定为骗取社保待遇，面临行政处罚甚至刑事责任。<b>正确做法：谁用工、谁参保。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R5</span><span class="risk-t">把实习生、非全日制当成「不用缴」</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>在校生实习不建立劳动关系，通常不缴社保；但员工一旦毕业、取得毕业证，就应按劳动关系参保。非全日制用工，单位应缴工伤保险，养老、医疗由个人以灵活就业身份缴纳。<b>正确做法：按身份和用工形式分别处理，毕业当月转为正式参保。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R6</span><span class="risk-t">外籍研究员漏缴</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>在中国境内就业的外国人应参加社会保险。与中国签有社保互免协定的国家（如德国、韩国、日本、瑞士等），可按规定免除养老、失业等部分险种，但需办理互免证明。<b>正确做法：入职时确认国籍与互免协定，办理参保或免除手续。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R7</span><span class="risk-t">离职当月提前停缴</span><span class="meter"><i class="on"></i><i class="on"></i><i></i><i></i><i></i><em>低</em></span></div>
+    <p>员工离职当月仍应缴纳社保和公积金，次月办理减员。提前停缴会造成断缴，影响员工的医保待遇、购房和摇号资格，也容易引发争议。<b>正确做法：当月缴、次月减。</b></p>
+  </div>
+
+  <div class="risk">
+    <div class="risk-hd"><span class="risk-id">R8</span><span class="risk-t">北京团队挂外地主体缴纳</span><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><em>中</em></span></div>
+    <p>员工在北京工作，劳动合同和社保却在外地，可能影响北京工作居住证、购房、小客车指标、积分落户的资格认定。即使公司出于税务或管理考虑设置多地主体，也应让北京团队与北京主体签约。<b>正确做法：用工所在地与参保地一致。</b></p>
+  </div>
+</section>
+
+<section class="wide" id="talent">
+  <span class="snum">08 / 人才政策联动</span>
+  <h2 class="sec">社保连续性，决定候选人能不能留下</h2>
+
+  <p>对 AI 公司的候选人来说，社保不只是每月的扣除项，还是北京一系列资格的入场券。断缴或补缴，可能让一个已经拿到 offer 的研究员在买房、摇号、落户上卡住——这是招聘阶段最容易被忽略的隐性风险。</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>事项</th><th>对社保的要求</th><th>断缴/补缴的影响</th></tr></thead>
+      <tbody>
+        <tr><td class="k">非京籍购房</td><td>连续 5 年（60 个月）在京缴纳社保或个税</td><td>断缴通常需重新累计；补缴一般不计入「连续」</td></tr>
+        <tr><td class="k">小客车指标</td><td>近 5 年连续在京缴纳社保和个人所得税</td><td>断缴、补缴均可能影响资格</td></tr>
+        <tr><td class="k">积分落户</td><td>在京连续缴纳社会保险 7 年及以上</td><td>补缴月数通常不计入连续年限</td></tr>
+        <tr><td class="k">工作居住证</td><td>单位符合条件，个人在京连续缴纳社保</td><td>具体月数和材料以各区受理口径为准</td></tr>
+        <tr><td class="k">公积金贷款</td><td>申请前连续缴存 6 个月（含）以上</td><td>断缴需重新计算连续缴存时间</td></tr>
+        <tr><td class="k">医保待遇</td><td>正常参保缴费</td><td>断缴期间无法享受医保报销</td></tr>
+      </tbody>
+      <caption>以上为一般口径，具体以北京市住建委、交通委、人社局、公积金中心最新办事指南为准。不同事项对「连续」的认定不完全一致，办理前应逐项核实。</caption>
+    </table>
+  </div>
+
+  <div class="callout riskb">
+    <div class="ct">招聘场景提醒</div>
+    <p>候选人从大厂跳到创业公司，最容易出问题的不是薪资，而是<b>社保衔接</b>：上家 15 日减员、下家下月才增员，中间断一个月，购房资格就要重新累计。HR 应在 offer 阶段确认入职日期和减员日期，必要时让候选人提前与原公司沟通，把参保月份接上。</p>
+  </div>
+</section>
+
+<section class="wide" id="sop">
+  <span class="snum">09 / SOP</span>
+  <h2 class="sec">一页纸执行清单</h2>
+
+  <h3>公司设立阶段</h3>
+  <ul class="check">
+    <li><span><b>30 日内完成社保登记</b>，优先走 e 窗通与工商注册同步办理。</span></li>
+    <li><span><b>30 日内完成公积金缴存登记</b>，开立单位账户，确定缴存比例（建议 12%）。</span></li>
+    <li><span><b>签订税库银三方协议</b>，确认每月扣款账户余额充足。</span></li>
+    <li><span><b>建立员工参保台账</b>：入职日期、签约主体、缴费基数、公积金比例、增员月份。</span></li>
+  </ul>
+
+  <h3>每月固定动作</h3>
+  <ul class="check">
+    <li><span><b>每月 10–25 日</b>完成增员、减员和申报缴费，避免跨月补缴。</span></li>
+    <li><span><b>核对缴费明细</b>：人数、基数、比例是否与工资表一致。</span></li>
+    <li><span><b>离职员工</b>当月缴、次月减员，并在离职证明中注明社保缴至月份。</span></li>
+    <li><span><b>新员工</b>按公司规则办理参保：社保在职当月缴、不跨月漏缴；公积金按条例确定起缴月，毕业转正、实习转正式当月切换身份。</span></li>
+  </ul>
+
+  <h3>每年 7 月</h3>
+  <ul class="check">
+    <li><span><b>社保基数申报</b>：按上年度工资总额除以 12，撞上限按 36,348 元。</span></li>
+    <li><span><b>公积金年度申报</b>：核定新基数，确认缴存比例，更新跨年清册。</span></li>
+    <li><span><b>核对补差</b>：9 月系统生成后，12 月底前完成补缴，免滞纳金。</span></li>
+    <li><span><b>更新 offer 模板</b>：把新的基数上下限、公积金比例写进福利条款。</span></li>
+  </ul>
+
+  <h3>每年一次自查</h3>
+  <ul class="check">
+    <li><span><b>抽查 10% 员工</b>的社保缴费基数与工资总额是否匹配。</span></li>
+    <li><span><b>核对签约主体</b>：北京办公的员工是否都由北京主体参保。</span></li>
+    <li><span><b>核对特殊身份</b>：外籍、实习生、非全日制、劳务派遣是否按对应规则处理。</span></li>
+    <li><span><b>留存凭证</b>：缴费记录、基数申报表、员工确认书，至少保存 2 年备查。</span></li>
+  </ul>
+</section>
+
+<section class="wide" id="sources">
+  <span class="snum">10 / 信息源与核实说明</span>
+  <h2 class="sec">哪些是官方口径，哪些是市场传闻</h2>
+
+  <p>这份指南把信息分成三类：<b>官方文件</b>（可直接引用）、<b>公开招聘信息</b>（能说明福利存在，不能说明比例）、<b>第三方汇总/员工社区</b>（只能做市场参考）。所有涉及具体公司比例的数字，都不应作为 offer 承诺。</p>
+
+  <ol class="src">
+    <li>北京市人力资源和社会保障局等：《关于 2026 年度各项社会保险缴费工资基数上下限的通告》，2026-08-21。<a href="https://www.beijing.gov.cn/zhengce/zhengcefagui/202608/t20260821_4831679.html">beijing.gov.cn</a></li>
+    <li>北京市人社局：《本市发布 2026 年各项社保缴费工资基数上下限》政策解读，2026-08-21。<a href="https://www.beijing.gov.cn/zhengce/zcjd/202608/t20260821_4831683.html">beijing.gov.cn</a></li>
+    <li>北京住房公积金管理委员会办公室：《关于 2026 住房公积金年度缴存有关问题的通知》（京房公积金管委会办〔2026〕6 号），2026-08-24。<a href="https://www.beijing.gov.cn/zhengce/zhengcefagui/202608/t20260824_4834975.html">beijing.gov.cn</a></li>
+    <li>北京市人民政府：住房公积金缴存比例（2026 年度），含各比例对应的月缴存额上限表。<a href="https://www.beijing.gov.cn/fwcj/jiage/zffw1/685cd52595ff563574309b82.html">beijing.gov.cn</a></li>
+    <li>北京市医疗保障局、北京市财政局：《关于调整本市城镇职工基本医疗保险缴费比例的通知》（京医保发〔2021〕1 号），单位缴费比例 9.8%。<a href="https://ybj.beijing.gov.cn/zwgk/2024zcwj/202406/t20240617_3716990.html">ybj.beijing.gov.cn</a></li>
+    <li>北京市人力资源和社会保障局：《关于调整北京市工伤保险费率政策的通知》（京人社工发〔2016〕13 号），一类至八类基准费率 0.2%–1.9%。<a href="https://rsj.beijing.gov.cn/xxgk/2024zcwj/202406/t20240617_3716666.html">rsj.beijing.gov.cn</a></li>
+    <li>北京市房山区人民政府：《本市城镇职工社保缴费比例是多少？》，2026-08-27，养老 16%/8%、失业 0.5%/0.5%、工伤 0.2%–1.9%。<a href="https://www.bjfsh.gov.cn/zsk/zcwd/202608/t20260818_40116625_fs.shtml">bjfsh.gov.cn</a></li>
+    <li>上海住房公积金网 / 上海本地宝：《上海公积金缴存比例一览表》，2026-08，住房公积金单位和个人各 5%–7%，补充公积金各 1%–5%。<a href="https://m.sh.bendibao.com/zffw/301777.html">sh.bendibao.com</a></li>
+    <li>第三方汇总：《2026 大厂公积金比例深度对比与避坑指南》，云栈社区，2026-02。列出阿里、腾讯、字节等 12% 顶格，属员工社区统计，非公司公告。<a href="https://yunpan.plus/forum.php?mod=viewthread&tid=14609">yunpan.plus</a></li>
+    <li>新浪财经：《DeepSeek 发布招聘信息：招聘 33 个（类）岗位，工作地点为北京和杭州》，2026-06-27，提及薪资与 20 薪，未披露公积金比例。<a href="http://finance.sina.com.cn/wm/2026-06-27/doc-inievkws0180988.shtml">finance.sina.com.cn</a></li>
+    <li>招聘信息转载：Kimi 月之暗面、智谱 AI 社招/校招福利口径，均只写到「五险一金」，未披露比例。此类信息为第三方转载，证据强度低。</li>
+    <li>北京市人社局：《热门业务问题问答——参保登记（增员）》，增减员全月可网上办理，当月增员与缴费规则。<a href="https://rsj.beijing.gov.cn/yltc/202310/t20231028_3289377.html">rsj.beijing.gov.cn</a></li>
+    <li>北京市人社局：《热门业务问题问答——参保登记（月报）》，单位月报缴费计划与当月征收规则。<a href="https://rsj.beijing.gov.cn/yltc/202310/t20231028_3289351.html">rsj.beijing.gov.cn</a></li>
+    <li>中关村科学城总工会：《月初离职或月末入职，不缴纳当月社保？人社局最新回应》，2026-06-02，引北京人社「离职当月仍存在劳动关系、应缴当月社保」的答复。<a href="https://m.thepaper.cn/newsDetail_forward_33289605">thepaper.cn</a></li>
+    <li>《住房公积金管理条例》第十七条：新参加工作的职工从参加工作的第二个月开始缴存；单位新调入的职工从调入单位发放工资之日起缴存。<a href="https://gjj.beijing.gov.cn/web/zwgk61/_300587/_300688/373625/index.html">gjj.beijing.gov.cn</a></li>
+    <li>法律依据：《中华人民共和国社会保险法》第五十七条、第五十八条、第八十六条；《住房公积金管理条例》第十四条、第十七条；《中华人民共和国劳动合同法》第三十八条、第四十六条。</li>
+  </ol>
+
+  <div class="callout">
+    <div class="ct">核实边界</div>
+    <p><b>已核实：</b>北京 2026 社保基数上下限、各险种缴费比例、公积金比例区间与基数上下限、公积金单位与个人同比例、上海公积金比例区间；社保在职当月缴费的官方答复口径，以及《住房公积金管理条例》第十七条的起缴月规则。<b>未核实：</b>腾讯、阿里、字节、Kimi、DeepSeek、智谱的具体公积金缴存比例和缴费基数口径；各公司是否采用 15 日切分属于内部制度，无法逐一核实，本文按「常见实操」表述，不视为法定规则。</p>
+  </div>
+</section>
+
+<footer>
+  <p>数据截止 2026-10-28。政策口径以北京市人社局、市医保局、市税务局、北京住房公积金管理中心当期文件为准；具体经办以各区受理窗口和系统提示为准。本文不构成法律意见，涉及劳动争议或补缴稽核时请咨询专业律师。</p>
+  <p>制作：HR 实操手册 · 北京 · 2026 年度</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var cap = 36348, floor = 7270;
+  var s = document.getElementById('salary');
+  var r = document.getElementById('rate');
+  var inj = document.getElementById('inj');
+  var rv = document.getElementById('ratev');
+  function money(n){ return Math.round(n).toLocaleString('zh-CN'); }
+  function calc(){
+    var sal = Math.max(0, Number(s.value) || 0);
+    var rate = Number(r.value) / 100;
+    var injury = (Number(inj.value) || 0.2) / 100;
+    var base = Math.min(cap, Math.max(floor, sal));
+    var erSi = base * (0.16 + 0.098 + 0.005 + injury);
+    var erFund = base * rate;
+    var eeSi = base * (0.08 + 0.02 + 0.005) + 3;
+    var eeFund = base * rate;
+    var total = sal + erSi + erFund;
+    rv.textContent = Math.round(rate * 100) + '%';
+    document.getElementById('o-base').textContent = money(base);
+    document.getElementById('o-ersi').textContent = money(erSi);
+    document.getElementById('o-erfund').textContent = money(erFund);
+    document.getElementById('o-total').textContent = money(total);
+    document.getElementById('o-ee').textContent = money(eeSi + eeFund);
+    document.getElementById('o-ratio').innerHTML = (total / sal).toFixed(2) + '<small>×</small>';
+  }
+  [s, r, inj].forEach(function(el){ el.addEventListener('input', calc); });
+  calc();
+})();
+</script>
+</body>
+</html>

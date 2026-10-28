@@ -8,6 +8,7 @@ AI 公司与行业的深度研究报告合集。**在线阅读：<https://xi789-
 
 | 日期 | 类型 | 报告 |
 |---|---|---|
+| 2026-10-28 | 组织与人才 | [北京 AI 创业公司社保公积金实操指南](reports/bj-ai-social-insurance.html) |
 | 2026-10-22 | 技术架构 | [大模型技术架构全景](reports/llm-architecture.html) |
 | 2026-10-21 | 公司深度研究 | [VAST（三启万物）· AI 3D 与通用世界模型](reports/vast.html) |
 | 2026-10-21 | 组织与人才 | [招聘手册 · 大模型技术人才](reports/llm-talent-hiring-playbook.html) |
