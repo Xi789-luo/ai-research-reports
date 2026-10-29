@@ -12,7 +12,7 @@ AI 公司与行业的深度研究报告合集。**在线阅读：<https://xi789-
 | 2026-10-22 | 技术架构 | [大模型技术架构全景](reports/llm-architecture.html) |
 | 2026-10-21 | 公司深度研究 | [VAST（三启万物）· AI 3D 与通用世界模型](reports/vast.html) |
 | 2026-10-21 | 组织与人才 | [招聘手册 · 大模型技术人才](reports/llm-talent-hiring-playbook.html) |
-| 2026-10-20 | 前沿技术 | [RSI · 递归自我改进：正在发生的那一半](reports/rsi-landscape.html) |
+| 2026-10-29 | 前沿技术 | [RSI · 递归自我改进：正在发生的那一半](reports/rsi-landscape.html) |
 | 2026-10-20 | 算力研究 | [大模型算力全景 · 芯片 · 集群 · 获取](reports/ai-compute-report.html) |
 | 2026-10-19 | 组织与激励 | [从一张纸到一笔钱 · 大模型公司期权体系](reports/llm-equity-system.html) |
 | 2026-10-13 | 融资盘点 | [2026 年中国大模型融资全景](reports/cn-llm-funding.html) |
